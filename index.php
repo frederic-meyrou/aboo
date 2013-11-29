@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
+    <h1>HP GESTABO</h1>
+    <script src="jquery.js"></script>
+    <script src="bootstrap.js"></script>
+	<div class="alert alert alert-success alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<strong>Bonjour!</strong> Binevenue sur l'application GestAbo.
+	</div>
     <div class="container">
     		<div class="row">
     			<h3>PHP CRUD Grid</h3>
@@ -16,7 +23,7 @@
 					<a href="create.php" class="btn btn-success">Create</a>
 				</p>
 				
-				<table class="table table-striped table-bordered">
+				<table class="table table-striped table-bordered table-hover success">
 		              <thead>
 		                <tr>
 		                  <th>Name</th>

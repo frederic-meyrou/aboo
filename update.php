@@ -71,8 +71,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
+    <link   href="bootstrap.css" rel="stylesheet">
+    <script src="bootstrap.js"></script>
 </head>
 
 <body>
@@ -82,7 +82,7 @@
     				<div class="row">
 		    			<h3>Update a Customer</h3>
 		    		</div>
-    		
+					
 	    			<form class="form-horizontal" action="update.php?id=<?php echo $id?>" method="post">
 					  <div class="control-group <?php echo !empty($nameError)?'error':'';?>">
 					    <label class="control-label">Name</label>
