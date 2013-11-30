@@ -13,62 +13,66 @@
 	
 	if ( !empty($_POST)) {
 		// keep track validation errors
-		$nameError = null;
+		$identifiantError = null;
+		$passwordError = null;
+		$nomError = null;
+		$prenomError = null;
+		$nomError = null;
 		$emailError = null;
-		$mobileError = null;
+		$telephoneError = null;
+		$inscriptionError = null;
+		$expirationError = null;
+		$montantError = null;
 		
 		// keep track post values
-		$name = $_POST['name'];
+		$identifiant = $_POST['identifiant'];
+		$password = $_POST['password'];
+		$nom = $_POST['nom'];
+		$prenom = $_POST['prenom'];
 		$email = $_POST['email'];
-		$mobile = $_POST['mobile'];
+		$telephone = $_POST['telephone'];
+		$inscription = $_POST['inscription'];
+		$expiration = $_POST['expiration'];
+		$montant = $_POST['montant'];
 		
 		// validate input
 		$valid = true;
-		if (empty($name)) {
-			$nameError = 'Please enter Name';
-			$valid = false;
-		}
 		
-		if (empty($email)) {
-			$emailError = 'Please enter Email Address';
-			$valid = false;
-		} else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
-			$emailError = 'Please enter a valid Email Address';
-			$valid = false;
-		}
-		
-		if (empty($mobile)) {
-			$mobileError = 'Please enter Mobile Number';
-			$valid = false;
-		}
 		
 		// update data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE customers  set name = ?, email = ?, mobile =? WHERE id = ?";
+			$sql = "UPDATE user set prenom = ?,nom = ?,email = ?,telephone = ?,identifiant = ?,password = ?,inscription = ?,montant = ?,expiration = ? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($name,$email,$mobile,$id));
+			$q->execute(array($id, $prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration));
 			Database::disconnect();
-			header("Location: index.php");
+			header("Location: user_update.php");
 		}
 	} else {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT * FROM customers where id = ?";
+		$sql = "SELECT * FROM user where id = ?";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
-		$name = $data['name'];
+		$identifiant = $data['identifiant'];
+		$password = $data['password'];
+		$nom = $data['nom'];
+		$prenom = $data['prenom'];
 		$email = $data['email'];
-		$mobile = $data['mobile'];
+		$telephone = $data['telephone'];
+		$inscription = $data['inscription'];
+		$expiration = $data['expiration'];
+		$montant = $data['montant'];		
+		
 		Database::disconnect();
 	}
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <link   href="bootstrap.css" rel="stylesheet">
@@ -80,40 +84,35 @@
     
     			<div class="span10 offset1">
     				<div class="row">
-		    			<h3>Update a Customer</h3>
+		    			<h3>Mise à jour utilisateur</h3>
 		    		</div>
 					
-	    			<form class="form-horizontal" action="update.php?id=<?php echo $id?>" method="post">
-					  <div class="control-group <?php echo !empty($nameError)?'error':'';?>">
-					    <label class="control-label">Name</label>
+	    			<form class="form-horizontal" action="user_update.php?id=<?php echo $id?>" method="post">
+					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder ) { ?>
+					<div class="control-group <?php echo !empty($champ)?'error':'';?>">
+					    <label class="control-label"><?php echo "$champplaceholder" ?></label>
 					    <div class="controls">
-					      	<input name="name" type="text"  placeholder="Name" value="<?php echo !empty($name)?$name:'';?>">
-					      	<?php if (!empty($nameError)): ?>
-					      		<span class="help-inline"><?php echo $nameError;?></span>
+					      	<input name="<?php echo "$champinputname" ?>" type="text" placeholder="<?php echo "$champplaceholder" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+					      	<?php if (!empty($champError)): ?>
+					      		<span class="help-inline"><?php echo $champError;?></span>
 					      	<?php endif; ?>
 					    </div>
-					  </div>
-					  <div class="control-group <?php echo !empty($emailError)?'error':'';?>">
-					    <label class="control-label">Email Address</label>
-					    <div class="controls">
-					      	<input name="email" type="text" placeholder="Email Address" value="<?php echo !empty($email)?$email:'';?>">
-					      	<?php if (!empty($emailError)): ?>
-					      		<span class="help-inline"><?php echo $emailError;?></span>
-					      	<?php endif;?>
-					    </div>
-					  </div>
-					  <div class="control-group <?php echo !empty($mobileError)?'error':'';?>">
-					    <label class="control-label">Mobile Number</label>
-					    <div class="controls">
-					      	<input name="mobile" type="text"  placeholder="Mobile Number" value="<?php echo !empty($mobile)?$mobile:'';?>">
-					      	<?php if (!empty($mobileError)): ?>
-					      		<span class="help-inline"><?php echo $mobileError;?></span>
-					      	<?php endif;?>
-					    </div>
-					  </div>
-					  <div class="form-actions">
-						  <button type="submit" class="btn btn-success">Update</button>
-						  <a class="btn" href="index.php">Back</a>
+					</div>
+					<?php } ?>
+					
+					<?php Affiche_Champ($identifiant, $identifiantError, 'identifiant','Identifiant' ); ?>
+					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe' ); ?>
+					<?php Affiche_Champ($nom, $nomError, 'nom','Nom' ); ?>
+					<?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom' ); ?>
+					<?php Affiche_Champ($email, $emailError, 'email','eMail' ); ?>
+					<?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone' ); ?>
+					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription' ); ?>
+					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration' ); ?>
+					<?php Affiche_Champ($montant, $montantError, 'montant','Montant' ); ?>
+					
+					<div class="form-actions">
+						  <button type="submit" class="btn btn-success">Mise à jour</button>
+						  <a class="btn btn-success" href="user.php">Retour</a>
 						</div>
 					</form>
 				</div>

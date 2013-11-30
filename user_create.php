@@ -1,6 +1,7 @@
 <?php 
 	
 	require 'database.php';
+	//require 'fonctions.php';
 
 	if ( !empty($_POST)) {
 		// keep track validation errors
@@ -56,21 +57,34 @@
 			$valid = false;
 		}
 		if (empty($inscription)) {
-			$inscription = 'Veuillez entrer un nom';
+			$inscriptionError = 'Veuillez entrer une date AA-MM-JJ';
 			$valid = false;
+		} elseif ( !IsDate($inscription)) {
+			$inscription = 'AA-MM-JJ';
+			$valid = false;
+		}
+		if (empty($expiration)) {
+			$expiration = NULL;
+		} elseif ( !IsDate($expiration)) {
+			$expiration = 'AA-MM-JJ';
+			$valid = false;
+		}
+		if (empty($montant)) {
+			$montant = 0;
 		}
 	
 		// insert data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "INSERT INTO customers (prenom,nom,email,telephone,identifiant,password,inscription,montant,expiration) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO user (prenom,nom,email,telephone,identifiant,password,inscription,montant,expiration) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration));
 			Database::disconnect();
-			header("Location: user.php");
+			header("Location: user_create.php");
 		}
 	}
+	
 ?>
 
 
@@ -90,44 +104,31 @@
 		    			<h3>Création d'un utilisateur</h3>
 		    		</div>
 		
-	    			<form class="form-horizontal" action="create.php" method="post">
-					  <div class="control-group <?php echo !empty($identifiantError)?'error':'';?>">
-					    <label class="control-label">Identifiant</label>
+	    			<form class="form-horizontal" action="user.php" method="post">
+					
+					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder ) { ?>
+					<div class="control-group <?php echo !empty($champ)?'error':'';?>">
+					    <label class="control-label"><?php echo "$champplaceholder" ?></label>
 					    <div class="controls">
-					      	<input name="identifiant" type="text"  placeholder="Identifiant" value="<?php echo !empty($identifiant)?$identifiant:'';?>">
-					      	<?php if (!empty($identifiantError)): ?>
-					      		<span class="help-inline"><?php echo $identifiantError;?></span>
+					      	<input name="<?php echo "$champinputname" ?>" type="text" placeholder="<?php echo "$champplaceholder" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+					      	<?php if (!empty($champError)): ?>
+					      		<span class="help-inline"><?php echo $champError;?></span>
 					      	<?php endif; ?>
 					    </div>
-					  </div>
-					  <div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
-					    <label class="control-label">Mot de passe</label>
-					    <div class="controls">
-					      	<input name="password" type="text" placeholder="Mot de passe" value="<?php echo !empty($password)?$password:'';?>">
-					      	<?php if (!empty($passwordError)): ?>
-					      		<span class="help-inline"><?php echo $passwordError;?></span>
-					      	<?php endif;?>
-					    </div>
-					  </div>
-					  <div class="control-group <?php echo !empty($nomError)?'error':'';?>">
-					    <label class="control-label">Nom</label>
-					    <div class="controls">
-					      	<input name="nom" type="text"  placeholder="Nom" value="<?php echo !empty($nom)?$nom:'';?>">
-					      	<?php if (!empty($nomError)): ?>
-					      		<span class="help-inline"><?php echo $nomError;?></span>
-					      	<?php endif;?>
-					    </div>
-					  <div class="control-group <?php echo !empty($prenomError)?'error':'';?>">
-					    <label class="control-label">Prénom</label>
-					    <div class="controls">
-					      	<input name="prenom" type="text"  placeholder="Mobile Number" value="<?php echo !empty($prenom)?$prenom:'';?>">
-					      	<?php if (!empty($mobileError)): ?>
-					      		<span class="help-inline"><?php echo $prenomError;?></span>
-					      	<?php endif;?>
-					    </div>
-
-
-						
+					</div>
+					<?php } ?>
+					
+					  <?php Affiche_Champ($identifiant, $identifiantError, 'identifiant','Identifiant' ); ?>
+					  <?php Affiche_Champ($password, $passwordError, 'password','Mot de passe' ); ?>
+					  <?php Affiche_Champ($nom, $nomError, 'nom','Nom' ); ?>
+					  <?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom' ); ?>
+					  <?php Affiche_Champ($email, $emailError, 'email','eMail' ); ?>
+					  <?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone' ); ?>
+					  <?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription' ); ?>
+					  <?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration' ); ?>
+					  <?php Affiche_Champ($montant, $montantError, 'montant','Montant' ); ?>
+					 
+					  
 					  </div>
 					  <div class="form-actions">
 						  <button type="submit" class="btn btn-success">Créer</button>

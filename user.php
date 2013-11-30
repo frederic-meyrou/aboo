@@ -52,9 +52,9 @@
 								echo '<td>'. $row['expiration'] . '</td>';
 							   	echo '<td>'. $row['montant'] . '</td>';
 							   	echo '<td width=250>';
-							   	echo '<a class="btn btn-success" href="update.php?id='.$row['id'].'">Modifier</a>';
+							   	echo '<a class="btn btn-success" href="user_update.php?id='.$row['id'].'">Modifier</a>';
 							   	echo '&nbsp;';
-							   	echo '<a class="btn btn-danger" href="delete.php?id='.$row['id'].'">Supprimer</a>';
+							   	echo '<a class="btn btn-danger" href="user_delete.php?id='.$row['id'].'">Supprimer</a>';
 							   	echo '</td>';
 							   	echo '</tr>';
 					   }
