@@ -43,11 +43,11 @@
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE user set prenom = ?,nom = ?,email = ?,telephone = ?,identifiant = ?,password = ?,inscription = ?,montant = ?,expiration = ? WHERE id = ?";
+			$sql = "UPDATE user set prenom=?,nom=?,email=?,telephone=?,identifiant=?,password=?,inscription=?,montant=?,expiration=? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($id, $prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration));
+			$q->execute(array($prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration, $id));
 			Database::disconnect();
-			header("Location: user_update.php");
+			header("Location: user.php");
 		}
 	} else {
 		$pdo = Database::connect();
@@ -74,12 +74,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <title>GestAbo</title>
     <meta charset="utf-8">
-    <link   href="bootstrap.min.css" rel="stylesheet">
-    <script src="bootstrap.min.js"></script>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 
 <body>
+    <script src="../bootstrap/js/jquery-2.0.3.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <div class="container">   
     			<div class="span10 offset1">
     				<div class="row">

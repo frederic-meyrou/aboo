@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <title>GestAbo</title>
     <meta charset="utf-8">
-    <link   href="bootstrap.min.css" rel="stylesheet">
-    <script src="bootstrap.min.js"></script>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 
 <body>
+    <script src="../bootstrap/js/jquery-2.0.3.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
         <h2>Gestion des comptes utilisateur</h2>  	
         <ul class="nav nav-pills">
@@ -50,6 +52,8 @@
 								echo '<td>'. $row['expiration'] . '</td>';
 							   	echo '<td>'. $row['montant'] . '</td>';
 							   	echo '<td width=250>';
+                                echo '<a class="btn " href="user_read.php?id='.$row['id'].'">Lire</a>';
+                                echo '&nbsp;';                                
 							   	echo '<a class="btn btn-success" href="user_update.php?id='.$row['id'].'">Modifier</a>';
 							   	echo '&nbsp;';
 							   	echo '<a class="btn btn-danger" href="user_delete.php?id='.$row['id'].'">Supprimer</a>';
