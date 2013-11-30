@@ -1,5 +1,14 @@
 <?php
 
+function IsDate( $Str )
+{
+  $Stamp = strtotime( $Str );
+  $Month = date( 'm', $Stamp );
+  $Day   = date( 'd', $Stamp );
+  $Year  = date( 'Y', $Stamp );
+
+  return checkdate( $Month, $Day, $Year );
+}
 
 function InitialsationVentilation() {
     global $ArrayVENTILLATION;
