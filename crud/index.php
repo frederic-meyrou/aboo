@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="f">
 <head>
     <meta charset="utf-8">
     <link   href="css/bootstrap.min.css" rel="stylesheet">
@@ -11,6 +11,10 @@
     		<div class="row">
     			<h3>PHP CRUD Grid</h3>
     		</div>
+            <ul class="nav nav-pills">
+              <li><a href="../index.php">HomePage</a></li>
+              <li class="active"><a href="index.php">Exemple CRUD</a></li>
+            </ul>
 			<div class="row">
 				<p>
 					<a href="create.php" class="btn btn-success">Create</a>

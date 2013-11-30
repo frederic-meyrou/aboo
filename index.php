@@ -2,29 +2,27 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="bootstrap.css" rel="stylesheet" media="screen">
+    <link href="bootstrap.css" rel="stylesheet">
+    <script src="bootstrap.js"></script>
+    <script src="jquery.js"></script>
 </head>
 
 <body>
-    <h1>HP GESTABO</h1>
-    <script src="jquery.js"></script>
-    <script src="bootstrap.js"></script>
-    	<div class="alert alert alert-success alert-dismissable">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<strong>Bonjour!</strong> Bienvenue sur l'application GestAbo.
-	</div>
-    <ul class="nav nav-pills">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Profile</a></li>
-      <li><a href="#">Messages</a></li>
-    </ul>
     <div class="container">
-    		    <div class="row">
-				<p>
-					<a href="user.php" class="btn btn-success">Gestion des comptes Utilisateur</a>
-				</p>
-	</div>
+        <h2>HP GestAbo</h2>
+      	<ul class="nav nav-pills">
+          <li class="active"><a href="index.php">HomePage</a></li>
+          <li><a href="crud/index.php">Exemple CRUD</a></li>
+        </ul>
+        <div class="alert alert alert-success alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Bonjour!</strong> Bienvenue sur l'application GestAbo.
+        </div>
+        <div class="row">
+			<p>
+				<a href="admin/user.php" class="btn btn-success">Gestion des comptes Utilisateur</a>
+			</p>
+    	</div>
     </div> <!-- /container -->
   </body>
 </html>
