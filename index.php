@@ -10,10 +10,15 @@
     <h1>HP GESTABO</h1>
     <script src="jquery.js"></script>
     <script src="bootstrap.js"></script>
-	<div class="alert alert alert-success alert-dismissable">
+    	<div class="alert alert alert-success alert-dismissable">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		<strong>Bonjour!</strong> Bienvenue sur l'application GestAbo.
 	</div>
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Messages</a></li>
+    </ul>
     <div class="container">
     		    <div class="row">
 				<p>
