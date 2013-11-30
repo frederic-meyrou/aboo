@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <title>GestAbo</title>
     <meta charset="utf-8">
-    <link href="bootstrap.css" rel="stylesheet">
-    <script src="bootstrap.js"></script>
-    <script src="jquery.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 
 <body>
+    <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
         <h2>HP GestAbo</h2>
       	<ul class="nav nav-pills">

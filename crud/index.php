@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="f">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <link   href="css/bootstrap.min.css" rel="stylesheet">

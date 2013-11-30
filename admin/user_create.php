@@ -81,7 +81,7 @@
 			$q = $pdo->prepare($sql);
 			$q->execute(array($prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration));
 			Database::disconnect();
-			header("Location: user_create.php");
+			header("Location: user.php");
 		}
 	}
 	
@@ -91,19 +91,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <title>GestAbo</title>
     <meta charset="utf-8">
-    <link href="bootstrap.min.css" rel="stylesheet">
-    <script src="bootstrap.min.js"></script>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 
 <body>
+    <script src="../bootstrap/js/jquery-2.0.3.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <div class="container"> 
     			<div class="span10 offset1">
     				<div class="row">
 		    			<h3>Création d'un utilisateur</h3>
 		    		</div>
 		
-	    			<form class="form-horizontal" action="user.php" method="post">
+	    			<form class="form-horizontal" action="user_create.php" method="post">
 					
 					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder ) { ?>
 					<div class="control-group <?php echo !empty($champ)?'error':'';?>">
