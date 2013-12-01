@@ -68,8 +68,8 @@
 		if (empty($montant)) {
 			$montant = 0;
 		}
-        if (!isset($administrateur)) {
-            $administrateur = false;
+        if (empty($administrateur)) {
+            $administrateur = 0;
         }
 	
 		// insert data
@@ -126,7 +126,7 @@
 					  <?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'text' ); ?>
 					  <?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'text' ); ?>
 					  <?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-                      <?php Affiche_Champ($administrateur, $adminError, '$administrateur','Admin', 'checkbox' ); ?>					 
+                      <?php Affiche_Champ($administrateur, $adminError, '$administrateur','Admin', 'text' ); ?>					 
 					  
 					  </div>
 					  <div class="form-actions">
