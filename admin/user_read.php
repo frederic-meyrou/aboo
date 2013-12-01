@@ -24,15 +24,15 @@
                 <table class="table table-striped table-bordered table-hover success">
                       <thead>
                         <tr>
-                          <th>Identifiant</th>
+                          <th>eMail</th>
                           <th>Mot de passe</th>
                           <th>Nom</th>
                           <th>Prénom</th>
-                          <th>eMail</th>
                           <th>Téléphone</th>
                           <th>Date inscription</th>
                           <th>Date expiration</th>
                           <th>Montant abonnement</th>
+                          <th>Administrateur</th>                          
                         </tr>
                       </thead>
                       <tbody>
@@ -54,15 +54,15 @@
                        }
 
                                 echo '<tr>';
-                                echo '<td>'. $data['identifiant'] . '</td>';
+                                echo '<td>'. $data['email'] . '</td>';
                                 echo '<td>'. $data['password'] . '</td>';
                                 echo '<td>'. $data['nom'] . '</td>';
                                 echo '<td>'. $data['prenom'] . '</td>';
-                                echo '<td>'. $data['email'] . '</td>';
                                 echo '<td>'. $data['telephone'] . '</td>';
                                 echo '<td>'. $data['inscription'] . '</td>';
                                 echo '<td>'. $data['expiration'] . '</td>';
                                 echo '<td>'. $data['montant'] . '</td>';
+                                echo '<td>'. $data['administrateur'] . '</td>';                                
                                 echo '</tr>';
                        Database::disconnect();
                       ?>

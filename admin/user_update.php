@@ -13,7 +13,6 @@
 	
 	if ( !empty($_POST)) {
 		// keep track validation errors
-		$identifiantError = null;
 		$passwordError = null;
 		$nomError = null;
 		$prenomError = null;
@@ -23,9 +22,9 @@
 		$inscriptionError = null;
 		$expirationError = null;
 		$montantError = null;
-		
+        $adminError = null;
+        		
 		// keep track post values
-		$identifiant = $_POST['identifiant'];
 		$password = $_POST['password'];
 		$nom = $_POST['nom'];
 		$prenom = $_POST['prenom'];
@@ -45,7 +44,7 @@
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "UPDATE user set prenom=?,nom=?,email=?,telephone=?,identifiant=?,password=?,inscription=?,montant=?,expiration=? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($prenom, $nom, $email, $telephone, $identifiant, $password, $inscription, $montant, $expiration, $id));
+			$q->execute(array($prenom, $nom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $id));
 			Database::disconnect();
 			header("Location: user.php");
 		}
@@ -56,15 +55,15 @@
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
-		$identifiant = $data['identifiant'];
+        $email = $data['email'];
 		$password = $data['password'];
 		$nom = $data['nom'];
 		$prenom = $data['prenom'];
-		$email = $data['email'];
 		$telephone = $data['telephone'];
 		$inscription = $data['inscription'];
 		$expiration = $data['expiration'];
-		$montant = $data['montant'];		
+        $montant = $data['montant'];        
+        $administrateur = $data['administrateur'];        
 		
 		Database::disconnect();
 	}
@@ -101,16 +100,16 @@
 					</div>
 					<?php } ?>
 					
-					<?php Affiche_Champ($identifiant, $identifiantError, 'identifiant','Identifiant' ); ?>
+                    <?php Affiche_Champ($email, $emailError, 'email','eMail' ); ?>
 					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe' ); ?>
 					<?php Affiche_Champ($nom, $nomError, 'nom','Nom' ); ?>
 					<?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom' ); ?>
-					<?php Affiche_Champ($email, $emailError, 'email','eMail' ); ?>
 					<?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone' ); ?>
 					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription' ); ?>
 					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration' ); ?>
 					<?php Affiche_Champ($montant, $montantError, 'montant','Montant' ); ?>
-					
+                    <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur' ); ?>
+                    					
 					<div class="form-actions">
 						  <button type="submit" class="btn btn-success">Mise à jour</button>
 						  <a class="btn btn-success" href="user.php">Retour</a>
