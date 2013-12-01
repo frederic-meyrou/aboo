@@ -1,3 +1,42 @@
+<?php
+session_start();
+?>
+<?php
+include 'database.php';
+// Le Formulaire est rempli
+if (isset($_POST['email']) && isset($_POST['password'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    // Lecture dans la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($email,$password));
+    $data = $q->fetch(PDO::FETCH_ASSOC);
+    $count = $q->rowCount($sql);
+    // On a bien l'utilisateur dans la base, on charge ses infos
+    if ($count==1) {
+        //On rempli la session      
+        $_SESSION['Authent'] = array(
+            'id' => $data['id'],
+            'email' => $email,
+            'password' => $password,
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'expiration' => $data['expiration'],
+            'admin' => $data['administrateur']
+        );
+        // Test si admin
+        Database::disconnect();
+        //Redirection vers le site sécurisé            
+        header('Location:home.php');
+    } else {
+        //Utilisateur inconnu
+        $error_unknown = 'Compte inconnu ou mot de passe invalide!';
+    }  
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,19 +58,19 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
 
-      <form class="form-signin" action="index.php" method="post">
+      <form class="form-signin" action="connexion.php" method="post">
         <h2 class="form-signin-heading">Connectez-vous</h2>
-        <input name="identifiant" type="text" class="form-control" placeholder="Identifiant" required autofocus>
+
+        <input name="email" type="text" class="form-control" placeholder="Email" required autofocus>
         <input name="password" type="password" class="form-control" placeholder="Mot de passe" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
+           <div class="error"><?php if(isset($error_unknown)){ echo $error_unknown; } ?></div>
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
       </form>
+    
+    <a href="register.php">Vous souhaitez créer un compte ?</a><br/>
+    <a href="oubli.php">Vous avez oublié votre mot de passe ?</a><br/>
 
     </div> <!-- /container -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
 </body>
 </html>

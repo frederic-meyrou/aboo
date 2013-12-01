@@ -27,49 +27,13 @@
 				<a href="admin/user.php" class="btn btn-success">Gestion des comptes Utilisateur</a>
 			</p>
     	</div>
-    	<?php
-           if ( !empty($_POST['identifiant'])) {
-                            $identifiant = $_REQUEST['identifiant'];
-                            $password = $_REQUEST['password'];
-                            include 'database.php';
-                            $pdo = Database::connect();
-                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                            $sql = "SELECT * FROM user where identifiant = ?";
-                            $q = $pdo->prepare($sql);
-                            $q->execute(array($identifiant));
-                            $data = $q->fetch(PDO::FETCH_ASSOC);
-                            $id = $data['id'];    
-                            $passwordBD = $data['password'];
-                            $nom = $data['nom'];
-                            $prenom = $data['prenom'];
-                            $expiration = $data['expiration'];
-                            Database::disconnect();
-          
-                              // Test si identifiant existe
-                              if ( $id==null) {
-                              ?>
-                                 <div class="alert alert alert-fail alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour je ne connais pas cet identifiant : <?php echo "$identifiant" ?>.</strong>
-                                </div>        
-                              <?php               
-                              } elseif ( "$password"=="$passwordBD" ) {  // Test si me mot de passe est valide 
-                              ?>
-                                 <div class="alert alert alert-success alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour <?php echo "$prenom $nom" ?>!</strong> Bienvenue sur l'application GestAbo.
-                                </div>
-                            <?php
-                              } else { // Tester si expiration > now()
-                            ?>
-                                 <div class="alert alert alert-fail alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour <?php echo "$prenom $nom" ?> : Votre mot de passe est invalide.</strong>
-                                </div>        
-                            <?php 
-                              }
-           }
-        ?>
+
+        <div class="alert alert alert-success alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Bonjour!</strong> Bienvenue sur l'application GestAbo.
+        </div>
+
+
     </div> <!-- /container -->
   </body>
 </html>

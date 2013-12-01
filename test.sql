@@ -1,33 +1,13 @@
--- phpMyAdmin SQL Dump
--- version 4.0.4.1
--- http://www.phpmyadmin.net
---
--- Client: 127.0.0.1
--- Généré le: Ven 29 Novembre 2013 à 16:54
--- Version du serveur: 5.6.14-log
--- Version de PHP: 5.5.3
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Base de données: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `test`;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `abonnement`
---
-
+DROP TABLE IF EXISTS `abonnement`;
 CREATE TABLE IF NOT EXISTS `abonnement` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -40,12 +20,19 @@ CREATE TABLE IF NOT EXISTS `abonnement` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `ca`;
+CREATE TABLE IF NOT EXISTS `ca` (
+  `user_id` int(11) NOT NULL,
+  `exercice_id` int(11) NOT NULL,
+  `mois` int(11) DEFAULT NULL COMMENT '1..12',
+  `total_abonnements` int(11) DEFAULT NULL,
+  `total_charges` int(11) DEFAULT NULL,
+  `salaire` int(11) DEFAULT NULL,
+  `treso` int(11) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`exercice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chiffre d''affaire mensuel';
 
---
--- Structure de la table `ca_mensuel`
---
-
+DROP TABLE IF EXISTS `ca_mensuel`;
 CREATE TABLE IF NOT EXISTS `ca_mensuel` (
   `user_id` int(11) NOT NULL,
   `exercice_id` int(11) NOT NULL,
@@ -57,12 +44,7 @@ CREATE TABLE IF NOT EXISTS `ca_mensuel` (
   PRIMARY KEY (`user_id`,`exercice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chiffre d''affaire mensuel';
 
--- --------------------------------------------------------
-
---
--- Structure de la table `depense`
---
-
+DROP TABLE IF EXISTS `depense`;
 CREATE TABLE IF NOT EXISTS `depense` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -75,12 +57,7 @@ CREATE TABLE IF NOT EXISTS `depense` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `encaissement`
---
-
+DROP TABLE IF EXISTS `encaissement`;
 CREATE TABLE IF NOT EXISTS `encaissement` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `abonnement_id` int(10) DEFAULT NULL,
@@ -92,12 +69,7 @@ CREATE TABLE IF NOT EXISTS `encaissement` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `exercice`
---
-
+DROP TABLE IF EXISTS `exercice`;
 CREATE TABLE IF NOT EXISTS `exercice` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -106,12 +78,7 @@ CREATE TABLE IF NOT EXISTS `exercice` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `paiement`
---
-
+DROP TABLE IF EXISTS `paiement`;
 CREATE TABLE IF NOT EXISTS `paiement` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `abonnement_id` int(10) unsigned zerofill DEFAULT NULL,
@@ -123,26 +90,20 @@ CREATE TABLE IF NOT EXISTS `paiement` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `user`
---
-
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `prenom` varchar(45) DEFAULT NULL,
   `nom` varchar(45) DEFAULT NULL,
-  `email` varchar(96) DEFAULT NULL,
+  `email` varchar(96) NOT NULL,
   `telephone` varchar(10) DEFAULT NULL,
-  `identifiant` varchar(12) DEFAULT NULL,
-  `password` varchar(12) DEFAULT NULL,
+  `password` varchar(12) NOT NULL,
   `inscription` date DEFAULT NULL,
   `montant` decimal(10,0) DEFAULT NULL,
   `expiration` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `administrateur` tinyint(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
