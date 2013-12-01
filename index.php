@@ -7,11 +7,6 @@
 </head>
 
 <body>
-    <?php
-           $id = null; 
-           $password = null;
-           $identifiant = null;
-    ?>
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
@@ -21,12 +16,6 @@
           <li><a href="connexion.php">Connexion</a></li>
           <li><a href="crud/index.php">Exemple CRUD</a></li>
         </ul>
-
-        <div class="row">
-			<p>
-				<a href="admin/user.php" class="btn btn-success">Gestion des comptes Utilisateur</a>
-			</p>
-    	</div>
 
         <div class="alert alert alert-success alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

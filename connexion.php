@@ -15,10 +15,10 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $q->execute(array($email,$password));
     $data = $q->fetch(PDO::FETCH_ASSOC);
     $count = $q->rowCount($sql);
-    // On a bien l'utilisateur dans la base, on charge ses infos
+    Database::disconnect();   
     if ($count==1) {
-        //On rempli la session      
-        $_SESSION['Authent'] = array(
+        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
+        $_SESSION['authent'] = array(
             'id' => $data['id'],
             'email' => $email,
             'password' => $password,
@@ -26,17 +26,21 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             'prenom' => $data['prenom'],
             'expiration' => $data['expiration'],
             'admin' => $data['administrateur']
-        );
-        // Test si admin
-        Database::disconnect();
-        //Redirection vers le site sécurisé            
+            );        
+        if ($_SESSION['authent']['admin']==1) {
+        // Cas ou l'utilisateur est Admin, redirection vers page admin
+        header('Location:admin/user.php');            
+        } else {
+        // Redirection vers la home sécurisé            
         header('Location:home.php');
+        }
     } else {
         //Utilisateur inconnu
-        $error_unknown = 'Compte inconnu ou mot de passe invalide!';
+        $error_unknown = 'Compte $email inconnu ou mot de passe invalide!';
     }  
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -57,7 +61,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
-
+      <?php if(isset($error_unknown)){ ?> 
+      <div class="alert alert alert-fail alert-dismissable fade in">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong><?php echo "$error_unknown" ?>.</strong>
+      </div>
+      <?php  
+      } ?>
       <form class="form-signin" action="connexion.php" method="post">
         <h2 class="form-signin-heading">Connectez-vous</h2>
 

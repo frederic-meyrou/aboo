@@ -1,9 +1,17 @@
 <?php
-    // Initialisation
-    $id = null; 
-    $password = null;
-    $identifiant = null;
+session_start();
+require('authent.php');
+if( !Authent::islogged()){
+    // Non authentifié on repart sur la HP
+    header('Location:index.php');
+}
+// Récupération des variables de session
+$id = $_SESSION['authent']['id']; 
+$nom = $_SESSION['authent']['nom'];
+$prenom = $_SESSION['authent']['prenom'];
+$nom = $_SESSION['authent']['nom'];
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,70 +25,23 @@
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
-        <h2>HP GestAbo</h2>
+        <h2>Console</h2>
         <ul class="nav nav-pills">
-          <li class="active"><a href="index.php">HomePage</a></li>
-          <li><a href="connexion.php">Connexion</a></li>
-          <li><a href="crud/index.php">Exemple CRUD</a></li>
+          <li class="active"><a href="home.php">Console</a></li>
+          <li><a href="abodep.php">Editer abonnements et dépenses</a></li>
+          <li><a href="meusuel.php">Bilan Mensuel</a></li>
+          <li><a href="bilan.php">Bilan Annuel</a></li>
+          <li><a href="encaissements.php">Encaissements</a></li>
+          <li><a href="paiements.php">Paiements</a></li>
+          <li><a href="conf.php">Configuration</a></li>
+          <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
 
-        <div class="row">
-            <p>
-                <a href="admin/user.php" class="btn btn-success">Gestion des comptes Utilisateur</a>
-            </p>
+        <div class="alert alert alert-success alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Bonjour <?php echo "$prenom $nom"; ?> !</strong> Bienvenue sur ton espace sécurisé GestAbo.
         </div>
-        <?php
-           if ( !empty($_POST['identifiant'])) {
-                            $identifiant = $_REQUEST['identifiant'];
-                            $password = $_REQUEST['password'];
-                            include 'database.php';
-                            $pdo = Database::connect();
-                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                            $sql = "SELECT * FROM user where identifiant = ?";
-                            $q = $pdo->prepare($sql);
-                            $q->execute(array($identifiant));
-                            $data = $q->fetch(PDO::FETCH_ASSOC);
-                            $count = $q->rowCount($sql);
-                            if ($count==1) {
-                                $id = $data['id'];    
-                                $passwordBD = $data['password'];
-                                $nom = $data['nom'];
-                                $prenom = $data['prenom'];
-                                $expiration = $data['expiration'];
-                                Database::disconnect();
-                              // Test si identifiant existe
-                              if ( $id==null) {
-                              ?>
-                                 <div class="alert alert alert-fail alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour je ne connais pas cet identifiant : <?php echo "$identifiant" ?>.</strong>
-                                </div>        
-                              <?php               
-                              } elseif ( "$password"=="$passwordBD" ) {  // Test si me mot de passe est valide 
-                              ?>
-                                 <div class="alert alert alert-success alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour <?php echo "$prenom $nom" ?>!</strong> Bienvenue sur l'application GestAbo.
-                                </div>
-                            <?php
-                              } else { // Tester si expiration > now()
-                            ?>
-                                 <div class="alert alert alert-fail alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour <?php echo "$prenom $nom" ?> : Votre mot de passe est invalide.</strong>
-                                </div>        
-                            <?php
-                              } 
-                            } else {
-                              ?>
-                                 <div class="alert alert alert-fail alert-dismissable fade in">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <strong>Bonjour je ne connais pas cet identifiant : <?php echo "$identifiant" ?>.</strong>
-                                </div>        
-                              <?php                                  
-                            }
-           }
-        ?>
+    
     </div> <!-- /container -->
   </body>
 </html>
