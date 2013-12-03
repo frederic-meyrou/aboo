@@ -1,15 +1,17 @@
 <?php
-session_start();
-require('authent.php');
-if( !Authent::islogged()){
-    // Non authentifié on repart sur la HP
-    header('Location:index.php');
-}
+// Vérification de l'Authent
+    session_start();
+    require('authent.php');
+    if( !Authent::islogged()){
+        // Non authentifié on repart sur la HP
+        header('Location:index.php');
+    }
 // Récupération des variables de session
-$id = $_SESSION['authent']['id']; 
-$nom = $_SESSION['authent']['nom'];
-$prenom = $_SESSION['authent']['prenom'];
-$nom = $_SESSION['authent']['nom'];
+    $id = $_SESSION['authent']['id']; 
+    $nom = $_SESSION['authent']['nom'];
+    $prenom = $_SESSION['authent']['prenom'];
+    $nom = $_SESSION['authent']['nom'];
+
 ?>
 
 <!DOCTYPE html>

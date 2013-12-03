@@ -12,8 +12,8 @@
     <div class="container">
         <h2>Gestion des comptes utilisateur</h2>    
         <ul class="nav nav-pills">
-          <li class="active"><a href="../index.php">HomePage</a></li>
-          <li><a href="../crud/index.php">Exemple CRUD</a></li>
+          <li class="active"><a href="user.php">Administration GestAbo</a></li>
+          <li><a href="../deconnexion.php">Deconnexion</a></li>        
         </ul>
         <div class="span10 offset1">
             <div class="row">
