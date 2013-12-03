@@ -7,7 +7,7 @@
         header('Location:index.php');
     }
 // Récupération des variables de session d'Authent
-    $id = $_SESSION['authent']['id']; 
+    $user_id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
     $prenom = $_SESSION['authent']['prenom'];
     $nom = $_SESSION['authent']['nom'];
@@ -30,7 +30,7 @@
 // Lecture du POST (Choix de l'exercice)
     $annee_error = null; 
     if (isset($_POST['annee']) ) { // J'ai un POST
-            $annee_exercice_choisie = $_POST['annee'];                                        
+            $annee_exercice_choisie = $_POST['annee'];
     } else { // Je n'ai pas de POST
             $annee_exercice_choisie = null;
     }
@@ -38,7 +38,7 @@
 // Lecture dans la base de l'exercice 
     $sql = "SELECT * FROM exercice WHERE user_id = ?";
     $q = $pdo->prepare($sql);
-    $q->execute(array($id));
+    $q->execute(array($user_id));
     $data = $q->fetch(PDO::FETCH_ASSOC);
     $count = $q->rowCount($sql);
     if ($count==0) { // Pas d'exercice ds la BDD
@@ -48,7 +48,7 @@
     } elseif (!empty($annee_exercice_choisie)) { // L'année est choisie on va vérifier qu'elle est dans la base et remplir la session
         $sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = ?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($id, $annee_exercice_choisie));
+        $q->execute(array($user_id, $annee_exercice_choisie));
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $count = $q->rowCount($sql);
         if ($count==0) { // L'année choisie n'est pas dans la base
@@ -71,7 +71,7 @@
         }
         
     } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
-        $sql = "SELECT annee_debut FROM exercice WHERE user_id = $id";
+        $sql = "SELECT annee_debut FROM exercice WHERE user_id = $user_id";
         $n = 0;
         foreach ($pdo->query($sql) as $row) {
             $liste_annee[$n] = $row['annee_debut'];
@@ -79,7 +79,6 @@
         }
         $affiche = false;
     }
-    Database::disconnect();   
 ?>
 
 <!DOCTYPE html>
@@ -112,13 +111,14 @@
             <?php
                 foreach ($liste_annee as $a) {
             ?>
-                <option><?php echo "$a";?></option>    
+                <option><?php echo "$a - " . ($a + 1);?></option>    
             <?php       
                 }   
             ?>    
             </select>
             <div class="error"><?php if(isset($error_annee)){ echo $error_annee; } ?></div>
-            <button type="submit" class="btn btn-success">Changer d'année</button>  
+            <button type="submit" class="btn btn-success">Changer d'année</button>
+			<a class="btn btn-success" href="conf_create.php">Créer un nouvel exercice</a>
         </form>
 
         <div class="alert alert alert-success alert-dismissable fade in">
@@ -130,6 +130,52 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong><?php echo "Exercice $exercice_annee démarrant le $exercice_mois, tréso de $exercice_treso €"; ?> !</strong> 
         </div>
+		
+		<div class="span10 offset1">
+			<?php 
+ 			if ($affiche) {
+			?>
+            <div class="row">
+                <h3>Consultation de l'exercice</h3>
+            </div>			
+			<table class="table table-striped table-bordered table-hover success">
+				<thead>
+					<tr>
+					
+					  <th>Années exercice</th>
+					  <th>Mois de démarrage</th>
+					  <th>Montant de trésorerie de départ</th>
+					  <th>Action</th>
+					  
+					</tr>
+				</thead>
+                
+				<tbody>
+			<?php 
+ 			 
+				$sql = 'SELECT * FROM exercice WHERE user_id = $user_id';
+				foreach ($pdo->query($sql) as $row) {
+						echo '<tr>';
+						echo '<td>'. $row['annee_debut'] . '</td>';
+						echo '<td>'. $row['mois_debut'] . '</td>';
+						echo '<td>'. $row['montant_treso_initial'] . '</td>';
+						echo '<td width=250>';
+						echo '<a class="btn " href="conf_read.php?id='.$row['annee_base'].'">Lire</a>';
+						echo '&nbsp;';                                
+						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
+						echo '&nbsp;';
+						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'">Supprimer</a>';
+						echo '</td>';
+						echo '</tr>';
+				}
+			}
+			Database::disconnect();
+			?>
+                </tbody>
+            </table>
+            
+			</div> 	<!-- /row -->
+        </div>  <!-- /span -->        			
     
     </div> <!-- /container -->
   </body>
