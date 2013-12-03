@@ -51,33 +51,45 @@
         $q->execute(array($user_id, $annee_exercice_choisie));
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $count = $q->rowCount($sql);
-        if ($count==0) { // L'année choisie n'est pas dans la base
-            $annee_error = 'L\'année choisie n\'est pas trouvée dans la base ce n\'est pas normal!';
-            // On réaffiche le formulaire mais pas l'exercice !
-            $affiche = false;
-            
-        } elseif ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
+        if ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
             $_SESSION['exerice'] = array(
             'annee' => $data['annee_debut'],
             'mois' => $data['mois_debut'],
             'treso' => $data['montant_treso_initial']
             );
+			$exercice_annee = $data['annee_debut'];
+			$exercice_mois = $data['mois_debut'];
+			$exercice_treso = $data['montant_treso_initial'];
+			
             // On affiche le formulaire et l'exercice en cours
             $liste_annee[0] = $data['annee_debut'];
-            $affiche = true; 
-        } else { 
-            // Quoi il y a encore plusieurs année ds la base?!!! Va t'on traiter ce cas?
-            $affiche = false;
+            $affiche = true;
+			$infos = true; 
         }
         
     } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
-        $sql = "SELECT annee_debut FROM exercice WHERE user_id = $user_id";
-        $n = 0;
-        foreach ($pdo->query($sql) as $row) {
-            $liste_annee[$n] = $row['annee_debut'];
-            $n++;
-        }
-        $affiche = false;
+        $sql = "SELECT annee_debut FROM exercice WHERE user_id = ?";
+		$q = $pdo->prepare($sql);
+        $q->execute(array($user_id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $count = $q->rowCount($sql);
+        if ($count==1) {
+        		$liste_annee[0] = $data['annee_debut'];
+				$affiche = true;
+        } else {
+        	$sql = "SELECT annee_debut FROM exercice WHERE user_id = $user_id";
+		    $n = 0;
+		    foreach ($pdo->query($sql) as $row) {
+		    	if (date("Y") == $row['annee_debut']) {
+		    		// L'année courante est dans la BDD
+		    		$current_year=true;
+		    	}
+		        $liste_annee[$n] = $row['annee_debut'];
+		        $n++;
+	        }
+		    $affiche = false;
+		}
+		$infos = false;  
     }
 ?>
 
@@ -153,14 +165,14 @@
 				<tbody>
 			<?php 
  			 
-				$sql = 'SELECT * FROM exercice WHERE user_id = $user_id';
+				$sql = "SELECT * FROM exercice WHERE user_id = $user_id";
 				foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
 						echo '<td>'. $row['annee_debut'] . '</td>';
 						echo '<td>'. $row['mois_debut'] . '</td>';
 						echo '<td>'. $row['montant_treso_initial'] . '</td>';
 						echo '<td width=250>';
-						echo '<a class="btn " href="conf_read.php?id='.$row['annee_base'].'">Lire</a>';
+						echo '<a class="btn " href="conf_read.php?id='.$row['annee_debut'].'">Lire</a>';
 						echo '&nbsp;';                                
 						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
 						echo '&nbsp;';

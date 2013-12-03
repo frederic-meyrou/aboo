@@ -1,17 +1,17 @@
 <?php
-// Vérification de l'Authent
+// Vï¿½rification de l'Authent
     session_start();
     require('authent.php');
     if( !Authent::islogged()){
-        // Non authentifié on repart sur la HP
+        // Non authentifiï¿½ on repart sur la HP
         header('Location:index.php');
     }
 
-// Récupère l'annee de l'exercice à supprimer en GET	
+// Rï¿½cupï¿½re l'annee de l'exercice ï¿½ supprimer en GET	
 	if ( !empty($_GET['annee'])) {
 		$annee = $_REQUEST['annnee'];
-	else
-		// Redirection vers conf puisque on a rien à afficher
+	} else {
+		// Redirection vers conf puisque on a rien ï¿½ afficher
 		header('Location:conf.php');
 	}
 	
@@ -54,7 +54,7 @@
     <div class="container">
         <ul class="nav nav-pills">
           <li><a href="home.php">Console</a></li>
-          <li><a href="abodep.php">Editer abonnements et dépenses</a></li>
+          <li><a href="abodep.php">Editer abonnements et dï¿½penses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
@@ -73,9 +73,9 @@
                       <thead>
                         <tr>
 						
-                          <th>Années exercice</th>
-                          <th>Mois de démarrage</th>
-                          <th>Montant de trésorerie de départ</th>
+                          <th>Annï¿½es exercice</th>
+                          <th>Mois de dï¿½marrage</th>
+                          <th>Montant de trï¿½sorerie de dï¿½part</th>
                         </tr>
                       </thead>
                       <tbody>
