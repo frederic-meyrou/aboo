@@ -14,7 +14,6 @@
       	<ul class="nav nav-pills">
           <li class="active"><a href="index.php">HomePage</a></li>
           <li><a href="connexion.php">Connexion</a></li>
-          <li><a href="crud/index.php">Exemple CRUD</a></li>
         </ul>
 
         <div class="alert alert alert-success alert-dismissable fade in">

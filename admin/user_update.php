@@ -100,17 +100,17 @@
 					</div>
 					<?php } ?>
 					
-                    <?php Affiche_Champ($email, $emailError, 'email','eMail', 'text' ); ?>
+                    <?php Affiche_Champ($email, $emailError, 'email','eMail', 'mail' ); ?>
 					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe', 'password' ); ?>
 					<?php Affiche_Champ($nom, $nomError, 'nom','Nom', 'text' ); ?>
 					<?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom', 'text' ); ?>
-					<?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone', 'text' ); ?>
-					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'text' ); ?>
-					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'text' ); ?>
-					<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-                    <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur', 'checkbox' ); ?>
+					<?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone', 'tel' ); ?>
+					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
+					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
+					<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'number' ); ?>
+                    <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur', 'number' ); ?>
                     					
-					<div class="form-actions">
+					    <div class="form-actions">
 						  <button type="submit" class="btn btn-success">Mise à jour</button>
 						  <a class="btn btn-success" href="user.php">Retour</a>
 						</div>
