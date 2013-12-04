@@ -1,5 +1,6 @@
 <?php
-// V�rification de l'Authent
+	require_once('fonctions.php');
+// Vérification de l'Authent
     session_start();
     require('authent.php');
     if( !Authent::islogged()){
@@ -7,15 +8,17 @@
         header('Location:index.php');
     }
 
-// R�cup�re l'annee de l'exercice � supprimer en GET	
+// Récupère l'annee de l'exercice à supprimer en GET
 	if ( !empty($_GET['annee'])) {
-		$annee = $_REQUEST['annnee'];
+		$annee = $_REQUEST['annee'];
 	} else {
 		// Redirection vers conf puisque on a rien � afficher
 		header('Location:conf.php');
 	}
 	
-
+// Récupération des variables de session d'Authent
+    $user_id = $_SESSION['authent']['id']; 
+	
 // Initialisation de la base
     include_once 'database.php';
     $pdo = Database::connect();
@@ -73,22 +76,23 @@
                       <thead>
                         <tr>
 						
-                          <th>Ann�es exercice</th>
-                          <th>Mois de d�marrage</th>
-                          <th>Montant de tr�sorerie de d�part</th>
+                          <th>Années exercice</th>
+                          <th>Mois de démarrage</th>
+                          <th>Montant de trésorerie de départ</th>
                         </tr>
                       </thead>
                       <tbody>
                       <?php 
                                 echo '<tr>';
-                                echo '<td>'. $annee . '</td>';
-                                echo '<td>'. $mois . '</td>';
+                                echo '<td>'. $annee . ' - ' . ($annee + 1) . '</td>';
+                                echo '<td>'. Mois($mois) . '</td>';
                                 echo '<td>'. $treso . '</td>';
                                 echo '</tr>';
                       ?>
                       </tbody>
                 </table>
             </div> 	<!-- /row -->
+ 		  	<a class="btn btn-success" href="conf.php">Retour</a>
         </div>  <!-- /span -->        			
 
     </div> <!-- /container -->

@@ -1,4 +1,6 @@
 <?php
+	require_once('fonctions.php');
+	
 // Vérification de l'Authent
     session_start();
     require('authent.php');
@@ -133,22 +135,17 @@
 			<a class="btn btn-success" href="conf_create.php">Créer un nouvel exercice</a>
         </form>
 
-        <div class="alert alert alert-success alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Bonjour <?php echo "$prenom $nom"; ?> !</strong> Bienvenue sur ton espace sécurisé GestAbo.
-        </div>
-        
         <div class="alert alert alert-warning alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong><?php echo "Exercice $exercice_annee démarrant le $exercice_mois, tréso de $exercice_treso €"; ?> !</strong> 
         </div>
 		
-		<div class="span10 offset1">
+		<div class="span10">
 			<?php 
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Consultation de l'exercice</h3>
+                <h3>Liste des exercices</h3>
             </div>			
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
@@ -165,15 +162,15 @@
 				<tbody>
 			<?php 
  			 
-				$sql = "SELECT * FROM exercice WHERE user_id = $user_id";
+				$sql = "SELECT * FROM exercice WHERE user_id = $user_id ORDER by annee_debut";
 				foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
-						echo '<td>'. $row['annee_debut'] . '</td>';
-						echo '<td>'. $row['mois_debut'] . '</td>';
+						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
+						echo '<td>'. Mois($row['mois_debut']) . '</td>';
 						echo '<td>'. $row['montant_treso_initial'] . '</td>';
-						echo '<td width=250>';
-						echo '<a class="btn " href="conf_read.php?id='.$row['annee_debut'].'">Lire</a>';
-						echo '&nbsp;';                                
+						echo '<td width=auto>';
+						//echo '<a class="btn " href="conf_read.php?annee='.$row['annee_debut'].'">Lire</a>';
+						//echo '&nbsp;';                                
 						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
 						echo '&nbsp;';
 						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'">Supprimer</a>';
