@@ -70,8 +70,8 @@
 		}       
 	} else {
 	    // Valeures par défaut
-	    $annee_debut = 2013;
-        $mois_debut = 1;
+	    $annee_debut = date('Y');
+        $mois_debut = date('m');
         $montant_treso_initial = 0; 
 	}
 	
