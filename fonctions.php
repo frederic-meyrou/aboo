@@ -11,6 +11,20 @@ function IsDate( $Str )
   return checkdate( $Month, $Day, $Year );
 }
 
+// Transforme un numéro de mois en nom de mois 
+function NumToMois( $mumois )
+{
+	$mois = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+	return $mois[$nummois]; 		
+}
+
+// Transforme un nom de mois en numéro de mois
+function MoisToNum( $nommois )
+{
+	$array = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+	return array_keys($array,$nomois); 		
+}
+
 // Transforme un numéro de mois en nom de mois (null si mois invalide)
 function Mois( $mumois )
 {
@@ -48,7 +62,7 @@ function Mois( $mumois )
 function InitialsationVentilation() {
     global $ArrayVENTILLATION;
     $ArrayVENTILLATION = array (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);    
-}
+} 
 
 // 
 function Ventillation($mois, $montant, $nombre) {
