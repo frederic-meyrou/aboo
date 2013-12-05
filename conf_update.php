@@ -1,4 +1,6 @@
 <?php
+	require_once('fonctions.php');
+	
 // Vérification de l'Authent
     session_start();
     require('authent.php');
@@ -7,73 +9,83 @@
         header('Location:index.php');
     }
 // Récupération des variables de session d'Authent
-    $user_id = $_SESSION['authent']['id'];
- 
+    $user_id = $_SESSION['authent']['id']; 
+
+// Récupération des variables de session exercice
+    $exercice_annee = null;
+    $exercice_mois = null;
+    $exercice_treso = null;
+    if(isset($_SESSION['exercice'])) {
+        $exercice_annee = $_SESSION['exercice']['annee'];
+        $exercice_mois = $_SESSION['exercice']['mois'];
+        $exercice_treso = $_SESSION['exercice']['treso'];
+    }
+
+// Initialisation de la base
+    include_once 'database.php';
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Vérification du GET
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }   
+    if ( $id==null ) {
+        header("Location: conf.php");
+    }
+        
 // Lecture et validation du POST
-	if ( !empty($_POST)) {
+    if ( !empty($_POST)) {
 
         // Init base
         require_once 'database.php';
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	    
-		// keep track validation errors
-		$annee_debutError = null;
+        
+        // keep track validation errors
         $mois_debutError = null;
         $montant_treso_initialError = null;
-                		
-		// keep track post values
-		$annee_debut = $_POST['annee_debut'];
-		$mois_debut = $_POST['mois_debut'];
+                        
+        // keep track post values
+        $mois_debut = $_POST['mois_debut'];
         $montant_treso_initial = $_POST['montant_treso_initial'];
         
-		// validate input
-		$valid = true;
-        if (empty($annee_debut)) {
-			$annee_debutError = 'Veuillez entrer l\'année de démarrage de votre exercice';
-			$valid = false;
-		}
-        if ($annee_debut < 2000 || $annee_debut > 2100) {
-            $annee_debutError = 'Veuillez entrer une année correcte';
-            $valid = false;
-        }
+        // validate input
+        $valid = true;
         if (empty($montant_treso_initial)) {
-			$montant_treso_initial = 0;
-		}
-        
-        // Verif que l'année n'est pas déjà en base!
-            $sql = "SELECT COUNT(*) FROM exercice WHERE user_id=? AND annee_debut=?";
-            $q = $pdo->prepare($sql);         
-            $q->execute(array($user_id, $annee_debut));
-            $data = $q->fetch(PDO::FETCH_ASSOC);
-            if (!$data["COUNT(*)"]==0) {
-                $annee_debutError = 'Vous avez déjà créé cet exercice';
-                $valid = false;
-            }
-	
-		// Creation des données en base et redirection vers appelant
-		if ($valid) {
-			$sql = "INSERT INTO exercice (user_id,mois_debut,montant_treso_initial,annee_debut) values(?, ?, ?, ?)";
-			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $mois_debut, $montant_treso_initial, $annee_debut));
-			Database::disconnect();
+            $montant_treso_initial = 0;
+        }
+           
+        // Creation des données en base et redirection vers appelant
+        if ($valid) {
+            $sql = "UPDATE exercice SET mois_debut=?,montant_treso_initial=? WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($mois_debut, $montant_treso_initial, $id));
+            Database::disconnect();
             // On modifie la valeure de la session
-            $_SESSION['exercice'] = array(
-            'annee' => $data['annee_debut'],
-            'mois' => $data['mois_debut'],
-            'treso' => $data['montant_treso_initial']
-            );            
-			header("Location: conf.php");
-		}       
-	} else {
-	    // Valeures par défaut
-	    $annee_debut = date('Y');
-        $mois_debut = date('n');
-        $montant_treso_initial = 0; 
-	}
-	
+            if ($data['annee_debut'] == $_SESSION['exercice']['annee_debut']) {
+                $_SESSION['exercice'] = array(
+                'mois' => $data['mois_debut'],
+                'treso' => $data['montant_treso_initial']
+                );
+            }            
+            header("Location: conf.php");
+        }       
+    } else {
+        // Lecture des infos ds la base
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM exercice where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $mois_debut = $data['mois_debut'];
+        $montant_treso_initial = $data['montant_treso_initial'];         
+        Database::disconnect();                
+    }
+    
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -99,36 +111,26 @@
           <li class="active"><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+        
+        <div class="span10 offset1">
+            <div class="row">
+                <h3>Modification d'un exercice</h3>
+            </div>
 
-		<div class="span10 offset1">
-			<div class="row">
-    			<h3>Création d'un exercice</h3>
-    		</div>
-
-			<form class="form-horizontal" action="conf_create.php" method="post">
-			
-			<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-			<div class="control-group <?php echo !empty($champError)?'error':'';?>">
-			    <label class="control-label"><?php echo "$champplaceholder" ?></label>
-			    <div class="controls">
-			      	<input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-			      	<?php if (!empty($champError)): ?>
-			      		<span class="help-inline"><?php echo $champError;?></span>
-			      	<?php endif; ?>
-			    </div>
-			</div>
-			<?php } ?>
-
-            <div class="control-group <?php echo !empty($annee_debutError)?'error':'';?>">
-                <label class="control-label">Année de départ</label>
+            <form class="form-horizontal" action="conf_update.php" method="post">
+            
+            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+            <div class="control-group <?php echo !empty($champError)?'error':'';?>">
+                <label class="control-label"><?php echo "$champplaceholder" ?></label>
                 <div class="controls">
-                    <input name="annee_debut" type="number" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>">
-                    <?php if (!empty($annee_debutError)): ?>
-                        <span class="help-inline"><?php echo $annee_debutError;?></span>
+                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+                    <?php if (!empty($champError)): ?>
+                        <span class="help-inline"><?php echo $champError;?></span>
                     <?php endif; ?>
                 </div>
             </div>
-         
+            <?php } ?>
+       
             <div class="control-group">
                 <label class="control-label">Mois de démarage</label>
                 <div class="controls">
@@ -156,13 +158,13 @@
                 </div>
             </div>
                                                 
-		    <div class="form-actions">
-			  <button type="submit" class="btn btn-success">Créer</button>
-			  <a class="btn btn-success" href="conf.php">Retour</a>
-			</div>
-		    </form>
-		</div> <!-- /span -->
-				
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success">Mise à jour</button>
+              <a class="btn btn-success" href="conf.php">Retour</a>
+            </div>
+            </form>
+        </div> <!-- /span -->      			
+    
     </div> <!-- /container -->
   </body>
 </html>

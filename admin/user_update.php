@@ -88,17 +88,17 @@
 		    		</div>
 					
 	    			<form class="form-horizontal" action="user_update.php?id=<?php echo $id?>" method="post">
-					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type ) { ?>
-					<div class="control-group <?php echo !empty($champ)?'error':'';?>">
-					    <label class="control-label"><?php echo "$champplaceholder" ?></label>
-					    <div class="controls">
-					      	<input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" placeholder="<?php echo "$champplaceholder" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-					      	<?php if (!empty($champError)): ?>
-					      		<span class="help-inline"><?php echo $champError;?></span>
-					      	<?php endif; ?>
-					    </div>
-					</div>
-					<?php } ?>
+                    <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+                    <div class="control-group <?php echo !empty($champError)?'error':'';?>">
+                        <label class="control-label"><?php echo "$champplaceholder" ?></label>
+                        <div class="controls">
+                            <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+                            <?php if (!empty($champError)): ?>
+                                <span class="help-inline"><?php echo $champError;?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php } ?>
 					
                     <?php Affiche_Champ($email, $emailError, 'email','eMail', 'mail' ); ?>
 					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe', 'password' ); ?>

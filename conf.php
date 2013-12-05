@@ -18,10 +18,10 @@
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
-    if(isset($_SESSION['exerice'])) {
-        $exercice_annee = $_SESSION['exerice']['annee'];
-        $exercice_mois = $_SESSION['exerice']['mois'];
-        $exercice_treso = $_SESSION['exerice']['treso'];
+    if(isset($_SESSION['exercice'])) {
+        $exercice_annee = $_SESSION['exercice']['annee'];
+        $exercice_mois = $_SESSION['exercice']['mois'];
+        $exercice_treso = $_SESSION['exercice']['treso'];
     }
 
 // Initialisation de la base
@@ -47,28 +47,32 @@
         Database::disconnect();
         // Redirection pour creation d'exercice
         header('Location:conf_create.php');                
-    } elseif (!empty($annee_exercice_choisie)) { // L'année est choisie on va vérifier qu'elle est dans la base et remplir la session
-        $sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($user_id, $annee_exercice_choisie));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        $count = $q->rowCount($sql);
-        if ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
-            $_SESSION['exerice'] = array(
-            'annee' => $data['annee_debut'],
-            'mois' => $data['mois_debut'],
-            'treso' => $data['montant_treso_initial']
-            );
-			$exercice_annee = $data['annee_debut'];
-			$exercice_mois = $data['mois_debut'];
-			$exercice_treso = $data['montant_treso_initial'];
-			
-            // On affiche le formulaire et l'exercice en cours
-            $liste_annee[0] = $data['annee_debut'];
-            $affiche = true;
-			$infos = true; 
+    } elseif (!empty($annee_exercice_choisie)) { // L'année est choisie
+        // On va vérifier que l'année est dans la base et remplir la session, sauf si l'annee session est l'annee choisie
+        if ($exercice_annee != $annee_exercice_choisie) {
+            $sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($user_id, $annee_exercice_choisie));
+            $data = $q->fetch(PDO::FETCH_ASSOC);
+            $count = $q->rowCount($sql);
+            if ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
+                $_SESSION['exercice'] = array(
+                'annee' => $data['annee_debut'],
+                'mois' => $data['mois_debut'],
+                'treso' => $data['montant_treso_initial']
+                );
+    			$exercice_annee = $data['annee_debut'];
+    			$exercice_mois = $data['mois_debut'];
+    			$exercice_treso = $data['montant_treso_initial'];   			
+                // Mise à jour de la liste du formulaire
+                $liste_annee[0] = $data['annee_debut'];
+           }
+        } else {
+            $liste_annee[0] = $exercice_annee;
         }
-        
+        // On affiche le formulaire et l'exercice en cours
+        $affiche = true;
+        $infos = true;         
     } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
         $sql = "SELECT annee_debut FROM exercice WHERE user_id = ?";
 		$q = $pdo->prepare($sql);
@@ -137,7 +141,7 @@
 
         <div class="alert alert alert-warning alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong><?php echo "Exercice $exercice_annee démarrant le $exercice_mois, tréso de $exercice_treso €"; ?> !</strong> 
+            <strong><?php echo "Exercice $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?> !</strong> 
         </div>
 		
 		<div class="span10">
@@ -166,7 +170,7 @@
 				foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
 						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
-						echo '<td>'. Mois($row['mois_debut']) . '</td>';
+						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
 						echo '<td>'. $row['montant_treso_initial'] . '</td>';
 						echo '<td width=auto>';
 						//echo '<a class="btn " href="conf_read.php?annee='.$row['annee_debut'].'">Lire</a>';
