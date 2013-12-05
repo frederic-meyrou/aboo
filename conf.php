@@ -12,7 +12,15 @@
 
 // Mode Debug
 	$debug = false;
-	
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
@@ -39,8 +47,8 @@
 	if (! isset($liste_annee)) {
 		$liste_annee = array();
 	} 
-    if (isset($_POST['annee']) ) { // J'ai un POST
-            $annee_exercice_choisie = $_POST['annee'];
+    if (isset($sPOST['annee']) ) { // J'ai un POST
+            $annee_exercice_choisie = $sPOST['annee'];
     } else { // Je n'ai pas de POST
             $annee_exercice_choisie = null;
     }

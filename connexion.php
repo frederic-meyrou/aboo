@@ -3,10 +3,19 @@ session_start();
 ?>
 <?php
 include 'database.php';
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        
 // Le Formulaire est rempli
-if (isset($_POST['email']) && isset($_POST['password'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if (isset($sPOST['email']) && isset($sPOST['password'])) {
+    $email = $sPOST['email'];
+    $password = $sPOST['password'];
     // Lecture dans la base
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

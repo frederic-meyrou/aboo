@@ -9,7 +9,15 @@
 
 // Mode Debug
 	$debug = true;	
-	
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        	
 // Récupération des variables de session
     $id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];

@@ -9,12 +9,20 @@
 
 
 // Mode Debug
-	$debug = flase;
-	
-// Récupère l'ID de l'exercice à supprimer en GET	
-	if ( !empty($_GET['id']) && !empty($_GET['annee'])) {
-		$id = $_REQUEST['id'];
-		$annee = $_REQUEST['annee'];
+	$debug = false;
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    	
+// Récupère l'ID de l'exercice à supprimer en GET
+	if ( !empty($sGET['id']) && !empty($sGET['annee'])) {
+		$id = $sGET['id'];
+		$annee = $sGET['annee'];
 	} else {
 		// Redirection vers conf puisque on a rien à supprimer
 		header('Location:conf.php');
@@ -34,9 +42,9 @@
     }
 
 // Lecture et validation du POST
-	if ( !empty($_POST)) {
+	if ( !empty($sPOST)) {
 		// keep track post values
-		$id = $_POST['id'];
+		$id = $sPOST['id'];
 		
 		// delete data
 		$pdo = Database::connect();
@@ -71,7 +79,7 @@
         <h2>Console</h2>
         <ul class="nav nav-pills">
           <li><a href="home.php">Console</a></li>
-          <li><a href="abodep.php">Editer abonnements et d�penses</a></li>
+          <li><a href="abodep.php">Editer abonnements et dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
