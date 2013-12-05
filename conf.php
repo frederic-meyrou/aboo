@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id']; 
@@ -95,26 +95,23 @@ function ChargeSessionExerciceBDD($data) {
     			$exercice_mois = $data['mois_debut'];
     			$exercice_treso = $data['montant_treso_initial'];   			
                 // Mise à jour de la liste du formulaire
-                $error_annee = "On est ds le cas ou on ajoute a la fin du tableau ceci : " ;
                 MajListeAnnee();
            }
         } else { // On a conservé la même année que la session
-        	$error_annee = "On est ds le cas ou on a juste une valeure : " ;
             MajListeAnnee();
         }
         // On affiche le formulaire et l'exercice en cours
         $affiche = true;
         $infos = true;         
     } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
-        $sql = "SELECT annee_debut FROM exercice WHERE user_id = ?";
+        $sql = "SELECT * FROM exercice WHERE user_id = ?"; 
 		$q = $pdo->prepare($sql);
         $q->execute(array($user_id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $count = $q->rowCount($sql);
         if ($count==1) { // On est ds le cas ou on a juste une valeure trouvée en base 
-        	    $error_annee = "On est ds le cas ou on a juste une valeure trouvé en base ";        	
         		$liste_annee[0] = $data['annee_debut'];
-				// MaJ SESSION
+                // MaJ SESSION
                 ChargeSessionExerciceBDD($data);
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
@@ -123,7 +120,6 @@ function ChargeSessionExerciceBDD($data) {
 				$infos = true;
         } else { // On est ds le cas ou on une liste de valeure en base
 			MajListeAnnee();
-			$error_annee = "On est ds le cas ou on une liste de valeure en base ";
 			$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = YEAR(NOW())"; 
 			$q = $pdo->prepare($sql);
         	$q->execute(array($user_id));
@@ -252,7 +248,7 @@ function ChargeSessionExerciceBDD($data) {
 						//echo '&nbsp;';                                
 						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
 						echo '&nbsp;';
-						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'?annee='.$row['annee_debut'].'">Supprimer</a>';
+						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'&annee='.$row['annee_debut'].'">Supprimer</a>';
 						echo '</td>';
 						echo '</tr>';
 				}
