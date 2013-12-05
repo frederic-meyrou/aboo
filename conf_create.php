@@ -9,12 +9,21 @@
 
 // Mode Debug
 	$debug = false;
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        
 	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id'];
  
 // Lecture et validation du POST
-	if ( !empty($_POST)) {
+	if ( !empty($sPOST)) {
 
         // Init base
         require_once 'database.php';
@@ -27,9 +36,9 @@
         $montant_treso_initialError = null;
                 		
 		// keep track post values
-		$annee_debut = $_POST['annee_debut'];
-		$mois_debut = $_POST['mois_debut'];
-        $montant_treso_initial = $_POST['montant_treso_initial'];
+		$annee_debut = $sPOST['annee_debut'];
+		$mois_debut = $sPOST['mois_debut'];
+        $montant_treso_initial = $sPOST['montant_treso_initial'];
         
 		// validate input
 		$valid = true;
