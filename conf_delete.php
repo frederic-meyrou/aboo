@@ -1,12 +1,12 @@
 <?php
-// V�rification de l'Authent
+// Vérification de l'Authent
     session_start();
     require('authent.php');
     if( !Authent::islogged()){
-        // Non authentifi� on repart sur la HP
+        // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
-// R�cup�re l'ID de l'exercice � supprimer en GET	
+// Récupère l'ID de l'exercice � supprimer en GET	
 	if ( !empty($_GET['id'])) {
 		$id = $_REQUEST['id'];
 	} else {

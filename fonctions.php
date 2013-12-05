@@ -12,23 +12,31 @@ function IsDate( $Str )
 }
 
 // Transforme un numéro de mois en nom de mois 
-function NumToMois( $mumois )
+function NumToMois($num_mois)
 {
-	$mois = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
-	return $mois[$nummois]; 		
+	if (!$num_mois == null) {     
+        $mois = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+        return $mois[$num_mois];
+    } else {
+        return null;
+    }		
 }
 
 // Transforme un nom de mois en numéro de mois
-function MoisToNum( $nommois )
+function MoisToNum($nom_mois)
 {
-	$array = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
-	return array_keys($array,$nomois); 		
-}
+    if (empty($nom_mois) || $nom_mois == null) {
+        return null;
+    } else {
+    	$array = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+    	return array_keys($array,$nom_mois); 		
+    }
+}    
 
 // Transforme un numéro de mois en nom de mois (null si mois invalide)
-function Mois( $mumois )
+function Mois( $numois )
 {
-	switch ($mumois) {
+	switch ($numois) {
 	    case 1:
 	        return 'Janvier';
 	    case 2:
