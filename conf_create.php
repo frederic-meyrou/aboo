@@ -6,6 +6,10 @@
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
+
+// Mode Debug
+	$debug = true;
+	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id'];
  
@@ -99,6 +103,24 @@
           <li class="active"><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+        <div class="alert alert alert-error alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            POST:<br>
+            <pre><?php var_dump($_POST); ?></pre>
+            GET:<br>
+            <pre><?php var_dump($_GET); ?></pre>
+        </div>
+        <?php       
+        }   
+        ?>  
 
 		<div class="span10 offset1">
 			<div class="row">

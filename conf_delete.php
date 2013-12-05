@@ -6,13 +6,32 @@
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
-// Récupère l'ID de l'exercice � supprimer en GET	
+
+
+// Mode Debug
+	$debug = true;
+	
+// Récupère l'ID de l'exercice à supprimer en GET	
 	if ( !empty($_GET['id'])) {
 		$id = $_REQUEST['id'];
+		$annee = $_REQUEST['annee'];
 	} else {
-		// Redirection vers conf puisque on a rien � supprimer
+		// Redirection vers conf puisque on a rien à supprimer
 		header('Location:conf.php');
 	}
+	
+// Récupération des variables de session d'Authent
+    $user_id = $_SESSION['authent']['id']; 
+
+// Récupération des variables de session exercice
+    $exercice_annee = null;
+    $exercice_mois = null;
+    $exercice_treso = null;
+    if(isset($_SESSION['exercice'])) {
+        $exercice_annee = $_SESSION['exercice']['annee'];
+        $exercice_mois = $_SESSION['exercice']['mois'];
+        $exercice_treso = $_SESSION['exercice']['treso'];
+    }
 
 // Lecture et validation du POST
 	if ( !empty($_POST)) {
@@ -26,6 +45,11 @@
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		Database::disconnect();
+
+        // On modifie la session
+        if ($annee == $exercice_annee) {
+            $_SESSION['exercice'] = array();
+        }            
 		header("Location: conf.php");
 		
 	} 
@@ -55,6 +79,25 @@
           <li class="active"><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+        <div class="alert alert alert-error alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            POST:<br>
+            <pre><?php var_dump($_POST); ?></pre>
+            GET:<br>
+            <pre><?php var_dump($_GET); ?></pre>
+        </div>
+        <?php       
+        }   
+        ?>  
+        
 		<div class="span10 offset1">
 			<div class="row">
     			<h3>Suppression d'un exercice</h3>

@@ -15,7 +15,7 @@ function IsDate( $Str )
 function NumToMois($num_mois)
 {
 	if (!$num_mois == null) {     
-        $mois = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+        $mois = array(1 => 'Janvier','Février','Mars','Avril','Mai','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
         return $mois[$num_mois];
     } else {
         return null;
@@ -28,7 +28,7 @@ function MoisToNum($nom_mois)
     if (empty($nom_mois) || $nom_mois == null) {
         return null;
     } else {
-    	$array = array(1 => 'Janvier','Février','Mars','Avril','Mais','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
+    	$array = array(1 => 'Janvier','Février','Mars','Avril','Mai','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
     	return array_keys($array,$nom_mois); 		
     }
 }    
@@ -46,7 +46,7 @@ function Mois( $numois )
 	    case 4:
 	        return 'Avril';
 	    case 5:
-	        return 'Mais';
+	        return 'Mai';
 	    case 6:
 	        return 'Juin';
 	    case 7:
