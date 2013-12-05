@@ -1,6 +1,4 @@
 <?php
-	require_once('fonctions.php');
-	
 // Vérification de l'Authent
     session_start();
     require('authent.php');
@@ -8,6 +6,13 @@
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
+
+// Dépendances
+	require_once('fonctions.php');
+
+// Mode Debug
+	$debug = true;
+	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id']; 
 
@@ -31,9 +36,6 @@
     if ( !empty($_GET['id'])) {
         $id = $_REQUEST['id'];
     }   
-    if ( $id==null ) {
-        header("Location: conf.php");
-    }
         
 // Lecture et validation du POST
     if ( !empty($_POST)) {
@@ -48,6 +50,8 @@
         $montant_treso_initialError = null;
                         
         // keep track post values
+        $id = $_POST['id']; 
+        $annee_debut = $_POST['annee_debut']; 
         $mois_debut = $_POST['mois_debut'];
         $montant_treso_initial = $_POST['montant_treso_initial'];
         
@@ -63,9 +67,10 @@
             $q = $pdo->prepare($sql);
             $q->execute(array($mois_debut, $montant_treso_initial, $id));
             Database::disconnect();
-            // On modifie la valeure de la session
-            if ($data['annee_debut'] == $_SESSION['exercice']['annee_debut']) {
+            // On modifie la session
+            if ($data['annee_debut'] == $exercice_annee) {
                 $_SESSION['exercice'] = array(
+                'annee' => $exercice_annee,
                 'mois' => $data['mois_debut'],
                 'treso' => $data['montant_treso_initial']
                 );
@@ -80,6 +85,7 @@
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
+		$annee_debut = $data['annee_debut'];
         $mois_debut = $data['mois_debut'];
         $montant_treso_initial = $data['montant_treso_initial'];         
         Database::disconnect();                
@@ -112,6 +118,24 @@
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
         
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+        <div class="alert alert alert-error alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            POST:<br>
+            <pre><?php var_dump($_POST); ?></pre>
+            GET:<br>
+            <pre><?php var_dump($_GET); ?></pre>
+        </div>
+        <?php       
+        }   
+        ?>  
+                
         <div class="span10 offset1">
             <div class="row">
                 <h3>Modification d'un exercice</h3>
@@ -130,7 +154,16 @@
                 </div>
             </div>
             <?php } ?>
-       
+       		
+       		<input type="hidden" name="id" value="<?php echo $id; ?>">
+       		
+       		<div class="control-group">
+                <label class="control-label">Année de départ</label>
+                <div class="controls">
+                    <input name="annee_debut" type="text" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>" readonly="readonly">
+                 </div>
+            </div>
+            
             <div class="control-group">
                 <label class="control-label">Mois de démarage</label>
                 <div class="controls">

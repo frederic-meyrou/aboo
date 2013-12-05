@@ -6,12 +6,25 @@
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
+
+// Mode Debug
+	$debug = true;	
+	
 // Récupération des variables de session
     $id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
     $prenom = $_SESSION['authent']['prenom'];
     $nom = $_SESSION['authent']['nom'];
 
+// Récupération des variables de session exercice
+    $exercice_annee = null;
+    $exercice_mois = null;
+    $exercice_treso = null;
+    if(isset($_SESSION['exercice'])) {
+        $exercice_annee = $_SESSION['exercice']['annee'];
+        $exercice_mois = $_SESSION['exercice']['mois'];
+        $exercice_treso = $_SESSION['exercice']['treso'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +56,24 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Bonjour <?php echo "$prenom $nom"; ?> !</strong> Bienvenue sur ton espace sécurisé GestAbo.
         </div>
-    
+        
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+        <div class="alert alert alert-error alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            POST:<br>
+            <pre><?php var_dump($_POST); ?></pre>
+            GET:<br>
+            <pre><?php var_dump($_GET); ?></pre>
+        </div>
+        <?php       
+        }   
+        ?>      
     </div> <!-- /container -->
   </body>
 </html>
