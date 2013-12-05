@@ -9,10 +9,10 @@
 
 
 // Mode Debug
-	$debug = true;
+	$debug = flase;
 	
 // Récupère l'ID de l'exercice à supprimer en GET	
-	if ( !empty($_GET['id'])) {
+	if ( !empty($_GET['id']) && !empty($_GET['annee'])) {
 		$id = $_REQUEST['id'];
 		$annee = $_REQUEST['annee'];
 	} else {
@@ -46,7 +46,7 @@
 		$q->execute(array($id));
 		Database::disconnect();
 
-        // On modifie la session
+        // On supprimer la session
         if ($annee == $exercice_annee) {
             $_SESSION['exercice'] = array();
         }            

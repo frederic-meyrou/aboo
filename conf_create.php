@@ -8,7 +8,7 @@
     }
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id'];
