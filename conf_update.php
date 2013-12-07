@@ -25,10 +25,12 @@
     $user_id = $_SESSION['authent']['id']; 
 
 // Récupération des variables de session exercice
+    $exercice_id = null;
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
     if(isset($_SESSION['exercice'])) {
+        $exercice_id = $_SESSION['exercice']['id'];
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
@@ -78,6 +80,7 @@
             // On modifie la session
             if ($data['annee_debut'] == $exercice_annee) {
                 $_SESSION['exercice'] = array(
+                'id' => $exercice_id,
                 'annee' => $exercice_annee,
                 'mois' => $data['mois_debut'],
                 'treso' => $data['montant_treso_initial']

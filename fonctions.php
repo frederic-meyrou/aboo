@@ -11,12 +11,15 @@ function IsDate( $Str )
   return checkdate( $Month, $Day, $Year );
 }
 
+// Tableau avec liste des mois de l'année
+$Liste_Mois = array(1 => 'Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre');
+
 // Transforme un numéro de mois en nom de mois 
 function NumToMois($num_mois)
 {
-	if (!$num_mois == null) {     
-        $mois = array(1 => 'Janvier','Février','Mars','Avril','Mai','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
-        return $mois[$num_mois];
+	if (!$num_mois == null) {
+        global $Liste_Mois;
+        return $Liste_Mois[$num_mois];
     } else {
         return null;
     }		
@@ -28,8 +31,9 @@ function MoisToNum($nom_mois)
     if (empty($nom_mois) || $nom_mois == null) {
         return null;
     } else {
-    	$array = array(1 => 'Janvier','Février','Mars','Avril','Mai','Juin','Juiller','Août','Septembre','Octobre','Novembre','Décembre');
-    	return array_keys($array,$nom_mois); 		
+    	global $Liste_Mois;
+		$array = array_keys($Liste_Mois,$nom_mois);
+    	return $array[0]; 		
     }
 }    
 

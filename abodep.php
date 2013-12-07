@@ -28,7 +28,7 @@
     $nom = $_SESSION['authent']['nom'];
 
 // Récupération des variables de session exercice
-    $$exercice_id = null;
+    $exercice_id = null;
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
@@ -39,99 +39,51 @@
         $exercice_treso = $_SESSION['exercice']['treso'];
     }
 
+// Récupération des variables de session abodep
+    $abodep_mois = null;
+    if(isset($_SESSION['abodep'])) {
+        $abodep_mois = $_SESSION['abodep']['mois'];
+    }
+	
 // Initialisation de la base
     include_once 'database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 // Lecture du POST (Choix du mois)
-    $error_annee = null;
-	if (! isset($liste_annee)) {
-		$liste_annee = array();
-	} 
     if (isset($sPOST['mois']) ) { // J'ai un POST
             $mois_choisi = $sPOST['mois'];
     } else { // Je n'ai pas de POST
             $mois_choisi = null;
     }
+	
+// Selection du mois par défaut
+	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
+		$mois_choisi = $exercice_mois;
+	} elseif ($mois_choisi == null) {
+		$mois_choisi = date('n');
+	}
+	$_SESSION['abodep']['mois'] = $mois_choisi;
 
-function ChargeSessionAboDepBDD($data) {
-	// MaJ SESSION
-    $_SESSION['abodep'] = array(
-    'mois' => $data['mois']
-    );					
-}
-
-// Lecture dans la base de l'exercice 
-    $sql = "SELECT * FROM abonnement WHERE user_id = ? AND exercice_id = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($user_id, $exercice_id));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-    $count = $q->rowCount($sql);
-    if ($count==0) { // Pas d'abonnement c'est le premier passage sur le formulaire
-        Database::disconnect();
-        // Redirection pour creation d'exercice
-        ////header('Location:abodep_create.php');                
-    } elseif (!empty($mois_choisi)) { // Le mois est choisi
-    
-    
-        // On va vérifier que l'année est dans la base et remplir la session, sauf si l'annee session est l'annee choisie
-        if ($exercice_annee != $annee_exercice_choisie) {
-            $sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($user_id, $annee_exercice_choisie));
-            $data = $q->fetch(PDO::FETCH_ASSOC);
-            $count = $q->rowCount($sql);
-            if ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
-                ChargeSessionExerciceBDD($data);
-    			$exercice_annee = $data['annee_debut'];
-    			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   			
-                // Mise à jour de la liste du formulaire
-                MajListeAnnee();
-           }
-        } else { // On a conservé la même année que la session
-            MajListeAnnee();
-        }
-        // On affiche le formulaire et l'exercice en cours
-        $affiche = true;
-        $infos = true;         
-    } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
-        $sql = "SELECT * FROM exercice WHERE user_id = ?"; 
-		$q = $pdo->prepare($sql);
-        $q->execute(array($user_id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        $count = $q->rowCount($sql);
-        if ($count==1) { // On est ds le cas ou on a juste une valeure trouvée en base 
-        		$liste_annee[0] = $data['annee_debut'];
-                // MaJ SESSION
-                ChargeSessionExerciceBDD($data);
-    			$exercice_annee = $data['annee_debut'];
-    			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   								
-				$affiche = true;
-				$infos = true;
-        } else { // On est ds le cas ou on une liste de valeure en base
-			MajListeAnnee();
-			$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = YEAR(NOW())"; 
-			$q = $pdo->prepare($sql);
-        	$q->execute(array($user_id));
-        	$data = $q->fetch(PDO::FETCH_ASSOC);
-			$count = $q->rowCount($sql);
-			if ($count==1) {
-				// MaJ SESSION
-                ChargeSessionExerciceBDD($data);
-    			$exercice_annee = $data['annee_debut'];
-    			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   
-				$infos = true;					
-			} else {
-				$infos = false;
-			}	 			
-		    $affiche = true;
-
-		}	 
+// Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
+    $sql = "SELECT A.id, D.id, A.montant, D.montant, A.commentaire, D.commentaire
+    		FROM abonnement A,depense D WHERE
+    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois) OR
+    		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
+    		";
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $mois_choisi);
+    $req = $pdo->prepare($sql);
+    $req->execute($q);
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+    $count = $req->rowCount($sql);
+    if ($count==0) { // Il n'y a rien à afficher
+        $affiche = false;              
+    } else {   
+	        // On affiche le tableau
+	        $affiche = true;
     }
+	Database::disconnect();
+	$infos = true;
 ?>
 
 <!DOCTYPE html>
@@ -147,12 +99,12 @@ function ChargeSessionAboDepBDD($data) {
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <div class="container">
-        <h2>Console</h2>
+        <h2>Abonnement & Dépenses</h2>
         
         <!-- Affiche la navigation -->
         <ul class="nav nav-pills">
           <li><a href="home.php">Console</a></li>
-          <li class="active"><a href="abodep.php">Editer abonnements et dépenses</a></li>
+          <li class="active"><a href="abodep.php">Abonnements & Dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
@@ -162,20 +114,17 @@ function ChargeSessionAboDepBDD($data) {
         </ul>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-vertical" action="conf.php" method="post">      
+        <form class="form-horizontal" action="abodep.php" method="post">      
             <select name="mois" class="form-control">
             <?php
-                $liste_mois = array();
-                foreach ($liste_mois as $m) {
+                foreach ($Liste_Mois as $m) {
             ?>
-                <option value="<?php echo "$m";?>"<?php echo ($m==$exercice_mois)?'selected':'';?>><?php echo "$m - " . ($m + 1);?></option>    
+                <option value="<?php echo MoisToNum($m);?>"<?php echo ($m==NumToMois($mois_choisi))?'selected':'';?>><?php echo "$m";?></option>    
             <?php       
                 }   
             ?>    
             </select>
-            <div class="error"><?php if(isset($error_annee)){ echo $error_annee; } ?></div>
-            <button type="submit" class="btn btn-success">Changer d'année</button>
-			<a class="btn btn-success" href="conf_create.php">Créer un nouvel exercice</a>
+            <button type="submit" class="btn btn-success">Changer de mois</button>
         </form>
         
         <!-- Affiche les informations de debug -->
@@ -202,7 +151,8 @@ function ChargeSessionAboDepBDD($data) {
 		?>
         <div class="alert alert alert-info alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?> !</strong> 
+            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
+            <strong><?php echo "Mois courant : " . NumToMois($mois_choisi); ?></strong> 
         </div>
 	    <?php       
         }   
@@ -214,44 +164,31 @@ function ChargeSessionAboDepBDD($data) {
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des exercices</h3>
+                <h3>Liste des abonnements et des dépenses du mois courant</h3>
             </div>			
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
-					
-					  <th>Années exercice</th>
-					  <th>Mois de démarrage</th>
-					  <th>Montant de trésorerie de départ</th>
-					  <th>Action</th>
-					  
+					  <th>Type</th>
+					  <th>Montant</th>
+					  <th>Commentaire</th>			  
 					</tr>
 				</thead>
                 
 				<tbody>
-			<?php 
- 			 
-				$sql = "SELECT * FROM exercice WHERE user_id = $user_id ORDER by annee_debut";
-				foreach ($pdo->query($sql) as $row) {
+			<?php 			 
+				foreach ($data as $row) {
 						echo '<tr>';
-						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
-						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
-						echo '<td>'. $row['montant_treso_initial'] . '</td>';
-						echo '<td width=auto>';
-						//echo '<a class="btn " href="conf_read.php?annee='.$row['annee_debut'].'">Lire</a>';
-						//echo '&nbsp;';                                
-						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
-						echo '&nbsp;';
-						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'&annee='.$row['annee_debut'].'">Supprimer</a>';
-						echo '</td>';
+						//if () {}
+					    echo '<td>' . $row['id'] . '</td>';
+						echo '<td>' . $row['montant'] . '</td>';
+						echo '<td>' . $row['commentaire'] . '</td>';
 						echo '</tr>';
 				}
 			}
-			Database::disconnect();
 			?>
                 </tbody>
-            </table>
-            
+            </table>          
 			</div> 	<!-- /row -->
         </div>  <!-- /span -->        			
     

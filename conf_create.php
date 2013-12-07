@@ -72,6 +72,7 @@
 			Database::disconnect();
             // On modifie la valeure de la session
             $_SESSION['exercice'] = array(
+            'id' => $data['id'],
             'annee' => $data['annee_debut'],
             'mois' => $data['mois_debut'],
             'treso' => $data['montant_treso_initial']
