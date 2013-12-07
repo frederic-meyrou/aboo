@@ -28,10 +28,12 @@
     $nom = $_SESSION['authent']['nom'];
 
 // Récupération des variables de session exercice
+    $exercice_id = null;
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
     if(isset($_SESSION['exercice'])) {
+        $exercice_id = $_SESSION['exercice']['id'];
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
@@ -73,6 +75,7 @@ function MajListeAnnee() {
 function ChargeSessionExerciceBDD($data) {
 	// MaJ SESSION
     $_SESSION['exercice'] = array(
+    'id' => $data['id'],
     'annee' => $data['annee_debut'],
     'mois' => $data['mois_debut'],
     'treso' => $data['montant_treso_initial']
@@ -99,6 +102,7 @@ function ChargeSessionExerciceBDD($data) {
             $count = $q->rowCount($sql);
             if ($count==1) { // C'est bon on a trouvé l'année dans la base on charge la session
                 ChargeSessionExerciceBDD($data);
+				$exercice_id = $data['id'];
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
     			$exercice_treso = $data['montant_treso_initial'];   			
@@ -121,6 +125,7 @@ function ChargeSessionExerciceBDD($data) {
         		$liste_annee[0] = $data['annee_debut'];
                 // MaJ SESSION
                 ChargeSessionExerciceBDD($data);
+				$exercice_id = $data['id'];				
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
     			$exercice_treso = $data['montant_treso_initial'];   								
@@ -136,6 +141,7 @@ function ChargeSessionExerciceBDD($data) {
 			if ($count==1) {
 				// MaJ SESSION
                 ChargeSessionExerciceBDD($data);
+				$exercice_id = $data['id'];				
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
     			$exercice_treso = $data['montant_treso_initial'];   
