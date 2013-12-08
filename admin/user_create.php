@@ -1,9 +1,28 @@
 <?php 
+// Vérification de l'Authent
+    session_start();
+    require('../authent.php');
+    if( !Authent::islogged()){
+        // Non authentifié on repart sur la HP
+        header('Location:../index.php');
+    }
+		
+// Dépendances
+	require_once('../fonctions.php');
+	require_once('../database.php');
 	
-	require '../database.php';
-	require '../fonctions.php';
+// Mode Debug
+	$debug = true;
 
-	if ( !empty($_POST)) {
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        	
+	if ( !empty($sPOST)) {
 		// keep track validation errors
 		$passwordError = null;
 		$nomError = null;
@@ -17,15 +36,15 @@
         $adminError = null;
 		
 		// keep track post values
-		$password = $_POST['password'];
-		$nom = $_POST['nom'];
-		$prenom = $_POST['prenom'];
-		$email = $_POST['email'];
-		$telephone = $_POST['telephone'];
-		$inscription = $_POST['inscription'];
-		$expiration = $_POST['expiration'];
-		$montant = $_POST['montant'];
-        $administrateur = $_POST['administrateur'];
+		$password = $sPOST['password'];
+		$nom = $sPOST['nom'];
+		$prenom = $sPOST['prenom'];
+		$email = $sPOST['email'];
+		$telephone = $sPOST['telephone'];
+		$inscription = $sPOST['inscription'];
+		$expiration = $sPOST['expiration'];
+		$montant = $sPOST['montant'];
+        $administrateur = $sPOST['administrateur'];
 		
 		// validate input
 		$valid = true;
@@ -103,6 +122,32 @@
     				<div class="row">
 		    			<h3>Création d'un utilisateur</h3>
 		    		</div>
+		    		
+		            <ul class="nav nav-pills">
+				          <li class="active"><a href="user.php">Administration GestAbo</a></li>
+				          <li><a href="../deconnexion.php">Deconnexion</a></li>        
+        			</ul>
+		    		
+			        <!-- Affiche les informations de debug -->
+			        <?php 
+			 		if ($debug) {
+					?>
+					<div class="span10 offset1">
+			        <div class="alert alert alert-danger alert-dismissable fade in">
+			            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			            <strong>Informations de Debug : </strong><br>
+			            SESSION:<br>
+			            <pre><?php var_dump($_SESSION); ?></pre>
+			            POST:<br>
+			            <pre><?php var_dump($_POST); ?></pre>
+			            GET:<br>
+			            <pre><?php var_dump($_GET); ?></pre>
+			        </div>
+			       </div>
+			        <?php       
+			        }   
+			        ?>  
+       		    		
 		
 	    			<form class="form-horizontal" action="user_create.php" method="post">
 					
@@ -125,7 +170,7 @@
 					  <?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone', 'tel' ); ?>
 					  <?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 					  <?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
-					  <?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'number' ); ?>
+					  <?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
                       <?php Affiche_Champ($administrateur, $adminError, '$administrateur','Admin', 'text' ); ?>					 
 					  
 					  </div>

@@ -51,11 +51,28 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 // Lecture du POST (Choix du mois)
-//    if (isset($sPOST['']) ) { // J'ai un POST
-//            $ = $sPOST[''];
-//    } else { // Je n'ai pas de POST
-//            $ = null;
-//   }
+    $montant = null;
+	$commentaire = null;
+    if (isset($sPOST['montant']) ) { // J'ai un POST
+        $montant = $sPOST['montant'];
+		$commentaire = $sPOST['commentaire'];
+		
+		// validate input
+		$valid = true;
+		if (empty($montant)) {
+			$montant = 0;
+		}
+
+		// insert data
+		if ($valid) {
+			$sql = "INSERT INTO abonnement (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
+			$q = $pdo->prepare($sql);
+			$q->execute(array($user_id, $exercice_id, $montant, $abodep_mois, $commentaire));
+			Database::disconnect();
+		}		
+		
+    } // If POST
+	
 	
 // Lecture dans la base des abonnements (sur user_id et exercice_id et mois) 
     $sql = "SELECT * FROM abonnement A WHERE
@@ -103,17 +120,13 @@
           <li><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
-               
-        <!-- Affiche le bouton de retour -->        
-		<p>
-			<a href="abodep.php" class="btn btn-success">Retour</a>
-		</p>
-        
+                      
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
 		?>
-        <div class="alert alert-error alert-dismissable fade in">
+		<div class="span10 offset1">
+        <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
@@ -123,6 +136,7 @@
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
         </div>
+       </div>
         <?php       
         }   
         ?>  
@@ -134,7 +148,7 @@
 			?>
             <div class="row">
                 <h3>Liste des abonnements du mois courant</h3>
-            </div>			
+		
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
@@ -145,21 +159,26 @@
 				</thead>
                 
 				<tbody>
-				<?php 			 
+				<?php
+					var_dump($data); 			 
 					foreach ($data as $row) {
 						echo '<tr>';
 						echo '<td>' . $row['montant'] . '</td>';
 						echo '<td>' . $row['commentaire'] . '</td>';
-					   	echo '<td width=250>';
+					   	echo '<td width=100>';
 				?>		
 						<div class="btn-group btn-group-sm">
 							<button type="button" class="btn btn-default btn-sm btn-warning">
-							  <span class="glyphicon glyphicon-edit"></span>
-							  <a href="abo_update.php?id=<?php echo $row['id']; ?>"></a>
+							  <span class="glyphicon glyphicon-edit">
+							  	<a href="abo_update.php?id=<?php echo $row['id']; ?>"></a>
+							  </span>
+							  
 							</button>	
 							<button type="button" class="btn btn-default btn-sm btn-danger">
-							  <span class="glyphicon glyphicon-trash"></span>
-							  <a href="abo_delete.php?id=<?php echo $row['id']; ?>"></a>
+							  <span class="glyphicon glyphicon-trash">
+							  	<a href="abo_delete.php?id=<?php echo $row['id']; ?>"></a>
+							  </span>
+							  
 							</button>
 						</div>
 
@@ -178,44 +197,22 @@
             <div class="row">
 	            <form class="form-inline" role="form" action="abo.php" method="post">
 	            
-	            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-	            <div class="form-group" <?php echo !empty($champError)?'error':'';?>">
-	                <label class="sr-only"><?php echo "$champplaceholder" ?></label>
-	                <div class="controls">
-	                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-	                    <?php if (!empty($champError)): ?>
-	                        <span class="help-inline"><?php echo $champError;?></span>
-	                    <?php endif; ?>
-	                </div>
-	            </div>
-	            <?php } ?>
-	       		
-	       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-	       		<?php Affiche_Champ($commmentaire, $commmentaireError, 'commmentaire','Commentaire', 'text' ); ?>
-	       		     		            
-	            </div>
-	            
-<form class="form-inline" role="form">
-  <div class="form-group">
-<label class="sr-only" for="exampleInputEmail2">Email address</label>
-<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-<label class="sr-only" for="exampleInputPassword2">Password</label>
-<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-  </div>
-  <div class="checkbox">
-<label>
-  <input type="checkbox"> Remember me
-</label>
-  </div>
-  <button type="submit" class="btn btn-default">Sign in</button>
-</form>
+		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+		            <div class="form-group" <?php echo !empty($champError)?'error':'';?>">
+		                <label class="sr-only"><?php echo "$champplaceholder" ?></label>
+		                <div class="controls">
+		                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+		                    <?php if (!empty($champError)): ?>
+		                        <span class="help-inline"><?php echo $champError;?></span>
+		                    <?php endif; ?>
+		                </div>
+		            </div>
+		            <?php } ?>
+		       		
+		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
+		       		<?php Affiche_Champ($commmentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
-	                                                
-	            <div class="form-actions">
-	              <button type="submit" class="btn btn-default">Ajout</button>
-	            </div>
+	              	<button type="submit" class="btn btn-success btn-sm">Ajout</button>
 	            </form>
             </div> 	<!-- /row -->
 			
@@ -224,18 +221,6 @@
 				<a href="abo.php" class="btn btn-success">Retour</a>
 			</p>
 			
-			
-			<!-- Test glyphicon -->
-			<div class="btn-group btn-group-sm">
-			<button type="button" class="btn btn-default btn-sm btn-warning">
-			  <span class="glyphicon glyphicon-edit"></span>
-			</button>	
-			<button type="button" class="btn btn-default btn-sm btn-danger">
-			  <span class="glyphicon glyphicon-trash"></span>
-			</button>
-			</div>
-
-
         </div>  <!-- /span -->        			
     
     </div> <!-- /container -->

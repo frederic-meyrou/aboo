@@ -94,7 +94,7 @@
         <?php 
  		if ($debug) {
 		?>
-        <div class="alert alert alert-error alert-dismissable fade in">
+        <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
@@ -115,7 +115,7 @@
 			
 			<form class="form-horizontal" action="conf_delete.php" method="post">
 			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
-			  <p class="alert alert-error">Confirmation de la suppression ?</p>
+			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
 				<div class="form-actions">
 				  <button type="submit" class="btn btn-danger">Oui</button>
 				  <a class="btn" href="conf.php">Non</a>

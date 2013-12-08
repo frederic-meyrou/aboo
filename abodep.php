@@ -114,9 +114,10 @@
           <li><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+        <br>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-horizontal" action="abodep.php" method="post">      
+        <form class="form-inline" role="form" action="abodep.php" method="post">      
             <select name="mois" class="form-control">
             <?php
                 foreach ($Liste_Mois as $m) {
@@ -128,18 +129,20 @@
             </select>
             <button type="submit" class="btn btn-success">Changer de mois</button>
         </form>
+        <br>
         
         <!-- Affiche les boutons de créations -->        
 		<p>
 			<a href="abo.php" class="btn btn-success">Création/Modification Abonnements</a>
   			<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
 		</p>
+        <br>
         
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
 		?>
-        <div class="alert alert alert-error alert-dismissable fade in">
+        <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
@@ -149,6 +152,7 @@
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
         </div>
+        <br>
         <?php       
         }   
         ?>  
@@ -162,11 +166,12 @@
             <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
             <strong><?php echo "Mois courant : " . NumToMois($mois_choisi); ?></strong> 
         </div>
+        <br>
 	    <?php       
         }   
         ?>  
         
-		<!-- Affiche la table des exercices en base sous condition -->
+		<!-- Affiche la table en base sous condition -->
 		<div class="span10">
 			<?php 
  			if ($affiche) {
@@ -201,7 +206,7 @@
 				<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
 			</p>
 			<?php 	
-			}
+			} // if
 			?>
                 </tbody>
             </table>          

@@ -59,17 +59,21 @@
           <li><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+        
+        <br>
 
         <div class="alert alert alert-success alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Bonjour <?php echo "$prenom $nom"; ?> !</strong> Bienvenue sur ton espace sécurisé GestAbo.
         </div>
         
+        <br>
+        
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
 		?>
-        <div class="alert alert alert-error alert-dismissable fade in">
+        <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
