@@ -173,7 +173,7 @@ function ChargeSessionExerciceBDD($data) {
         <!-- Affiche la navigation -->
         <ul class="nav nav-pills">
           <li><a href="home.php">Console</a></li>
-          <li><a href="abodep.php">Editer abonnements et dépenses</a></li>
+          <li><a href="abodep.php">Abonnements & Dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
