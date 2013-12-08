@@ -1,14 +1,38 @@
 <?php 
-	require '../database.php';
+// Vérification de l'Authent
+    session_start();
+    require('../authent.php');
+    if( !Authent::islogged()){
+        // Non authentifié on repart sur la HP
+        header('Location:../index.php');
+    }
+		
+// Dépendances
+	require_once('../database.php');
+	require_once('../fonctions.php');
+
+// Mode Debug
+	$debug = true;
+
+// Sécurisation POST & GET
+    foreach ($_GET as $key => $value) {
+        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+    }
+    foreach ($_POST as $key => $value) {
+        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+    }
+        	
+// GET	
 	$id = 0;
 	
-	if ( !empty($_GET['id'])) {
-		$id = $_REQUEST['id'];
+	if ( !empty($sGET['id'])) {
+		$id = $sGET['id'];
 	}
-	
-	if ( !empty($_POST)) {
+
+// POST	
+	if ( !empty($sPOST)) {
 		// keep track post values
-		$id = $_POST['id'];
+		$id = $sPOST['id'];
 		
 		// delete data
 		$pdo = Database::connect();
@@ -38,10 +62,29 @@
     				<div class="row">
 		    			<h3>Suppression Utilisateur</h3>
 		    		</div>
+
+        
+			        <!-- Affiche les informations de debug -->
+			        <?php 
+			 		if ($debug) {
+					?>
+			        <div class="alert alert alert-danger alert-dismissable fade in">
+			            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			            <strong>Informations de Debug : </strong><br>
+			            SESSION:<br>
+			            <pre><?php var_dump($_SESSION); ?></pre>
+			            POST:<br>
+			            <pre><?php var_dump($_POST); ?></pre>
+			            GET:<br>
+			            <pre><?php var_dump($_GET); ?></pre>
+			        </div>
+			        <?php       
+			        }   
+			        ?>   		    		
 		    		
 	    			<form class="form-horizontal" action="user_delete.php" method="post">
 	    			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
-					  <p class="alert alert-error">Confirmation de la suppression ?</p>
+					  <p class="alert alert-danger">Confirmation de la suppression ?</p>
 					  <div class="form-actions">
 						  <button type="submit" class="btn btn-danger">Yes</button>
 						  <a class="btn" href="user.php">No</a>

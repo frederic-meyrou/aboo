@@ -202,7 +202,7 @@ function ChargeSessionExerciceBDD($data) {
         <?php 
  		if ($debug) {
 		?>
-        <div class="alert alert alert-error alert-dismissable fade in">
+        <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
