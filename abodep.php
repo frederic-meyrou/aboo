@@ -60,6 +60,8 @@
 // Selection du mois par défaut
 	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
 		$mois_choisi = $exercice_mois;
+	} elseif ($mois_choisi == null && $abodep_mois != null) {
+		$mois_choisi = $abodep_mois;
 	} elseif ($mois_choisi == null) {
 		$mois_choisi = date('n');
 	}
@@ -127,6 +129,12 @@
             <button type="submit" class="btn btn-success">Changer de mois</button>
         </form>
         
+        <!-- Affiche les boutons de créations -->        
+		<p>
+			<a href="abo.php" class="btn btn-success">Création/Modification Abonnements</a>
+  			<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
+		</p>
+        
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -176,15 +184,23 @@
 				</thead>
                 
 				<tbody>
-			<?php 			 
-				foreach ($data as $row) {
+				<?php 			 
+					foreach ($data as $row) {
 						echo '<tr>';
-						//if () {}
+						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
 					    echo '<td>' . $row['id'] . '</td>';
 						echo '<td>' . $row['montant'] . '</td>';
 						echo '<td>' . $row['commentaire'] . '</td>';
 						echo '</tr>';
-				}
+					}
+				?>
+			 
+			<!-- Affiche les boutons de créations -->        
+			<p>
+				<a href="abo.php" class="btn btn-success">Création/Modification Abonnements</a>
+				<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
+			</p>
+			<?php 	
 			}
 			?>
                 </tbody>
