@@ -167,16 +167,64 @@
 						</tr>
 			<?php
 				   } // Foreach	
-			} // If
+			} // If Affiche
 			?>
                 </tbody>
             </table>           
 			</div> 	<!-- /row -->
+
+		<!-- Affiche le formulaire inline ajout abonnement -->			
+            <br>
+            <div class="row">
+	            <form class="form-inline" role="form" action="abo.php" method="post">
+	            
+	            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+	            <div class="form-group" <?php echo !empty($champError)?'error':'';?>">
+	                <label class="sr-only"><?php echo "$champplaceholder" ?></label>
+	                <div class="controls">
+	                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+	                    <?php if (!empty($champError)): ?>
+	                        <span class="help-inline"><?php echo $champError;?></span>
+	                    <?php endif; ?>
+	                </div>
+	            </div>
+	            <?php } ?>
+	       		
+	       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
+	       		<?php Affiche_Champ($commmentaire, $commmentaireError, 'commmentaire','Commentaire', 'text' ); ?>
+	       		     		            
+	            </div>
+	            
+<form class="form-inline" role="form">
+  <div class="form-group">
+<label class="sr-only" for="exampleInputEmail2">Email address</label>
+<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+<label class="sr-only" for="exampleInputPassword2">Password</label>
+<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+  </div>
+  <div class="checkbox">
+<label>
+  <input type="checkbox"> Remember me
+</label>
+  </div>
+  <button type="submit" class="btn btn-default">Sign in</button>
+</form>
+
+	                                                
+	            <div class="form-actions">
+	              <button type="submit" class="btn btn-default">Ajout</button>
+	            </div>
+	            </form>
+            </div> 	<!-- /row -->
 			
 			<!-- Affiche le bouton retour -->        
 			<p>
 				<a href="abo.php" class="btn btn-success">Retour</a>
 			</p>
+			
+			
 			<!-- Test glyphicon -->
 			<div class="btn-group btn-group-sm">
 			<button type="button" class="btn btn-default btn-sm btn-warning">
@@ -186,32 +234,8 @@
 			  <span class="glyphicon glyphicon-trash"></span>
 			</button>
 			</div>
-			<!-- Test Modal -->
-			<!-- Button trigger modal -->
-			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-			  Fenêtre popup
-			</button>
-			 
-			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Titre</h4>
-			      </div>
-			      <div class="modal-body">
-			        <h1>Test!</h1>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
-			        <button type="button" class="btn btn-primary">Ok</button>
-			      </div>
-			    </div><!-- /.modal-content -->
-			  </div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
 
-			
+
         </div>  <!-- /span -->        			
     
     </div> <!-- /container -->
