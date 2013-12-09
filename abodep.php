@@ -69,14 +69,14 @@
 
 // Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
     $sql = "SELECT A.id, D.id, A.montant, D.montant, A.commentaire, D.commentaire
-    		FROM abonnement A,depense D WHERE
+    		FROM abonnement AS A,depense AS D WHERE
     		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois) OR
     		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
     		";
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $mois_choisi);
     $req = $pdo->prepare($sql);
     $req->execute($q);
-    $data = $req->fetch(PDO::FETCH_ASSOC);
+    $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
     if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;              
@@ -100,6 +100,7 @@
 
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    
     <div class="container">
         <h2>Abonnement & Dépenses</h2>
         

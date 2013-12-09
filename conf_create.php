@@ -140,7 +140,7 @@
 			<form class="form-horizontal" action="conf_create.php" method="post">
 			
 			<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-			<div class="control-group <?php echo !empty($champError)?'error':'';?>">
+			<div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
 			    <label class="control-label"><?php echo "$champplaceholder" ?></label>
 			    <div class="controls">
 			      	<input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
@@ -151,7 +151,7 @@
 			</div>
 			<?php } ?>
 
-            <div class="control-group <?php echo !empty($annee_debutError)?'error':'';?>">
+            <div class="control-group <?php echo !empty($annee_debutError)?'has-error':'';?>">
                 <label class="control-label">Année de départ</label>
                 <div class="controls">
                     <input name="annee_debut" type="number" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>">

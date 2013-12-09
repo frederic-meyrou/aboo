@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -61,14 +61,14 @@
 		// validate input
 		$valid = true;
 		
-		if (empty($montant) || $montant < 0) {
-			$montantError= "Veuillez entrer un montant positif ou nul.";
+		if (empty($montant) || $montant < 0 || $montant = null) {
+			$montantError= "Veuillez entrer un montant positif.";
 			$valid = false;
 		}
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO depense (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($user_id, $exercice_id, $montant, $abodep_mois, $commentaire));
 			Database::disconnect();
@@ -81,9 +81,9 @@
     } // If POST
 	
 	
-// Lecture dans la base des abonnements (sur user_id et exercice_id et mois) 
-    $sql = "SELECT * FROM abonnement A WHERE
-    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois)
+// Lecture dans la base des depenses (sur user_id et exercice_id et mois) 
+    $sql = "SELECT * FROM depense AS D WHERE
+    		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
     		";
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
     $req = $pdo->prepare($sql);
@@ -114,7 +114,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
     <div class="container">
-        <h2>Affichage et Modification des Abonnement</h2>
+        <h2>Affichage et Modification des Dépenses</h2>
         
         <!-- Affiche la navigation -->
         <ul class="nav nav-pills">
@@ -148,13 +148,13 @@
         }   
         ?>  
         
-		<!-- Affiche la table des abonnements en base sous condition -->
+		<!-- Affiche la table des dépenses en base sous condition -->
 		<div class="span10">
 			<?php 
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des abonnements du mois courant</h3>
+                <h3>Liste des dépenses du mois courant</h3>
 		
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
@@ -174,8 +174,8 @@
 					   	echo '<td width=90>';
 				?>		
 						<div class="btn-group btn-group-sm">
-							  	<a href="abo_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-							  	<a href="abo_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+							  	<a href="dep_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+							  	<a href="dep_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
 						</div>
 
 					   	</td>						
@@ -188,10 +188,10 @@
             </table>           
 			</div> 	<!-- /row -->
 
-		<!-- Affiche le formulaire inline ajout abonnement -->			
+		<!-- Affiche le formulaire inline ajout depense -->			
             <div class="row">
-                <h3>Ajout d'un abonnements :</h3>
-	            <form class="form-inline" role="form" action="abo.php" method="post">
+                <h3>Ajout d'une dépense :</h3>
+	            <form class="form-inline" role="form" action="dep.php" method="post">
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
