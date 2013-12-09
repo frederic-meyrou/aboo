@@ -130,7 +130,7 @@
         					
 	    			<form class="form-horizontal" action="user_update.php?id=<?php echo $id?>" method="post">
                     <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-                    <div class="control-group <?php echo !empty($champError)?'error':'';?>">
+                    <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
                         <label class="control-label"><?php echo "$champplaceholder" ?></label>
                         <div class="controls">
                             <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">

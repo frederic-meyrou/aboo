@@ -152,7 +152,7 @@
 	    			<form class="form-horizontal" action="user_create.php" method="post">
 					
 					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-					<div class="control-group <?php echo !empty($champ)?'error':'';?>">
+					<div class="control-group <?php echo !empty($champ)?'has-error':'';?>">
 					    <label class="control-label"><?php echo "$champplaceholder" ?></label>
 					    <div class="controls">
 					      	<input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" placeholder="<?php echo "$champplaceholder" ?>" value="<?php echo !empty($champ)?$champ:'';?>">

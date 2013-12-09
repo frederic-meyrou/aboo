@@ -7,8 +7,11 @@
         header('Location:index.php');
     }
 
+// Dépendances
+	require_once('fonctions.php');
+
 // Mode Debug
-	$debug = true;	
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -32,7 +35,15 @@
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
+		$infos = true;
     }
+
+// Récupération des variables de session abodep
+    $abodep_mois = null;
+    if(isset($_SESSION['abodep'])) {
+        $abodep_mois = $_SESSION['abodep']['mois'];
+    }
+		
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +79,20 @@
         </div>
         
         <br>
+        
+		<!-- Affiche les informations de session -->      		
+		<?php 
+ 		if ($infos) {
+		?>
+        <div class="alert alert alert-info alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
+            <strong><?php echo "Mois courant : " . NumToMois($abodep_mois); ?></strong> 
+        </div>
+        <br>
+	    <?php       
+        }   
+        ?>          
         
         <!-- Affiche les informations de debug -->
         <?php 

@@ -45,7 +45,6 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 // Lecture du POST (Choix de l'exercice)
-    $error_annee = null;
 	if (! isset($liste_annee)) {
 		$liste_annee = array();
 	} 
@@ -167,6 +166,7 @@ function ChargeSessionExerciceBDD($data) {
 
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    
     <div class="container">
         <h2>Console</h2>
         
@@ -181,23 +181,24 @@ function ChargeSessionExerciceBDD($data) {
           <li class="active"><a href="conf.php">Configuration</a></li>
           <li><a href="deconnexion.php">Deconnexion</a></li>
         </ul>
+        <br>
         
         <!-- Affiche le dropdown formulaire année avec selection automatique de l'année en cours de la session -->
-        <form class="form-vertical" action="conf.php" method="post">      
+        <form class="form-inline" role="form" action="conf.php" method="post">      
             <select name="annee" class="form-control">
             <?php
                 foreach ($liste_annee as $a) {
             ?>
                 <option value="<?php echo "$a";?>"<?php echo ($a==$exercice_annee)?'selected':'';?>><?php echo "$a - " . ($a + 1);?></option>    
             <?php       
-                }   
+                } // foreach   
             ?>    
             </select>
-            <div class="error"><?php if(isset($error_annee)){ echo $error_annee; } ?></div>
             <button type="submit" class="btn btn-success">Changer d'année</button>
 			<a class="btn btn-success" href="conf_create.php">Créer un nouvel exercice</a>
         </form>
-        
+        <br>
+         
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
