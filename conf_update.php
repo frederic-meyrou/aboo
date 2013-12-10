@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -116,6 +116,7 @@
 
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    
     <div class="container">
         <h2>Console</h2>
         <ul class="nav nav-pills">
@@ -147,13 +148,10 @@
         }   
         ?>  
                 
-        <div class="span10 offset1">
-            <div class="row">
-                <h3>Modification d'un exercice</h3>
-            </div>
-
-            <form class="form-horizontal" action="conf_update.php" method="post">
-            
+        <h3>Modification d'un exercice</h3>
+	
+        <form class="form-horizontal" action="conf_update.php" method="post">
+        
             <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
             <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
                 <label class="control-label"><?php echo "$champplaceholder" ?></label>
@@ -172,7 +170,7 @@
                 <label class="control-label">Année de départ</label>
                 <div class="controls">
                     <input name="annee_debut" type="text" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>" readonly="readonly">
-                 </div>
+                </div>
             </div>
             
             <div class="control-group">
@@ -201,13 +199,14 @@
                     <input name="montant_treso_initial" type="text" value="<?php echo $montant_treso_initial;?>">
                 </div>
             </div>
-                                                
+            
+            <br>                                    
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Mise à jour</button>
               <a class="btn btn-success" href="conf.php">Retour</a>
             </div>
-            </form>
-        </div> <!-- /span -->      			
+        </form>
+  			
     
     </div> <!-- /container -->
   </body>

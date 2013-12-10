@@ -68,7 +68,7 @@
 		Database::disconnect();
 
 		// On repart d'ou on viens
-		header("Location: abo.php");
+		header("Location: dep.php");
 		
 	} 
 ?>
