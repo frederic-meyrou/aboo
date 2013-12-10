@@ -31,6 +31,7 @@
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
+	$infos = false;
     if(isset($_SESSION['exercice'])) {
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];

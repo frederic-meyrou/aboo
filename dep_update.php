@@ -76,7 +76,7 @@
 		// validate input
 		$valid = true;
 		
-		if (empty($montant) || $montant < 0 || $montant = null) {
+		if (empty($montant) || $montant < 0 || $montant == null) {
 			$montantError= "Veuillez entrer un montant positif.";
 			$valid = false;
 		}

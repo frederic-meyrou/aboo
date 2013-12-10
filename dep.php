@@ -61,7 +61,7 @@
 		// validate input
 		$valid = true;
 		
-		if (empty($montant) || $montant < 0 || $montant = null) {
+		if (empty($montant) || $montant < 0 || $montant == null) {
 			$montantError= "Veuillez entrer un montant positif.";
 			$valid = false;
 		}
@@ -69,9 +69,8 @@
 		// insert data
 		if ($valid) {
 			$sql = "INSERT INTO depense (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
-			$q = $pdo->prepare($sql);
+			$q = $pdo->prepare($sql);		
 			$q->execute(array($user_id, $exercice_id, $montant, $abodep_mois, $commentaire));
-			Database::disconnect();
 		}
 		
 		// Réinitialise pour le formulaire		
