@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -68,19 +68,42 @@
 	$_SESSION['abodep']['mois'] = $mois_choisi;
 
 // Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
-    $sql = "SELECT A.id, D.id, A.montant, D.montant, A.commentaire, D.commentaire
-    		FROM abonnement AS A,depense AS D WHERE
-    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois) OR
-    		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
+    $sql = "(SELECT id, montant, commentaire FROM abonnement WHERE
+    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
+    		UNION
+    		(SELECT id, montant * -1, commentaire FROM depense WHERE
+    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
+    		ORDER BY id
+    		";
+// Requette pour calcul de la somme			
+	$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
+    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
+    		UNION
+    		(SELECT SUM(montant * -1) FROM depense WHERE
+    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
     		";
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $mois_choisi);
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
+	$req = $pdo->prepare($sql2);
+	$req->execute($q);
+	$data2 = $req->fetchAll(PDO::FETCH_ASSOC);
     if ($count==0) { // Il n'y a rien à afficher
-        $affiche = false;              
-    } else {   
+        $affiche = false;       
+    	$_SESSION['abodep']['total_recettes'] = 0;
+		$_SESSION['abodep']['total_depenses'] = 0;
+		$_SESSION['abodep']['solde'] = 0;       
+    } else {
+    		// Calcul des sommes
+	        $total_recettes= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0;  
+    		$total_depenses= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
+	        $solde = $total_recettes + $total_depenses;
+			$_SESSION['abodep']['total_recettes'] = $total_recettes;
+			$_SESSION['abodep']['total_depenses'] = $total_depenses;
+			$_SESSION['abodep']['solde'] = $solde;
+	        
 	        // On affiche le tableau
 	        $affiche = true;
     }
@@ -199,18 +222,18 @@
 						echo '<td>' . $row['commentaire'] . '</td>';
 						echo '</tr>';
 					}
-				?>
-			 
-			<!-- Affiche les boutons de créations -->        
-			<p>
-				<a href="abo.php" class="btn btn-success">Création/Modification Abonnements</a>
-				<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
-			</p>
+				?>						 
 			<?php 	
 			} // if
 			?>
                 </tbody>
-            </table>          
+            </table>
+            <!-- Affiche les sommmes -->        
+			<p>
+				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
+				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
+				<button type="button" class="btn btn-info">Solde : <?php echo $solde; ?> €</button>
+			</p>          
 			</div> 	<!-- /row -->
         </div>  <!-- /span -->        			
     

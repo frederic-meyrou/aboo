@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -84,14 +84,23 @@
     $sql = "SELECT * FROM depense AS D WHERE
     		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
     		";
+// Requette pour calcul de la somme	
+    $sql2 = "SELECT SUM(montant) FROM depense A WHERE
+    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois)
+    		";	
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
+	$req = $pdo->prepare($sql2);
+    $req->execute($q);
+    $data2 = $req->fetch(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
     if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;              
     } else {   
+    		// Calcul des sommes
+    		$total_depenses= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
 	        // On affiche le tableau
 	        $affiche = true;
     }
@@ -184,17 +193,20 @@
 			} // If Affiche
 			?>
                 </tbody>
-            </table>           
+            </table>
+            <!-- Affiche les sommmes -->        
+			<p>
+				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
+			</p>             
 			</div> 	<!-- /row -->
 
 		<!-- Affiche le formulaire inline ajout depense -->			
             <div class="row">
                 <h3>Ajout d'une dépense :</h3>
 	            <form class="form-inline" role="form" action="dep.php" method="post">
-	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-		                    	<input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
+		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
 		                    <?php if (!empty($champError)): ?>
 		                     		<span class="help-inline"><?php echo $champError;?></span>
 		                    <?php endif; ?>		            
@@ -205,8 +217,10 @@
 
 	              	<button type="submit" class="btn btn-success btn-sm">Ajout</button>
 	            </form>
-            </div> 	<!-- /row -->
-			
+            </div> 	<!-- /row -->		
+            <script type="text/javascript">
+				document.getElementById('montant').focus();
+			</script>
 			<!-- Affiche le bouton retour -->
 			<br>        
 			<p>
