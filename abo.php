@@ -55,7 +55,9 @@
 	$commentaire = null;
 	$montantError = null;	
     if (isset($sPOST['montant']) ) { // J'ai un POST
+        $type = $sPOST['type'];        
         $montant = $sPOST['montant'];
+        $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
 		
 		// validate input
@@ -65,29 +67,30 @@
 			$montantError= "Veuillez entrer un montant positif ou nul.";
 			$valid = false;
 		}
+		
+		// Verification de la periodicitee
+		
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire) values(?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $montant, $abodep_mois, $commentaire));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $periodicitee, $commentaire));
 			Database::disconnect();
 		}
 		
-		// Réinitialise pour le formulaire		
-		$montant = null;
-		$commentaire = null;
-		//$sPOST=array();
+		// Réinitialise le formulaire		
+		header("Location: abo.php");
     } // If POST
 	
 	
 // Lecture dans la base des abonnements (sur user_id et exercice_id et mois) 
-    $sql = "SELECT * FROM abonnement A WHERE
-    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois)
+    $sql = "SELECT * FROM abonnement WHERE
+    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
 // Requette pour calcul de la somme	
-    $sql2 = "SELECT SUM(montant) FROM abonnement A WHERE
-    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois)
+    $sql2 = "SELECT SUM(montant) FROM abonnement WHERE
+    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";			
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
     $req = $pdo->prepare($sql);
@@ -163,22 +166,26 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des abonnements du mois courant</h3>
+                <h3>Liste des abonnements du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
 		
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
+					  <th>Type</th>
 					  <th>Montant</th>
+					  <th>Périodicitée</th>
 					  <th>Commentaire</th>
-					  <th>Action</th>					  			  
+					  <th>Action</th>
 					</tr>
 				</thead>
                 
 				<tbody>
 				<?php		 
 					foreach ($data as $row) {
-						echo '<tr>';
-						echo '<td>' . $row['montant'] . '</td>';
+						echo '<tr>';					
+						echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+						echo '<td>' . $row['montant'] . ' €</td>';
+						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';						
 						echo '<td>' . $row['commentaire'] . '</td>';
 					   	echo '<td width=90>';
 				?>		
@@ -203,7 +210,7 @@
 
 		<!-- Affiche le formulaire inline ajout abonnement -->			
             <div class="row">
-                <h3>Ajout d'un abonnements :</h3>
+                <h3>Ajout d'un abonnement :</h3>
 	            <form class="form-inline" role="form" action="abo.php" method="post">
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
@@ -214,7 +221,29 @@
 		                    <?php endif; ?>		            
 		       				</div>
 		            <?php } ?>
+		            <div class="form-group">
+		                    <select name="type" class="form-control">
+				            <?php
+				                foreach ($Liste_Recette as $r) {
+				            ?>
+				                <option value="<?php echo TypeRecetteToNum($r);?>"><?php echo $r;?></option>    
+				            <?php 
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>		      
 		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
+		            <div class="form-group">
+		                    <select name="periodicitee" class="form-control">
+				            <?php
+				                foreach ($Liste_Periodicitee as $p) {
+				            ?>
+				                <option value="<?php echo PeriodiciteeToNum($p);?>"><?php echo $p;?></option>    
+				            <?php
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>			       		
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
 	              	<button type="submit" class="btn btn-success btn-sm">Ajout</button>

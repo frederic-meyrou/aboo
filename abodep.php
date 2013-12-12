@@ -68,12 +68,12 @@
 	$_SESSION['abodep']['mois'] = $mois_choisi;
 
 // Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
-    $sql = "(SELECT id, montant, commentaire FROM abonnement WHERE
+    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM abonnement WHERE
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		UNION
-    		(SELECT id, montant * -1, commentaire FROM depense WHERE
+    		(SELECT date_creation, type, montant * -1, commentaire, periodicitee FROM depense WHERE
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
-    		ORDER BY id
+    		ORDER BY date_creation
     		";
 // Requette pour calcul de la somme			
 	$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
@@ -201,12 +201,13 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des abonnements et des dépenses du mois courant</h3>
+                <h3>Liste des abonnements et des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
             </div>			
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
-					  <th>Type</th>
+					  <th>Date</th>
+					  <th>Type</th>					  
 					  <th>Montant</th>
 					  <th>Commentaire</th>			  
 					</tr>
@@ -217,15 +218,17 @@
 					foreach ($data as $row) {
 						echo '<tr>';
 						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
-					    echo '<td>' . $row['id'] . '</td>';
-						echo '<td>' . $row['montant'] . '</td>';
+					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
+						if (!empty($row['periodicitee'])) {
+					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+						} else {
+					    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
+						}						
+						echo '<td>' . $row['montant'] . ' €</td>';
 						echo '<td>' . $row['commentaire'] . '</td>';
 						echo '</tr>';
 					}
 				?>						 
-			<?php 	
-			} // if
-			?>
                 </tbody>
             </table>
             <!-- Affiche les sommmes -->        
@@ -235,6 +238,9 @@
 				<button type="button" class="btn btn-info">Solde : <?php echo $solde; ?> €</button>
 			</p>          
 			</div> 	<!-- /row -->
+			<?php 	
+			} // if
+			?>
         </div>  <!-- /span -->        			
     
     </div> <!-- /container -->

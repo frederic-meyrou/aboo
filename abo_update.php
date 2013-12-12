@@ -70,8 +70,10 @@
                         
         // keep track post values
         $id = $sPOST['id']; 
-        $montant = $sPOST['montant']; 
-        $commentaire = $sPOST['commentaire'];
+        //$type = $sPOST['type'];        
+        $montant = $sPOST['montant'];
+        $periodicitee = $sPOST['periodicitee'];
+		$commentaire = $sPOST['commentaire'];
 		
 		// validate input
 		$valid = true;
@@ -83,9 +85,9 @@
            
         // Modif des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE abonnement SET montant=?,commentaire=? WHERE id = ?";
+            $sql = "UPDATE abonnement SET montant=?,commentaire=?, periodicitee=? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($montant, $commentaire, $id));
+            $q->execute(array($montant, $commentaire, $periodicitee, $id));
             Database::disconnect();        
             header("Location: abo.php");
         }       
@@ -99,7 +101,9 @@
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $id = $data['id'];   		
 		$montant = $data['montant'];
-        $commentaire = $data['commentaire'];     
+        $commentaire = $data['commentaire'];
+		$type = $data['type'];
+		$periodicitee = $data['periodicitee'];     
         Database::disconnect();                
     }
     
@@ -151,32 +155,47 @@
         <div class="span10 offset1">
             <div class="row">
                 <h3>Modification d'un abonnement</h3>
-            </div>
 
-            <form class="form-horizontal" action="abo_update.php" method="post">
-            
-            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-            <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
-                <label class="control-label"><?php echo "$champplaceholder" ?></label>
-                <div class="controls">
-                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-                    <?php if (!empty($champError)): ?>
-                        <span class="help-inline"><?php echo $champError;?></span>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php } ?>
-       		
-       		<input type="hidden" name="id" value="<?php echo $id; ?>">
-       		
-       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
-       		<?php Affiche_Champ($commentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
-                                                
-            <div class="form-actions">
-              <button type="submit" class="btn btn-success">Mise à jour</button>
-              <a class="btn btn-success" href="abo.php">Retour</a>
-            </div>
-            </form>
+	            <form class="form-horizontal" action="abo_update.php" method="post">
+	            
+		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+		            <div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+		                <label class="control-label"><?php echo "$champplaceholder" ?></label>
+		                <div class="controls">
+		                    <input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+		                    <?php if (!empty($champError)): ?>
+		                        <span class="help-inline"><?php echo $champError;?></span>
+		                    <?php endif; ?>
+		                </div>
+		            </div>
+		            <?php } ?>
+		       		
+		       		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		       		
+		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
+		            <div class="form-group">
+		            		<label class="control-label">Périodicitée</label>
+		                    <select name="periodicitee" class="form-control">
+				            <?php
+				                foreach ($Liste_Periodicitee as $p) {
+				            ?>
+				                <option value="<?php echo PeriodiciteeToNum($p);?>"<?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>> 
+				                	<?php echo $p;?>
+				                </option>    
+				            <?php
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>			   
+		    		<?php Affiche_Champ($commentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
+		    		<br>
+		                                                
+		            <div class="form-actions">
+		              <button type="submit" class="btn btn-success">Mise à jour</button>
+		              <a class="btn btn-success" href="abo.php">Retour</a>
+		            </div>
+	            </form>
+	        </div> <!-- /row -->      			
         </div> <!-- /span -->      			
     
     </div> <!-- /container -->
