@@ -85,7 +85,7 @@
                       <?php 
                                 echo '<tr>';
                                 echo '<td>'. $annee . ' - ' . ($annee + 1) . '</td>';
-                                echo '<td>'. Mois($mois) . '</td>';
+                                echo '<td>'. NumToMois($mois) . '</td>';
                                 echo '<td>'. $treso . '</td>';
                                 echo '</tr>';
                       ?>

@@ -57,6 +57,7 @@
     if (isset($sPOST['montant']) ) { // J'ai un POST
         $montant = $sPOST['montant'];
 		$commentaire = $sPOST['commentaire'];
+		$type = $sPOST['type'];    
 		
 		// validate input
 		$valid = true;
@@ -68,25 +69,23 @@
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO depense (user_id,exercice_id,montant,mois,commentaire) values(?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO depense (user_id,exercice_id,type,montant,mois,commentaire) values(?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);		
-			$q->execute(array($user_id, $exercice_id, $montant, $abodep_mois, $commentaire));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $commentaire));
 		}
 		
 		// Réinitialise pour le formulaire		
-		$montant = null;
-		$commentaire = null;
-		//$sPOST=array();
+		header("Location: dep.php");
     } // If POST
 	
 	
 // Lecture dans la base des depenses (sur user_id et exercice_id et mois) 
-    $sql = "SELECT * FROM depense AS D WHERE
-    		(D.user_id = :userid AND D.exercice_id = :exerciceid AND D.mois = :mois)
+    $sql = "SELECT * FROM depense WHERE
+    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
 // Requette pour calcul de la somme	
-    $sql2 = "SELECT SUM(montant) FROM depense A WHERE
-    		(A.user_id = :userid AND A.exercice_id = :exerciceid AND A.mois = :mois)
+    $sql2 = "SELECT SUM(montant) FROM depense WHERE
+    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";	
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
     $req = $pdo->prepare($sql);
@@ -162,12 +161,13 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des dépenses du mois courant</h3>
+                <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
 		
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
-					  <th>Montant</th>
+					  <th>Type</th>
+  					  <th>Montant</th>
 					  <th>Commentaire</th>
 					  <th>Action</th>					  			  
 					</tr>
@@ -177,7 +177,8 @@
 				<?php		 
 					foreach ($data as $row) {
 						echo '<tr>';
-						echo '<td>' . $row['montant'] . '</td>';
+						echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
+						echo '<td>' . $row['montant'] . ' €</td>';
 						echo '<td>' . $row['commentaire'] . '</td>';
 					   	echo '<td width=90>';
 				?>		
@@ -212,6 +213,17 @@
 		                    <?php endif; ?>		            
 		       				</div>
 		            <?php } ?>
+		            <div class="form-group">
+		                    <select name="type" class="form-control">
+				            <?php
+				                foreach ($Liste_Depense as $d) {
+				            ?>
+				                <option value="<?php echo TypeDepenseToNum($d);?>"><?php echo $d;?></option>    
+				            <?php 
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>		      		            
 		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 

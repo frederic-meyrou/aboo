@@ -37,37 +37,84 @@ function MoisToNum($nom_mois)
     }
 }    
 
-// Transforme un numéro de mois en nom de mois (null si mois invalide)
-function Mois( $numois )
+// Tableau avec liste des recettes
+$Liste_Recette = array(1 => 'Abonnement','Revente','Location','Autre recette');
+
+
+// Transforme un numéro de type en libelle de recette 
+function NumToTypeRecette($type)
 {
-	switch ($numois) {
-	    case 1:
-	        return 'Janvier';
-	    case 2:
-	        return 'Février';
-	    case 3:
-	        return 'Mars';    
-	    case 4:
-	        return 'Avril';
-	    case 5:
-	        return 'Mai';
-	    case 6:
-	        return 'Juin';
-	    case 7:
-	        return 'Juiller';
-	    case 8:
-	        return 'Août';
-	    case 9:
-	        return 'Septembre';																					
-	    case 10:
-	        return 'Octobre';
-	    case 11:
-	        return 'Novembre';
-	    case 12:
-	        return 'Décembre';
-		default:
-			return null;	
-	}		
+	if (!$type == null) {
+        global $Liste_Recette;
+        return $Liste_Recette[$type];
+    } else {
+        return null;
+    }		
+}
+
+// Transforme un numero de type recette en libellé
+function TypeRecetteToNum($recette)
+{
+    if (empty($recette) || $recette == null) {
+        return null;
+    } else {
+    	global $Liste_Recette;
+		$array = array_keys($Liste_Recette,$recette);
+    	return $array[0]; 		
+    }
+}
+
+// Tableau avec liste des depenses
+$Liste_Depense = array(1 => 'Frais','Achat','Charges sociales','Impôt');
+
+// Transforme un numéro de type en libelle de depense 
+function NumToTypeDepense($type)
+{
+	if (!$type == null) {
+        global $Liste_Depense;
+        return $Liste_Depense[$type];
+    } else {
+        return null;
+    }		
+}
+
+// Transforme un numero de type depense en libellé
+function TypeDepenseToNum($depense)
+{
+    if (empty($depense) || $depense == null) {
+        return null;
+    } else {
+    	global $Liste_Depense;
+		$array = array_keys($Liste_Depense,$depense);
+    	return $array[0]; 		
+    }
+}
+
+// Tableau avec liste des periodicitee
+$Liste_Periodicitee = array(1 => 'Ponctuel', 2 => 'Bi-Mensuel', 3 => 'Trimestriel', 6 => 'Semestriel', 12 => 'Annuel');
+
+
+// Transforme un numéro de type en libelle de recette 
+function NumToPeriodicitee($num)
+{
+	if (!$num == null) {
+        global $Liste_Periodicitee;
+        return $Liste_Periodicitee[$num];
+    } else {
+        return null;
+    }		
+}
+
+// Transforme un numero de type recette en libellé
+function PeriodiciteeToNum($periode)
+{
+    if (empty($periode) || $periode == null) {
+        return null;
+    } else {
+    	global $Liste_Periodicitee;
+		$array = array_keys($Liste_Periodicitee,$periode);
+    	return $array[0]; 		
+    }
 }
 
 // Initialise un tableau de ventilation sur 12 mois

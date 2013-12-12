@@ -72,6 +72,7 @@
         $id = $sPOST['id']; 
         $montant = $sPOST['montant']; 
         $commentaire = $sPOST['commentaire'];
+		$type = $sPOST['type'];
 		
 		// validate input
 		$valid = true;
@@ -83,9 +84,9 @@
            
         // Modif des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE depense SET montant=?,commentaire=? WHERE id = ?";
+            $sql = "UPDATE depense SET montant=?,commentaire=?, type=? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($montant, $commentaire, $id));
+            $q->execute(array($montant, $commentaire, $type, $id));
             Database::disconnect();        
             header("Location: dep.php");
         }       
@@ -99,7 +100,8 @@
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $id = $data['id'];   		
 		$montant = $data['montant'];
-        $commentaire = $data['commentaire'];     
+        $commentaire = $data['commentaire'];
+		$type = $data['type'];     
         Database::disconnect();                
     }
     
@@ -151,32 +153,46 @@
         <div class="span10 offset1">
             <div class="row">
                 <h3>Modification d'une dépense</h3>
-            </div>
 
-            <form class="form-horizontal" action="dep_update.php" method="post">
-            
-            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-            <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
-                <label class="control-label"><?php echo "$champplaceholder" ?></label>
-                <div class="controls">
-                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-                    <?php if (!empty($champError)): ?>
-                        <span class="help-inline"><?php echo $champError;?></span>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php } ?>
-       		
-       		<input type="hidden" name="id" value="<?php echo $id; ?>">
-       		
-       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
-       		<?php Affiche_Champ($commentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
-                                                
-            <div class="form-actions">
-              <button type="submit" class="btn btn-success">Mise à jour</button>
-              <a class="btn btn-success" href="dep.php">Retour</a>
-            </div>
-            </form>
+	            <form class="form-horizontal" action="dep_update.php" method="post">
+	            
+		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+		            <div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+		                <label class="control-label"><?php echo "$champplaceholder" ?></label>
+		                <div class="controls">
+		                    <input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+		                    <?php if (!empty($champError)): ?>
+		                        <span class="help-inline"><?php echo $champError;?></span>
+		                    <?php endif; ?>
+		                </div>
+		            </div>
+		            <?php } ?>
+		       		
+		       		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		       		
+		            <div class="form-group">
+		            		<label class="control-label">Type</label>
+		                    <select name="type" class="form-control">
+				            <?php
+				                foreach ($Liste_Depense as $d) {
+				            ?>
+				                <option value="<?php echo TypeDepenseToNum($d);?>"<?php echo (TypeDepenseToNum($d)==$type)?'selected':'';?>> 
+				                	<?php echo $d;?>
+				                </option>    
+				            <?php
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>	
+        		    <?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
+		       		<?php Affiche_Champ($commentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
+		                                                
+		            <div class="form-actions">
+		              <button type="submit" class="btn btn-success">Mise à jour</button>
+		              <a class="btn btn-success" href="dep.php">Retour</a>
+		            </div>
+	            </form>
+        	</div> <!-- /row -->      			           
         </div> <!-- /span -->      			
     
     </div> <!-- /container -->
