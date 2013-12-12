@@ -7,7 +7,7 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
     $token = sha1(uniqid(rand()));
 
     $q = array('prenom'=>$prenom, 'email'=>$email, 'password'=>$password, 'token'=>$token);
-    $sql = 'INSERT INTO users (prenom, email, password, token) VALUES (:prenom, :email, :password, :token)';
+    $sql = 'INSERT INTO user (prenom, nom, email, telephone, password, inscription, token) VALUES (:prenom, :nom, :email, :telephone, :password, :inscription :token)';
     $req = $cnx->prepare($sql);
     $req->execute($q);
     //Envoyer un mail pour la validation du compte
@@ -15,7 +15,7 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
     $sujet = 'Activation de votre compte';
     $body = '
     Bonjour, veuillez activer votre compte en cliquant ici ->
-    <a href="http://localhost/Tutoriels/PHP-Gestion_Membres/activate.php?token='.$token.'&email='.$to.'">Activation du compte</a>';
+    <a href="http://localhost/gestabo/activate.php?token='.$token.'&email='.$to.'">Activation du compte</a>';
     $entete = "MIME-Version: 1.0\r\n";
     $entete .= "Content-type: text/html; charset=UTF-8\r\n";
     $entete .= 'From: CreatiQ.FR ::' . "\r\n" .
@@ -23,10 +23,13 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
     'X-Mailer: PHP/' . phpversion();
 
     mail($to,$sujet,$body,$entete);
-}else{
-    if(!empty($_POST) && strlen($_POST['prenom'])<4){
-        $error_prenom = ' Votre prenom doit comporter au minimun 4 caracteres !';
+} else {
+    if(!empty($_POST[nom])){
+        $error_nom = 'Veuillez renseigner votre nom';
     }
+    if(!empty($_POST)[prenom]){
+        $error_prenom = 'Veuillez renseigner votre prénom';
+    }	
     if(!empty($_POST) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
         $error_email = ' Votre Email n\'est pas valide !';
     }

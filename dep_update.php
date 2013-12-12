@@ -59,11 +59,7 @@
         
 // Lecture et validation du POST
     if ( !empty($sPOST)) {
-
-        // Init base
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+       
         // keep track validation errors
         $montantError = null;
 		$commentaireError = null;

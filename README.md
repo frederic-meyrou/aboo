@@ -1,4 +1,3 @@
 GESTABO
 =============
-GestABO est un test de développement en PHP avec PW CodeIgniter et plugin GroceryCRUDE
-                                            avec le FW BootStrap
+GestABO est un développement en PHP avec le FW BootStrap
