@@ -82,6 +82,9 @@
 			$montantError= "Veuillez entrer un montant positif ou nul.";
 			$valid = false;
 		}
+
+		// Verification de la periodicitee		
+		
            
         // Modif des données en base et redirection vers appelant
         if ($valid) {

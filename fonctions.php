@@ -117,36 +117,27 @@ function PeriodiciteeToNum($periode)
     }
 }
 
-// Initialise un tableau de ventilation sur 12 mois
-function InitialsationVentilation() {
-    global $ArrayVENTILLATION;
-    $ArrayVENTILLATION = array (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);    
-} 
-
-// 
-function Ventillation($mois, $montant, $nombre) {
+// Ventille le montant d'un abonnement périodique depusi le mois courant sur le nombre de mois de la periodicitee 
+function Ventillation($mois, $montant, $periodicitee) {
     // Vérifications
     if ($mois < 1 or $mois > 12) {
         error_log("Erreur : variable mois invalide.", 3, "./erreur.log");  
         return NULL;
     }
-    if ($nombre < 0 or $nombre > 12 ) {
-        error_log("Erreur : variable nombre invalide.", 3, "./erreur.log");  
+    if ($periodicitee < 0 or $periodicitee > 12 ) {
+        error_log("Erreur : variable periodicitee invalide.", 3, "./erreur.log");  
         return NULL;
     }
-    if (($nombre+$mois-1) > 12 ) {
-        error_log("Erreur : variable nombre trop grande.", 3, "./erreur.log");  
+    if (($periodicitee+$mois-1) > 12 ) {
+        error_log("Erreur : variable periodicitee trop grande.", 3, "./erreur.log");  
         return NULL;
-    }
-    
+    }	
+    $ArrayVENTILLATION = array (1 => 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);        
     // Ventille le montant dans un tableau annuel 
-    InitialsationVentilation();
-    $MontantMensuel = $montant / $nombre;
-    for ($i = $mois; $i <= ($nombre+$mois-1); $i++) {
+    $MontantMensuel = $montant / $periodicitee;
+    for ($i = $mois; $i <= ($periodicitee+$mois-1); $i++) {
         $ArrayVENTILLATION[$i] = $MontantMensuel;
     }
-    // Debug
-    print_r($ArrayVENTILLATION);
     // Retourne un Array 
     return $ArrayVENTILLATION; 
 }

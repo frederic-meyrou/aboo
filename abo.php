@@ -69,7 +69,11 @@
 		}
 		
 		// Verification de la periodicitee
-		
+		if (($abodep_mois + $periodicitee - 1 ) > 12) { // La périodicitee est superieure a l'année
+			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
+			$valid = false;			
+		}
+		$ventillation = Ventillation($abodep_mois, $montant, $periodicitee);
 
 		// insert data
 		if ($valid) {
