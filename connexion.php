@@ -1,53 +1,74 @@
 <?php
-session_start();
-?>
-<?php
-include 'database.php';
+	session_start();
 
-// Sécurisation POST & GET
+	// Dépendances
+	include 'database.php';
+
+	// Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
         $sGET[$key]=htmlentities($value, ENT_QUOTES);
     }
     foreach ($_POST as $key => $value) {
         $sPOST[$key]=htmlentities($value, ENT_QUOTES);
     }
-        
-// Le Formulaire est rempli
-if (isset($sPOST['email']) && isset($sPOST['password'])) {
-    $email = $sPOST['email'];
-    $password = $sPOST['password'];
-    // Lecture dans la base
+
+	// Init BDD
     $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "SELECT * FROM user WHERE email = ? AND password = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($email,$password));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-    $count = $q->rowCount($sql);
-    Database::disconnect();   
-    if ($count==1) {
-        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
-        $_SESSION['authent'] = array(
-            'id' => $data['id'],
-            'email' => $email,
-            'password' => $password,
-            'nom' => $data['nom'],
-            'prenom' => $data['prenom'],
-            'expiration' => $data['expiration'],
-            'admin' => $data['administrateur']
-            );        
-        if ($_SESSION['authent']['admin']==1) {
-        // Cas ou l'utilisateur est Admin, redirection vers page admin
-        header('Location:admin/user.php');            
-        } else {
-        // Redirection vers la home sécurisé            
-        header('Location:home.php');
-        }
-    } else {
-        //Utilisateur inconnu
-        $error_unknown = 'Compte $email inconnu ou mot de passe invalide!';
-    }  
-}
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);        
+
+    // Le Formulaire est rempli
+	if (isset($sPOST['email']) && isset($sPOST['password'])) {
+	    $email = $sPOST['email'];
+	    $password = $sPOST['password'];
+	    // Lecture dans la base
+	    $sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+	    $q = $pdo->prepare($sql);
+	    $q->execute(array($email,$password));
+	    $data = $q->fetch(PDO::FETCH_ASSOC);
+	    $count = $q->rowCount($sql);
+
+	    if ($count==1) {
+	        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
+	        $_SESSION['authent'] = array(
+	            'id' => $data['id'],
+	            'email' => $email,
+	            'password' => $password,
+	            'nom' => $data['nom'],
+	            'prenom' => $data['prenom'],
+	            'expiration' => $data['expiration'],
+	            'admin' => $data['administrateur']
+	            );        
+	        if ($_SESSION['authent']['admin']==1) {
+		        // Cas ou l'utilisateur est Admin, redirection vers page admin
+				Database::disconnect();     	
+		        header('Location:admin/user.php');            
+	        } else {
+		        // On charge les infos de session mois en cours si déjà enregistré
+				if ($data['mois_encours'] != null) {
+					$_SESSION['abodep']['mois'] = $data['mois_encours'];
+				}	        	         	
+		        // On charge les infos exercice de session si déjà enregistré
+				if ($data['exerciceid_encours'] != null) {
+			        $sql2 = "SELECT * FROM exercice where id = ?";
+			        $q = $pdo->prepare($sql2);
+			        $q->execute(array($data['exerciceid_encours']));
+			        $data2 = $q->fetch(PDO::FETCH_ASSOC);
+					$_SESSION['exercice'] = array(
+		                'id' => $data['exerciceid_encours'],
+		                'annee' => $data2['annee_debut'],
+		                'mois' => $data2['mois_debut'],
+		                'treso' => $data2['montant_treso_initial']
+	                );         
+				}	
+				Database::disconnect();     	
+		        // Redirection vers la home sécurisé            
+		        header('Location:home.php');
+	        }
+	    } else {
+	        //Utilisateur inconnu
+	        $error_unknown = 'Compte $email inconnu ou mot de passe invalide!';
+	    }  
+	}
 ?>
 
 <!DOCTYPE html>

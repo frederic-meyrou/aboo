@@ -11,7 +11,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -111,6 +111,10 @@ function ChargeSessionExerciceBDD($data) {
         } else { // On a conservé la même année que la session
             MajListeAnnee();
         }
+		// On met à jour la BDD pour les champs encours
+        $sql = "UPDATE user SET exerciceid_encours=? WHERE id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($exercice_id, $user_id));	
         // On affiche le formulaire et l'exercice en cours
         $affiche = true;
         $infos = true;         
@@ -130,7 +134,7 @@ function ChargeSessionExerciceBDD($data) {
     			$exercice_treso = $data['montant_treso_initial'];   								
 				$affiche = true;
 				$infos = true;
-        } else { // On est ds le cas ou on une liste de valeure en base
+        } else { // On est ds le cas ou on a une liste de valeure en base
 			MajListeAnnee();
 			$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = YEAR(NOW())"; 
 			$q = $pdo->prepare($sql);
