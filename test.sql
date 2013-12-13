@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: 127.0.0.1
--- Généré le: Jeu 12 Décembre 2013 à 13:16
+-- Généré le: Ven 13 Décembre 2013 à 18:33
 -- Version du serveur: 5.6.11
 -- Version de PHP: 5.5.3
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `abonnement` (
   `type` varchar(20) DEFAULT NULL,
   `periodicitee` smallint(6) NOT NULL DEFAULT '1',
   `montant` decimal(10,2) DEFAULT NULL,
-  `mois` int(11) DEFAULT NULL COMMENT '1..12',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '1..12',
   `commentaire` varchar(1024) DEFAULT NULL,
   `mois_1` decimal(10,2) NOT NULL DEFAULT '0.00',
   `mois_2` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `abonnement` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_abonnement_user1_idx` (`user_id`),
   KEY `fk_abonnement_exercice1_idx` (`exercice_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 --
 -- Vider la table avant d'insérer `abonnement`
@@ -88,7 +88,9 @@ INSERT INTO `abonnement` (`id`, `user_id`, `exercice_id`, `client_id`, `type`, `
 (0000000032, 6, 15, 0, '1', 2, '111.00', 1, 'bimensuel', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:06:20'),
 (0000000034, 6, 15, 0, '1', 6, '222.00', 1, 'Test semestre', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:24:08'),
 (0000000035, 6, 15, 0, '1', 3, '30.00', 1, 'test trimestre', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:37:06'),
-(0000000036, 6, 15, 0, '4', 1, '1.00', 1, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:39:52');
+(0000000036, 6, 15, 0, '4', 1, '1.00', 1, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:39:52'),
+(0000000038, 6, 15, 0, '1', 3, '300.00', 1, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 15:32:34'),
+(0000000039, 6, 15, 0, '1', 3, '3000.00', 10, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 16:14:56');
 
 -- --------------------------------------------------------
 
@@ -100,7 +102,7 @@ DROP TABLE IF EXISTS `ca`;
 CREATE TABLE IF NOT EXISTS `ca` (
   `user_id` int(11) NOT NULL,
   `exercice_id` int(11) NOT NULL,
-  `mois` smallint(6) DEFAULT NULL COMMENT '1..12',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '1..12',
   `total_abonnements` decimal(10,2) DEFAULT NULL,
   `total_charges` decimal(10,2) DEFAULT NULL,
   `salaire` decimal(10,2) DEFAULT NULL,
@@ -123,7 +125,7 @@ DROP TABLE IF EXISTS `ca_mensuel`;
 CREATE TABLE IF NOT EXISTS `ca_mensuel` (
   `user_id` int(11) NOT NULL,
   `exercice_id` int(11) NOT NULL,
-  `mois` smallint(6) DEFAULT NULL COMMENT '1..12',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '1..12',
   `total_abonnements` decimal(10,2) DEFAULT NULL,
   `total_charges` decimal(10,2) DEFAULT NULL,
   `salaire` decimal(10,2) DEFAULT NULL,
@@ -150,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `depense` (
   `type` varchar(20) NOT NULL,
   `montant` decimal(10,2) DEFAULT NULL,
   `periodicitee` smallint(6) DEFAULT NULL,
-  `mois` smallint(6) DEFAULT NULL COMMENT '1..12',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '1..12',
   `commentaire` varchar(1024) DEFAULT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -181,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `encaissement` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `abonnement_id` int(10) DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL,
-  `mois` smallint(6) DEFAULT NULL COMMENT '(1..12)',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '(1..12)',
   `type` varchar(45) DEFAULT NULL,
   `compte` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -233,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `paiement` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `abonnement_id` int(11) unsigned zerofill DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL,
-  `mois` smallint(6) DEFAULT NULL COMMENT '(1..12)',
+  `mois` tinyint(4) DEFAULT NULL COMMENT '(1..12)',
   `type` varchar(45) DEFAULT NULL,
   `encaissement` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -248,25 +250,6 @@ TRUNCATE TABLE `paiement`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `session`
---
-
-DROP TABLE IF EXISTS `session`;
-CREATE TABLE IF NOT EXISTS `session` (
-  `user_id` int(11) NOT NULL,
-  `annee` year(4) NOT NULL,
-  `mois` smallint(6) NOT NULL,
-  `treso` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Vider la table avant d'insérer `session`
---
-
-TRUNCATE TABLE `session`;
--- --------------------------------------------------------
-
---
 -- Structure de la table `user`
 --
 
@@ -277,17 +260,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `nom` varchar(45) DEFAULT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(20) DEFAULT NULL,
-  `password` varchar(12) NOT NULL,
+  `password` varchar(20) NOT NULL,
   `inscription` date DEFAULT NULL,
+  `actif` tinyint(4) NOT NULL DEFAULT '0',
+  `essai` tinyint(4) NOT NULL DEFAULT '0',
   `montant` decimal(10,2) DEFAULT NULL,
   `expiration` date DEFAULT NULL,
-  `administrateur` tinyint(1) NOT NULL,
+  `administrateur` tinyint(1) NOT NULL DEFAULT '0',
   `token` varchar(45) DEFAULT NULL,
+  `mois_encours` tinyint(4) DEFAULT NULL COMMENT '1..12',
+  `exerciceid_encours` int(11) DEFAULT NULL,
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_2` (`email`),
   KEY `email` (`email`),
   KEY `email_3` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Vider la table avant d'insérer `user`
@@ -298,10 +285,11 @@ TRUNCATE TABLE `user`;
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `prenom`, `nom`, `email`, `telephone`, `password`, `inscription`, `montant`, `expiration`, `administrateur`, `token`) VALUES
-(4, 'fred', 'meyrou', 'frederic@meyrou.com', '0612345678', 'derf44', '2013-11-28', '1234.00', '0000-00-00', 1, NULL),
-(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', '100.00', '0000-00-00', 0, NULL),
-(8, 'Fr&eacute;d&eacute;ric', 'MEYROU', 'frederic_meyrou@yahoo.fr', '0672268111', 'derf44', '2013-12-14', '999.00', '2013-12-12', 0, NULL);
+INSERT INTO `user` (`id`, `prenom`, `nom`, `email`, `telephone`, `password`, `inscription`, `actif`, `essai`, `montant`, `expiration`, `administrateur`, `token`, `mois_encours`, `exerciceid_encours`) VALUES
+(4, 'fred', 'meyrou', 'frederic@meyrou.com', '0612345678', 'derf44', '2013-11-28', 1, 0, '1234.00', '0000-00-00', 1, NULL, NULL, NULL),
+(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', 1, 0, '100.00', '0000-00-00', 0, NULL, 5, 14),
+(8, 'Frédéric', 'MEYROU', 'frederic_meyrou@yahoo.fr', '0672268111', 'derf44', '2013-12-14', 1, 0, '999.00', '2013-12-12', 0, NULL, NULL, NULL),
+(10, 'Fr&eacute;d&eacute;ric', 'MEYROU', 'frederic.meyrou@gmail.com', '0672268111', 'h6S2Tlv7', '2013-12-12', 0, 0, NULL, NULL, 0, '432b5f36651f5bab7e96984650487bb51417dea8', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
