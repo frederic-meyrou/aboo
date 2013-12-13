@@ -27,7 +27,7 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
     if(!empty($_POST[nom])){
         $error_nom = 'Veuillez renseigner votre nom';
     }
-    if(!empty($_POST)[prenom]){
+    if(!empty($_POST[prenom])){
         $error_prenom = 'Veuillez renseigner votre prénom';
     }	
     if(!empty($_POST) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
