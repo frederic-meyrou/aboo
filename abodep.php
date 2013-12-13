@@ -58,14 +58,32 @@
     }
 	
 // Selection du mois par défaut
+	// On va lire le mois en cours en BDD si il exite
+	if ($mois_choisi == null) {
+	    $sql = "SELECT mois_encours FROM user WHERE id = ?";
+	    $q = $pdo->prepare($sql);
+	    $q->execute(array($user_id));
+	    $data = $q->fetch(PDO::FETCH_ASSOC);	
+	    $count = $q->rowCount($sql);
+		if ($count==1) { // On a bien un mois en cours
+			$mois_choisi = $data['mois_encours'];
+		}
+	}		
 	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
+		// On a pas de POST ni de SESSION mais on a un mois de debut d'exercice
 		$mois_choisi = $exercice_mois;
 	} elseif ($mois_choisi == null && $abodep_mois != null) {
+		// On a dejà une session mais pas de POST
 		$mois_choisi = $abodep_mois;
 	} elseif ($mois_choisi == null) {
+		// On a vraiment rien on prend le mois courant
 		$mois_choisi = date('n');
 	}
 	$_SESSION['abodep']['mois'] = $mois_choisi;
+	// On met à jour la BDD pour les champs encours
+    $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($mois_choisi, $user_id));	
 
 // Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
     $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM abonnement WHERE
