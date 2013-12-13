@@ -27,6 +27,9 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
     if(!empty($_POST) && strlen($_POST['prenom'])<4){
         $error_prenom = ' Votre prenom doit comporter au minimun 4 caracteres !';
     }
+    if(!empty($_POST[prenom])){
+        $error_prenom = 'Veuillez renseigner votre prénom';
+    }	
     if(!empty($_POST) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
         $error_email = ' Votre Email n\'est pas valide !';
     }

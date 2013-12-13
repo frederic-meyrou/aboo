@@ -118,7 +118,7 @@ function ChargeSessionExerciceBDD($data) {
         // On affiche le formulaire et l'exercice en cours
         $affiche = true;
         $infos = true;         
-    } else { // L'année n'est pas choisie, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
+	} else { // L'année n'est pas choisie et on a pas de session, on liste l'ensemble des années disponible ds la BDD pour afficher le formulaire
         $sql = "SELECT * FROM exercice WHERE user_id = ?"; 
 		$q = $pdo->prepare($sql);
         $q->execute(array($user_id));
@@ -135,10 +135,16 @@ function ChargeSessionExerciceBDD($data) {
 				$affiche = true;
 				$infos = true;
         } else { // On est ds le cas ou on a une liste de valeure en base
+        	if ($exercice_annee != null) { // Ds le cas ou on a une session en cours
+        		$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = ?"; 
+				$q = $pdo->prepare($sql);
+	        	$q->execute(array($user_id, $exercice_annee));
+        	} else {
+        		$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = YEAR(NOW())"; 
+				$q = $pdo->prepare($sql);
+	        	$q->execute(array($user_id));
+        	}
 			MajListeAnnee();
-			$sql = "SELECT * FROM exercice WHERE user_id = ? AND annee_debut = YEAR(NOW())"; 
-			$q = $pdo->prepare($sql);
-        	$q->execute(array($user_id));
         	$data = $q->fetch(PDO::FETCH_ASSOC);
 			$count = $q->rowCount($sql);
 			if ($count==1) {
@@ -153,8 +159,7 @@ function ChargeSessionExerciceBDD($data) {
 				$infos = false;
 			}	 			
 		    $affiche = true;
-
-		}	 
+		} 
     }
 ?>
 
