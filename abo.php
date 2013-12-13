@@ -73,13 +73,15 @@
 			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
 			$valid = false;			
 		}
+		
+		// Calcul de la ventilation
 		$ventillation = Ventillation($abodep_mois, $montant, $periodicitee);
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire) values(?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $periodicitee, $commentaire));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			Database::disconnect();
 		}
 		
@@ -91,11 +93,13 @@
 // Lecture dans la base des abonnements (sur user_id et exercice_id et mois) 
     $sql = "SELECT * FROM abonnement WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
+    		ORDER by date_creation
     		";
 // Requette pour calcul de la somme	
-    $sql2 = "SELECT SUM(montant) FROM abonnement WHERE
+    $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-    		";			
+    		";
+    					
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
     $req = $pdo->prepare($sql);
     $req->execute($q);
@@ -108,7 +112,10 @@
         $affiche = false;              
     } else {
     		// Calcul des sommes
-	        $total_recettes= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;  	   
+	        $total_recettes= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
+	        for ($i = 1; $i <= 12; $i++) { 
+	        	$total_mois_{$i}= !empty($data2["SUM(mois_$i)"]) ? $data2["SUM(mois_$i)"] : 0;
+			}
 	        // On affiche le tableau
 	        $affiche = true;
     }
@@ -209,6 +216,9 @@
             <!-- Affiche les sommmes -->        
 			<p>
 				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
+				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
+				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$abodep_mois}); ?> €</button>
+				
 			</p>             
 			</div> 	<!-- /row -->
 
