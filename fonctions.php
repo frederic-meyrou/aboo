@@ -91,7 +91,7 @@ function TypeDepenseToNum($depense)
 }
 
 // Tableau avec liste des periodicitee
-$Liste_Periodicitee = array(1 => 'Ponctuel', 2 => 'Bi-Mensuel', 3 => 'Trimestriel', 6 => 'Semestriel', 12 => 'Annuel');
+$Liste_Periodicitee = array(1 => 'Ponctuel', 2 => 'Bi-Mensuel', 3 => 'Trimestriel', 6 => 'Semestriel', 12 => 'Annuel ou Lissé');
 
 
 // Transforme un numéro de type en libelle de recette 
