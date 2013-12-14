@@ -1,0 +1,29 @@
+@function black($opacity){
+    @return rgba(0,0,0,$opacity)
+}
+
+@function white($opacity){
+    @return rgba(255,255,255,$opacity)
+}
+
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (max-width: 960px) { @content; }
+  }
+  @else if $point == tablet {
+    @media (max-width: 768px) { @content; }
+  }
+  @else if $point == phone {
+    @media (max-width: 480px)  { @content; }
+  }
+}
+
+@mixin grey_line {
+ 	@include box-shadow( 0 1px 0 #fff );
+
+	border-bottom: 1px solid #ddd;
+}
+
+@mixin header_text_shadow {
+	text-shadow: 1px 1px 1px black(0.8);
+}

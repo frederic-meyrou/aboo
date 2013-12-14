@@ -1,0 +1,318 @@
+/* =General
+-------------------------------------------------------------- */
+* {
+	@include box-sizing(border-box);
+
+	word-wrap: break-word;
+	outline: none;
+}
+
+body {
+	font-size: 16px;
+    line-height: 1.4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.1;
+	margin: 20px 0;
+	text-rendering: optimizelegibility;
+
+	.basic & {
+		color: #333333;
+		font-family: Lato, sans-serif;
+		font-weight: normal;
+	}
+
+	a {
+		text-decoration: none;
+
+		.basic & {
+			color: #333333;
+		}
+	}
+}
+
+h1 { font-size: 30px; }
+h2 { font-size: 26px; }
+h3 { font-size: 24px; }
+h4 { font-size: 22px; }
+h5 { font-size: 20px; }
+h6 { font-size: 18px; }
+
+p {
+	margin: 1em 0;
+}
+
+a {
+	text-decoration: none;
+
+	.basic & {
+		color: #0088CC;
+
+		&:hover {
+			color: #444;
+		}
+	}
+}
+
+img {
+	width: auto\9;
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+
+ul, ol {
+	padding: 0 0 0 20px;
+}
+
+	ul {
+		list-style: disc;
+	}
+
+	ol {
+		list-style: decimal;
+	}
+
+table {
+	width: 100%;
+	background: #fff;
+
+	td, th {
+		padding: 8px;
+		border: 1px solid #bbb;
+		text-align: left;
+	}
+
+	th {
+		background: #ddd;
+		font-weight: bold;
+	}
+
+	caption {
+		padding: 1em 0;
+		text-align: center;
+	}
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	line-height: 1.4;
+	margin: 4px 0 0;
+	padding: 0 0 .5em 0;
+}
+
+blockquote {
+	margin: 1em 0;
+	border-left: 10px solid #ccc;
+	padding-left: 12px;
+}
+
+cite {
+	text-align: right;
+	font-style: normal;
+	display: block;
+
+	&:before {
+		content: '\2013 \00A0';
+	}
+}
+
+code,
+kbd,
+pre,
+samp,
+tt {
+	font: 0.8em 'Andale Mono', 'Lucida Console', monospace;
+
+}
+
+pre,
+code {
+	@include border-radius(3px);
+
+	background: #f2f2f2;
+	border: 1px solid #e6e6e6;
+	color: #888;
+	padding: 2px 4px;
+	}
+
+pre {
+	white-space: pre;
+	word-wrap: normal;
+	overflow-x: scroll;
+	line-height: 1.3;
+	margin: 1em 0;
+}
+
+select {
+	width: 100%;
+}
+
+.fl {
+	float: left
+}
+
+.fr {
+	float: right
+}
+
+del {
+	color: red;
+	text-decoration: line-through;
+}
+
+ins {
+	border-bottom: 1px solid green;
+	text-decoration: none;
+	color: green;
+}
+
+em, i {
+	font-style: italic;
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+abbr, acronym {
+	border-bottom: 1px dotted;
+}
+
+address {
+	margin: 0 0 1.5em;
+	font-style: italic;
+}
+
+/* =Inputs
+-------------------------------------------------------------- */
+input,
+textarea {
+	@include border-radius(6px);
+
+	padding: 8px;
+	border: 1px solid #bbb;
+	font-size: 14px;
+	color: #555;
+
+	&:focus {
+		@include box-shadow( 2px 2px 4px rgba(0,0,0,0.4) );
+
+		border-color: #AAA;
+	}
+}
+
+input {
+	&[type=text],
+	&[type=password],
+	&[type=email],
+	&[type=url],
+	&[type=number] {
+		width: 240px;
+	}
+
+	&[type="submit"] {
+		margin-top: 0;
+	}
+}
+
+textarea {
+	width: 100%;
+	}
+
+select {
+	display: inline-block;
+	height: 28px;
+	line-height: 1;
+	border: 1px solid #aaa;
+	padding: 4px;
+	color: #555;
+
+	.widget & {
+		width: 70%;
+	}
+}
+
+/* =Media
+-------------------------------------------------------------- */
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+audio,
+canvas,
+video {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+audio:not([controls]) {
+  display: none;
+}
+
+.responsive-video-wrapper {
+	width: 100%;
+	position: relative;
+	padding: 0;
+}
+
+.responsive-video-wrapper iframe,
+.responsive-video-wrapper object,
+.responsive-video-wrapper embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* =Assitive Text
+-------------------------------------------------------------- */
+.assistive-text,
+.remove,
+.screen-reader-text {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* =Sticky Footer
+-------------------------------------------------------------- */
+html, body {
+	height: 100%;
+	}
+
+#page {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto 0;
+	}
+
+#main {
+    margin-bottom: 0;
+    }

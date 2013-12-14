@@ -1,0 +1,86 @@
+// Variable for Gridiculous
+$grid_gutter_width: 20px;
+$grid_max_width: 1200px;
+$grid_min_width: 320px;
+
+/* =Gridiculous
+-------------------------------------------------------------- */
+.grid{margin:0 auto;max-width:$grid_max_width;min-width:$grid_min_width;width:100%}
+img{max-width:100%;height:auto}
+.wfull,.c12{width:100%;max-width:100%}
+.w320{max-width:320px}
+.w640{max-width:640px}
+.w960{max-width:960px}
+.row {
+	width: 100%;
+	margin-bottom: $grid_gutter_width;
+
+	.row {
+		width: auto;
+		margin-left: -$grid_gutter_width;
+		margin-right: -$grid_gutter_width;
+
+		.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c9,.c10,.c11,.c12 {
+			@include breakpoint(desktop) {
+				width: 100%;
+				margin-bottom: 20px;
+			}
+		}
+
+		> div:last-child {
+			@include breakpoint(desktop) {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+.c1{width:8.33%}
+.c2{width:16.66%}
+.c3{width:25%}
+.c4{width:33.33%}
+.c5{width:41.66%}
+.c6{width:50%}
+.c7{width:58.33%}
+.c8{width:66.66%}
+.c9{width:75%}
+.c10{width:83.33%}
+.c11{width:91.66%}
+.w320,.w640{.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c9,.c10,.c11{width:100%}}
+.s1{margin-left:8.33%}
+.s2{margin-left:16.66%}
+.s3{margin-left:25%}
+.s4{margin-left:33.33%}
+.s5{margin-left:41.66%}
+.s6{margin-left:50%}
+.s7{margin-left:58.33%}
+.s8{margin-left:66.66%}
+.s9{margin-left:75%}
+.s10{margin-left:83.33%}
+.s11{margin-left:91.66%}
+.end{float:right!important}
+.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c9,.c10,.c11,.c12{
+	min-height: 1px;
+	float: left;
+	padding-left: $grid_gutter_width;
+	padding-right: $grid_gutter_width;
+	position: relative;
+
+	@include breakpoint(tablet) {
+		width: 100%;
+		margin-right: 0;
+		margin-left: 0;
+		margin-bottom: 20px;
+	}
+}
+
+
+/* =Clearfix http://css-tricks.com/snippets/css/clear-fix/
+-------------------------------------------------------------- */
+.row,
+.clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
