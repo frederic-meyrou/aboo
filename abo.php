@@ -69,6 +69,9 @@
 		}
 		
 		// Verification de la periodicitee
+		if (($periodicitee == 12) && ($abodep_mois + $periodicitee - 1 ) > 12) { // On lisse la periodicitee
+			$periodicitee = 12 - $abodep_mois + 1;
+		}
 		if (($abodep_mois + $periodicitee - 1 ) > 12) { // La périodicitee est superieure a l'année
 			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
 			$valid = false;			
@@ -76,6 +79,9 @@
 		
 		// Calcul de la ventilation
 		$ventillation = Ventillation($abodep_mois, $montant, $periodicitee);
+		
+		// On remet la périodicitée du POST
+		$periodicitee = $sPOST['periodicitee'];
 
 		// insert data
 		if ($valid) {
