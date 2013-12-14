@@ -1,0 +1,26 @@
+/*!
+Theme Name: Tonic
+Theme URI: https://themes.bavotasan.com/2013/tonic/
+Author: c.bavota
+Author URI: http://bavotasan.com/
+Description: Create a truly unique design with Tonic, a lightweight and fully responsive HTML5 theme based on the Gridiculous boilerplate. Use the new Theme Options customizer to add your own header image, custom background, page layout, site width and more. Distinguish each post with one of the eight supported post formats, such as: Video, Image, Aside, Status, Audio, Quote, Link and Gallery. Install JetPack to display each of your galleries through a tiled view and jQuery carousel. Compatible with bbPress & BuddyPress. Built using SASS, Compass and Twitter Bootstrap. Tonic uses Google Fonts for improved typeface readability and works perfectly in desktop browsers, tablets and handheld devices. For a live demo go to http://demos.bavotasan.com/tonic/.
+Version: 1.0.8.1
+Tags: white, black, gray, light, silver, one-column, two-columns, right-sidebar, left-sidebar, flexible-width, custom-background, custom-header, custom-menu, custom-colors, editor-style, featured-image-header, featured-images, post-formats, sticky-post, threaded-comments, translation-ready, theme-options
+
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
+Tonic WordPress Theme, Copyright 2013 c.bavota
+Tonic is distributed under the terms of the GNU GPL
+*/
+
+@import "compass/reset";
+@import "compass/css3";
+
+@import "mixins";
+@import "gridiculous";
+@import "base";
+@import "bootstrap";
+@import "fontawesome";
+@import "theme";
+@import "wp";

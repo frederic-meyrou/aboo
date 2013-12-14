@@ -12,7 +12,7 @@
     <div class="container">
         <h2>HP GestAbo</h2>
       	<ul class="nav nav-pills">
-          <li class="active"><a href="index.php">HomePage</a></li>
+          <li class="active"><a href="wordpress/index.php">HomePage WP</a></li>
           <li><a href="connexion.php">Connexion</a></li>
         </ul>
 

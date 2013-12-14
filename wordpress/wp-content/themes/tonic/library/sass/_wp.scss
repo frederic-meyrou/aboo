@@ -1,0 +1,86 @@
+$wp_top_margin: 5px;
+$wp_right_margin: 20px;
+$wp_bottom_margin: 20px;
+$wp_left_margin: 20px;
+
+/* =WordPress Core
+-------------------------------------------------------------- */
+.alignnone {
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: $wp_top_margin auto $wp_bottom_margin auto;
+}
+
+.alignright {
+    float:right;
+    margin: $wp_top_margin 0 $wp_bottom_margin $wp_left_margin;
+}
+
+.alignleft {
+    float: left;
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+.aligncenter {
+    display: block;
+    margin: $wp_top_margin auto $wp_bottom_margin auto;
+}
+
+a img.alignright {
+    float: right;
+    margin: $wp_top_margin 0 $wp_bottom_margin $wp_left_margin;
+}
+
+a img.alignnone {
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.wp-caption {
+    background: #f2f2f2;
+    border: 1px solid #e6e6e6;
+    max-width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+.wp-caption.alignleft {
+    margin: $wp_top_margin $wp_right_margin $wp_bottom_margin 0;
+}
+
+.wp-caption.alignright {
+    margin: $wp_top_margin 0 $wp_bottom_margin $wp_left_margin;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 12px;
+    margin: 0;
+    padding: 5px;
+}

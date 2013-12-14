@@ -1,0 +1,494 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: tonic/search.php:13
+msgid " search results for"
+msgstr ""
+
+#. Text in function
+#: tonic/content-header.php:24
+msgid "% Comments"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:367
+msgid "%1$s at %2$s"
+msgstr ""
+
+#. Text in function
+#: tonic/footer.php:25
+msgid "%s created by %s."
+msgstr ""
+
+#. Text in function
+#: tonic/single.php:22
+msgid "%title &rarr;"
+msgstr ""
+
+#. Text in function
+#: tonic/single.php:21
+msgid "&larr; %title"
+msgstr ""
+
+#. Text in function
+#: tonic/comments.php:41
+msgid "&larr; Older Comments"
+msgstr ""
+
+#. Text in function
+#: tonic/single.php:18
+msgid "&larr; Previous Image"
+msgstr ""
+
+#. Text in function
+#: tonic/content-footer.php:9
+#: tonic/functions.php:367
+#: tonic/functions.php:391
+msgid "(edit)"
+msgstr ""
+
+#. Text in function
+#: tonic/content-header.php:24
+msgid "0 Comments"
+msgstr ""
+
+#. Text in function
+#: tonic/content-header.php:24
+msgid "1 Comment"
+msgstr ""
+
+#. Text in echo
+#: tonic/404.php:15
+msgid "404 Error"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:116
+msgid "Add More Widgets"
+msgstr ""
+
+#. Text in function
+#: tonic/sidebar.php:21
+msgid "Add your own widgets by going to the %sWidgets admin page%s."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:79
+msgid "Advanced Color Picker"
+msgstr ""
+
+#. Text in echo
+#: tonic/content-aside.php:9
+msgid "Aside"
+msgstr ""
+
+#. Text in function
+#: tonic/archive.php:26
+msgid "Author Archive for %s"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/widgets/widget-image-icon.php:75
+msgid "Automatically add paragraphs"
+msgstr ""
+
+#. Text in echo
+#: tonic/archive.php:36
+msgid "Blog Archives"
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:147
+msgid "Buy %s Now &rarr;"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:96
+msgid "Choose from some of Google Fonts\\' most popular fonts to improve your site\\'s typeface readability and make things look even more amazing."
+msgstr ""
+
+#. Text in echo
+#: tonic/comments.php:40
+msgid "Comment navigation"
+msgstr ""
+
+#. Text in echo
+#: tonic/comments.php:51
+msgid "Comments are closed."
+msgstr ""
+
+#. Text in function
+#: tonic/footer.php:24
+msgid "Copyright &copy; %s %s. All Rights Reserved."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:101
+msgid "Custom CSS Editor"
+msgstr ""
+
+#. Text in function
+#: tonic/library/widgets/widget-image-icon.php:1
+msgid "Custom Text Widget with an Image"
+msgstr ""
+
+#. Text in function
+#: tonic/archive.php:30
+msgid "Daily Archives: %s"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:1
+msgid "Default Header 1"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:127
+msgid "Each page/post has an option to remove both sidebars so you can use the full width of your site to display whatever you want."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:85
+msgid "Easily select one of the eight preset colors or dive even deeper into your customization by using a more specific hex code."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:123
+msgid "Even More Theme Options"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:112
+msgid "Extended Widgetized Footer"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:67
+msgid "Featured Slider"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:63
+msgid "Features"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "First Sidebar"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:71
+msgid "Focus on What\\'s Important"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:126
+msgid "Full Width Posts/Pages"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:90
+msgid "Google Fonts"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "Home Page Top Area"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:117
+msgid "If you need to include more widgets on your site, take advantage of the Extended Footer."
+msgstr ""
+
+#. Text in function
+#: tonic/library/widgets/widget-image-icon.php:1
+msgid "Image & Text"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/widgets/widget-image-icon.php:67
+msgid "Image URL:"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:141
+msgid "Import/Export Tool"
+msgstr ""
+
+#. Text in echo
+#: tonic/content-link.php:9
+msgid "Link"
+msgstr ""
+
+#. Text in echo
+#: tonic/header.php:51
+msgid "Main menu"
+msgstr ""
+
+#. Text in echo
+#: tonic/sidebar.php:25
+msgid "Meta"
+msgstr ""
+
+#. Text in function
+#: tonic/archive.php:32
+msgid "Monthly Archives: %s"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:130
+msgid "Multiple Sidebar Layouts"
+msgstr ""
+
+#. Text in function
+#: tonic/comments.php:42
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#. Text in function
+#: tonic/single.php:19
+msgid "Next Image &rarr;"
+msgstr ""
+
+#. Text in echo
+#: tonic/index.php:33
+msgid "No posts to display"
+msgstr ""
+
+#. Text in echo
+#: tonic/content-none.php:12
+msgid "No results were found. Please try again."
+msgstr ""
+
+#. Text in echo
+#: tonic/content-none.php:9
+msgid "Nothing found"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:142
+msgid "Once you\\'ve set up your site exactly how you want, you can easily export the Theme Options and Custom CSS for safe keeping."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:94
+msgid "Over 20 to Choose From"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "Page %s"
+msgstr ""
+
+#. Text in function
+#: tonic/content-footer.php:9
+msgid "Pages:"
+msgstr ""
+
+#. Text in function
+#: tonic/content-gallery.php:35
+msgid "Permalink to %s"
+msgstr ""
+
+#. Text in echo
+#: tonic/functions.php:391
+msgid "Pingback:"
+msgstr ""
+
+#. Text in echo
+#: tonic/single.php:16
+msgid "Post navigation"
+msgstr ""
+
+#. Text in function
+#: tonic/content-status.php:17
+msgid "Posted on %1$s at %2$s"
+msgstr ""
+
+#. Text in function
+#: tonic/content-header.php:24
+msgid "Posts by %s"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:1
+msgid "Primary Menu"
+msgstr ""
+
+#. Text in function
+#: tonic/content-image.php:12
+#: tonic/content-status.php:20
+#: tonic/content-quote.php:11
+#: tonic/functions.php:393
+#: tonic/content-gallery.php:12
+#: tonic/page.php:24
+#: tonic/content-aside.php:12
+#: tonic/content.php:10
+#: tonic/content-link.php:12
+msgid "Read more &rarr;"
+msgstr ""
+
+#. Text in function
+#: tonic/index.php:36
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:138
+msgid "Shortcodes are awesome and easy to use. That\\'s why %s comes with a bunch, like a slideshow carousel, alert boxes and more."
+msgstr ""
+
+#. Text in echo
+#: tonic/header.php:52
+msgid "Skip to content"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:83
+msgid "So Many Colors to Choose From"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:131
+msgid "Sometimes one sidebar just isn\\'t enough, so add a second one and place it where you want."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:106
+msgid "Sometimes the Theme Options don\\'t let you control everything you want. That\\'s where the Custom CSS Editor comes into play."
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:84
+msgid "Sometimes the default colors just aren\\'t working for you. In %s you can use the advanced color picker to make sure you get the exact colors you want."
+msgstr ""
+
+#. Text in echo
+#: tonic/404.php:19
+msgid "Sorry. We can't seem to find the page you're looking for."
+msgstr ""
+
+#. Text in echo
+#: tonic/content-status.php:10
+msgid "Status"
+msgstr ""
+
+#. Text in function
+#: tonic/archive.php:28
+msgid "Tag Archive for %s"
+msgstr ""
+
+#. Text in function
+#: tonic/content-footer.php:9
+msgid "Tags:"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:105
+msgid "Take Control of Design"
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:59
+msgid "Take your site to the next level with %s. Check out some of the advanced features that\\'ll give you more control over your site\\'s layout and design."
+msgstr ""
+
+#. Text in function
+#: tonic/library/message-bar.php:39
+msgid "Thanks for choosing %s. Hope you enjoy using it! %s If you want to see some of the advanced options available in %s, %shere\\'s a little preview%s."
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:72
+msgid "The most important information on your site should be at the top. That\\'s why %s offers a featured slider directly below your site title. Get your point across as soon as your site loads."
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:606
+msgid "The three boxes below are text widgets that have been added to the <em>Home Page Top Area</em>. Add your own widgets by going to the %sWidgets admin page%s or remove this section completely under the <em>Layout panel</em> on the %sTheme Options page%s."
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "This is the first sidebar widgetized area. All defaults widgets work great here."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/widgets/widget-image-icon.php:64
+msgid "Title:"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:137
+msgid "Twitter Bootstrap Shortcodes"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/widgets/widget-image-icon.php:70
+msgid "URL:"
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:1
+msgid "Upgrade to %s Pro"
+msgstr ""
+
+#. Text in function
+#: tonic/library/preview-pro.php:1
+msgid "Upgrade to Pro"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:107
+msgid "Use CSS to style any element without having to worry about losing your changes when you update. All your Custom CSS is safely stored in the database."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:73
+msgid "Use the Slider admin page to create/edit each custom slide or let the default set up feature your latest posts."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:118
+msgid "Use the Theme Options customizer to set the number of columns you want to appear. You can also customize your site\\'s copyright notice."
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:60
+msgid "View the demo video &rarr;"
+msgstr ""
+
+#. Text in echo
+#: tonic/library/preview-pro.php:95
+msgid "Web-safe fonts are a thing of the past, so why not try to spice things up a bit?"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:666
+msgid "Widgetized area on the home page directly below the navigation menu. Specifically designed for 4 text widgets. Must be turned on in the Layout options on the Theme Options admin page."
+msgstr ""
+
+#. Text in function
+#: tonic/archive.php:34
+msgid "Yearly Archives: %s"
+msgstr ""
+
+#. Text in function
+#: tonic/functions.php:373
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#. Text in function
+#: tonic/content-header.php:24
+msgid "by %s"
+msgstr ""
