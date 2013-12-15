@@ -18,12 +18,52 @@ jQuery(document).ready(function () {
             enableEscapeButton: !0
         });
 
+        //replace title by img alt field
+        1 == b && a('a[rel*=tc-fancybox-group]').each( function() {
+            var title = a(this).find('img').prop('title');
+            var alt = a(this).find('img').prop('alt');
+            if (typeof title !== 'undefined' && 0 != title.length) {
+                a(this).attr('title',title);
+            }
+            else if (typeof alt !== 'undefined' &&  0 != alt.length) {
+                a(this).attr('title',alt);
+            }
+        });
+
         //Slider with localized script variables
         var d = TCParams.SliderName,
             e = TCParams.SliderDelay;
-        0 != d.length && (0 != e.length ? a("#customizr-slider").carousel({
-            interval: e
-        }) : a("#customizr-slider").carousel());
+            j = TCParams.SliderHover;
+
+        if (0 != d.length) {
+            if (0 != e.length && !j) {
+                a("#customizr-slider").carousel({
+                    interval: e,
+                    pause: "false"
+                });
+            } else if (0 != e.length) {
+                a("#customizr-slider").carousel({
+                    interval: e
+                });
+            } else {
+                a("#customizr-slider").carousel();
+            }
+        }
+
+        //Smooth scroll but not on bootstrap buttons. Checks if php localized option is active first.
+        var SmoothScroll = TCParams.SmoothScroll;
+
+        if ('easeOutExpo' == SmoothScroll) {
+            a('a[href^="#"]').not('.carousel-control, [data-toggle="modal"], [data-toggle="tooltip"], [data-toggle="popover"], [data-toggle="collapse"], [data-toggle="tab"]').click(function () {
+                var anchor_id = a(this).attr("href");
+                if ('#' != anchor_id) {
+                    a('html, body').animate({
+                        scrollTop: a(anchor_id).offset().top
+                    }, 700, SmoothScroll);
+                }
+                return false;
+            });
+        }
 
         //Stop the viewport animation if user interaction is detected
         var f = a("html, body");
@@ -34,6 +74,7 @@ jQuery(document).ready(function () {
                 f.stop().off("scroll mousedown DOMMouseScroll mousewheel keyup", g)
             }), a.preventDefault()
         }),
+
 
         //Detecting browser with CSS
         // Chrome is Webkit, but Webkit is also Safari.

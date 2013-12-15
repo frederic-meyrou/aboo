@@ -25,9 +25,8 @@ class TC_admin_init {
         //check WP version to include customizer functions, must be >= 3.4
        if (version_compare( $wp_version, '3.4' , '>=' ) ) {
 
-            //require_once( TC_BASE.'inc/admin/tc_customize.php' );
-
-          tc__( 'admin' , 'customize' );
+          //require_once( TC_BASE.'inc/admin/tc_customize.php' );
+          TC___::$instance -> tc__( array ('admin' => array( array( 'inc/admin' , 'customize'))) );
 
         }
 
@@ -62,7 +61,7 @@ class TC_admin_init {
     */
     function tc_load_meta_boxes()  {
        //loads meta boxes
-          tc__( 'admin' , 'meta_boxes' );
+          TC___::$instance -> tc__( array ('admin' => array( array( 'inc/admin' , 'meta_boxes'))) );
     }
 
 
@@ -155,15 +154,10 @@ class TC_admin_init {
    */
     function tc_welcome_panel() {
       
-
       $is_help = isset($_GET['help'])  ?  true : false;
-
-      //CHECK IF WE ARE USING A CHILD THEME
-      $is_child                     = tc_is_child();
 
       ?>
       <div class="wrap about-wrap">
-        <?php  ?>
         
           <?php if ($is_help) : ?>
             <h1 class="need-help-title"><?php _e( 'Need help with Customizr ?','customizr' ) ?></h1>
@@ -211,7 +205,7 @@ class TC_admin_init {
         
         <?php endif; ?>
 
-        <?php if ($is_child) : ?>
+        <?php if ( TC___::$instance -> tc_is_child() ) : ?>
           <div class="changelog point-releases"></div>
 
           <div class="tc-upgrade-notice">
@@ -253,23 +247,11 @@ class TC_admin_init {
         </div><!-- .feature-section -->
       </div><!-- .changelog -->
 
-      <div id="dev-box" class="changelog">
-        <h3 style=""><?php _e('New! Customizr Developer Tools' ,'customizr') ?></h3>
-
-        <div class="feature-section images-stagger-right">
-          <img alt="Customizr developer tools" src="<?php echo TC_BASE_URL.'inc/admin/img/dev-box.jpg' ?>" class="">
-          <h4><?php _e('Easily drill down into Customizr code with the dev tools!' ,'customizr') ?></h4>
-          <p><?php _e('A new section called "Dev Tools" has been added to the customizer options.<br/> There you will find two optional new features : <br/><strong>-The developer box</strong> : this draggable box is a developer dashboard allowing you to have an overview of your theme settings (plugins, custom post types, theme options,...) and providing useful informations for debug and development : a loading timeline of any pages, contextual data ( like conditional tags and query), the hook\'s structure of the theme and a note section about the code logic of Customizr.<br/><strong>-The embedded tooltips</strong> : this option displays clickable (and draggable) contextual tooltips right inside your website. They help you understand which part of the php code handles any front-end block or element. The informations provided are : class -> method, hook, file, function description and possible filter.<br/><br/><i>Those tools are only displayed to logged in users with an admin capability profile.</i>' , 'customizr') ?>
-          </p>
-         
-        </div>
-      </div>
-
       <div id="showcase" class="changelog">
         <h3 style="text-align:right"><?php _e('Customizr Showcase' ,'customizr') ?></h3>
 
         <div class="feature-section images-stagger-left">
-           <a class="" title="<?php _e('Visit the showcase','customizr') ?>" href="<?php echo TC_WEBSITE ?>customizr/showcase/" target="_blank"><img alt="Customizr Showcase" src="<?php echo TC_BASE_URL.'inc/admin/img/mu2.jpg' ?>" class=""></a>
+           <a class="" title="<?php _e('Visit the showcase','customizr') ?>" href="<?php echo TC_WEBSITE ?>customizr/showcase/" target="_blank"><img alt="Customizr Showcase" src="<?php echo TC_BASE_URL.'inc/admin/img/mu2.png' ?>" class=""></a>
           <h4 style="text-align: right"><?php _e('Find inspiration for your next Customizr based website!' ,'customizr') ?></h4>
           <p style="text-align: right"><?php _e('This showcase aims to show what can be done with Customizr and helping other users to find inspiration for their web design.' , 'customizr') ?>
           </p>

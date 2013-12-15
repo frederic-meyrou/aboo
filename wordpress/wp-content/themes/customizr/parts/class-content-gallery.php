@@ -19,14 +19,13 @@ class TC_gallery {
 
     function __construct () {
 
-        self::$instance =& $this;
+      self::$instance =& $this;
 
-         //We check if jetpack plugin is enabled (avoid conflict) before filtering post_gallery hook
-        if(!in_array('jetpack/jetpack.php', get_option('active_plugins'))) {
-          add_filter ( 'post_gallery'                   , array( $this , 'tc_fancybox_gallery_filter' ), 20, 2);
-          //add a filter for link markup 
-          add_filter ( 'wp_get_attachment_link'         , array($this, 'tc_modify_attachment_link') , 20, 6 );
-        }
+      //adds a filter allowing lightbox navigation in galleries
+      add_filter ( 'post_gallery'                   , array( $this , 'tc_fancybox_gallery_filter' ), 20, 2);
+
+      //adds a filter for link markup (allow lightbox)
+      add_filter ( 'wp_get_attachment_link'         , array($this, 'tc_modify_attachment_link') , 20, 6 );
     }
 
 
@@ -37,8 +36,11 @@ class TC_gallery {
      * @since Customizr 3.0.5
      */
     function tc_fancybox_gallery_filter( $output, $attr) {
+
+        if( !apply_filters('tc_gallery_bool', true ) )
+          return $output;
         
-        tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+        
 
         //add a filter for link markup 
         //add_filter( 'wp_get_attachment_link', array($this, 'tc_modify_attachment_link') , 20, 6 );
@@ -159,7 +161,7 @@ class TC_gallery {
         }
 
         $output .= "
-            <br style='clear: both;' />".tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ )."
+            <br style='clear: both;' />
           </div>\n";
 
         //remove the filter for link markup 
@@ -177,6 +179,10 @@ class TC_gallery {
      *
      */
     function tc_modify_attachment_link( $markup, $id, $size, $permalink, $icon, $text ) {
+
+      if( !apply_filters('tc_gallery_bool', true ) )
+          return $markup;
+
       $tc_fancybox = esc_attr( tc__f( '__get_option' , 'tc_fancybox' ) );
 
       if ( $tc_fancybox == 1 && $permalink == false ) //add the filter only if link to the attachment file/image
@@ -203,7 +209,7 @@ class TC_gallery {
               $link_text = $_post->post_title;
              $markup      = '<a class="grouped_elements" rel="tc-fancybox-group" href="'.$url.'" title="'.$post_title.'">'.$link_text.'</a>';
         }
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+      
 
       return $markup;
     }
