@@ -8,8 +8,7 @@
  */
 ?>
 <?php do_action( '__before_main_wrapper' ); ##hook of the header with get_header ?>
-<?php tc__f('rec' , __FILE__ , __FUNCTION__ ); ?>
-<div id="main-wrapper" class="<?php echo apply_filters('__main_wrapper_classes', 'container') ?>">
+<div id="main-wrapper" class="<?php echo tc__f( 'tc_main_wrapper_classes' , 'container' ) ?>">
 
     <?php do_action( '__before_main_container' ); ##hook of the featured page (priority 10) and breadcrumb (priority 20)...and whatever you need! ?>
     
@@ -48,7 +47,7 @@
 
                 </div><!--.article-container -->
 
-           <?php do_action( '__after_article_container'); ##hook of left sidebar?>
+           <?php do_action( '__after_article_container'); ##hook of left sidebar ?>
 
         </div><!--.row -->
     </div><!-- .container role: main -->

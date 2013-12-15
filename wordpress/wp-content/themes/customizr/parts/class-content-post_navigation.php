@@ -34,12 +34,15 @@ class TC_post_navigation {
      */
     function tc_post_nav() {
       
-      //we don"t show post navigation for pages
-      if( is_page(tc__f ( '__ID' )) ) {
-        return;
-      }
+      // When do we display navigation ?
+      //1) we don"t show post navigation for pages by default
+      //2) + filter conditions
+      $post_navigation_bool         = is_page( tc__f ( '__ID' ) ) ? false : true ;
 
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+      if( !apply_filters('tc_show_post_navigation', $post_navigation_bool ) )
+        return;
+
+      
       
       global $wp_query;
 
@@ -47,42 +50,61 @@ class TC_post_navigation {
 
       ob_start();
       ?>
+
       <?php if ( is_singular() ) : ?>
-        <hr class="featurette-divider">
+
+        <?php echo apply_filters( 'tc_singular_nav_separator' , '<hr class="featurette-divider '.current_filter().'">'); ?>
 
         <nav id="<?php echo $html_id; ?>" class="navigation" role="navigation">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__); ?>
-            <h3 class="assistive-text"><?php _e( 'Post navigation' , 'customizr' ); ?></h3>
+
+            <h3 class="assistive-text">
+              <?php echo apply_filters( 'tc_singular_nav_title', __( 'Post navigation' , 'customizr' ) ) ; ?>
+            </h3>
 
             <ul class="pager">
               <?php if ( get_previous_post() != null ) : ?>
                 <li class="previous">
-                  <span class="nav-previous"><?php previous_post_link( '%link' , '<span class="meta-nav">' . _x( '&larr;' , 'Previous post link' , 'customizr' ) . '</span> %title' ); ?></span>
+                  <span class="nav-previous">
+                    <?php 
+                      $singular_nav_previous_text   = apply_filters( 'tc_singular_nav_previous_text', _x( '&larr;' , 'Previous post link' , 'customizr' ) );
+                      previous_post_link( '%link' , '<span class="meta-nav">' . $singular_nav_previous_text . '</span> %title' ); 
+                    ?>
+                  </span>
                 </li>
               <?php endif; ?>
               <?php if ( get_next_post() != null ) : ?>
                 <li class="next">
-                  <span class="nav-next"><?php next_post_link( '%link' , '%title <span class="meta-nav">' . _x( '&rarr;' , 'Next post link' , 'customizr' ) . '</span>' ); ?></span>
+                  <span class="nav-next">
+                    <?php
+                      $singular_nav_next_text       = apply_filters( 'tc_singular_nav_next_text', _x( '&rarr;' , 'Next post link' , 'customizr' ) );
+                      next_post_link( '%link' , '%title <span class="meta-nav">' . $singular_nav_next_text . '</span>' ); 
+                      ?>
+                  </span>
                 </li>
               <?php endif; ?>
             </ul>
 
         </nav><!-- #<?php echo $html_id; ?> .navigation -->
 
-      <hr class="featurette-divider">
-
       <?php elseif ( $wp_query->max_num_pages > 1 && !is_404() && !tc__f( '__is_home_empty') ) : ?>
 
         <nav id="<?php echo $html_id; ?>" class="navigation" role="navigation">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__); ?>
-          <h3 class="assistive-text"><?php _e( 'Post navigation' , 'customizr' ); ?></h3>
+
+          <h3 class="assistive-text">
+            <?php echo apply_filters( 'tc_list_nav_title', __( 'Post navigation' , 'customizr' ) ) ; ?>
+          </h3>
 
             <ul class="pager">
 
               <?php if(get_next_posts_link() != null) : ?>
 
                 <li class="previous">
-                  <span class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts' , 'customizr' ) ); ?></span>
+                  <span class="nav-previous">
+                    <?php
+                      $list_nav_next_text           = apply_filters( 'tc_list_nav_next_text', __( '<span class="meta-nav">&larr;</span> Older posts' , 'customizr' ) );
+                      next_posts_link( $list_nav_next_text ); 
+                    ?>
+                  </span>
                 </li>
 
               <?php endif; ?>
@@ -90,7 +112,12 @@ class TC_post_navigation {
               <?php if(get_previous_posts_link() != null) : ?>
 
                 <li class="next">
-                  <span class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>' , 'customizr' ) ); ?></span>
+                  <span class="nav-next">
+                    <?php
+                      $list_nav_previous_text       = apply_filters( 'tc_list_nav_previous_text', __( 'Newer posts <span class="meta-nav">&rarr;</span>' , 'customizr' ) );
+                      previous_posts_link( $list_nav_previous_text );
+                    ?>
+                  </span>
                 </li>
 
               <?php endif; ?>

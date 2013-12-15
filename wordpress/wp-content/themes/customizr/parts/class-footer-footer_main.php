@@ -26,6 +26,9 @@ class TC_footer_main {
         //footer actions
         add_action ( '__footer'					, array( $this , 'tc_widgets_footer' ), 10 );
         add_action ( '__footer'					, array( $this , 'tc_colophon_display' ), 20 );
+        add_action ( '__colophon'				, array( $this , 'tc_colophon_left_block' ), 10 );
+        add_action ( '__colophon'				, array( $this , 'tc_colophon_center_block' ), 20 );
+        add_action ( '__colophon'				, array( $this , 'tc_colophon_right_block' ), 30 );
     }
 
 
@@ -37,35 +40,35 @@ class TC_footer_main {
 	 * @since Customizr 3.0.10
 	 */
     function tc_widgets_footer() {
-		if ( !is_active_sidebar( 'footer_one' ) && !is_active_sidebar( 'footer_two' ) && !is_active_sidebar( 'footer_three' ))
+    	
+    	//checks if there's at least one active widget area in footer.php.php
+    	$status 					= false;
+    	foreach ( TC_init::$instance -> footer_widgets as $key => $area ) {
+    		$status = is_active_sidebar( $key ) ? true : $status;
+    	}
+		if ( !$status )
 			return;
-		tc__f('rec' , __FILE__ , __FUNCTION__ );
+		
+		//hack to render white color icons if skin is grey
+		$skin_class 	= ( 'grey.css' == tc__f('__get_option' , 'tc_skin') ) ? 'white-icons' : '';
 
-		ob_start() 
+		ob_start();
 		?>
-			<div class="container footer-widgets">
+			<div class="container footer-widgets <?php echo $skin_class ?>">
 				<div class="row widget-area" role="complementary">
-				<?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-
-					<?php if ( is_active_sidebar( 'footer_one' ) ) : ?>
-					<div class="span4">
-						<?php dynamic_sidebar( 'footer_one' ); ?>
-					</div>
-					<?php endif; ?>
-
-					<?php if ( is_active_sidebar( 'footer_two' ) ) : ?>
-					<div class="span4">
-						<?php dynamic_sidebar( 'footer_two' ); ?>
-					</div>
-					<?php endif; ?>
 					
-					<?php if ( is_active_sidebar( 'footer_three' ) ) : ?>
-					<div class="span4">
-						<?php dynamic_sidebar( 'footer_three' ); ?>
-					</div>
-					<?php endif; ?>
+					<?php foreach ( TC_init::$instance -> footer_widgets as $key => $area )  : ?>
 
-				</div><!-- .row widget-area -->
+						<?php if ( is_active_sidebar( $key ) ) : ?>
+							
+							<div id="<?php echo $key; ?>" class="<?php echo apply_filters( $key . '_widget_class', 'span4' ) ?>">
+								<?php dynamic_sidebar( $key ); ?>
+							</div>
+
+						<?php endif; ?>
+
+					<?php endforeach; ?>
+				</div><!-- .row.widget-area -->
 			</div><!--.footer-widgets -->
 		<?php
 		$html = ob_get_contents();
@@ -86,32 +89,19 @@ class TC_footer_main {
 	 * @since Customizr 3.0.10
 	 */
     function tc_colophon_display() {
-    	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+    	
     	?>
-
     	<?php ob_start() ?>
-
 		 <div class="colophon">
-		 <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-
 		 	<div class="container">
-
-		 		<div class="row-fluid">
-
+		 		<div class="<?php echo apply_filters( 'tc_colophon_class', 'row-fluid' ) ?>">
 				    <?php 
 					    //colophon blocks actions priorities
-				        add_action ( '__colophon', array( $this , 'tc_social_in_footer' ), 10 );
-				        add_action ( '__colophon', array( $this , 'tc_credits_display' ), 20 );
-				        add_action ( '__colophon', array( $this , 'tc_back_to_top_display' ), 30 );
-					    
 					    //renders blocks
 					    do_action( '__colophon' ); 
 				    ?>
-
       			</div><!-- .row-fluid -->
-
       		</div><!-- .container -->
-
       	</div><!-- .colophon -->
     	<?php
     	$html = ob_get_contents();
@@ -129,23 +119,15 @@ class TC_footer_main {
 	 * @package Customizr
 	 * @since Customizr 3.0.10
 	 */
-    function tc_social_in_footer() {
-      	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+    function tc_colophon_left_block() {
 
-        ob_start();
-        ?>
-
-	        <div class="span4 social-block pull-left">
-	        	<?php if ( 0 != tc__f( '__get_option', 'tc_social_in_footer') ) : ?>
-	        		<?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-	           		<?php echo tc__f( '__get_socials' ) ?>
-	           	<?php endif; ?>
-	        </div>
-	        
-        <?php
-        $html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_social_in_footer', $html );
+      	echo apply_filters( 
+      		'tc_colophon_left_block', 
+      		sprintf('<div class="%1$s">%2$s</div>',
+      			apply_filters( 'tc_colophon_left_block_class', 'span4 social-block pull-left' ),
+      			0 != tc__f( '__get_option', 'tc_social_in_footer') ? tc__f( '__get_socials' ) : ''
+      		)
+      	);
     }
 
 
@@ -159,28 +141,20 @@ class TC_footer_main {
 	 * @package Customizr
 	 * @since Customizr 3.0.6
 	 */
-    function tc_credits_display() {
-    	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-    	?>
-
-    	<?php ob_start() ?>
-
-    	<div class="span4 credits">
-    	<?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-	    	<?php
-		    	$credits =  sprintf( '<p> &middot; &copy; %1$s <a href="%2$s" title="%3$s" rel="bookmark">%3$s</a> &middot; Designed by %4$s &middot;</p>',
+    function tc_colophon_center_block() {
+    	
+    	echo apply_filters(
+    		'tc_credits_display',
+    		sprintf('<div class="%1$s">%2$s</div>',
+	    		apply_filters( 'tc_colophon_center_block_class', 'span4 credits' ),
+	    		sprintf( '<p> &middot; &copy; %1$s <a href="%2$s" title="%3$s" rel="bookmark">%3$s</a> &middot; Designed by %4$s &middot;</p>',
 					    esc_attr( date( 'Y' ) ),
 					    esc_url( home_url() ),
 					    esc_attr(get_bloginfo()),
 					    '<a href="'.TC_WEBSITE.'">Themes &amp; Co</a>'
-				);
-				echo $credits;
-			?>
-		</div>
-		<?php
-		$html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_credits_display', $html );
+				)
+    		)
+    	);
     }
 
 
@@ -194,22 +168,14 @@ class TC_footer_main {
 	 * @package Customizr
 	 * @since Customizr 3.0.10
 	 */
-	function tc_back_to_top_display() {
-		tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-    	?>
-
-    	<?php ob_start() ?>
-	    <div class="span4 backtop">
-	    	<?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-	    	<p class="pull-right">
-	    		<a class="back-to-top" href="#"><?php _e( 'Back to top' , 'customizr' ) ?></a>
-	    	</p>
-
-	    </div>
-	    <?php
-	    $html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_back_to_top_display', $html );
+	function tc_colophon_right_block() {
+    	echo apply_filters(
+    		'tc_colophon_right_block',
+    		sprintf('<div class="%1$s"><p class="pull-right"><a class="back-to-top" href="#">%2$s</a></p></div>',
+    			apply_filters( 'tc_colophon_right_block_class', 'span4 backtop' ),
+    			__( 'Back to top' , 'customizr' )
+    		)
+    	);
 	}
 
  }//end of class

@@ -20,9 +20,8 @@ class TC_ressources {
     function __construct () {
 
         self::$instance =& $this;
-        add_filter( '__customizr_styles'						, array( $this , 'tc_customizer_styles' ) );
-        add_action( 'wp_enqueue_scripts'						, array( $this , 'tc_enqueue_customizer_styles' ) );
-        add_action( 'wp_enqueue_scripts'						, array( $this , 'tc_scripts' ) );
+        add_action ( 'wp_enqueue_scripts'						, array( $this , 'tc_enqueue_customizr_styles' ) );
+        add_action ( 'wp_enqueue_scripts'						, array( $this , 'tc_enqueue_customizr_scripts' ) );
         
         //Based on options
         add_action ( 'wp_head'                 					, array( $this , 'tc_write_custom_css' ), 20 );
@@ -34,48 +33,32 @@ class TC_ressources {
 	 * @package Customizr
 	 * @since Customizr 1.1
 	 */
-	  function tc_customizer_styles() {
+	  function tc_enqueue_customizr_styles() {
 	  	 //record for debug
-      	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
       	
-	      	$skin = tc__f( '__get_option' , 'tc_skin' );
-	      	
-		    wp_register_style( 
-		      'customizr-skin' ,
-		      //check rtl languages
-		      ('ar' == WPLANG || 'he_IL' == WPLANG) ? TC_BASE_URL.'inc/css/rtl/'.$skin : TC_BASE_URL.'inc/css/'.$skin,
-		      array(), 
-		      CUSTOMIZR_VER, 
-		      $media = 'all' 
-		      );
+      	
+	    wp_register_style( 
+	      'customizr-skin' ,
+	      TC_init::$instance -> tc_active_skin(),
+	      array(), 
+	      CUSTOMIZR_VER, 
+	      $media = 'all' 
+	      );
 
+	    //enqueue skin
+	    wp_enqueue_style( 'customizr-skin' );
 
-		    //enqueue skin
-		    wp_enqueue_style( 'customizr-skin' );
-
-		    //enqueue WP style sheet
-		    wp_enqueue_style( 
-		    	'customizr-style' , 
-		    	get_stylesheet_uri() , 
-		    	array( 'customizr-skin' ),
-		    	CUSTOMIZR_VER , 
-		    	$media = 'all'  
-		    );
+	    //enqueue WP style sheet
+	    wp_enqueue_style( 
+	    	'customizr-style' , 
+	    	get_stylesheet_uri() , 
+	    	array( 'customizr-skin' ),
+	    	CUSTOMIZR_VER , 
+	    	$media = 'all'  
+	    );
 
 	}
 
-
-	/**
-	 * Apply the __customizr_styles filter and make it filtrable.
-	 * 
-	 * @uses wp_enqueue_script() to manage script dependencies
-	 * @package Customizr
-	 * @since Customizr 3.0.11
-	 */
-	function tc_enqueue_customizer_styles() {
-		tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-		return tc__f('__customizr_styles');
-	}
 
 
 
@@ -88,14 +71,20 @@ class TC_ressources {
 	 * @package Customizr
 	 * @since Customizr 1.0
 	 */
-	 function tc_scripts() {
+	 function tc_enqueue_customizr_scripts() {
 	  	//record for debug
-	  	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+	  	
+
+	    //wp scripts
+	  	if ( is_singular() && get_option( 'thread_comments' ) ) {
+		    wp_enqueue_script( 'comment-reply' );
+		}
 
 	    wp_enqueue_script( 'jquery' );
 
 	    wp_enqueue_script( 'jquery-ui-core' );
 
+	    //bootstrap scripts
 	    wp_enqueue_script( 'bootstrap' ,TC_BASE_URL . 'inc/js/bootstrap.min.js' ,array( 'jquery' ),null, $in_footer = true);
 	     
 	    //tc scripts
@@ -107,25 +96,37 @@ class TC_ressources {
 		$autoscale 			= ( 1 == tc__f( '__get_option' , 'tc_fancybox_autoscale') ) ? true : false ;
 
         //carousel options
-        //get slider options if any
-	    $slidername       	= get_post_meta( tc__f('__ID') , $key = 'post_slider_key' , $single = true );
-	    $sliderdelay      	= get_post_meta( tc__f('__ID') , $key = 'slider_delay_key' , $single = true );
+        //gets slider options if any for home/front page or for others posts/pages
+	    $js_slidername       = tc__f('__is_home') ? tc__f( '__get_option' , 'tc_front_slider' ) : get_post_meta( tc__f('__ID') , $key = 'post_slider_key' , $single = true );
+	    $js_sliderdelay      = tc__f('__is_home') ? tc__f( '__get_option' , 'tc_slider_delay' ) : get_post_meta( tc__f('__ID') , $key = 'slider_delay_key' , $single = true );
 	      
-		//get the slider id and delay if we display home/front page
-		if ( tc__f('__is_home') ) {
-		    $slidername     = tc__f( '__get_option' , 'tc_front_slider' );
-		    $sliderdelay    = tc__f( '__get_option' , 'tc_slider_delay' );
+		//add those to filters
+		$js_slidername 		= apply_filters( 'tc_js_slider_name', $js_slidername , tc__f('__ID') );
+		$js_sliderdelay 	= apply_filters( 'tc_js_slider_delay' , $js_sliderdelay, tc__f('__ID') );
+
+		//creates a filter for stop-on-hover option
+		$sliderhover		= apply_filters( 'tc_stop_slider_hover', true );
+
+		//Smooth scroll on click option : filtered to allow easy disabling if needed (conflict)
+		$smooth_scroll		= apply_filters( 'tc_smooth_scroll', esc_attr( tc__f( '__get_option' , 'tc_link_scroll') ) );
+
+		//adds the jquery effect library if smooth scroll is enabled => easeOutExpo effect
+		if ( $smooth_scroll ) {
+			wp_enqueue_script( 'jquery-effects-core');
 		}
 
 		wp_localize_script( 
 	        'tc-scripts', 
 	        'TCParams', 
-		        array(
-		          	'FancyBoxState' 		=> $tc_fancybox,
-		          	'FancyBoxAutoscale' 	=> $autoscale,
-		          	'SliderName' 			=> $slidername,
-		          	'SliderDelay' 			=> $sliderdelay
-		        )
+		        apply_filters('tc_js_params' , array(
+			          	'FancyBoxState' 		=> $tc_fancybox,
+			          	'FancyBoxAutoscale' 	=> $autoscale,
+			          	'SliderName' 			=> $js_slidername,
+			          	'SliderDelay' 			=> $js_sliderdelay,
+			          	'SliderHover'			=> $sliderhover,
+			          	'SmoothScroll'			=> $smooth_scroll ? 'easeOutExpo' : 'linear'
+		        	)
+		       	)//end of filter
          );
 
 
@@ -141,7 +142,13 @@ class TC_ressources {
 	      	wp_enqueue_style( 'fancyboxcss' , TC_BASE_URL . 'inc/js/fancybox/jquery.fancybox-1.3.4.min.css' );
 	    }
 
+	    //retina support script
+	    if ( 1 == tc__f( '__get_option' , 'tc_retina_support' ) ) {
+	    	wp_enqueue_script( 'retinajs', TC_BASE_URL . 'inc/js/retina.min.js', null, null, $in_footer = true );
+	   	}
+
 	 }
+
 
 
 
@@ -153,7 +160,7 @@ class TC_ressources {
      */
     function tc_write_custom_css() {
     	//record for debug
-    	tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+    	
         $tc_custom_css      	= esc_html( tc__f( '__get_option' , 'tc_custom_css') );
         $tc_top_border      	= esc_attr( tc__f( '__get_option' , 'tc_top_border') );
         ?>
@@ -167,6 +174,6 @@ class TC_ressources {
         <?php endif; ?>
 
         <?php
-        }//end of function
+    }//end of function
 
 }//end of TC_ressources

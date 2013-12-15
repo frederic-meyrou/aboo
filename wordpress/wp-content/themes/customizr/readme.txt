@@ -2,110 +2,19 @@
 Customizr is a free WordPress theme designed by Nicolas Guillaume in Nice, France. (www.themesandco.com)
 Feel free to use, modify and redistribute this theme as you like.
 You may remove any copyright references (unless required by third party components) and crediting is not necessary, but very appreciated... ;-D.
-Customizr is distributed under the terms of the GNU GPL
+Customizr is distributed under the terms of the GNU GPL v2.0 or later
 Enjoy it!
 
 
 
-##################### Installation #####################
-1. Upload the `customizr` folder to the `/wp-content/themes/` directory
-Activation and Use
-1. Activate the Theme through the 'Themes' menu in WordPress
-2. See Appearance -> Customiz'it to change theme options
+################ DOCUMENTATION AND FAQS ################
+DOCUMENTATION : http://themesandco.com/customizr
+FAQs : http://themesandco.com/customizr/faq
+SNIPPETS : http://themesandco.com/code-snippets/
+HOOKS API : http://www.themesandco.com/customizr/hooks-api/
 
 
-
-############# User Guide and Main Features #############
-=== WP Version ===
-As this theme uses the WordPress customizer feature for most options, it requires at least version 3.4 to work properly.
-Please make sure your WP version is at least 3.4.
-
-=== Choose a skin ===
-The theme comes with seven skins. The default skin is the blue one. Open the customizer screen to select your prefered skin.
-
-=== Upload a logo and a favicon ===
-Go to the customizer screen in the logo and favicon section and upload your images.
-For best results, try uploading a logo with the following maximum dimensions => max-height :100px, max-width ; 250px
-
-=== Home page settings ===
-All settings for home page are available in the customizer screen. You can :
-- Select a static page/ your lasts posts (the number of posts per page can be changed in the page and post layout section),
-- Choose a layout for your sidebars : full-width, left, right, two sidebars,
-- Select a slider among the ones you have created (see below for slider creation) and choose the slider options : full-width or boxed, delay between slides. To remove the demo slider : select "No slider" in the dropdown list.
-- Set your home featured pages and text (you can also disable this feature). To remove the featured pages area : select "Hide" in the dropdown list.
-
-=== Select a menu ===
-Customizr comes with one menu location in the header. Select a menu in the customizr screen => menu section
-
-=== Pages and posts layout ===
-With Customizr, you can define your page and post layout at two levels :
-1- In the main option screen (Customizer screen) : you can define the global default layout for all your website, for all your posts and for all your pages. Four choices are available for the sidebars location : full-width (no sidebars), left, right, two sidebars.
-
-2- In each post or page editing screen, you can define a particular layout in a dedicated box: full-width (no sidebars), left, right, two sidebars.
-
-=== Social links ===
-You can set up to nine social network profile in the customizer option screen. Write the url of your social profile in the fields.
-The social icons can be displayed in four predefined location of your website : header, footer, top of right sidebar, top of left sidebar
-
-=== Slider creation ===
-1 - Go to the edit screen of any image
-2 - Find the Slider options box
-3 - Check "Add to a slider"
-4 - Set the optional call to action fields : title, description, text of the button and link to page/post
-5 - Write a name and click on the "Add a slider" button : this will automatically add the current media to your slider (no need to refresh)
-
-=== Add images to a slider ===
-1 - Go to the edit screen of any image
-2 - Find the Slider options box
-3 - Check "Add to a slider"
-4 - Set the optional call to action fields : title, description, text of the button and link to page/post
-5 - Select a slider in the list
-
-=== Reorder the slides ===
-The slides can be manually reorder with a drag and drop feature.
-
-=== Add a slider to a post/page ===
-1 - Go to the edit screen of any page/post
-2 - Find the slider options box
-3 - Check "Add a slider"
-4 - Select a slider
-5 - Change the delay and layout field if needed
-6 - Update the page
-
-=== Delete a slider ===
-In the Slider options box, at the top of the slides table, click on "Delete this slider".
-This action will delete the slider but not the images.
-
-=== Post Formats ===
-You can choose up to 10 post formats for your posts.
-Posts with the aside, status, quote and link post formats are displayed with no title.
-Posts with the link post format will link out to the first <a> tag in the post.
-
-
-
-################## Notes for developers ################
-=== Code logic ===
-The theme is built on a classes framework. The classes are identified by their group and name like this : class-[group]-[name].php.
-
-The function tc__( $group, $classname), where the group parameter is required :
-1) scans the theme folder to find the appropriate group / class 
-2) and then instanciates the class(es) only once through a singleton factory.
-
-A class typically includes a constructor which is mainly used to add the methods to WP actions and filters. 
-Actions are used to render HTML or execute some code in predefined WP action, while filters are used to get values.
-
-For simplification purposes, the theme uses few WP templates : index.php, header.php, footer.php, comments.php, sidebar(s).php. 
-Those templates only includes some structural HTML markup, the rest is rendered with the actions defined in the classes of the parts/ folder.
-
-Customizr uses one single loop for all kind of content. It is located in class-main-loop.php.
-
-
-=== Translation ===
-The themes is ready for translation and already translated in french. Translation files are in /lang.
-
-
-
-####################### Licenses ########################
+####################### Licenses #######################
 Unless otherwise specified, all the theme files, scripts and images
 are licensed under GNU General Public License version 2, see file license.txt.
 The exceptions to this license are as follows:
@@ -115,6 +24,7 @@ The exceptions to this license are as follows:
 * The script modernizr.js is dual licensed under the BSD and MIT licenses
 * The script jquery.iphonecheck.js is copyrighted by Thomas Reynolds, licensed GPL & MIT
 * The script jquery.fancybox-1.3.4.js is dual licensed under the MIT and GPL licenses
+* The script retina.min.js is copyrighted by Imulus, LLC, Ben Atkin, and other contributors and licensed under MIT
 * Icon Set:	Entypo is licensed under SIL Open-Font License
 * The image phare.jpg is a free public picture from Wikimedia, copyright 2013 Alf van Beem (http://commons.wikimedia.org/wiki/File:Ca_1941_DAF_%27Rijdende_regenjas%27_pic7.JPG) , and distributed under the terms of the Creative Commons CC0 1.0 Universal Public Domain Dedication (http://creativecommons.org/publicdomain/zero/1.0/deed.en)
 * The image chevrolet.jpg is a free public picture from Wikimedia, copyright 2013 Alf van Beem (http://commons.wikimedia.org/wiki/File:%2755_Chevrolet_ornament.JPG) , and distributed under the terms of the Creative Commons CC0 1.0 Universal Public Domain Dedication (http://creativecommons.org/publicdomain/zero/1.0/deed.en)
@@ -123,6 +33,74 @@ The exceptions to this license are as follows:
 
 
 #######################  Changelog ######################
+= 3.1.4 =
+* fixed : (css) featured pages : another responsive thumbnails alignment for max-width: 979px
+
+= 3.1.3 =
+* fixed : (css) featured pages : responsive thumbnails alignment
+
+= 3.1.2 =
+* improved : (php) minor file change : the class__.php content has been moved in functions.php
+
+= 3.1.1 =
+* added : (language) Turkish : thanks to <a href="http://www.ahmethakanergun.com/">Ahmet Hakan Ergün</a>
+* added : (css) customizer : some styling
+* fixed : (css) post thumbnails : minor alignment issues
+* fixed : (php) translations in customizer for dropdown lists
+
+= 3.1.0 =
+* added : (language) Hungarian : thanks to Ferencz Székely
+* added : (php) Woocommerce : full compatibility
+* added : (php) BBpress : full compatibilty
+* added : (php) Qtranslate : full compatibilty. Thanks to <a href="http://websiter.ro" target="_blank">Andrei Gheorghiu</a>
+* added : (js)(php)(css) Retina new option : customizr now supports retina devices. Uses Ben Atkin's retina.js script.
+* added : (js)(php)(css) new option : Optional smooth scroll effect on anchor links in the same page
+* added : (php)(css) Menu : new option to select hover/click expansion mode of submenus
+* added : (css) Twitter Bootstrap : Glyphicons are now available
+* added : (php) site title : filter on the html tag
+* added : (php) archives (categories, tags, author, dates) and search results titles can be filtered
+* added : (php) posts : 2 new hooks before and after post titles. Used for post metas.
+* added : (php) logo and site title : new filter for link url (allowing to change the link on a per page basis)
+* added : (php) featured pages : filters for page link url and text length
+* added : (php) featured pages : new filter for the button text (allowing to change the title on a per page basis)
+* added : (php) slider : new filters allowing a full control of img, title, text, link, button, color
+* added : (php) slider : new function to easily get slides out of a slider
+* added : (php) Slider : New edit link on each slides
+* added : (php) comments : filter on the boolean controlling display
+* added : (php) comments : direct link from post lists to single post comments section
+* added : (php) comments : new filters allowing more control on the comment bubble
+* added : (php) metaboxes : filter on display priority below WYSIWYG editor
+* added : (php) footer : filters on widgets area : more controls on number of widgets and classes
+* added : (php) sidebars : filters on column width classes
+* added : (php) content : filters on the layout
+* added : (php) page : support for excerpt
+* added : (js)(php) slider : new filter for an easier control of the stop on hover
+* added : (php) Social Networks : possibility to easily add any social networks in option with a custom icon on front end
+* added : (php) Social Networks : filter allowing additional link attributes like rel="publisher" for a specific social network
+* added : (php) Posts/pages headings : new filters to enable/disable icons
+* added : (php) Post lists : edit link in post titles for admin and edit_posts allowed users
+* added : (php)(css) Intra post pagination : better styling with buttons
+* added : (php) sidebars : two sidebar templates are back. needed by some plugins
+* changed : (php) Featured page : name of the text filter is now 'fp_text'
+* improved : (css) Menu : style has been improved
+* improved : (php) slider : controls are not displayed if only on slide.
+* improved : (php) fancybox : checks if isset $post before filtering content
+* improved : (css) widgets : arrow next to widget's list is only displayed for default WP widgets
+* improved : (javascript) fancybox : now sets the image's title or alt as fancybox popin title (instead of page or post title)
+* fixed : (php) blog page layout : when blog was set to a page, the specific page layout was not active anymore
+* fixed : (php) menu : the tc_menu_display filter was missing a parameter
+* fixed : (php) comments : removed the useless permalink for the comments link in pages and posts
+* updated : (lang) pt_BR : Thanks to Roner Marcelo and Rodrigo Stuchi
+* updated : (lang) nl_NL : Thanks to Joris Dutmer
+* updated : (lang) es_ES : Thanks to María
+* updated : (lang) de_DE : Thanks to Martin Bangemann
+* updated : (lang) zh_CN : Thanks to Luckie Joy
+* updated : (lang) ar : Thanks to Ramez Bdiwi
+* updated : (lang) ca_ES : Thanks to Jaume Albaigès
+* updated : (lang) ru_RU : Thanks to <a href="http://bootwalksnews.com/" target="_blank">Evgeny Sudakov</a>
+* removed : (php) Dev Tools : the developer tools have been removed from the theme for perfomances issues.
+
+
 = 3.0.15 =
 * added : (language) Catalan : thanks to <a href="https://twitter.com/jaume_albaiges" target="_blank">Jaume Albaig&egrave;s</a>
 * fixed : (js) Slider : ie7/ie8/ie9 hack (had to be re-implemented) : thanks to @barryvdh (https://github.com/twbs/bootstrap/pull/3052)
@@ -142,7 +120,7 @@ The exceptions to this license are as follows:
 * added : (php) logo : 2 new filters to control max width and max height values (if logo resize options is enabled) : '__max_logo_width' , '__max_logo_height'
 * added : (php) body tag : a new action hook '__body_attributes'
 * added : (php) header tag : new '__header_classes' filter
-* added : (php) #main-wrapper : new '__main_wrapper_classes' filter
+* added : (php) #main-wrapper : new 'tc_main_wrapper_classes' filter
 * added : (php) footer : new '__footer_classes' filter
 * added : (js) scrollspy from Bootstrap
 * added : (js) Scrollspy : updated version from Bootstrap v3.0. handles submenu spy.

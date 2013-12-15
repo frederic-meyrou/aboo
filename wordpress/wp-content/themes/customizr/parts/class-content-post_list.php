@@ -18,33 +18,12 @@ class TC_post_list {
     static $instance;
 
     function __construct () {
-
         self::$instance =& $this;
-
-        //header of the list of post : archive, search...
-        add_action  ( '__before_loop'                 , array( $this , 'tc_search_list_header' ));
-        add_action  ( '__before_loop'                 , array( $this , 'tc_author_header' ));
-        add_action  ( '__before_loop'                 , array( $this , 'tc_category_header' ));
-        add_action  ( '__before_loop'                 , array( $this , 'tc_tag_header' ));
-        add_action  ( '__before_loop'                 , array( $this , 'tc_time_archive_header' ));
-        add_action  ( '__before_loop'                 , array( $this , 'tc_hr_list_header' ) , 20);
-        
-
-        //posts parts actions
-        add_action  ( '__before_content'              , array( $this , 'tc_post_list_header' ));
-        //add_action  ( '__after_content'               , array( $this , 'tc_post_list_footer' ));
-
-
-        //defines the article layout : content + thumbnail
-        add_action  ( '__loop'                        , array( $this , 'tc_post_list_layout'));
-
-        //selector filter
-        add_filter  ( '__article_selectors'           , array( $this , 'tc_post_list_selectors' ));
-
+        //displays the article with filtered layout : content + thumbnail
+        add_action  ( '__loop'                        , array( $this , 'tc_post_list_display'));
         //Include attachments in search results
         add_filter  ( 'pre_get_posts'                 , array( $this , 'tc_include_attachments_in_search' ));
     }
-
 
 
 
@@ -54,85 +33,60 @@ class TC_post_list {
      * @package Customizr
      * @since Customizr 3.0.10
      */
-    function tc_post_list_layout() {
-
+    function tc_post_list_display() {
       global $wp_query;
-      //must be archive or search result. Returns false if home is empty in option.
+      //must be archive or search result. Returns false if home is empty in options.
       if ( is_singular() || is_404() || (is_search() && 0 == $wp_query -> post_count) || tc__f( '__is_home_empty') )
         return;
 
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
+      
 
-        tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__, 'right'); 
-        //we get the thumbnail if any
-        $this -> tc_get_post_list_thumbnail();
+      //When do we show the post excerpt?
+      //1) when set in options
+      //2) + other filters conditions
+      $tc_show_post_list_excerpt      = ( 'full' == esc_attr( tc__f( '__get_option' , 'tc_post_list_length' )) ) ? false : true;
+      $tc_show_post_list_excerpt      = apply_filters( 'tc_show_post_list_excerpt', $tc_show_post_list_excerpt );
+     
+      //we get the thumbnail data (src, width, height) if any
+      $thumb_data                     = $this -> tc_get_post_list_thumbnail();
 
-        //alternative priority for content and thumbnail
-        global $wp_query;
-        $thumb_priority = ( 0 == $wp_query->current_post % 2 ) ? 30 : 10 ;
-        add_action ('__post_list_layout'      , array( $this, 'tc_post_list_content' ) , 20);
-        add_action ('__post_list_layout'      , array( $this, 'tc_post_list_thumbnail' ) , $thumb_priority);
-        
-        //renders the layout
-        do_action ('__post_list_layout');
+      //gets the filtered post list layout
+      $layout                         = TC_init::$instance -> post_list_layout;
 
-        //clean hooks actions until next loop
-        remove_all_actions( '__post_list_layout' );
-        ?>
-          <hr class="featurette-divider">
-      <?php
-    }
-    
+      //when do we display the thumbnail ?
+      //1) there must be a thumbnail
+      //2) the excerpt option is not set to full
+      //3) filter's conditions
+      $tc_show_post_list_thumb        = $tc_show_post_list_excerpt ? true : false;
+      $tc_show_post_list_thumb        = empty($thumb_data[0]) ? false : $tc_show_post_list_thumb;
+      $tc_show_post_list_thumb        = apply_filters( 'tc_show_post_list_thumb', $tc_show_post_list_thumb );
+     
+      //what is determining the layout ? if no thumbnail then full width + filter's conditions
+      $post_list_content_class        = $tc_show_post_list_thumb  ? $layout['content'] : 'span12';
+      $post_list_content_class        = apply_filters( 'tc_post_list_content_class', $post_list_content_class , $tc_show_post_list_thumb );
 
+      //Renders the filtered layout for content + thumbnail
+      if ( isset($layout['alternate']) && $layout['alternate'] ) {
+        if ( 0 == $wp_query->current_post % 2 ) {
+          $this -> tc_post_list_content($post_list_content_class, $tc_show_post_list_excerpt);
+          $tc_show_post_list_thumb ? $this -> tc_post_list_thumbnail( $thumb_data , $layout['thumb'] ) : false;
+        }
+        else {
+          $tc_show_post_list_thumb ? $this -> tc_post_list_thumbnail( $thumb_data , $layout['thumb'] ) : false;
+          $this -> tc_post_list_content($post_list_content_class, $tc_show_post_list_excerpt);
+        }
+      } else if ( isset($layout['show_thumb_first']) && !$layout['show_thumb_first'] ) {
+          $this -> tc_post_list_content($post_list_content_class, $tc_show_post_list_excerpt);
+          $tc_show_post_list_thumb ? $this -> tc_post_list_thumbnail( $thumb_data , $layout['thumb'] ) : false;
+       
+      }
+      else {
+        $tc_show_post_list_thumb ? $this -> tc_post_list_thumbnail( $thumb_data , $layout['thumb'] ) : false;
+        $this -> tc_post_list_content($post_list_content_class, $tc_show_post_list_excerpt);
+      }
 
-
-    /**
-     * The template part for displaying the posts header
-     *
-     * @package Customizr
-     * @since Customizr 3.0
-     */
-    function tc_post_list_header() {
-
-      if ( is_singular() )
-        return;
-
-      if( in_array( get_post_format(), tc__f('post_type_with_no_headers') ) )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-
-      ob_start();
-
-        ?>
-          <header class="entry-header">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__); ?>
-          <?php //bubble color computation
-              $style                      = ( 0 == get_comments_number() ) ? 'style="color:#ECECEC" ':'';
-
-                  if ((get_the_title() != null)) {
-                      printf( 
-                          '<h2 class="entry-title format-icon">%1$s %2$s</h2>' ,
-                          '<a href="'.get_permalink().'" title="'.esc_attr( sprintf( __( 'Permalink to %s' , 'customizr' ), the_title_attribute( 'echo=0' ) ) ).'" rel="bookmark">'.((get_the_title() == null) ? __( '{no title} Read the post &raquo;' , 'customizr' ):get_the_title()).'</a>' ,
-                          //check if comments are opened AND if there are comments to display
-                          (comments_open() && get_comments_number() != 0) ? '<span class="comments-link"><span '.$style.' class="fs1 icon-bubble"></span><span class="inner">'.get_comments_number().'</span></span>' : ''
-                      );
-                  }
-              ?>
-              <div class="entry-meta">
-                  <?php //meta not displayed on home page, only in archive or search pages
-                      if ( !tc__f('__is_home') ) { 
-                          do_action( '__post_metas' );
-                      }
-                  ?>
-
-              </div><!-- .entry-meta -->
-            
-          </header><!-- .entry-header -->
-        <?php
-        $html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_post_list_header', $html );
+      //renders the hr separator after each article
+      echo apply_filters( 'tc_post_list_separator', '<hr class="featurette-divider '.current_filter().'">' );
 
     }
 
@@ -140,69 +94,57 @@ class TC_post_list {
 
 
 
+
     /**
-     * Displays the posts list text content
+     * Displays the posts list content
      *
      * @package Customizr
      * @since Customizr 3.0
      */
-    function tc_post_list_content() {
-      global $wp_query;
-      if ( is_singular() || is_404() || (is_search() && 0 == $wp_query -> post_count) )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-
+    function tc_post_list_content( $post_list_content_class, $tc_show_post_list_excerpt ) {
       ob_start();
-      global $tc_has_thumbnail;
-
-      //get post list length option
-      $full = ( 'full' == esc_attr( tc__f( '__get_option' , 'tc_post_list_length' )) ) ? true:false;
-
-      $content_class        = ( $tc_has_thumbnail && !$full ) ? 'span8' : 'span12';
-        ?>
-
-          <section class="tc-content <?php echo $content_class; ?>">
-              
+      ?>
+      <section class="tc-content <?php echo $post_list_content_class; ?>">
           <?php do_action( '__before_content' ); ?>
+          
+          <?php //display an icon for div if there is no title
+                  $icon_class = in_array(get_post_format(), array(  'quote' , 'aside' , 'status' , 'link' )) ? apply_filters( 'tc_post_list_content_icon', 'format-icon' ) :'';
+              ?>
+          <?php if (!get_post_format()) :  // Only display Excerpts for lists of posts with format different than quote, status, link, aside ?>
               
-              <?php //display an icon for div if there is no title
-                      $icon_class = in_array(get_post_format(), array(  'quote' , 'aside' , 'status' , 'link' )) ? 'format-icon':'';
-                  ?>
-              <?php if (!get_post_format()) :  // Only display Excerpts for lists of posts with format different than quote, status, link, aside ?>
-                  
-                  <section class="entry-summary">
-                    <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__); ?>
-                      <?php if ($full) : ?>
-                        <?php the_content(); ?>
-                      <?php else : ?>
-                        <?php the_excerpt(); ?>
-                      <?php endif; ?>
-                  </section><!-- .entry-summary -->
+              <section class="entry-summary">
+                  <?php if ( !$tc_show_post_list_excerpt ) : ?>
+                    <?php the_content(); ?>
+                  <?php else : ?>
+                    <?php the_excerpt(); ?>
+                  <?php endif; ?>
+              </section><!-- .entry-summary -->
+          
+          <?php elseif ( in_array(get_post_format(), array( 'image' , 'gallery' ))) : ?>
               
-              <?php elseif ( in_array(get_post_format(), array( 'image' , 'gallery' ))) : ?>
-                  
-                  <section class="entry-content">
-                      <p class="format-icon"></p>
-                  </section><!-- .entry-content -->
-              
-              <?php else : ?>
-              
-                  <section class="entry-content <?php echo $icon_class ?>">
-                      <?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>' , 'customizr' ) ); ?>
-                      <?php wp_link_pages( array( 'before' => '<div class="pagination pagination-centered">' . __( 'Pages:' , 'customizr' ), 'after' => '</div>' ) ); ?>
-                  </section><!-- .entry-content -->
-              <?php endif; ?>
-
+              <section class="entry-content">
+                  <p class="format-icon"></p>
+              </section><!-- .entry-content -->
+          
+          <?php else : ?>
+          
+              <section class="entry-content <?php echo $icon_class ?>">
+                  <?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>' , 'customizr' ) ); ?>
+                  <?php wp_link_pages( array( 'before' => '<div class="pagination pagination-centered">' . __( 'Pages:' , 'customizr' ), 'after' => '</div>' ) ); ?>
+              </section><!-- .entry-content -->
+          <?php endif; ?>
 
           <?php do_action( '__after_content' ) ?>
-                  
-          </section>
-        <?php
+
+      </section>
+
+      <?php
       $html = ob_get_contents();
-      ob_end_clean();
-      echo apply_filters( 'tc_post_list_content', $html );
+      if ($html) ob_end_clean();
+      echo apply_filters( 'tc_post_list_content', $html, $post_list_content_class, $tc_show_post_list_excerpt );
     }
+
+
 
 
 
@@ -213,13 +155,6 @@ class TC_post_list {
       * @since Customizr 1.0
       */
       function tc_get_post_list_thumbnail() {
-
-        global $wp_query;
-
-        if ( is_singular() || is_404() || (is_search() && 0 == $wp_query -> post_count) )
-          return;
-
-        tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
 
         //output vars declaration
         $tc_thumb            = '';
@@ -244,7 +179,7 @@ class TC_post_list {
             $tc_thumb_width             = $image[1];
         }
 
-        //check if there is a thumbnail and if not uses the first attached image
+        //check if no thumbnail then uses the first attached image if any
         else {
           //Case if we display a post or a page
            if ( 'attachment' != tc__f('__post_type') ) {
@@ -266,7 +201,7 @@ class TC_post_list {
             }
 
 
-          if ( $attachments) {
+          if ( isset($attachments) ) {
             foreach ( $attachments as $attachment) {
                //check if tc-thumb size exists for attachment and return large if not
               $image                = wp_get_attachment_image_src( $attachment->ID, $tc_thumb_size);
@@ -280,9 +215,7 @@ class TC_post_list {
             }
           }
         }
-        global $tc_has_thumbnail;
-        $tc_has_thumbnail = empty($tc_thumb) ? false : true;
-
+       
         return apply_filters( 'tc_get_post_list_thumbnail', array($tc_thumb, $tc_thumb_width, $tc_thumb_height) );
 
       }//end of function
@@ -294,301 +227,65 @@ class TC_post_list {
 
       /**
       * Displays the thumbnail or the first images attached to the post if any
-      *
+      * Takes 2 parameters : thumbnail data array (img, width, height) and layout value
+      * 
       * @package Customizr
       * @since Customizr 3.0.10
       */
-      function tc_post_list_thumbnail() {
-        global $tc_has_thumbnail;
-        //get post list length option
-        $full = ( 'full' == esc_attr( tc__f( '__get_option' , 'tc_post_list_length' )) ) ? true:false;
-        if ( !$tc_has_thumbnail || $full )
-          return;
-       
-        global $wp_query;
+      function tc_post_list_thumbnail( $thumb_data , $layout ) {
 
-        if ( is_singular() || is_404() || (is_search() && 0 == $wp_query -> post_count) )
+        $thumb_img                  = !isset( $thumb_data) ? false : $thumb_data[0];
+        $thumb_img                  = apply_filters( 'tc_post_thumb_img', $thumb_img );
+        if ( !$thumb_img )
           return;
 
-        //get tc_thumb = array($tc_thumb, $tc_thumb_width, $tc_thumb_height)
-        $tc_thumb = $this -> tc_get_post_list_thumbnail();
+        //handles the case when the image dimensions are too small
+        $thumb_size                 = TC_init::$instance -> tc_thumb_size;
+        $no_effect_class            = ( isset($thumb_data[0]) && isset($thumb_data[1]) && ( $thumb_data[1] < $thumb_size['width']) ) ? 'no-effect' : '';
+        $no_effect_class            = apply_filters( 'tc_no_round_thumb', $no_effect_class );
 
-        //handle the case when the image dimensions are too small
-        $no_effect_class            = '';
-        if (isset( $tc_thumb[0]) && ( $tc_thumb[1] < 270)) {
-          $no_effect_class          = 'no-effect';
-        }
+        //default hover effect
+        $thumb_wrapper              = sprintf('<div class="thumb-wrapper %1$s"><a class="round-div %1$s" href="%2$s" title="%3$s"></a><div class="round-div"></div>%4$s</div>',
+                                      $no_effect_class,
+                                      get_permalink( get_the_ID() ),
+                                      get_the_title( get_the_ID() ),
+                                      $thumb_img
+        );
+        $thumb_wrapper              = apply_filters( 'tc_post_thumb_wrapper', $thumb_wrapper, $thumb_img );
 
-        //render the thumbnail
-        if ( isset( $tc_thumb)) {
-              $html             = '<section class="tc-thumbnail span4">';
-                 $html          .= '<div class="thumb-wrapper '.$no_effect_class.'">';
-                    $html           .=  '<a class="round-div '.$no_effect_class.'" href="'.get_permalink( get_the_ID() ).'" title="'.get_the_title( get_the_ID()).'"></a>';
-                    //$html         .= '<div class="round-div"></div>';
-                      $html             .= $tc_thumb[0];
-                $html           .= '</div>';
-              $html             .= '</section><!--.thumb_class-->'.tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__);
+        //renders the thumbnail
+        $html = sprintf('<section class="tc-thumbnail %1$s">%2$s</section>',
+          apply_filters( 'tc_post_thumb_class', $layout ),
+          $thumb_wrapper
+        );
 
-          echo apply_filters( 'tc_post_list_thumbnail', $html );
-        }//endif
+        echo apply_filters( 'tc_post_list_thumbnail', $html, $thumb_data );
 
       }//end of function
 
 
 
 
-
-      /**
-     * Displays the conditional selectors of the article
-     * 
-     * @package Customizr
-     * @since 3.0.10
-     */
-    function tc_post_list_selectors () {
-        //must be archive or not-null search result. Returns false if home is empty in option.
-        global $wp_query;
-        if ( is_singular() || is_404() || (is_search() && 0 == $wp_query -> post_count) || tc__f( '__is_home_empty') )
-          return;
-
-        tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-
-        echo 'id="post-'.get_the_ID().'" '.tc__f('__get_post_class' , 'row-fluid');
-    }
-
-
-
-
-
-     /**
-     * Displays header for search results
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_search_list_header() {
-      if ( is_singular() ) 
-        return;
-      if ( !is_search() )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      ob_start(); 
-      ?>
-        <header class="search-header">
-        <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>  
-          <h1 class="format-icon">
-            <?php 
-              printf( __( '%1sSearch Results for: %2s' , 'customizr' ), 
-              have_posts() ? '' :  __( 'No' , 'customizr' ).'&nbsp;' ,
-              '<span>' . get_search_query() . '</span>' );
-            ?>
-          </h1>
-          
-        </header>
-
-      <?php
-      $html = ob_get_contents();
-      ob_end_clean();
-      echo apply_filters( 'tc_search_list_header', $html );
-    }
-
-
-
-
-
-
     /**
-     * Displays header for author post list
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_author_header() {
-      if ( is_singular() ) 
-        return;
-      if ( !is_author() )
-        return;
+    * Includes attachments in search results
+    *
+    * @package Customizr
+    * @since Customizr 3.0.10
+    */
+    function tc_include_attachments_in_search( $query ) {
+        if (! is_search() )
+          return $query;    
 
-      /* Get the user ID. */
-      $user_id = get_query_var( 'author' );
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      ob_start(); 
-      ?>
-        <header class="archive-header">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-          <h1 class="format-icon"><?php printf( __( 'Author Archives: %s' , 'customizr' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( $user_id ) ) . '" title="' . esc_attr( get_the_author_meta( 'display_name' , $user_id ) ) . '" rel="me">' . get_the_author_meta( 'display_name' , $user_id ) . '</a></span>' ); ?></h1>
-          <?php if ( get_the_author_meta( 'description', $user_id  ) ) : // If a user has filled out their description and this is a multi-author blog, show a bio on their entries. ?>
-                <hr class="featurette-divider">
-                <div class="author-info">
-                  <div class="row-fluid">
-                    <div class="comment-avatar author-avatar span2">
-                       <?php echo get_avatar( get_the_author_meta( 'user_email', $user_id ), apply_filters( 'tc_author_bio_avatar_size' , 100 ) ); ?>
-                    </div><!-- .author-avatar -->
-                    <div class="author-description span10">
-                        <h2><?php printf( __( 'About %s' , 'customizr' ), get_the_author() ); ?></h2>
-                        <p><?php the_author_meta( 'description' , $user_id  ); ?></p>
-                    </div><!-- .author-description -->
-                  </div>
-                </div><!-- .author-info -->
-            <?php endif; ?>
+        // add post status 'inherit' 
+        $post_status = $query->get( 'post_status' );
+        if ( ! $post_status || 'publish' == $post_status )
+          $post_status = array( 'publish', 'inherit' );
+        if ( is_array( $post_status ) ) 
+          $post_status[] = 'inherit';
 
-        </header><!-- .archive-header -->
-       <?php
-        $html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_author_header', $html, $user_id );
+        $query->set( 'post_status', $post_status );
+       
+        return $query;
     }
-
-
-
-
-
-    /**
-     * Displays header for the categories post list
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_category_header() {
-      if ( is_singular() ) 
-        return;
-      if ( !is_category() )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      ob_start();
-      ?>
-        <header class="archive-header">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-          <h1 class="format-icon"><?php printf( __( 'Category Archives: %s' , 'customizr' ), '<span>' . single_cat_title( '' , false ) . '</span>' ); ?></h1>
-
-          <?php if ( category_description() ) : // Show an optional category description ?>
-            <div class="archive-meta"><?php echo category_description(); ?></div>
-          <?php endif; ?>
-        </header><!-- .archive-header -->
-      <?php
-        $html = ob_get_contents();
-        ob_end_clean();
-        echo apply_filters( 'tc_category_header', $html );
-    }
-
-
-
-
-    /**
-     * Displays header for the tags post list
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_tag_header() {
-      if ( is_singular() ) 
-        return;
-      if ( !is_tag() )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      ob_start(); 
-      ?>
-        <header class="archive-header">
-          <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-          <h1 class="format-icon"><?php printf( __( 'Tag Archives: %s' , 'customizr' ), '<span>' . single_tag_title( '' , false ) . '</span>' ); ?></h1>
-
-        <?php if ( tag_description() ) : // Show an optional tag description ?>
-          <div class="archive-meta"><?php echo tag_description(); ?></div>
-        <?php endif; ?>
-        </header><!-- .archive-header -->
-      <?php
-      $html = ob_get_contents();
-      ob_end_clean();
-      echo apply_filters( 'tc_tag_header', $html );
-    }
-
-
-
-
-     /**
-     * Displays header for the time archives post list
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_time_archive_header() {
-      if ( is_singular() ) 
-        return;
-      if ( !is_day() && !is_month() && !is_year() )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      ob_start(); 
-      ?>
-      <header class="archive-header">
-        <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-        <h1 class="format-icon"><?php
-          if ( is_day() ) :
-            printf( __( 'Daily Archives: %s' , 'customizr' ), '<span>' . get_the_date() . '</span>' );
-          elseif ( is_month() ) :
-            printf( __( 'Monthly Archives: %s' , 'customizr' ), '<span>' . get_the_date( _x( 'F Y' , 'monthly archives date format' , 'customizr' ) ) . '</span>' );
-          elseif ( is_year() ) :
-            printf( __( 'Yearly Archives: %s' , 'customizr' ), '<span>' . get_the_date( _x( 'Y' , 'yearly archives date format' , 'customizr' ) ) . '</span>' );
-          else :
-            _e( 'Archives' , 'customizr' );
-          endif;
-        ?></h1>
-      </header><!-- .archive-header -->
-      <?php
-      $html = ob_get_contents();
-      ob_end_clean();
-      echo apply_filters( 'tc_time_archive_header', $html );
-
-    }//end of function
-
-
-
-
-
-     /**
-     * Displays hr after header for the archives and search results post list
-     *
-     * @package Customizr
-     * @since Customizr 3.0.11
-     */
-    function tc_hr_list_header() {
-      if ( !is_archive() || !is_search() )
-        return;
-
-      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-      //displays the hr after the title, if we are not on home page or the blog page.
-      global $wp_query;
-      $html = ( tc__f('__is_home') || $wp_query -> is_posts_page ) ? '' : '<hr class="featurette-divider">';
-      //$html .= tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ );
-      echo apply_filters( 'tc_hr_list_header', $html );
-    }
-
-
-
-
-
-      /**
-      * Includes attachments in search results
-      *
-      * @package Customizr
-      * @since Customizr 3.0.10
-      */
-      function tc_include_attachments_in_search( $query ) {
-          if (! is_search() )
-            return $query;    
-
-          // add post status 'inherit' 
-          $post_status = $query->get( 'post_status' );
-          if ( ! $post_status || 'publish' == $post_status )
-            $post_status = array( 'publish', 'inherit' );
-          if ( is_array( $post_status ) ) 
-            $post_status[] = 'inherit';
-
-          $query->set( 'post_status', $post_status );
-         
-          return $query;
-      }
 
 }//end of class

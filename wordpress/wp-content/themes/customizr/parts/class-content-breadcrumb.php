@@ -20,60 +20,41 @@ class TC_breadcrumb {
     static $instance;
 
     function __construct () {
-
         self::$instance =& $this;
-
         add_action( '__before_main_container'			, array( $this , 'tc_breadcrumb_display' ), 20 );
     }
 
     
-	 /**
-      * 
-      * @package Customizr
-      * @since Customizr 1.0 
-     */
+	/**
+    * 
+    * @package Customizr
+    * @since Customizr 1.0 
+    */
     function tc_breadcrumb_display() {
+	  	if(  !apply_filters( 'tc_show_breadcrumb' , 1 == tc__f( '__get_option' , 'tc_breadcrumb') && !tc__f('__is_home') ) )
+	      return;
 
-	      $__options         = tc__f( '__options' );
+	  	$args = array(
+		  'container'  => 'div' , // div, nav, p, etc.
+		  'separator'  => '&raquo;' ,
+		  'before'     => false,
+		  'after'      => false,
+		  'front_page' => true,
+		  'show_home'  => __( 'Home' , 'customizr' ),
+		  'network'    => false,
+		  'echo'       => true
+	  	);
 
-	      //get the default layout
-	        $tc_breadcrumb 			= $__options['tc_breadcrumb'];
-	        if( $tc_breadcrumb != 1)
-	          return;
-	      $args = array(
-	      'container'  => 'div' , // div, nav, p, etc.
-	      'separator'  => '&raquo;' ,
-	      'before'     => false,
-	      'after'      => false,
-	      'front_page' => true,
-	      'show_home'  => __( 'Home' , 'customizr' ),
-	      'network'    => false,
-	      'echo'       => true
-	      );
-
-	      ob_start();
-
-	      //do not display breadcrumb on home page
-	      if ( tc__f('__is_home') ) {
-	        return;
-	       }
-	      tc__f('rec' , __FILE__ , __FUNCTION__, __CLASS__ );
-	        ?>
-
-	        <div class="tc-hot-crumble container" role="navigation">
-	        <?php tc__f( 'tip' , __FUNCTION__ , __CLASS__, __FILE__ ); ?>
-	          <div class="row">
-	            <div class="span12">
-	            <?php $this -> tc_breadcrumb_trail( $args); ?>
-	            </div>
-	          </div>
-	        </div>
-
-		    <?php
-	        $html = ob_get_contents();
-	        ob_end_clean();
-	        echo apply_filters( 'tc_breadcrumb_display' , $html );
+	  	echo apply_filters( 
+	  			'tc_breadcrumb_display' , 
+				sprintf('<div class="tc-hot-crumble container" role="navigation"><div class="row"><div class="%1$s">%2$s</div></div></div>',
+					apply_filters( 'tc_breadcrumb_class', 'span12' ),
+					$this -> tc_breadcrumb_trail( $args)
+				)
+	  	);
     }
+
+
 
      /**
 	 * Breadcrumb Trail - A breadcrumb menu script for WordPress.
