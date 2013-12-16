@@ -1,27 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>GestAbo</title>
-    <meta charset="utf-8">
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
-</head>
+<?php
+/**
+ * Front to the WordPress application. This file doesn't do anything, but loads
+ * wp-blog-header.php which does and tells WordPress to load the theme.
+ *
+ * @package WordPress
+ */
 
-<body>
-    <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <div class="container">
-        <h2>HP GestAbo</h2>
-      	<ul class="nav nav-pills">
-          <li class="active"><a href="wordpress/index.php">HomePage WP</a></li>
-          <li><a href="connexion.php">Connexion</a></li>
-        </ul>
+/**
+ * Tells WordPress to load the WordPress theme and output it.
+ *
+ * @var bool
+ */
+define('WP_USE_THEMES', true);
 
-        <div class="alert alert alert-success alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Bonjour!</strong> Bienvenue sur l'application GestAbo.
-        </div>
-
-
-    </div> <!-- /container -->
-  </body>
-</html>
+/** Loads the WordPress Environment and Template */
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );

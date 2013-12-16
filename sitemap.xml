@@ -1,26 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://localhost/gestabo/wordpress/wp-content/plugins/google-xml-sitemaps-v3-for-qtranslate/sitemap.xsl"?><!-- generator="wordpress/3.8" -->
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://localhost/gestabo/wp-content/plugins/google-xml-sitemaps-v3-for-qtranslate/sitemap.xsl"?><!-- generator="wordpress/3.8" -->
 <!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.2.9" -->
-<!-- generated-on="14 December 2013 18 h 05 min" -->
-<!-- Debug: Total comment count: 1 -->
+<!-- generated-on="16 December 2013 13 h 27 min" -->
+<!-- Debug: Total comment count: 0 -->
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
 		<loc>http://localhost/gestabo/</loc>
-		<lastmod>2013-12-14T18:03:33+00:00</lastmod>
+		<lastmod>2013-12-16T11:12:06+00:00</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 <!-- Debug: Start Postings -->
+<!-- Debug: Priority report of postID 1: Comments: 0 of 0 = 0 points -->
 	<url>
-		<loc>http://localhost/gestabo/accueil/</loc>
-		<lastmod>2013-12-14T18:03:33+00:00</lastmod>
+		<loc>http://localhost/gestabo/bienvenue/</loc>
+		<lastmod>2013-12-16T13:27:12+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.2</priority>
+	</url>
+	<url>
+		<loc>http://localhost/gestabo/contactez-moi/</loc>
+		<lastmod>2013-12-16T13:24:44+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>
 	</url>
-<!-- Debug: Priority report of postID 1: Comments: 1 of 1 = 1 points -->
 	<url>
-		<loc>http://localhost/gestabo/article/</loc>
-		<lastmod>2013-12-14T17:48:17+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
+		<loc>http://localhost/gestabo/tarifs/</loc>
+		<lastmod>2013-12-16T13:24:14+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://localhost/gestabo/que-fait-aboo/</loc>
+		<lastmod>2013-12-16T13:23:49+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://localhost/gestabo/news/</loc>
+		<lastmod>2013-12-14T22:53:22+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
 	</url>
 <!-- Debug: End Postings -->
 <!-- Debug: Start Custom Pages -->
