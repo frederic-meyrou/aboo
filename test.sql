@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
--- Client: 127.0.0.1
--- Généré le: Lun 16 Décembre 2013 à 17:03
--- Version du serveur: 5.6.11
--- Version de PHP: 5.5.3
+-- Client: localhost
+-- Généré le : Mar 17 Décembre 2013 à 07:19
+-- Version du serveur: 5.5.16
+-- Version de PHP: 5.3.8
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `test`
 --
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `test`;
 
 DELIMITER $$
 --
@@ -74,25 +72,20 @@ CREATE TABLE IF NOT EXISTS `abonnement` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
 
 --
--- Vider la table avant d'insérer `abonnement`
---
-
-TRUNCATE TABLE `abonnement`;
---
 -- Contenu de la table `abonnement`
 --
 
 INSERT INTO `abonnement` (`id`, `user_id`, `exercice_id`, `client_id`, `type`, `periodicitee`, `montant`, `mois`, `commentaire`, `mois_1`, `mois_2`, `mois_3`, `mois_4`, `mois_5`, `mois_6`, `mois_7`, `mois_8`, `mois_9`, `mois_10`, `mois_11`, `mois_12`, `date_creation`) VALUES
-(0000000028, 6, 15, 0, '1', 12, '100.00', 1, 'test annuel', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:04:23'),
-(0000000029, 6, 15, 0, '1', 1, '123.00', 1, 'test mensuel', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:05:35'),
-(0000000032, 6, 15, 0, '1', 2, '111.00', 1, 'bimensuel', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:06:20'),
-(0000000034, 6, 15, 0, '1', 6, '222.00', 1, 'Test semestre', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:24:08'),
-(0000000035, 6, 15, 0, '1', 3, '30.00', 1, 'test trimestre', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:37:06'),
-(0000000036, 6, 15, 0, '4', 1, '1.00', 1, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 10:39:52'),
-(0000000038, 6, 15, 0, '1', 3, '300.00', 1, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 15:32:34'),
-(0000000039, 6, 15, 0, '1', 3, '3000.00', 10, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2013-12-12 16:14:56'),
-(0000000040, 6, 15, 0, '1', 1, '100.00', 12, 'dsfsdf', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '100.00', '2013-12-14 18:37:52'),
-(0000000041, 6, 15, 0, '1', 1, '300.00', 12, 'test', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '300.00', '2013-12-14 18:38:34');
+(0000000028, 6, 15, 0, '1', 12, 100.00, 1, 'test annuel', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:04:23'),
+(0000000029, 6, 15, 0, '1', 1, 123.00, 1, 'test mensuel', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:05:35'),
+(0000000032, 6, 15, 0, '1', 2, 111.00, 1, 'bimensuel', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:06:20'),
+(0000000034, 6, 15, 0, '1', 6, 222.00, 1, 'Test semestre', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:24:08'),
+(0000000035, 6, 15, 0, '1', 3, 30.00, 1, 'test trimestre', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:37:06'),
+(0000000036, 6, 15, 0, '4', 1, 1.00, 1, 'test', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 10:39:52'),
+(0000000038, 6, 15, 0, '1', 3, 300.00, 1, 'test', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 15:32:34'),
+(0000000039, 6, 15, 0, '1', 3, 3000.00, 10, 'test', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2013-12-12 16:14:56'),
+(0000000040, 6, 15, 0, '1', 1, 100.00, 12, 'dsfsdf', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 100.00, '2013-12-14 18:37:52'),
+(0000000041, 6, 15, 0, '1', 1, 300.00, 12, 'test', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 300.00, '2013-12-14 18:38:34');
 
 -- --------------------------------------------------------
 
@@ -112,11 +105,6 @@ CREATE TABLE IF NOT EXISTS `ca` (
   PRIMARY KEY (`user_id`,`exercice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chiffre d''affaire mensuel';
 
---
--- Vider la table avant d'insérer `ca`
---
-
-TRUNCATE TABLE `ca`;
 -- --------------------------------------------------------
 
 --
@@ -135,11 +123,6 @@ CREATE TABLE IF NOT EXISTS `ca_mensuel` (
   PRIMARY KEY (`user_id`,`exercice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Chiffre d''affaire mensuel';
 
---
--- Vider la table avant d'insérer `ca_mensuel`
---
-
-TRUNCATE TABLE `ca_mensuel`;
 -- --------------------------------------------------------
 
 --
@@ -162,17 +145,12 @@ CREATE TABLE IF NOT EXISTS `depense` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
--- Vider la table avant d'insérer `depense`
---
-
-TRUNCATE TABLE `depense`;
---
 -- Contenu de la table `depense`
 --
 
 INSERT INTO `depense` (`id`, `user_id`, `exercice_id`, `type`, `montant`, `periodicitee`, `mois`, `commentaire`, `date_creation`) VALUES
-(00000000013, 6, 15, '1', '101.00', NULL, 1, 'test frais', '2013-12-12 11:38:51'),
-(00000000014, 6, 15, '3', '102.00', NULL, 1, 'Social', '2013-12-12 11:39:05');
+(00000000013, 6, 15, '1', 101.00, NULL, 1, 'test frais', '2013-12-12 11:38:51'),
+(00000000014, 6, 15, '3', 102.00, NULL, 1, 'Social', '2013-12-12 11:39:05');
 
 -- --------------------------------------------------------
 
@@ -192,11 +170,6 @@ CREATE TABLE IF NOT EXISTS `encaissement` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Vider la table avant d'insérer `encaissement`
---
-
-TRUNCATE TABLE `encaissement`;
 -- --------------------------------------------------------
 
 --
@@ -211,20 +184,15 @@ CREATE TABLE IF NOT EXISTS `exercice` (
   `montant_treso_initial` decimal(10,2) DEFAULT NULL,
   `annee_debut` year(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
---
--- Vider la table avant d'insérer `exercice`
---
-
-TRUNCATE TABLE `exercice`;
 --
 -- Contenu de la table `exercice`
 --
 
 INSERT INTO `exercice` (`id`, `user_id`, `mois_debut`, `montant_treso_initial`, `annee_debut`) VALUES
-(00000000014, 6, 1, '100.00', 2010),
-(00000000015, 6, 12, '10000.00', 2013);
+(00000000014, 6, 1, 100.00, 2010),
+(00000000015, 6, 12, 10000.00, 2013);
 
 -- --------------------------------------------------------
 
@@ -244,11 +212,6 @@ CREATE TABLE IF NOT EXISTS `paiement` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Vider la table avant d'insérer `paiement`
---
-
-TRUNCATE TABLE `paiement`;
 -- --------------------------------------------------------
 
 --
@@ -264,11 +227,6 @@ CREATE TABLE IF NOT EXISTS `session` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Vider la table avant d'insérer `session`
---
-
-TRUNCATE TABLE `session`;
 -- --------------------------------------------------------
 
 --
@@ -299,18 +257,13 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Vider la table avant d'insérer `user`
---
-
-TRUNCATE TABLE `user`;
---
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `prenom`, `nom`, `email`, `telephone`, `password`, `inscription`, `actif`, `essai`, `montant`, `expiration`, `administrateur`, `token`, `mois_encours`, `exerciceid_encours`) VALUES
-(4, 'fred', 'meyrou', 'frederic@meyrou.com', '0612345678', 'derf44', '2013-11-28', 1, 0, '1234.00', '0000-00-00', 1, NULL, NULL, NULL),
-(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', 1, 0, '100.00', '0000-00-00', 0, NULL, 12, 15),
-(8, 'Frédéric', 'MEYROU', 'frederic_meyrou@yahoo.fr', '0672268111', 'derf44', '2013-12-14', 1, 0, '999.00', '2013-12-12', 0, NULL, NULL, NULL),
+(4, 'fred', 'meyrou', 'frederic@meyrou.com', '0612345678', 'derf44', '2013-11-28', 1, 0, 1234.00, '0000-00-00', 1, NULL, NULL, NULL),
+(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', 1, 0, 100.00, '0000-00-00', 0, NULL, 1, 15),
+(8, 'Frederic', 'MEYROU', 'frederic_meyrou@yahoo.fr', '0672268111', 'derf44', '2013-12-14', 1, 0, 999.00, '2013-12-12', 0, NULL, NULL, NULL),
 (10, 'Fr&eacute;d&eacute;ric', 'MEYROU', 'frederic.meyrou@gmail.com', '0672268111', 'h6S2Tlv7', '2013-12-12', 0, 0, NULL, NULL, 0, '432b5f36651f5bab7e96984650487bb51417dea8', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -330,11 +283,6 @@ CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Vider la table avant d'insérer `wp_commentmeta`
---
-
-TRUNCATE TABLE `wp_commentmeta`;
 --
 -- Contenu de la table `wp_commentmeta`
 --
@@ -374,11 +322,6 @@ CREATE TABLE IF NOT EXISTS `wp_comments` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Vider la table avant d'insérer `wp_comments`
---
-
-TRUNCATE TABLE `wp_comments`;
---
 -- Contenu de la table `wp_comments`
 --
 
@@ -410,11 +353,6 @@ CREATE TABLE IF NOT EXISTS `wp_links` (
   KEY `link_visible` (`link_visible`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Vider la table avant d'insérer `wp_links`
---
-
-TRUNCATE TABLE `wp_links`;
 -- --------------------------------------------------------
 
 --
@@ -429,13 +367,8 @@ CREATE TABLE IF NOT EXISTS `wp_options` (
   `autoload` varchar(20) NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`option_id`),
   UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=429 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=448 ;
 
---
--- Vider la table avant d'insérer `wp_options`
---
-
-TRUNCATE TABLE `wp_options`;
 --
 -- Contenu de la table `wp_options`
 --
@@ -483,7 +416,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (40, 'comment_max_links', '2', 'yes'),
 (41, 'gmt_offset', '1', 'yes'),
 (42, 'default_email_category', '1', 'yes'),
-(43, 'recently_edited', 'a:3:{i:0;s:67:"D:\\xampp\\htdocs\\gestabo\\wordpress/wp-content/themes/tonic/style.css";i:1;s:71:"D:\\DEV\\xampp\\htdocs\\gestabo\\wordpress/wp-content/themes/tonic/style.css";i:2;s:0:"";}', 'no'),
+(43, 'recently_edited', 'a:5:{i:0;s:62:"D:\\DEV\\xampp\\htdocs\\gestabo/wp-content/themes/tonic/header.php";i:2;s:61:"D:\\DEV\\xampp\\htdocs\\gestabo/wp-content/themes/tonic/index.php";i:3;s:77:"D:\\DEV\\xampp\\htdocs\\gestabo/wp-content/themes/tonic/library/theme-options.php";i:4;s:61:"D:\\DEV\\xampp\\htdocs\\gestabo/wp-content/themes/tonic/style.css";i:5;s:67:"D:\\xampp\\htdocs\\gestabo\\wordpress/wp-content/themes/tonic/style.css";}', 'no'),
 (44, 'template', 'tonic', 'yes'),
 (45, 'stylesheet', 'tonic', 'yes'),
 (46, 'comment_whitelist', '1', 'yes'),
@@ -523,7 +456,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (80, 'comment_order', 'asc', 'yes'),
 (81, 'sticky_posts', 'a:0:{}', 'yes'),
 (82, 'widget_categories', 'a:2:{i:2;a:4:{s:5:"title";s:0:"";s:5:"count";i:1;s:12:"hierarchical";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}', 'yes'),
-(83, 'widget_text', 'a:3:{i:3;a:3:{s:5:"title";s:0:"";s:4:"text";s:0:"";s:6:"filter";b:0;}i:4;a:3:{s:5:"title";s:0:"";s:4:"text";s:0:"";s:6:"filter";b:0;}s:12:"_multiwidget";i:1;}', 'yes'),
+(83, 'widget_text', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 (84, 'widget_rss', 'a:0:{}', 'yes'),
 (85, 'uninstall_plugins', 'a:0:{}', 'no'),
 (86, 'timezone_string', '', 'yes'),
@@ -537,8 +470,8 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (95, 'widget_recent-comments', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 (96, 'widget_archives', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 (97, 'widget_meta', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
-(98, 'sidebars_widgets', 'a:4:{s:19:"wp_inactive_widgets";a:2:{i:0;s:6:"text-3";i:1;s:6:"text-4";}s:7:"sidebar";a:4:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:12:"categories-2";i:3;s:11:"rss_links-2";}s:18:"home-page-top-area";a:4:{i:0;s:30:"bavotasan_custom_text_widget-2";i:1;s:30:"bavotasan_custom_text_widget-3";i:2;s:30:"bavotasan_custom_text_widget-4";i:3;s:30:"bavotasan_custom_text_widget-5";}s:13:"array_version";i:3;}', 'yes'),
-(99, 'cron', 'a:6:{i:1387212710;a:1:{s:20:"jetpack_clean_nonces";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1387217334;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1387220220;a:1:{s:20:"wp_maybe_auto_update";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1387247720;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1387290937;a:1:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}', 'yes'),
+(98, 'sidebars_widgets', 'a:4:{s:19:"wp_inactive_widgets";a:0:{}s:7:"sidebar";a:4:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:12:"categories-2";i:3;s:11:"rss_links-2";}s:18:"home-page-top-area";a:4:{i:0;s:30:"bavotasan_custom_text_widget-2";i:1;s:30:"bavotasan_custom_text_widget-3";i:2;s:30:"bavotasan_custom_text_widget-4";i:3;s:30:"bavotasan_custom_text_widget-5";}s:13:"array_version";i:3;}', 'yes'),
+(99, 'cron', 'a:6:{i:1387241510;a:1:{s:20:"jetpack_clean_nonces";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1387247720;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1387263420;a:1:{s:20:"wp_maybe_auto_update";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1387290937;a:1:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1387303734;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}', 'yes'),
 (106, '_site_transient_timeout_browser_2a45585bf6fbca9e24972054edb9a714', '1387636531', 'yes'),
 (107, '_site_transient_browser_2a45585bf6fbca9e24972054edb9a714', 'a:9:{s:8:"platform";s:7:"Windows";s:4:"name";s:6:"Chrome";s:7:"version";s:12:"31.0.1650.63";s:10:"update_url";s:28:"http://www.google.com/chrome";s:7:"img_src";s:49:"http://s.wordpress.org/images/browsers/chrome.png";s:11:"img_src_ssl";s:48:"https://wordpress.org/images/browsers/chrome.png";s:15:"current_version";s:2:"18";s:7:"upgrade";b:0;s:8:"insecure";b:0;}', 'yes'),
 (112, 'can_compress_scripts', '1', 'yes'),
@@ -558,7 +491,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (151, 'wpcf7', 'a:1:{s:7:"version";s:3:"3.6";}', 'yes'),
 (155, 'cscf_version', '4.3.0', 'yes'),
 (156, 'cscf_options', 'a:1:{s:13:"confirm-email";b:1;}', 'yes'),
-(168, '_site_transient_update_core', 'O:8:"stdClass":4:{s:7:"updates";a:2:{i:0;O:8:"stdClass":10:{s:8:"response";s:6:"latest";s:8:"download";s:47:"http://fr.wordpress.org/wordpress-3.8-fr_FR.zip";s:6:"locale";s:5:"fr_FR";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:47:"http://fr.wordpress.org/wordpress-3.8-fr_FR.zip";s:10:"no_content";b:0;s:11:"new_bundled";b:0;s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:3:"3.8";s:7:"version";s:3:"3.8";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"3.8";s:15:"partial_version";s:0:"";}i:1;O:8:"stdClass":10:{s:8:"response";s:6:"latest";s:8:"download";s:39:"https://wordpress.org/wordpress-3.8.zip";s:6:"locale";s:5:"en_US";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:39:"https://wordpress.org/wordpress-3.8.zip";s:10:"no_content";s:50:"https://wordpress.org/wordpress-3.8-no-content.zip";s:11:"new_bundled";s:51:"https://wordpress.org/wordpress-3.8-new-bundled.zip";s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:3:"3.8";s:7:"version";s:3:"3.8";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"3.8";s:15:"partial_version";s:0:"";}}s:12:"last_checked";i:1387209772;s:15:"version_checked";s:3:"3.8";s:12:"translations";a:0:{}}', 'yes'),
+(168, '_site_transient_update_core', 'O:8:"stdClass":4:{s:7:"updates";a:2:{i:0;O:8:"stdClass":10:{s:8:"response";s:6:"latest";s:8:"download";s:47:"http://fr.wordpress.org/wordpress-3.8-fr_FR.zip";s:6:"locale";s:5:"fr_FR";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:47:"http://fr.wordpress.org/wordpress-3.8-fr_FR.zip";s:10:"no_content";b:0;s:11:"new_bundled";b:0;s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:3:"3.8";s:7:"version";s:3:"3.8";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"3.8";s:15:"partial_version";s:0:"";}i:1;O:8:"stdClass":10:{s:8:"response";s:6:"latest";s:8:"download";s:38:"http://wordpress.org/wordpress-3.8.zip";s:6:"locale";s:5:"en_US";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:38:"http://wordpress.org/wordpress-3.8.zip";s:10:"no_content";s:49:"http://wordpress.org/wordpress-3.8-no-content.zip";s:11:"new_bundled";s:50:"http://wordpress.org/wordpress-3.8-new-bundled.zip";s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:3:"3.8";s:7:"version";s:3:"3.8";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"3.8";s:15:"partial_version";s:0:"";}}s:12:"last_checked";i:1387228637;s:15:"version_checked";s:3:"3.8";s:12:"translations";a:0:{}}', 'yes'),
 (171, '_transient_random_seed', 'a898bdf59b04b19db81f594efb64929b', 'yes'),
 (175, 'sm_options', 'a:56:{s:18:"sm_b_prio_provider";s:41:"GoogleSitemapGeneratorPrioByCountProvider";s:13:"sm_b_filename";s:11:"sitemap.xml";s:10:"sm_b_debug";b:1;s:8:"sm_b_xml";b:1;s:9:"sm_b_gzip";b:1;s:9:"sm_b_ping";b:1;s:12:"sm_b_pingmsn";b:1;s:19:"sm_b_manual_enabled";b:0;s:17:"sm_b_auto_enabled";b:1;s:15:"sm_b_auto_delay";b:1;s:15:"sm_b_manual_key";s:32:"7da44283f16ff6ed283da53a1001e9ec";s:11:"sm_b_memory";s:0:"";s:9:"sm_b_time";i:-1;s:14:"sm_b_max_posts";i:-1;s:13:"sm_b_safemode";b:0;s:18:"sm_b_style_default";b:1;s:10:"sm_b_style";s:0:"";s:11:"sm_b_robots";b:1;s:12:"sm_b_exclude";a:0:{}s:17:"sm_b_exclude_cats";a:0:{}s:18:"sm_b_location_mode";s:4:"auto";s:20:"sm_b_filename_manual";s:0:"";s:19:"sm_b_fileurl_manual";s:0:"";s:10:"sm_in_home";b:1;s:11:"sm_in_posts";b:1;s:15:"sm_in_posts_sub";b:0;s:11:"sm_in_pages";b:1;s:10:"sm_in_cats";b:0;s:10:"sm_in_arch";b:0;s:10:"sm_in_auth";b:0;s:10:"sm_in_tags";b:0;s:9:"sm_in_tax";a:0:{}s:17:"sm_in_customtypes";a:0:{}s:13:"sm_in_lastmod";b:1;s:10:"sm_cf_home";s:5:"daily";s:11:"sm_cf_posts";s:7:"monthly";s:11:"sm_cf_pages";s:6:"weekly";s:10:"sm_cf_cats";s:6:"weekly";s:10:"sm_cf_auth";s:6:"weekly";s:15:"sm_cf_arch_curr";s:5:"daily";s:14:"sm_cf_arch_old";s:6:"yearly";s:10:"sm_cf_tags";s:6:"weekly";s:10:"sm_pr_home";d:1;s:11:"sm_pr_posts";d:0.59999999999999997779553950749686919152736663818359375;s:15:"sm_pr_posts_min";d:0.200000000000000011102230246251565404236316680908203125;s:11:"sm_pr_pages";d:0.59999999999999997779553950749686919152736663818359375;s:10:"sm_pr_cats";d:0.299999999999999988897769753748434595763683319091796875;s:10:"sm_pr_arch";d:0.299999999999999988897769753748434595763683319091796875;s:10:"sm_pr_auth";d:0.299999999999999988897769753748434595763683319091796875;s:10:"sm_pr_tags";d:0.299999999999999988897769753748434595763683319091796875;s:12:"sm_i_donated";b:0;s:17:"sm_i_hide_donated";b:0;s:17:"sm_i_install_date";i:1387040772;s:14:"sm_i_hide_note";b:0;s:15:"sm_i_hide_works";b:0;s:16:"sm_i_hide_donors";b:0;}', 'yes'),
 (176, 'nav_menu_options', 'a:2:{i:0;b:0;s:8:"auto_add";a:1:{i:0;i:2;}}', 'yes'),
@@ -573,13 +506,11 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (188, 'dev_tooltip_title', '', 'yes'),
 (189, 'the_bootstrap_theme_options', 'a:5:{s:12:"theme_layout";s:15:"content-sidebar";s:16:"navbar_site_name";b:1;s:17:"navbar_searchform";b:0;s:14:"navbar_inverse";b:1;s:15:"navbar_position";s:6:"static";}', 'yes'),
 (191, 'theme_mods_twentyfourteen', 'a:9:{s:16:"header_textcolor";s:3:"fff";s:16:"background_color";s:6:"f5f5f5";s:16:"background_image";s:0:"";s:17:"background_repeat";s:6:"repeat";s:21:"background_position_x";s:4:"left";s:21:"background_attachment";s:5:"fixed";s:18:"nav_menu_locations";a:2:{s:7:"primary";i:3;s:9:"secondary";i:2;}s:23:"featured_content_layout";s:4:"grid";s:16:"sidebars_widgets";a:2:{s:4:"time";i:1387186604;s:4:"data";a:4:{s:19:"wp_inactive_widgets";a:5:{i:0;s:8:"search-2";i:1;s:6:"text-3";i:2;s:6:"text-4";i:3;s:12:"categories-2";i:4;s:14:"recent-posts-2";}s:9:"sidebar-1";a:0:{}s:9:"sidebar-2";a:1:{i:0;s:32:"widget_twentyfourteen_ephemera-2";}s:9:"sidebar-3";a:0:{}}}}', 'yes'),
-(197, 'sm_status', 'O:28:"GoogleSitemapGeneratorStatus":24:{s:10:"_startTime";d:1387200450.7164459228515625;s:8:"_endTime";d:1387200451.004475116729736328125;s:11:"_hasChanged";b:1;s:12:"_memoryUsage";i:17039360;s:9:"_lastPost";i:6;s:9:"_lastTime";d:1387200450.7664508819580078125;s:8:"_usedXml";b:1;s:11:"_xmlSuccess";b:1;s:8:"_xmlPath";s:35:"D:/xampp/htdocs/gestabo/sitemap.xml";s:7:"_xmlUrl";s:36:"http://localhost/gestabo/sitemap.xml";s:8:"_usedZip";b:1;s:11:"_zipSuccess";b:1;s:8:"_zipPath";s:38:"D:/xampp/htdocs/gestabo/sitemap.xml.gz";s:7:"_zipUrl";s:39:"http://localhost/gestabo/sitemap.xml.gz";s:11:"_usedGoogle";b:1;s:10:"_googleUrl";s:104:"http://www.google.com/webmasters/sitemaps/ping?sitemap=http%3A%2F%2Flocalhost%2Fgestabo%2Fsitemap.xml.gz";s:15:"_gooogleSuccess";b:1;s:16:"_googleStartTime";d:1387200450.7724521160125732421875;s:14:"_googleEndTime";d:1387200450.8354580402374267578125;s:8:"_usedMsn";b:1;s:7:"_msnUrl";s:97:"http://www.bing.com/webmaster/ping.aspx?siteMap=http%3A%2F%2Flocalhost%2Fgestabo%2Fsitemap.xml.gz";s:11:"_msnSuccess";b:1;s:13:"_msnStartTime";d:1387200450.8434588909149169921875;s:11:"_msnEndTime";d:1387200450.9954741001129150390625;}', 'no'),
+(197, 'sm_status', 'O:28:"GoogleSitemapGeneratorStatus":24:{s:10:"_startTime";d:1387233143.8194921016693115234375;s:8:"_endTime";d:1387233144.298224925994873046875;s:11:"_hasChanged";b:1;s:12:"_memoryUsage";i:28835840;s:9:"_lastPost";i:6;s:9:"_lastTime";d:1387233143.832787990570068359375;s:8:"_usedXml";b:1;s:11:"_xmlSuccess";b:1;s:8:"_xmlPath";s:39:"D:/DEV/xampp/htdocs/gestabo/sitemap.xml";s:7:"_xmlUrl";s:36:"http://localhost/gestabo/sitemap.xml";s:8:"_usedZip";b:1;s:11:"_zipSuccess";b:1;s:8:"_zipPath";s:42:"D:/DEV/xampp/htdocs/gestabo/sitemap.xml.gz";s:7:"_zipUrl";s:39:"http://localhost/gestabo/sitemap.xml.gz";s:11:"_usedGoogle";b:1;s:10:"_googleUrl";s:104:"http://www.google.com/webmasters/sitemaps/ping?sitemap=http%3A%2F%2Flocalhost%2Fgestabo%2Fsitemap.xml.gz";s:15:"_gooogleSuccess";b:1;s:16:"_googleStartTime";d:1387233143.8749110698699951171875;s:14:"_googleEndTime";d:1387233144.016274929046630859375;s:8:"_usedMsn";b:1;s:7:"_msnUrl";s:97:"http://www.bing.com/webmaster/ping.aspx?siteMap=http%3A%2F%2Flocalhost%2Fgestabo%2Fsitemap.xml.gz";s:11:"_msnSuccess";b:1;s:13:"_msnStartTime";d:1387233144.01828289031982421875;s:11:"_msnEndTime";d:1387233144.296080112457275390625;}', 'no'),
 (226, 'theme_mods_twentythirteen', 'a:6:{i:0;b:0;s:16:"header_textcolor";s:6:"878787";s:12:"header_image";s:93:"http://localhost/gestabo/wordpress/wp-content/themes/twentythirteen/images/headers/circle.png";s:18:"nav_menu_locations";a:1:{s:7:"primary";i:2;}s:17:"header_image_data";a:3:{s:3:"url";s:93:"http://localhost/gestabo/wordpress/wp-content/themes/twentythirteen/images/headers/circle.png";s:13:"thumbnail_url";s:103:"http://localhost/gestabo/wordpress/wp-content/themes/twentythirteen/images/headers/circle-thumbnail.png";s:11:"description";s:6:"Cercle";}s:16:"sidebars_widgets";a:2:{s:4:"time";i:1387186557;s:4:"data";a:3:{s:19:"wp_inactive_widgets";a:5:{i:0;s:8:"search-2";i:1;s:6:"text-3";i:2;s:6:"text-4";i:3;s:12:"categories-2";i:4;s:14:"recent-posts-2";}s:9:"sidebar-1";a:0:{}s:9:"sidebar-2";a:0:{}}}}', 'yes'),
 (229, 'page_for_posts', '17', 'yes'),
 (230, 'featured-content', 'a:2:{s:6:"tag-id";i:0;s:8:"hide-tag";i:1;}', 'yes'),
 (237, 'widget_widget_twentyfourteen_ephemera', 'a:2:{i:2;a:3:{s:5:"title";s:0:"";s:6:"number";i:1;s:6:"format";s:4:"link";}s:12:"_multiwidget";i:1;}', 'yes'),
-(242, '_site_transient_timeout_wporg_theme_feature_list', '1387074256', 'yes'),
-(243, '_site_transient_wporg_theme_feature_list', 'a:5:{s:6:"Colors";a:15:{i:0;s:5:"black";i:1;s:4:"blue";i:2;s:5:"brown";i:3;s:4:"gray";i:4;s:5:"green";i:5;s:6:"orange";i:6;s:4:"pink";i:7;s:6:"purple";i:8;s:3:"red";i:9;s:6:"silver";i:10;s:3:"tan";i:11;s:5:"white";i:12;s:6:"yellow";i:13;s:4:"dark";i:14;s:5:"light";}s:7:"Columns";a:6:{i:0;s:10:"one-column";i:1;s:11:"two-columns";i:2;s:13:"three-columns";i:3;s:12:"four-columns";i:4;s:12:"left-sidebar";i:5;s:13:"right-sidebar";}s:6:"Layout";a:3:{i:0;s:12:"fixed-layout";i:1;s:12:"fluid-layout";i:2;s:17:"responsive-layout";}s:8:"Features";a:20:{i:0;s:19:"accessibility-ready";i:1;s:8:"blavatar";i:2;s:10:"buddypress";i:3;s:17:"custom-background";i:4;s:13:"custom-colors";i:5;s:13:"custom-header";i:6;s:11:"custom-menu";i:7;s:12:"editor-style";i:8;s:21:"featured-image-header";i:9;s:15:"featured-images";i:10;s:15:"flexible-header";i:11;s:20:"front-page-post-form";i:12;s:19:"full-width-template";i:13;s:12:"microformats";i:14;s:12:"post-formats";i:15;s:20:"rtl-language-support";i:16;s:11:"sticky-post";i:17;s:13:"theme-options";i:18;s:17:"threaded-comments";i:19;s:17:"translation-ready";}s:7:"Subject";a:3:{i:0;s:7:"holiday";i:1;s:13:"photoblogging";i:2;s:8:"seasonal";}}', 'yes'),
 (250, 'theme_mods_wordpress-bootstrap', 'a:8:{i:0;b:0;s:16:"background_color";s:0:"";s:16:"background_image";s:0:"";s:17:"background_repeat";s:6:"repeat";s:21:"background_position_x";s:4:"left";s:21:"background_attachment";s:5:"fixed";s:18:"nav_menu_locations";a:2:{s:8:"main_nav";i:2;s:12:"footer_links";i:0;}s:16:"sidebars_widgets";a:2:{s:4:"time";i:1387198719;s:4:"data";a:6:{s:19:"wp_inactive_widgets";a:2:{i:0;s:6:"text-3";i:1;s:6:"text-4";}s:8:"sidebar1";a:3:{i:0;s:8:"search-2";i:1;s:12:"categories-2";i:2;s:14:"recent-posts-2";}s:8:"sidebar2";a:0:{}s:7:"footer1";a:0:{}s:7:"footer2";a:0:{}s:7:"footer3";a:0:{}}}}', 'yes'),
 (251, 'optionsframework', 'a:2:{s:2:"id";s:11:"wpbootstrap";s:12:"knownoptions";a:1:{i:0;s:11:"wpbootstrap";}}', 'yes'),
 (252, 'wpbootstrap', 'a:22:{s:18:"heading_typography";a:3:{s:4:"face";s:43:""Helvetica Neue",Helvetica,Arial,sans-serif";s:5:"style";s:6:"normal";s:5:"color";s:0:"";}s:20:"main_body_typography";a:3:{s:4:"face";s:6:"tahoma";s:5:"style";s:6:"italic";s:5:"color";s:0:"";}s:10:"link_color";s:0:"";s:16:"link_hover_color";s:0:"";s:17:"link_active_color";s:0:"";s:12:"nav_position";s:5:"fixed";s:16:"top_nav_bg_color";s:7:"#000000";s:19:"showhidden_gradient";s:1:"1";s:29:"top_nav_bottom_gradient_color";s:0:"";s:18:"top_nav_link_color";s:0:"";s:24:"top_nav_link_hover_color";s:0:"";s:21:"top_nav_dropdown_item";s:0:"";s:25:"top_nav_dropdown_hover_bg";s:0:"";s:10:"search_bar";s:1:"0";s:17:"showhidden_themes";s:1:"1";s:10:"wpbs_theme";s:7:"simplex";s:24:"showhidden_slideroptions";s:1:"0";s:14:"slider_options";s:1:"5";s:18:"hero_unit_bg_color";s:0:"";s:25:"suppress_comments_message";s:1:"1";s:9:"blog_hero";s:1:"0";s:8:"wpbs_css";s:0:"";}', 'yes'),
@@ -608,12 +539,11 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (329, 'legacy_mode', '', 'yes'),
 (333, 'disable_comments_options', 'a:4:{s:19:"disabled_post_types";a:3:{i:0;s:4:"post";i:1;s:4:"page";i:2;s:10:"attachment";}s:17:"remove_everywhere";b:0;s:9:"permanent";b:0;s:10:"db_version";i:5;}', 'yes'),
 (344, '_transient_twentyfourteen_category_count', '1', 'yes'),
-(346, '_site_transient_update_themes', 'O:8:"stdClass":4:{s:12:"last_checked";i:1387198696;s:7:"checked";a:3:{s:9:"customizr";s:5:"3.1.5";s:5:"tonic";s:7:"1.0.8.1";s:19:"wordpress-bootstrap";s:3:"2.1";}s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'yes'),
 (347, 'jetpack_activated', '1', 'yes'),
 (348, 'jetpack_options', 'a:4:{s:7:"version";s:14:"2.7:1387187510";s:11:"old_version";s:14:"2.7:1387187510";s:28:"fallback_no_verify_ssl_certs";i:0;s:9:"time_diff";i:0;}', 'yes'),
 (351, '_transient_timeout_jetpack_https_test', '1387273913', 'no'),
 (352, '_transient_jetpack_https_test', '1', 'no'),
-(357, '_site_transient_update_plugins', 'O:8:"stdClass":4:{s:12:"last_checked";i:1387209772;s:7:"checked";a:14:{s:26:"secure-wordpress/index.php";s:5:"3.0.1";s:43:"all-in-one-seo-pack/all_in_one_seo_pack.php";s:3:"2.1";s:95:"clean-and-simple-contact-form-by-meg-nicholas/clean-and-simple-contact-form-by-meg-nicholas.php";s:5:"4.3.0";s:36:"contact-form-7/wp-contact-form-7.php";s:3:"3.6";s:37:"disable-comments/disable-comments.php";s:5:"1.0.3";s:53:"easy-bootstrap-shortcodes/osc_bootstrap_shortcode.php";s:5:"2.3.6";s:50:"google-analytics-for-wordpress/googleanalytics.php";s:5:"4.3.3";s:49:"google-xml-sitemaps-v3-for-qtranslate/sitemap.php";s:5:"3.2.9";s:38:"hide-title/dojo-digital-hide-title.php";s:5:"1.0.3";s:19:"jetpack/jetpack.php";s:3:"2.7";s:37:"tinymce-advanced/tinymce-advanced.php";s:7:"3.5.9.1";s:33:"w3-total-cache/w3-total-cache.php";s:5:"0.9.3";s:41:"wordpress-importer/wordpress-importer.php";s:5:"0.6.1";s:29:"wp-mail-smtp/wp_mail_smtp.php";s:5:"0.9.4";}s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'yes'),
+(357, '_site_transient_update_plugins', 'O:8:"stdClass":3:{s:12:"last_checked";i:1387228637;s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'yes'),
 (358, 'tadv_version', '3420', 'yes'),
 (359, 'tadv_plugins', 'a:8:{i:0;s:5:"layer";i:1;s:5:"style";i:2;s:8:"emotions";i:3;s:5:"table";i:4;s:5:"print";i:5;s:13:"searchreplace";i:6;s:10:"xhtmlxtras";i:7;s:8:"advimage";}', 'yes'),
 (360, 'tadv_options', 'a:7:{s:8:"advlink1";i:0;s:8:"advimage";i:1;s:11:"editorstyle";i:0;s:11:"hideclasses";i:0;s:11:"contextmenu";i:0;s:8:"no_autop";i:0;s:7:"advlist";i:0;}', 'yes'),
@@ -623,19 +553,26 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (364, 'tadv_btns3', 'a:0:{}', 'no'),
 (365, 'tadv_btns4', 'a:7:{i:0;s:13:"tablecontrols";i:1;s:13:"delete_table,";i:2;s:9:"visualaid";i:3;s:11:"insertlayer";i:4;s:11:"moveforward";i:5;s:12:"movebackward";i:6;s:8:"absolute";}', 'no'),
 (366, 'tadv_allbtns', 'a:66:{i:0;s:2:"hr";i:1;s:6:"wp_adv";i:2;s:10:"blockquote";i:3;s:4:"bold";i:4;s:6:"italic";i:5;s:13:"strikethrough";i:6;s:9:"underline";i:7;s:7:"bullist";i:8;s:7:"numlist";i:9;s:7:"outdent";i:10;s:6:"indent";i:11;s:11:"justifyleft";i:12;s:13:"justifycenter";i:13;s:12:"justifyright";i:14;s:11:"justifyfull";i:15;s:3:"cut";i:16;s:4:"copy";i:17;s:5:"paste";i:18;s:4:"link";i:19;s:6:"unlink";i:20;s:5:"image";i:21;s:7:"wp_more";i:22;s:7:"wp_page";i:23;s:6:"search";i:24;s:7:"replace";i:25;s:10:"fontselect";i:26;s:14:"fontsizeselect";i:27;s:7:"wp_help";i:28;s:10:"fullscreen";i:29;s:11:"styleselect";i:30;s:12:"formatselect";i:31;s:9:"forecolor";i:32;s:9:"backcolor";i:33;s:9:"pastetext";i:34;s:9:"pasteword";i:35;s:12:"removeformat";i:36;s:7:"cleanup";i:37;s:12:"spellchecker";i:38;s:7:"charmap";i:39;s:5:"print";i:40;s:4:"undo";i:41;s:4:"redo";i:42;s:13:"tablecontrols";i:43;s:4:"cite";i:44;s:3:"ins";i:45;s:3:"del";i:46;s:4:"abbr";i:47;s:7:"acronym";i:48;s:7:"attribs";i:49;s:5:"layer";i:50;s:5:"advhr";i:51;s:4:"code";i:52;s:11:"visualchars";i:53;s:11:"nonbreaking";i:54;s:3:"sub";i:55;s:3:"sup";i:56;s:9:"visualaid";i:57;s:10:"insertdate";i:58;s:10:"inserttime";i:59;s:6:"anchor";i:60;s:10:"styleprops";i:61;s:8:"emotions";i:62;s:5:"media";i:63;s:7:"iespell";i:64;s:9:"separator";i:65;s:1:"|";}', 'no'),
-(368, 'jetpack_log', 'a:4:{i:0;a:5:{s:4:"time";i:1387189623;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"sharedaddy";}i:1;a:5:{s:4:"time";i:1387189651;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:17:"widget-visibility";}i:2;a:5:{s:4:"time";i:1387189670;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"shortcodes";}i:3;a:5:{s:4:"time";i:1387189680;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:7:"widgets";}}', 'no'),
-(369, 'jetpack_active_modules', 'a:5:{i:0;s:10:"vaultpress";i:1;s:10:"sharedaddy";i:3;s:17:"widget-visibility";i:5;s:10:"shortcodes";i:7;s:7:"widgets";}', 'yes'),
+(368, 'jetpack_log', 'a:6:{i:0;a:5:{s:4:"time";i:1387189623;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"sharedaddy";}i:1;a:5:{s:4:"time";i:1387189651;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:17:"widget-visibility";}i:2;a:5:{s:4:"time";i:1387189670;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"shortcodes";}i:3;a:5:{s:4:"time";i:1387189680;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:7:"widgets";}i:4;a:5:{s:4:"time";i:1387228178;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"omnisearch";}i:5;a:5:{s:4:"time";i:1387228192;s:7:"user_id";i:1;s:7:"blog_id";b:0;s:4:"code";s:8:"activate";s:4:"data";s:10:"custom-css";}}', 'no'),
+(369, 'jetpack_active_modules', 'a:7:{i:0;s:10:"vaultpress";i:1;s:10:"sharedaddy";i:3;s:17:"widget-visibility";i:5;s:10:"shortcodes";i:7;s:7:"widgets";i:9;s:10:"omnisearch";i:11;s:10:"custom-css";}', 'yes'),
 (370, 'sharing-options', 'a:1:{s:6:"global";a:5:{s:12:"button_style";s:9:"icon-text";s:13:"sharing_label";b:0;s:10:"open_links";s:3:"new";s:4:"show";a:2:{i:0;s:4:"post";i:1;s:4:"page";}s:6:"custom";a:0:{}}}', 'yes'),
 (377, 'sharing-services', 'a:2:{s:7:"visible";a:6:{i:0;s:8:"facebook";i:1;s:8:"linkedin";i:2;s:13:"google-plus-1";i:3;s:7:"twitter";i:4;s:5:"email";i:5;s:5:"print";}s:6:"hidden";a:0:{}}', 'yes'),
 (378, 'sharedaddy_disable_resources', '0', 'yes'),
 (380, 'jetpack_holiday_snow_enabled', 'letitsnow', 'yes'),
 (406, 'rewrite_rules', 'a:68:{s:47:"category/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:42:"category/(.+?)/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:35:"category/(.+?)/page/?([0-9]{1,})/?$";s:53:"index.php?category_name=$matches[1]&paged=$matches[2]";s:17:"category/(.+?)/?$";s:35:"index.php?category_name=$matches[1]";s:44:"tag/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:39:"tag/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:32:"tag/([^/]+)/page/?([0-9]{1,})/?$";s:43:"index.php?tag=$matches[1]&paged=$matches[2]";s:14:"tag/([^/]+)/?$";s:25:"index.php?tag=$matches[1]";s:45:"type/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:40:"type/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:33:"type/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?post_format=$matches[1]&paged=$matches[2]";s:15:"type/([^/]+)/?$";s:33:"index.php?post_format=$matches[1]";s:48:".*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\\.php$";s:18:"index.php?feed=old";s:20:".*wp-app\\.php(/.*)?$";s:19:"index.php?error=403";s:18:".*wp-register.php$";s:23:"index.php?register=true";s:32:"feed/(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:27:"(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:20:"page/?([0-9]{1,})/?$";s:28:"index.php?&paged=$matches[1]";s:27:"comment-page-([0-9]{1,})/?$";s:38:"index.php?&page_id=2&cpage=$matches[1]";s:41:"comments/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:36:"comments/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:44:"search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:39:"search/(.+)/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:32:"search/(.+)/page/?([0-9]{1,})/?$";s:41:"index.php?s=$matches[1]&paged=$matches[2]";s:14:"search/(.+)/?$";s:23:"index.php?s=$matches[1]";s:47:"author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:42:"author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:35:"author/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?author_name=$matches[1]&paged=$matches[2]";s:17:"author/([^/]+)/?$";s:33:"index.php?author_name=$matches[1]";s:69:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]";s:39:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$";s:63:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]";s:56:"([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:51:"([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:44:"([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]";s:26:"([0-9]{4})/([0-9]{1,2})/?$";s:47:"index.php?year=$matches[1]&monthnum=$matches[2]";s:43:"([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:38:"([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:31:"([0-9]{4})/page/?([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&paged=$matches[2]";s:13:"([0-9]{4})/?$";s:26:"index.php?year=$matches[1]";s:27:".?.+?/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:37:".?.+?/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:57:".?.+?/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:20:"(.?.+?)/trackback/?$";s:35:"index.php?pagename=$matches[1]&tb=1";s:40:"(.?.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:35:"(.?.+?)/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:28:"(.?.+?)/page/?([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&paged=$matches[2]";s:35:"(.?.+?)/comment-page-([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&cpage=$matches[2]";s:20:"(.?.+?)(/[0-9]+)?/?$";s:47:"index.php?pagename=$matches[1]&page=$matches[2]";s:27:"[^/]+/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:37:"[^/]+/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:57:"[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:"[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:"[^/]+/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:20:"([^/]+)/trackback/?$";s:31:"index.php?name=$matches[1]&tb=1";s:40:"([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?name=$matches[1]&feed=$matches[2]";s:35:"([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?name=$matches[1]&feed=$matches[2]";s:28:"([^/]+)/page/?([0-9]{1,})/?$";s:44:"index.php?name=$matches[1]&paged=$matches[2]";s:35:"([^/]+)/comment-page-([0-9]{1,})/?$";s:44:"index.php?name=$matches[1]&cpage=$matches[2]";s:20:"([^/]+)(/[0-9]+)?/?$";s:43:"index.php?name=$matches[1]&page=$matches[2]";s:16:"[^/]+/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:26:"[^/]+/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:46:"[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:41:"[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:41:"[^/]+/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";}', 'yes'),
 (409, 'widget_rss_links', 'a:2:{i:2;a:5:{s:5:"title";s:0:"";s:7:"display";s:5:"posts";s:6:"format";s:5:"image";s:9:"imagesize";s:6:"medium";s:10:"imagecolor";s:5:"green";}s:12:"_multiwidget";i:1;}', 'yes'),
-(410, 'widget_bavotasan_custom_text_widget', 'a:5:{i:2;a:5:{s:5:"title";s:14:"Que fait Aboo?";s:3:"url";s:39:"http://localhost/gestabo/que-fait-aboo/";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}i:3;a:5:{s:5:"title";s:9:"Connexion";s:3:"url";s:13:"connexion.php";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}i:4;a:5:{s:5:"title";s:6:"Tarifs";s:3:"url";s:32:"http://localhost/gestabo/tarifs/";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}i:5;a:5:{s:5:"title";s:14:"Contactez-nous";s:3:"url";s:39:"http://localhost/gestabo/contactez-moi/";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}s:12:"_multiwidget";i:1;}', 'yes'),
+(410, 'widget_bavotasan_custom_text_widget', 'a:5:{i:2;a:5:{s:5:"title";s:14:"Que fait Aboo?";s:3:"url";s:39:"http://localhost/gestabo/que-fait-aboo/";s:5:"image";s:116:"http://localhost/gestabo/wp-content/uploads/2013/12/ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566.jpg";s:4:"text";s:0:"";s:6:"filter";b:0;}i:3;a:5:{s:5:"title";s:9:"Connexion";s:3:"url";s:13:"connexion.php";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}i:4;a:5:{s:5:"title";s:6:"Tarifs";s:3:"url";s:32:"http://localhost/gestabo/tarifs/";s:5:"image";s:62:"http://localhost/gestabo/wp-content/uploads/2013/12/tarifs.jpg";s:4:"text";s:0:"";s:6:"filter";b:0;}i:5;a:5:{s:5:"title";s:14:"Contactez-nous";s:3:"url";s:39:"http://localhost/gestabo/contactez-moi/";s:5:"image";s:61:"http://localhost/gestabo/wp-content/uploads/2013/12/zen21.gif";s:4:"text";s:0:"";s:6:"filter";b:0;}s:12:"_multiwidget";i:1;}', 'yes'),
 (417, 'category_children', 'a:0:{}', 'yes'),
 (424, 'widget_image', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
-(427, '_site_transient_timeout_theme_roots', '1387211573', 'yes'),
-(428, '_site_transient_theme_roots', 'a:3:{s:9:"customizr";s:7:"/themes";s:5:"tonic";s:7:"/themes";s:19:"wordpress-bootstrap";s:7:"/themes";}', 'yes');
+(434, '_site_transient_timeout_wporg_theme_feature_list', '1387239422', 'yes'),
+(435, '_site_transient_wporg_theme_feature_list', 'a:5:{s:6:"Colors";a:15:{i:0;s:5:"black";i:1;s:4:"blue";i:2;s:5:"brown";i:3;s:4:"gray";i:4;s:5:"green";i:5;s:6:"orange";i:6;s:4:"pink";i:7;s:6:"purple";i:8;s:3:"red";i:9;s:6:"silver";i:10;s:3:"tan";i:11;s:5:"white";i:12;s:6:"yellow";i:13;s:4:"dark";i:14;s:5:"light";}s:7:"Columns";a:6:{i:0;s:10:"one-column";i:1;s:11:"two-columns";i:2;s:13:"three-columns";i:3;s:12:"four-columns";i:4;s:12:"left-sidebar";i:5;s:13:"right-sidebar";}s:6:"Layout";a:3:{i:0;s:12:"fixed-layout";i:1;s:12:"fluid-layout";i:2;s:17:"responsive-layout";}s:8:"Features";a:20:{i:0;s:19:"accessibility-ready";i:1;s:8:"blavatar";i:2;s:10:"buddypress";i:3;s:17:"custom-background";i:4;s:13:"custom-colors";i:5;s:13:"custom-header";i:6;s:11:"custom-menu";i:7;s:12:"editor-style";i:8;s:21:"featured-image-header";i:9;s:15:"featured-images";i:10;s:15:"flexible-header";i:11;s:20:"front-page-post-form";i:12;s:19:"full-width-template";i:13;s:12:"microformats";i:14;s:12:"post-formats";i:15;s:20:"rtl-language-support";i:16;s:11:"sticky-post";i:17;s:13:"theme-options";i:18;s:17:"threaded-comments";i:19;s:17:"translation-ready";}s:7:"Subject";a:3:{i:0;s:7:"holiday";i:1;s:13:"photoblogging";i:2;s:8:"seasonal";}}', 'yes'),
+(436, 'theme_mods_ward', 'a:8:{i:0;b:0;s:16:"background_color";s:6:"6b6b6b";s:16:"background_image";s:0:"";s:17:"background_repeat";s:6:"repeat";s:21:"background_position_x";s:4:"left";s:21:"background_attachment";s:5:"fixed";s:18:"nav_menu_locations";a:1:{s:7:"primary";i:2;}s:16:"sidebars_widgets";a:2:{s:4:"time";i:1387229272;s:4:"data";a:3:{s:19:"wp_inactive_widgets";a:0:{}s:7:"sidebar";a:4:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:12:"categories-2";i:3;s:11:"rss_links-2";}s:18:"home-page-top-area";a:4:{i:0;s:30:"bavotasan_custom_text_widget-2";i:1;s:30:"bavotasan_custom_text_widget-3";i:2;s:30:"bavotasan_custom_text_widget-4";i:3;s:30:"bavotasan_custom_text_widget-5";}}}}', 'yes'),
+(437, 'safecss_rev', '11', 'yes'),
+(439, 'ward_theme_options', 'a:12:{s:5:"width";s:4:"1200";s:6:"layout";s:1:"6";s:7:"primary";s:9:"col-md-10";s:15:"excerpt_content";s:7:"content";s:11:"home_widget";s:2:"on";s:10:"home_posts";s:2:"on";s:20:"jumbo_headline_title";s:4:"Aboo";s:19:"jumbo_headline_text";s:134:"Got something important to say? Then make it stand out by using the jumbo headline option and get your visitor''s attention right away.";s:18:"display_categories";s:0:"";s:14:"display_author";s:2:"on";s:12:"display_date";s:2:"on";s:21:"display_comment_count";b:0;}', 'yes'),
+(440, '_site_transient_update_themes', 'O:8:"stdClass":4:{s:12:"last_checked";i:1387235517;s:7:"checked";a:3:{s:9:"customizr";s:5:"3.1.5";s:5:"tonic";s:7:"1.0.8.1";s:19:"wordpress-bootstrap";s:3:"2.1";}s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'yes'),
+(444, '_site_transient_timeout_theme_roots', '1387237316', 'yes'),
+(445, '_site_transient_theme_roots', 'a:4:{s:9:"customizr";s:7:"/themes";s:11:"tonic-child";s:7:"/themes";s:5:"tonic";s:7:"/themes";s:19:"wordpress-bootstrap";s:7:"/themes";}', 'yes'),
+(447, 'safecss_revision_migrated', '1387237933', 'yes');
 
 -- --------------------------------------------------------
 
@@ -652,13 +589,8 @@ CREATE TABLE IF NOT EXISTS `wp_postmeta` (
   PRIMARY KEY (`meta_id`),
   KEY `post_id` (`post_id`),
   KEY `meta_key` (`meta_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=233 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=267 ;
 
---
--- Vider la table avant d'insérer `wp_postmeta`
---
-
-TRUNCATE TABLE `wp_postmeta`;
 --
 -- Contenu de la table `wp_postmeta`
 --
@@ -671,7 +603,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (5, 4, '_messages', 'a:21:{s:12:"mail_sent_ok";s:42:"Votre message a bien été envoyé. Merci.";s:12:"mail_sent_ng";s:116:"Erreur lors de l''envoi du message. Veuillez réessayer plus tard ou contacter l''administrateur d''une autre manière.";s:16:"validation_error";s:76:"Erreur de validation. Veuillez vérifier les champs et soumettre à nouveau.";s:4:"spam";s:116:"Erreur lors de l''envoi du message. Veuillez réessayer plus tard ou contacter l''administrateur d''une autre manière.";s:12:"accept_terms";s:61:"Merci de bien vouloir accepter les conditions pour continuer.";s:16:"invalid_required";s:38:"Veuillez remplir le champ obligatoire.";s:17:"captcha_not_match";s:29:"Le code entré est incorrect.";s:14:"invalid_number";s:37:"Le format numérique semble invalide.";s:16:"number_too_small";s:25:"Ce nombre est trop petit.";s:16:"number_too_large";s:25:"Ce nombre est trop grand.";s:13:"invalid_email";s:32:"L''adresse email semble invalide.";s:11:"invalid_url";s:22:"L''URL semble invalide.";s:11:"invalid_tel";s:42:"Le numéro de téléphone semble invalide.";s:23:"quiz_answer_not_correct";s:30:"Votre réponse est incorrecte.";s:12:"invalid_date";s:34:"Le format de date semble invalide.";s:14:"date_too_early";s:25:"Cette date est trop tôt.";s:13:"date_too_late";s:25:"Cette date est trop tard.";s:13:"upload_failed";s:39:"Impossible de télécharger le fichier.";s:24:"upload_file_type_invalid";s:39:"Ce type de fichier n''est pas autorisé.";s:21:"upload_file_too_large";s:31:"Ce fichier est trop volumineux.";s:23:"upload_failed_php_error";s:66:"Impossible de mettre en ligne le fichier. Une erreur est survenue.";}'),
 (6, 4, '_additional_settings', ''),
 (7, 4, '_locale', 'fr_FR'),
-(8, 2, '_edit_lock', '1387200084:1'),
+(8, 2, '_edit_lock', '1387233045:1'),
 (9, 1, '_edit_lock', '1387200325:1'),
 (28, 1, '_edit_last', '1'),
 (30, 1, 'post_slider_check_key', '0'),
@@ -679,7 +611,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (33, 2, '_edit_last', '1'),
 (34, 2, 'post_slider_check_key', '0'),
 (35, 13, '_menu_item_type', 'custom'),
-(36, 13, '_menu_item_menu_item_parent', '0'),
+(36, 13, '_menu_item_menu_item_parent', '50'),
 (37, 13, '_menu_item_object_id', '13'),
 (38, 13, '_menu_item_object', 'custom'),
 (39, 13, '_menu_item_target', ''),
@@ -715,8 +647,6 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (84, 24, '_wp_attached_file', '2013/12/abonnements_anim.jpg'),
 (85, 24, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:650;s:6:"height";i:300;s:4:"file";s:28:"2013/12/abonnements_anim.jpg";s:5:"sizes";a:6:{s:9:"thumbnail";a:4:{s:4:"file";s:28:"abonnements_anim-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:28:"abonnements_anim-300x138.jpg";s:5:"width";i:300;s:6:"height";i:138;s:9:"mime-type";s:10:"image/jpeg";}s:13:"wpbs-featured";a:4:{s:4:"file";s:28:"abonnements_anim-638x300.jpg";s:5:"width";i:638;s:6:"height";i:300;s:9:"mime-type";s:10:"image/jpeg";}s:15:"bones-thumb-600";a:4:{s:4:"file";s:28:"abonnements_anim-325x150.jpg";s:5:"width";i:325;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:15:"bones-thumb-300";a:4:{s:4:"file";s:28:"abonnements_anim-300x100.jpg";s:5:"width";i:300;s:6:"height";i:100;s:9:"mime-type";s:10:"image/jpeg";}s:14:"post-thumbnail";a:4:{s:4:"file";s:28:"abonnements_anim-125x125.jpg";s:5:"width";i:125;s:6:"height";i:125;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}'),
 (86, 2, '_thumbnail_id', '24'),
-(87, 30, '_wp_attached_file', '2013/12/abonnements_anim1.jpg'),
-(88, 30, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:650;s:6:"height";i:300;s:4:"file";s:29:"2013/12/abonnements_anim1.jpg";s:5:"sizes";a:6:{s:9:"thumbnail";a:4:{s:4:"file";s:29:"abonnements_anim1-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:29:"abonnements_anim1-300x138.jpg";s:5:"width";i:300;s:6:"height";i:138;s:9:"mime-type";s:10:"image/jpeg";}s:13:"wpbs-featured";a:4:{s:4:"file";s:29:"abonnements_anim1-638x300.jpg";s:5:"width";i:638;s:6:"height";i:300;s:9:"mime-type";s:10:"image/jpeg";}s:15:"bones-thumb-600";a:4:{s:4:"file";s:29:"abonnements_anim1-325x150.jpg";s:5:"width";i:325;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:15:"bones-thumb-300";a:4:{s:4:"file";s:29:"abonnements_anim1-300x100.jpg";s:5:"width";i:300;s:6:"height";i:100;s:9:"mime-type";s:10:"image/jpeg";}s:14:"post-thumbnail";a:4:{s:4:"file";s:29:"abonnements_anim1-125x125.jpg";s:5:"width";i:125;s:6:"height";i:125;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}'),
 (94, 1, '_wp_old_slug', 'article'),
 (95, 2, 'layout_key', ''),
 (96, 41, '_edit_last', '1'),
@@ -784,17 +714,53 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (216, 66, '_wp_trash_meta_status', 'publish'),
 (217, 66, '_wp_trash_meta_time', '1387198787'),
 (218, 45, '_edit_lock', '1387199769:1'),
-(219, 52, '_edit_lock', '1387200112:1'),
+(219, 52, '_edit_lock', '1387237602:1'),
 (220, 52, '_edit_last', '1'),
 (221, 49, '_edit_lock', '1387200120:1'),
 (222, 49, '_edit_last', '1'),
 (223, 44, '_edit_lock', '1387200187:1'),
 (224, 44, '_edit_last', '1'),
-(225, 30, '_edit_lock', '1387200168:1'),
 (226, 47, '_edit_lock', '1387200177:1'),
 (227, 47, '_edit_last', '1'),
 (228, 46, '_edit_lock', '1387200901:1'),
-(229, 46, '_edit_last', '1');
+(229, 46, '_edit_last', '1'),
+(230, 70, '_wp_attached_file', '2013/12/ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566.jpg'),
+(231, 70, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:600;s:6:"height";i:566;s:4:"file";s:72:"2013/12/ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566.jpg";s:5:"sizes";a:2:{s:9:"thumbnail";a:4:{s:4:"file";s:72:"ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:72:"ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566-300x283.jpg";s:5:"width";i:300;s:6:"height";i:283;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}'),
+(232, 70, '_edit_lock', '1387237410:1'),
+(233, 70, '_edit_last', '1'),
+(234, 24, '_edit_lock', '1387233481:1'),
+(235, 71, '_wp_attached_file', '2013/12/aboologo.png'),
+(236, 71, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:140;s:6:"height";i:110;s:4:"file";s:20:"2013/12/aboologo.png";s:5:"sizes";a:0:{}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}'),
+(237, 71, '_edit_lock', '1387236102:1'),
+(238, 71, '_edit_last', '1'),
+(239, 43, '_edit_lock', '1387237524:1'),
+(240, 72, 'custom_css_add', 'yes'),
+(241, 72, 'content_width', ''),
+(242, 72, 'custom_css_preprocessor', ''),
+(243, 73, 'custom_css_add', 'yes'),
+(244, 73, 'content_width', ''),
+(245, 73, 'custom_css_preprocessor', ''),
+(246, 74, 'custom_css_add', 'yes'),
+(247, 74, 'content_width', ''),
+(248, 74, 'custom_css_preprocessor', ''),
+(249, 75, 'custom_css_add', 'yes'),
+(250, 75, 'content_width', ''),
+(251, 75, 'custom_css_preprocessor', ''),
+(252, 76, 'custom_css_add', 'yes'),
+(253, 76, 'content_width', ''),
+(254, 76, 'custom_css_preprocessor', ''),
+(255, 77, 'custom_css_add', 'yes'),
+(256, 77, 'content_width', ''),
+(257, 77, 'custom_css_preprocessor', ''),
+(258, 78, 'custom_css_add', 'yes'),
+(259, 78, 'content_width', ''),
+(260, 78, 'custom_css_preprocessor', ''),
+(261, 79, 'custom_css_add', 'yes'),
+(262, 79, 'content_width', ''),
+(263, 79, 'custom_css_preprocessor', ''),
+(264, 80, 'custom_css_add', 'yes'),
+(265, 80, 'content_width', ''),
+(266, 80, 'custom_css_preprocessor', '');
 
 -- --------------------------------------------------------
 
@@ -832,34 +798,29 @@ CREATE TABLE IF NOT EXISTS `wp_posts` (
   KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
   KEY `post_parent` (`post_parent`),
   KEY `post_author` (`post_author`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
 
---
--- Vider la table avant d'insérer `wp_posts`
---
-
-TRUNCATE TABLE `wp_posts`;
 --
 -- Contenu de la table `wp_posts`
 --
 
 INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2013-12-14 14:35:17', '2013-12-14 14:35:17', 'Bienvenue dans le Blog.\r\n\r\nBientôt ici des informations sur l''actualité de Aboo!\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n&nbsp;', 'Bienvenue!', '', 'publish', 'open', 'open', '', 'bienvenue', '', '', '2013-12-16 14:27:12', '2013-12-16 13:27:12', '', 0, 'http://localhost/gestabo/wordpress/?p=1', 0, 'post', '', 0),
-(2, 1, '2013-12-14 14:35:17', '2013-12-14 14:35:17', '<p style="text-align: center;">[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]</p>\r\n<p style="text-align: center;">[image src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" shape="img-circle"]</p>\r\n<p style="text-align: center;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\r\n<p style="text-align: center;">[well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]</p>', 'Accueil', '', 'publish', 'open', 'open', '', 'accueil', '', '', '2013-12-16 12:12:06', '2013-12-16 11:12:06', '', 0, 'http://localhost/gestabo/wordpress/?page_id=2', 0, 'page', '', 0),
+(2, 1, '2013-12-14 14:35:17', '2013-12-14 14:35:17', '<p style="text-align: center;"><span style="font-size: large; font-family: verdana, geneva; color: #339966;"><strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong></span></p>\r\n<p style="text-align: center;"><span style="font-size: large; font-family: verdana, geneva;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</span></p>\r\n<p style="text-align: center;"><span style="font-size: large; font-family: verdana, geneva;">"Aboo" va vous permettre de répondre à cette question existentielle : "<strong>combien est-ce que je gagne à la fin du mois?!</strong>".</span></p>', 'Accueil', '', 'publish', 'open', 'open', '', 'accueil', '', '', '2013-12-16 23:30:45', '2013-12-16 22:30:45', '', 0, 'http://localhost/gestabo/wordpress/?page_id=2', 0, 'page', '', 0),
 (3, 1, '2013-12-14 15:35:31', '0000-00-00 00:00:00', '', 'Brouillon auto', '', 'auto-draft', 'open', 'open', '', '', '', '', '2013-12-14 15:35:31', '0000-00-00 00:00:00', '', 0, 'http://localhost/gestabo/wordpress/?p=3', 0, 'post', '', 0),
 (4, 1, '2013-12-14 17:59:45', '2013-12-14 16:59:45', '<p>Votre nom (obligatoire)<br />\r\n    [text* your-name] </p>\r\n\r\n<p>Votre email (obligatoire)<br />\r\n    [email* your-email] </p>\r\n\r\n<p>Sujet<br />\r\n    [text your-subject] </p>\r\n\r\n<p>Votre message<br />\r\n    [textarea your-message] </p>\r\n\r\n<p>[submit "Envoyer"]</p>\n[your-subject]\n[your-name] <[your-email]>\nDe : [your-name] <[your-email]>\r\nSujet : [your-subject]\r\n\r\nCorps du message :\r\n[your-message]\r\n\r\n--\r\nCet email a été envoyé via le formulaire de contact de Aboo (http://localhost/gestabo/wordpress)\nfrederic@meyrou.com\n\n\n\n\n[your-subject]\n[your-name] <[your-email]>\nCorps du message :\r\n[your-message]\r\n\r\n--\r\nCet email a été envoyé via le formulaire de contact de Aboo (http://localhost/gestabo/wordpress)\n[your-email]\n\n\n\nVotre message a bien été envoyé. Merci.\nErreur lors de l''envoi du message. Veuillez réessayer plus tard ou contacter l''administrateur d''une autre manière.\nErreur de validation. Veuillez vérifier les champs et soumettre à nouveau.\nErreur lors de l''envoi du message. Veuillez réessayer plus tard ou contacter l''administrateur d''une autre manière.\nMerci de bien vouloir accepter les conditions pour continuer.\nVeuillez remplir le champ obligatoire.\nLe code entré est incorrect.\nLe format numérique semble invalide.\nCe nombre est trop petit.\nCe nombre est trop grand.\nL''adresse email semble invalide.\nL''URL semble invalide.\nLe numéro de téléphone semble invalide.\nVotre réponse est incorrecte.\nLe format de date semble invalide.\nCette date est trop tôt.\nCette date est trop tard.\nImpossible de télécharger le fichier.\nCe type de fichier n''est pas autorisé.\nCe fichier est trop volumineux.\nImpossible de mettre en ligne le fichier. Une erreur est survenue.', 'Contactez-moi', '', 'publish', 'open', 'open', '', 'formulaire-de-contact-1', '', '', '2013-12-16 11:20:00', '2013-12-16 10:20:00', '', 0, 'http://localhost/gestabo/wordpress/?post_type=wpcf7_contact_form&#038;p=4', 0, 'wpcf7_contact_form', '', 0),
 (7, 1, '2013-12-14 18:46:22', '2013-12-14 17:46:22', 'Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !\n\n[notification type="alert-info" close="true" ]Title: Lorem ipsum dolor sit amet...[/notification]\n\n[button style="btn-primary btn-lg" icon="glyphicon-warning-sign" align="left" type="button" title="Button"]\n\n&nbsp;\n\n&nbsp;', 'Article!', '', 'inherit', 'open', 'open', '', '1-autosave-v1', '', '', '2013-12-14 18:46:22', '2013-12-14 17:46:22', '', 1, 'http://localhost/gestabo/wordpress/1-autosave-v1/', 0, 'revision', '', 0),
 (8, 1, '2013-12-14 18:45:21', '2013-12-14 17:45:21', 'Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !\r\n\r\n[notification type="alert-info" close="true" ]Title: Lorem ipsum dolor sit amet...[/notification]', 'Article!', '', 'inherit', 'open', 'open', '', '1-revision-v1', '', '', '2013-12-14 18:45:21', '2013-12-14 17:45:21', '', 1, 'http://localhost/gestabo/wordpress/1-revision-v1/', 0, 'revision', '', 0),
 (9, 1, '2013-12-14 18:48:17', '2013-12-14 17:48:17', 'Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !\r\n\r\n[notification type="alert-info" close="true" ]Title: Lorem ipsum dolor sit amet...[/notification]\r\n\r\n[button style="btn-primary btn-lg" icon="glyphicon-warning-sign" align="left" type="button" title="Button"]\r\n\r\n&nbsp;\r\n\r\n[row]\r\n[column lg="12" md="12" sm="12" xs="12" ]\r\ntext\r\n[/column]\r\n[column lg="2" md="12" sm="12" xs="12" ]\r\ntext\r\n[/column]\r\n[column lg="5" md="12" sm="12" xs="12" ]\r\ntext\r\n[/column]\r\n[column lg="1" md="12" sm="12" xs="12" ]\r\ntext\r\n[/column]\r\n[/row]', 'Article!', '', 'inherit', 'open', 'open', '', '1-revision-v1', '', '', '2013-12-14 18:48:17', '2013-12-14 17:48:17', '', 1, 'http://localhost/gestabo/wordpress/1-revision-v1/', 0, 'revision', '', 0),
-(10, 1, '2013-12-15 01:14:38', '2013-12-15 00:14:38', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\n\n[image src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" shape="img-rounded"] <span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\n\n[well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'open', 'open', '', '2-autosave-v1', '', '', '2013-12-15 01:14:38', '2013-12-15 00:14:38', '', 2, 'http://localhost/gestabo/wordpress/2-autosave-v1/', 0, 'revision', '', 0),
+(10, 1, '2013-12-16 23:21:58', '2013-12-16 22:21:58', '<p style="text-align: center;"><strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong></p>\n<p style="text-align: center;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\n<p style="text-align: center;">"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".</p>', 'Accueil', '', 'inherit', 'open', 'open', '', '2-autosave-v1', '', '', '2013-12-16 23:21:58', '2013-12-16 22:21:58', '', 2, 'http://localhost/gestabo/wordpress/2-autosave-v1/', 0, 'revision', '', 0),
 (11, 1, '2013-12-14 19:03:07', '2013-12-14 18:03:07', 'Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.\r\n\r\nQue vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.\r\n\r\nVos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".\r\n\r\n&nbsp;', 'Accueil', '', 'inherit', 'open', 'open', '', '2-revision-v1', '', '', '2013-12-14 19:03:07', '2013-12-14 18:03:07', '', 2, 'http://localhost/gestabo/2-revision-v1/', 0, 'revision', '', 0),
 (12, 1, '2013-12-14 19:03:33', '2013-12-14 18:03:33', '<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>\r\n\r\nQue vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.\r\n\r\nVos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".\r\n\r\n&nbsp;', 'Accueil', '', 'inherit', 'open', 'open', '', '2-revision-v1', '', '', '2013-12-14 19:03:33', '2013-12-14 18:03:33', '', 2, 'http://localhost/gestabo/2-revision-v1/', 0, 'revision', '', 0),
-(13, 1, '2013-12-14 19:05:24', '2013-12-14 18:05:24', '', 'Connexion', '', 'publish', 'open', 'open', '', 'connexion', '', '', '2013-12-16 14:01:57', '2013-12-16 13:01:57', '', 0, 'http://localhost/gestabo/?p=13', 5, 'nav_menu_item', '', 0),
+(13, 1, '2013-12-14 19:05:24', '2013-12-14 18:05:24', '', 'Connexion', '', 'publish', 'open', 'open', '', 'connexion', '', '', '2013-12-17 01:02:14', '2013-12-17 00:02:14', '', 0, 'http://localhost/gestabo/?p=13', 5, 'nav_menu_item', '', 0),
 (15, 1, '2013-12-14 19:09:21', '2013-12-14 18:09:21', '', 'homepage', '', 'trash', 'open', 'open', '', 'homepage', '', '', '2013-12-14 23:53:42', '2013-12-14 22:53:42', '', 0, 'http://localhost/gestabo/wordpress/?page_id=15', 0, 'page', '', 0),
 (16, 1, '2013-12-14 19:09:21', '2013-12-14 18:09:21', '', 'homepage', '', 'inherit', 'open', 'open', '', '15-revision-v1', '', '', '2013-12-14 19:09:21', '2013-12-14 18:09:21', '', 15, 'http://localhost/gestabo/wordpress/15-revision-v1/', 0, 'revision', '', 0),
 (17, 1, '2013-12-14 23:53:22', '2013-12-14 22:53:22', '', 'News', '', 'publish', 'open', 'open', '', 'news', '', '', '2013-12-14 23:53:22', '2013-12-14 22:53:22', '', 0, 'http://localhost/gestabo/wordpress/?page_id=17', 0, 'page', '', 0),
 (18, 1, '2013-12-14 23:53:22', '2013-12-14 22:53:22', '', 'News', '', 'inherit', 'open', 'open', '', '17-revision-v1', '', '', '2013-12-14 23:53:22', '2013-12-14 22:53:22', '', 17, 'http://localhost/gestabo/wordpress/17-revision-v1/', 0, 'revision', '', 0),
-(19, 1, '2013-12-14 23:54:03', '2013-12-14 22:54:03', ' ', '', '', 'publish', 'open', 'open', '', '19', '', '', '2013-12-16 14:01:57', '2013-12-16 13:01:57', '', 0, 'http://localhost/gestabo/wordpress/?p=19', 3, 'nav_menu_item', '', 0),
+(19, 1, '2013-12-14 23:54:03', '2013-12-14 22:54:03', ' ', '', '', 'publish', 'open', 'open', '', '19', '', '', '2013-12-17 01:02:14', '2013-12-17 00:02:14', '', 0, 'http://localhost/gestabo/wordpress/?p=19', 3, 'nav_menu_item', '', 0),
 (20, 1, '2013-12-14 23:55:15', '2013-12-14 22:55:15', '', 'Connexion', '', 'publish', 'open', 'open', '', 'connexion-2', '', '', '2013-12-14 23:55:32', '2013-12-14 22:55:32', '', 0, 'http://localhost/gestabo/wordpress/?p=20', 1, 'nav_menu_item', '', 0),
 (21, 1, '2013-12-15 00:00:23', '2013-12-14 23:00:23', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>\r\n\r\nQue vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.\r\n\r\nVos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".\r\n\r\n&nbsp;', 'Accueil', '', 'inherit', 'open', 'open', '', '2-revision-v1', '', '', '2013-12-15 00:00:23', '2013-12-14 23:00:23', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
 (22, 1, '2013-12-15 00:01:45', '2013-12-14 23:01:45', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n<span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>\r\n\r\nVos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".\r\n\r\n&nbsp;', 'Accueil', '', 'inherit', 'open', 'open', '', '2-revision-v1', '', '', '2013-12-15 00:01:45', '2013-12-14 23:01:45', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
@@ -870,7 +831,6 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (27, 1, '2013-12-15 01:08:34', '2013-12-15 00:08:34', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n<img class="size-medium wp-image-24 alignleft" style="border: 0px; margin: 10px;" alt="abonnements_anim" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" width="300" height="138" />\r\n\r\n<span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>\r\n\r\nVos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".\r\n\r\n&nbsp;', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:08:34', '2013-12-15 00:08:34', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
 (28, 1, '2013-12-15 01:09:28', '2013-12-15 00:09:28', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n<img class="size-medium wp-image-24 alignleft" style="border: 0px; margin: 10px;" alt="abonnements_anim" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" width="300" height="138" />\r\n<p style="text-align: left;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>\r\n<p style="text-align: left;">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\r\n<p style="text-align: left;">"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".</p>\r\n [well type="well-sm"]<br class="osc" />test<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:09:28', '2013-12-15 00:09:28', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
 (29, 1, '2013-12-15 01:10:00', '2013-12-15 00:10:00', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n<img class="size-medium wp-image-24 alignleft" style="border: 0px; margin: 10px;" alt="abonnements_anim" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" width="300" height="138" />\r\n<p style="text-align: left;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>\r\n<p style="text-align: left;">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\r\n<p style="text-align: left;"></p>\r\n [well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:10:00', '2013-12-15 00:10:00', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
-(30, 1, '2013-12-15 01:11:37', '2013-12-15 00:11:37', '', 'abonnements_anim', '', 'inherit', 'closed', 'open', '', 'abonnements_anim-2', '', '', '2013-12-15 01:11:37', '2013-12-15 00:11:37', '', 0, 'http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim1.jpg', 0, 'attachment', 'image/jpeg', 0),
 (31, 1, '2013-12-15 01:13:47', '2013-12-15 00:13:47', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n[image src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" shape="img-rounded"]\r\n\r\n<img class="size-medium wp-image-24 alignleft" style="border: 0px; margin-top: 0px; margin-bottom: 0px;" alt="abonnements_anim" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" width="300" height="138" />\r\n<p style="text-align: left;"><span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>\r\n<p style="text-align: left;">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\r\n [well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:13:47', '2013-12-15 00:13:47', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
 (32, 1, '2013-12-15 01:14:18', '2013-12-15 00:14:18', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n[image src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" shape="img-rounded"] <span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>\r\n<p style="text-align: left;">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>\r\n [well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:14:18', '2013-12-15 00:14:18', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
 (33, 1, '2013-12-15 01:15:52', '2013-12-15 00:15:52', '[notification type="alert-info" close="false" ]<strong>Bienvenue sur "Aboo" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]\r\n\r\n[image src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg" shape="img-circle"] <span style="line-height: 1.5em;">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l''étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?\r\n\r\n[well type="well-sm"]<br class="osc" />"Aboo" va vous permettre de répondre à cette question existentielle : "combien est-ce que je gagne à la fin du mois?!".<br class="osc" />[/well]', 'Accueil', '', 'inherit', 'closed', 'open', '', '2-revision-v1', '', '', '2013-12-15 01:15:52', '2013-12-15 00:15:52', '', 2, 'http://localhost/gestabo/wordpress/2-revision-v1/', 0, 'revision', '', 0),
@@ -889,19 +849,31 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (46, 1, '2013-12-16 11:22:52', '2013-12-16 10:22:52', '', 'zen21', '', 'inherit', 'closed', 'open', '', 'zen21', '', '', '2013-12-16 11:22:52', '2013-12-16 10:22:52', '', 42, 'http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/zen21.gif', 0, 'attachment', 'image/gif', 0),
 (47, 1, '2013-12-16 11:22:55', '2013-12-16 10:22:55', '', 'help', '', 'inherit', 'closed', 'open', '', 'help', '', '', '2013-12-16 11:22:55', '2013-12-16 10:22:55', '', 42, 'http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/help.png', 0, 'attachment', 'image/png', 0),
 (49, 1, '2013-12-16 11:22:59', '2013-12-16 10:22:59', '', 'budget 2', '', 'inherit', 'closed', 'open', '', 'budget-2', '', '', '2013-12-16 11:22:59', '2013-12-16 10:22:59', '', 42, 'http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-2.jpg', 0, 'attachment', 'image/jpeg', 0),
-(50, 1, '2013-12-16 11:25:58', '2013-12-16 10:25:58', ' ', '', '', 'publish', 'closed', 'open', '', '50', '', '', '2013-12-16 14:01:57', '2013-12-16 13:01:57', '', 0, 'http://localhost/gestabo/wordpress/50/', 4, 'nav_menu_item', '', 0),
+(50, 1, '2013-12-16 11:25:58', '2013-12-16 10:25:58', ' ', '', '', 'publish', 'closed', 'open', '', '50', '', '', '2013-12-17 01:02:14', '2013-12-17 00:02:14', '', 0, 'http://localhost/gestabo/wordpress/50/', 4, 'nav_menu_item', '', 0),
 (51, 1, '2013-12-16 11:25:58', '2013-12-16 10:25:58', '<a href="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi.gif"><img class="alignleft size-thumbnail wp-image-48" alt="contactez-moi" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi-150x150.gif" width="150" height="150" /></a>\r\n\r\n&nbsp;\r\n\r\n<span style="color: #ff6600;"><strong><em>Frédéric MEYROU</em></strong></span>\r\n\r\n<strong>Tel : <span style="color: #008000;">06.7226.8111</span></strong>\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n[contact-form-7 id="4" title="Contactez-moi"]\r\n\r\n&nbsp;', 'Contactez-moi', '', 'inherit', 'closed', 'open', '', '42-revision-v1', '', '', '2013-12-16 11:25:58', '2013-12-16 10:25:58', '', 42, 'http://localhost/gestabo/wordpress/42-revision-v1/', 0, 'revision', '', 0),
 (52, 1, '2013-12-16 11:35:17', '2013-12-16 10:35:17', '', 'tarifs', '', 'inherit', 'closed', 'open', '', 'tarifs-2', '', '', '2013-12-16 11:35:17', '2013-12-16 10:35:17', '', 41, 'http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/tarifs.jpg', 0, 'attachment', 'image/jpeg', 0),
-(53, 1, '2013-12-16 11:35:34', '2013-12-16 10:35:34', ' ', '', '', 'publish', 'closed', 'open', '', '53', '', '', '2013-12-16 14:01:57', '2013-12-16 13:01:57', '', 0, 'http://localhost/gestabo/wordpress/53/', 2, 'nav_menu_item', '', 0),
+(53, 1, '2013-12-16 11:35:34', '2013-12-16 10:35:34', ' ', '', '', 'publish', 'closed', 'open', '', '53', '', '', '2013-12-17 01:02:14', '2013-12-17 00:02:14', '', 0, 'http://localhost/gestabo/wordpress/53/', 2, 'nav_menu_item', '', 0),
 (54, 1, '2013-12-16 11:35:34', '2013-12-16 10:35:34', '<img class="alignleft size-thumbnail wp-image-52" alt="tarifs" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/tarifs-150x150.jpg" width="150" height="150" />Ici les tarifs de Aboo', 'Tarifs', '', 'inherit', 'closed', 'open', '', '41-revision-v1', '', '', '2013-12-16 11:35:34', '2013-12-16 10:35:34', '', 41, 'http://localhost/gestabo/wordpress/41-revision-v1/', 0, 'revision', '', 0),
 (55, 1, '2013-12-16 11:37:29', '2013-12-16 10:37:29', 'Aboo est un service en ligne ....<img class="alignleft  wp-image-43" style="margin: 10px; border: 0px;" alt="budget" src="http://localhost/gestabo/wp-content/uploads/2013/12/budget-150x150.jpg" />', 'Que fait Aboo?', '', 'publish', 'closed', 'open', '', 'que-fait-aboo', '', '', '2013-12-16 14:23:49', '2013-12-16 13:23:49', '', 0, 'http://localhost/gestabo/wordpress/?page_id=55', 0, 'page', '', 0),
-(56, 1, '2013-12-16 11:37:29', '2013-12-16 10:37:29', ' ', '', '', 'publish', 'closed', 'open', '', '56', '', '', '2013-12-16 14:01:57', '2013-12-16 13:01:57', '', 0, 'http://localhost/gestabo/wordpress/56/', 1, 'nav_menu_item', '', 0),
+(56, 1, '2013-12-16 11:37:29', '2013-12-16 10:37:29', ' ', '', '', 'publish', 'closed', 'open', '', '56', '', '', '2013-12-17 01:02:14', '2013-12-17 00:02:14', '', 0, 'http://localhost/gestabo/wordpress/56/', 1, 'nav_menu_item', '', 0),
 (57, 1, '2013-12-16 11:37:29', '2013-12-16 10:37:29', 'Aboo est un service en ligne ....<a href="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget.jpg"><img class="alignleft size-thumbnail wp-image-43" alt="budget" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-150x150.jpg" width="150" height="150" /></a>', 'Que fait Aboo?', '', 'inherit', 'closed', 'open', '', '55-revision-v1', '', '', '2013-12-16 11:37:29', '2013-12-16 10:37:29', '', 55, 'http://localhost/gestabo/wordpress/55-revision-v1/', 0, 'revision', '', 0),
 (58, 1, '2013-12-16 11:37:49', '2013-12-16 10:37:49', 'Aboo est un service en ligne ....<img class="alignleft size-thumbnail wp-image-43" style="margin: 10px; border: 0px;" alt="budget" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-150x150.jpg" width="150" height="150" />', 'Que fait Aboo?', '', 'inherit', 'closed', 'open', '', '55-revision-v1', '', '', '2013-12-16 11:37:49', '2013-12-16 10:37:49', '', 55, 'http://localhost/gestabo/wordpress/55-revision-v1/', 0, 'revision', '', 0),
 (65, 1, '2013-12-16 12:00:53', '2013-12-16 11:00:53', '&nbsp;\r\n\r\n<span style="color: #ff6600;"><strong><em><img class="alignleft size-thumbnail wp-image-64" alt="ContactUs" src="http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/ContactUs-150x150.jpg" width="150" height="150" />Frédéric MEYROU</em></strong></span>\r\n\r\n<strong>Tel : <span style="color: #008000;">06.7226.8111</span></strong>\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n&nbsp;\r\n\r\n[contact-form-7 id="4" title="Contactez-moi"]\r\n\r\n&nbsp;', 'Contactez-moi', '', 'inherit', 'closed', 'open', '', '42-revision-v1', '', '', '2013-12-16 12:00:53', '2013-12-16 11:00:53', '', 42, 'http://localhost/gestabo/wordpress/42-revision-v1/', 0, 'revision', '', 0),
 (66, 1, '2013-12-16 12:05:33', '2013-12-16 11:05:33', '[button style="btn-success btn-lg" icon="glyphicon-lock" align="left" type="link" target="true" title="Connexion" link="http://localhost/gestabo/connexion.php"]', 'Connexion', '', 'trash', 'closed', 'open', '', 'connexion', '', '', '2013-12-16 13:59:47', '2013-12-16 12:59:47', '', 0, 'http://localhost/gestabo/wordpress/?page_id=66', 0, 'page', '', 0),
 (68, 1, '2013-12-16 12:05:33', '2013-12-16 11:05:33', '[button style="btn-success btn-lg" icon="glyphicon-lock" align="left" type="link" target="true" title="Connexion" link="http://localhost/gestabo/connexion.php"]', 'Connexion', '', 'inherit', 'closed', 'open', '', '66-revision-v1', '', '', '2013-12-16 12:05:33', '2013-12-16 11:05:33', '', 66, 'http://localhost/gestabo/wordpress/66-revision-v1/', 0, 'revision', '', 0),
-(69, 1, '2013-12-16 14:24:14', '2013-12-16 13:24:14', '<img class="alignleft  wp-image-52" alt="tarifs" src="http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg" />Ici les tarifs de Aboo', 'Tarifs', '', 'inherit', 'closed', 'open', '', '41-revision-v1', '', '', '2013-12-16 14:24:14', '2013-12-16 13:24:14', '', 41, 'http://localhost/gestabo/41-revision-v1/', 0, 'revision', '', 0);
+(69, 1, '2013-12-16 14:24:14', '2013-12-16 13:24:14', '<img class="alignleft  wp-image-52" alt="tarifs" src="http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg" />Ici les tarifs de Aboo', 'Tarifs', '', 'inherit', 'closed', 'open', '', '41-revision-v1', '', '', '2013-12-16 14:24:14', '2013-12-16 13:24:14', '', 41, 'http://localhost/gestabo/41-revision-v1/', 0, 'revision', '', 0),
+(70, 1, '2013-12-16 23:31:31', '2013-12-16 22:31:31', '', 'ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566', '', 'inherit', 'closed', 'open', '', 'ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566', '', '', '2013-12-16 23:31:31', '2013-12-16 22:31:31', '', 0, 'http://localhost/gestabo/wp-content/uploads/2013/12/ampoule-economie-energie-fluo-compacte-forme-cerveau-600x566.jpg', 0, 'attachment', 'image/jpeg', 0),
+(71, 1, '2013-12-17 00:05:44', '2013-12-16 23:05:44', '', 'aboologo', '', 'inherit', 'closed', 'open', '', 'aboologo', '', '', '2013-12-17 00:05:44', '2013-12-16 23:05:44', '', 0, 'http://localhost/gestabo/wp-content/uploads/2013/12/aboologo.png', 0, 'attachment', 'image/png', 0),
+(72, 1, '2013-12-17 00:51:35', '2013-12-16 23:51:35', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n	margin: 40px;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'publish', 'closed', 'open', '', 'safecss', '', '', '2013-12-17 01:00:44', '2013-12-17 00:00:44', '#site-title a{font-size:110px;text-decoration:none;margin:40px}.basic .jumbotron h1{color:#BDBDBD;margin-top:20px;text-shadow:2px 2px 2px rgba(0,0,0,1);font-style:italic}img{box-shadow:1px 1px 12px #555;border-radius:5px;-moz-border-radius:5px;-moz-box-shadow:1px 1px 12px #555;-webkit-box-shadow:1px 1px 12px #555;-webkit-border-radius:5px}', 0, 'http://localhost/gestabo/?safecss=safecss', 0, 'safecss', '', 0),
+(73, 1, '2013-12-17 00:52:13', '2013-12-16 23:52:13', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:52:13', '2013-12-16 23:52:13', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(74, 1, '2013-12-17 00:53:42', '2013-12-16 23:53:42', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:53:42', '2013-12-16 23:53:42', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(75, 1, '2013-12-17 00:55:26', '2013-12-16 23:55:26', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:55:26', '2013-12-16 23:55:26', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(76, 1, '2013-12-17 00:56:58', '2013-12-16 23:56:58', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:56:58', '2013-12-16 23:56:58', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(77, 1, '2013-12-17 00:57:13', '2013-12-16 23:57:13', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:57:13', '2013-12-16 23:57:13', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(78, 1, '2013-12-17 00:59:51', '2013-12-16 23:59:51', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n	margin: 10px;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 00:59:51', '2013-12-16 23:59:51', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0);
+INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
+(79, 1, '2013-12-17 01:00:15', '2013-12-17 00:00:15', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n	margin: 25px;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 01:00:15', '2013-12-17 00:00:15', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0),
+(80, 1, '2013-12-17 01:00:44', '2013-12-17 00:00:44', '/*\nBienvenue dans l&rsquo;éditeur CSS de l&rsquo;extension Design !\n\nCSS (Cascading Style Sheets) est un langage qui fournit des informations à\nvotre navigateur concernant le style de la page web que vous visitez. Vous\npouvez maintenant supprimer ces commentaires et commencer à ajouter votre\npropre code CSS.\n\nPar défaut, cette feuille de style sera chargée après la feuille de\nstyle de votre thème, ce qui veut dire que les nouvelles règles que vous\najouterez ici pourront remplacer celles créées par le thème.\n\nVous pouvez donc ajouter ici les changements que vous souhaitez apporter à\nvotre thème, sans avoir à copier la feuille de style existante de\ncelui-ci, ou avoir à recréer toutes les règles de style de votre thème.\n*/\n#site-title a {\n	font-size: 110px;\n	text-decoration: none;\n	margin: 40px;\n}\n\n.basic .jumbotron h1 {\n	color: #BDBDBD;\n	margin-top: 20px;\n	text-shadow: 2px 2px 2px rgba(0,0,0,1);\n	font-style: italic;\n}\n\nimg {\n	box-shadow: 1px 1px 12px #555;\n	border-radius: 5px;\n	-moz-border-radius: 5px;\n	-moz-box-shadow: 1px 1px 12px #555;\n	-webkit-box-shadow: 1px 1px 12px #555;\n	-webkit-border-radius: 5px;\n}', 'safecss', 'Tonic', 'inherit', 'closed', 'open', '', '72-revision-v1', '', '', '2013-12-17 01:00:44', '2013-12-17 00:00:44', '', 72, 'http://localhost/gestabo/72-revision-v1/', 0, 'revision', '', 0);
 
 -- --------------------------------------------------------
 
@@ -920,11 +892,6 @@ CREATE TABLE IF NOT EXISTS `wp_terms` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
---
--- Vider la table avant d'insérer `wp_terms`
---
-
-TRUNCATE TABLE `wp_terms`;
 --
 -- Contenu de la table `wp_terms`
 --
@@ -951,11 +918,6 @@ CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
   KEY `term_taxonomy_id` (`term_taxonomy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Vider la table avant d'insérer `wp_term_relationships`
---
-
-TRUNCATE TABLE `wp_term_relationships`;
 --
 -- Contenu de la table `wp_term_relationships`
 --
@@ -989,11 +951,6 @@ CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Vider la table avant d'insérer `wp_term_taxonomy`
---
-
-TRUNCATE TABLE `wp_term_taxonomy`;
---
 -- Contenu de la table `wp_term_taxonomy`
 --
 
@@ -1021,11 +978,6 @@ CREATE TABLE IF NOT EXISTS `wp_usermeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
---
--- Vider la table avant d'insérer `wp_usermeta`
---
-
-TRUNCATE TABLE `wp_usermeta`;
 --
 -- Contenu de la table `wp_usermeta`
 --
@@ -1081,11 +1033,6 @@ CREATE TABLE IF NOT EXISTS `wp_users` (
   KEY `user_nicename` (`user_nicename`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
---
--- Vider la table avant d'insérer `wp_users`
---
-
-TRUNCATE TABLE `wp_users`;
 --
 -- Contenu de la table `wp_users`
 --
