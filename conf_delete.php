@@ -68,27 +68,55 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>GestAbo</title>
+    <title>Aboo</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="bootstrap/css/aboo.css" rel="stylesheet">
+    <link rel='stylesheet' id='google_fonts-css'  href='http://fonts.googleapis.com/css?family=PT+Sans|Lato:300,400|Lobster|Quicksand' type='text/css' media='all' />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-
+    
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <div class="container">
-        <h2>Console</h2>
-        <ul class="nav nav-pills">
-          <li><a href="home.php">Console</a></li>
+
+    <!-- Affiche la navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
+      <!-- Marque -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="home.php">Aboo</a>
+      </div>      
+      <!-- Liens -->
+      <div class="collapse navbar-collapse" id="TOP">
+        <ul class="nav navbar-nav">
           <li><a href="abodep.php">Abonnements & Dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
           <li><a href="paiements.php">Paiements</a></li>
           <li class="active"><a href="conf.php">Configuration</a></li>
-          <li><a href="deconnexion.php">Deconnexion</a></li>
+          <li><a href="deconnexion.php">Deconnexion</a></li>                    
+           <!--<li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Action</a></li>
+            </ul>
+          </li>-->      
         </ul>
+      </div><!-- /.navbar-collapse -->    
+    </nav>
+        
+    <div class="container">
+        <h2>Suppression d'un exercice</h2>
+        <br>
 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -109,10 +137,6 @@
         ?>  
         
 		<div class="span10 offset1">
-			<div class="row">
-    			<h3>Suppression d'un exercice</h3>
-    		</div>
-			
 			<form class="form-horizontal" action="conf_delete.php" method="post">
 			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
 			  <p class="alert alert-danger">Confirmation de la suppression ?</p>

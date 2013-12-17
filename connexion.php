@@ -74,12 +74,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>GestAbo</title>
+    <title>Aboo</title>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="bootstrap/css/aboo.css" rel="stylesheet">
     <link href="bootstrap/css/signin.css" rel="stylesheet">
+    <link rel='stylesheet' id='google_fonts-css'  href='http://fonts.googleapis.com/css?family=PT+Sans|Lato:300,400|Lobster|Quicksand' type='text/css' media='all' />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -88,8 +90,10 @@
 </head>
 
 <body>
+    
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+
     <div class="container">
       <?php if(isset($error_unknown)){ ?> 
       <div class="alert alert alert-fail alert-dismissable fade in">
