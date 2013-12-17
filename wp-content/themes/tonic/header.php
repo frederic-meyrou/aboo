@@ -42,7 +42,10 @@ $bavotasan_theme_options = bavotasan_theme_options();
 				$header_class = ( 'blank' == $text_color ) ? ' class="remove"' : ' class="left-header fl"';
 				?>
 				<div<?php echo $header_class; ?>>
-					<h1 id="site-title"><a href="<?php echo esc_url( home_url() ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+				<h1 id="site-title"><a href="<?php echo esc_url( home_url() ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+				<!--    <h1 id="site-title">
+					<a href="<?php echo esc_url( home_url() ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><img src="http://localhost/gestabo/wp-content/uploads/2013/12/aboologo.png" alt="<?php bloginfo( 'name' ); ?>" /></a>
+					</h1> -->
 					<?php if ( $bavotasan_theme_options['tagline'] ) { ?><h2 id="site-description"><?php bloginfo( 'description' ); ?></h2><?php } ?>
 				</div>
 
