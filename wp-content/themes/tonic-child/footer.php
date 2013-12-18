@@ -1,5 +1,12 @@
 <?php
 /**
+Theme Name: Tonic
+Description: Thème enfant pour Tonic
+Author: FME
+Template: tonic
+**/
+ 
+/**
  * The template for displaying the footer.
  *
  * Contains footer content and the closing of the
