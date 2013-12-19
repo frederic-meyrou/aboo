@@ -1,0 +1,2 @@
+function qppclear(thisfield, defaulttext) {if (thisfield.value == defaulttext) {thisfield.value = "";}}
+function qpprecall(thisfield, defaulttext) {if (thisfield.value == "") {thisfield.value = defaulttext;}}
