@@ -140,7 +140,7 @@
       <!-- Marque -->
       <div class="navbar-header">
         <a class="navbar-brand" href="home.php">Aboo</a>
-      </div>      
+      </div>     
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
@@ -158,22 +158,17 @@
               <li class="divider"></li>
               <li><a href="#">Action</a></li>
             </ul>
-          </li>-->      
+          </li>-->
         </ul>
-      </div><!-- /.navbar-collapse -->    
+          <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
+          <p class="navbar-text navbar-right"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?></p>
+      </div><!-- /.navbar-collapse -->
     </nav>
         
     <div class="container">
         <h2>Tableau de bord</h2>       
         <br>
-
-        <div class="alert alert alert-success alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Bonjour <?php echo "$prenom $nom"; ?> !</strong> Bienvenue sur ton espace sécurisé.
-        </div>
-        
-        <br>
-        
+       
 		<!-- Affiche les informations de session -->      		
 		<?php 
  		if ($infos) {
@@ -181,7 +176,6 @@
         <div class="alert alert alert-info alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
-            <strong><?php echo "Mois courant : " . NumToMois($abodep_mois); ?></strong> 
         </div>
         <br>
 	    <?php       
