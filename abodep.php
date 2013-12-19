@@ -169,11 +169,11 @@
       <!-- Marque -->
       <div class="navbar-header">
         <a class="navbar-brand" href="home.php">Aboo</a>
-      </div>      
+      </div>     
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="abodep.php">Abonnements & Dépenses</a></li>
+          <li class="active"><a href="abodep.php">Recettes & Dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
@@ -187,13 +187,15 @@
               <li class="divider"></li>
               <li><a href="#">Action</a></li>
             </ul>
-          </li>-->      
+          </li>-->
         </ul>
-      </div><!-- /.navbar-collapse -->    
+          <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
+          <p class="navbar-text navbar-right"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?></p>
+      </div><!-- /.navbar-collapse -->
     </nav>
         
     <div class="container">
-        <h2>Abonnement & Dépenses</h2>
+        <h2>Recettes & Dépenses</h2>
         <br>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
@@ -207,15 +209,17 @@
                 }   
             ?>    
             </select>
-            <button type="submit" class="btn btn-success">Changer de mois</button>
+            <button type="submit" class="btn btn-success">Changer de mois <span class="glyphicon glyphicon-refresh"></span></button>
         </form>
         <br>
         
-        <!-- Affiche les boutons de créations -->        
-		<p>
-			<a href="abo.php" class="btn btn-success">Création/Modification Abonnements</a>
-  			<a href="dep.php" class="btn btn-success">Création/Modification Dépenses</a>
-		</p>
+        <!-- Affiche les boutons de créations -->      
+		<div class="btn-group">
+			<a href="abo.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
+  			<a href="dep.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>	  						
+		</div>  
         
         <!-- Affiche les informations de debug -->
         <?php 
@@ -242,7 +246,7 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des abonnements et des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+                <h3>Journal des recettes et des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
             </div>			
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>

@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://localhost/gestabo/wp-content/plugins/google-xml-sitemaps-v3-for-qtranslate/sitemap.xsl"?><!-- generator="wordpress/3.8" -->
 <!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.2.9" -->
-<!-- generated-on="18 December 2013 0 h 02 min" -->
+<!-- generated-on="19 December 2013 12 h 25 min" -->
 <!-- Debug: Total comment count: 0 -->
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
 		<loc>http://localhost/gestabo/</loc>
-		<lastmod>2013-12-17T23:55:13+00:00</lastmod>
+		<lastmod>2013-12-19T12:06:45+00:00</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 <!-- Debug: Start Postings -->
 	<url>
+		<loc>http://localhost/gestabo/paiement/</loc>
+		<lastmod>2013-12-19T12:24:55+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://localhost/gestabo/tarifs/</loc>
+		<lastmod>2013-12-19T11:59:10+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
 		<loc>http://localhost/gestabo/pour-qui/</loc>
-		<lastmod>2013-12-18T00:02:09+00:00</lastmod>
+		<lastmod>2013-12-19T11:50:33+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://localhost/gestabo/que-fait-aboo/</loc>
+		<lastmod>2013-12-19T11:49:41+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>
 	</url>
@@ -21,24 +39,12 @@
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>
 	</url>
-	<url>
-		<loc>http://localhost/gestabo/que-fait-aboo/</loc>
-		<lastmod>2013-12-17T21:36:23+00:00</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.6</priority>
-	</url>
 <!-- Debug: Priority report of postID 1: Comments: 0 of 0 = 0 points -->
 	<url>
 		<loc>http://localhost/gestabo/bienvenue/</loc>
 		<lastmod>2013-12-16T13:27:12+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>
-	</url>
-	<url>
-		<loc>http://localhost/gestabo/tarifs/</loc>
-		<lastmod>2013-12-16T13:24:14+00:00</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.6</priority>
 	</url>
 	<url>
 		<loc>http://localhost/gestabo/news/</loc>

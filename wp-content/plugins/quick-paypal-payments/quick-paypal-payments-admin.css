@@ -1,0 +1,25 @@
+#qpp-options {
+	border: 1px solid #C3CFF5;
+	padding: 0 10px 10px 10px;
+	margin: 10px 10px 0 10px ;
+	float: left;
+	width: 45%;
+	}
+
+#qpp-options h2 {
+	color: #005F6B;
+	}
+
+#qpp-options h3 {
+	color: #717DD7;
+	margin: 4px 0 0 0;
+	padding: 0;
+	}
+
+#qpp-options input text {
+	border: 1px solid #C3CFF5;
+	}
+
+#qpp-options submit input:focus {
+	color: #FFF;
+	}

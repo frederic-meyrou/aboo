@@ -1,0 +1,94 @@
+#qpp-style {
+	font-family: arial, sans-serif;
+	text-align: left;
+	margin: 0 0 20px 0;
+	padding: 0;
+	}
+
+#qpp-style form {
+	margin: 0;
+	padding: 0;
+	}
+
+
+#qpp-style #none {
+	border: 0px solid #FFF;
+	padding: 0;
+	}
+
+#qpp-style #plain {
+	border: 1px solid #415063;
+	padding: 10px;
+	margin: 0;
+	}
+
+#qpp-style #rounded {
+	border: 1px solid #415063;
+	padding: 10px;
+	-moz-border-radius: 10px;
+	-webkit-box-shadow: 10px;
+	border-radius: 10px;
+	}
+
+#qpp-style #shadow {
+	border: 1px solid #415063;
+	padding: 10px;
+	margin: 0 10px 20px 0;
+	-webkit-box-shadow: 5px 5px 5px #415063;
+	-moz-box-shadow: 5px 5px 5px #415063;
+	box-shadow: 5px 5px 5px #415063;
+	}
+
+#qpp-style #roundshadow {
+	border: 1px solid #415063;
+	padding: 10px; 
+	margin: 0 10px 20px 0; 
+	-webkit-box-shadow: 5px 5px 5px #415063;
+	-moz-box-shadow: 5px 5px 5px #415063;
+	box-shadow: 5px 5px 5px #415063;
+	-moz-border-radius: 10px; 
+	-webkit-box-shadow: 10px; 
+	border-radius: 10px;
+	}
+
+#qpp-style input {
+	font-family: arial, sans-serif;
+	margin: 5px 0 0 0;
+	padding: 6px;
+	color: #465069;
+	font-size: 110%;
+	border:1px solid #415063;
+	width: 100%; 
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+	}
+
+#qpp-style input:focus {
+	background:#FFFFCC;
+	}
+
+#qpp-style .payment {
+	color: #465069;
+	text-align: left;
+	font-size: 110%;
+	margin: 0;
+	font-weight: normal;
+	padding: 6px 0 0 0
+	width: 266px;
+	}
+
+#qpp-style #submit {
+	color: #FFF;
+	background: #343838;
+	text-align: center;
+	cursor: pointer;
+	width: 100%; 
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+	}
+#qpp-style .error {
+	color: #D31900;
+	font-weight: bold;
+	}
