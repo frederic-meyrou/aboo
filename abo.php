@@ -155,11 +155,11 @@
       <!-- Marque -->
       <div class="navbar-header">
         <a class="navbar-brand" href="home.php">Aboo</a>
-      </div>      
+      </div>     
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="abodep.php">Abonnements & Dépenses</a></li>
+          <li class="active"><a href="abodep.php">Recettes & Dépenses</a></li>
           <li><a href="meusuel.php">Bilan Mensuel</a></li>
           <li><a href="bilan.php">Bilan Annuel</a></li>
           <li><a href="encaissements.php">Encaissements</a></li>
@@ -173,9 +173,11 @@
               <li class="divider"></li>
               <li><a href="#">Action</a></li>
             </ul>
-          </li>-->      
+          </li>-->
         </ul>
-      </div><!-- /.navbar-collapse -->    
+          <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
+          <p class="navbar-text navbar-right"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?></p>
+      </div><!-- /.navbar-collapse -->
     </nav>
         
     <div class="container">
