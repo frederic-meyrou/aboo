@@ -1,3 +1,6 @@
+<!-- 
+© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
+-->
 <?php
 session_start();
 // Détruit toutes les variables de session
