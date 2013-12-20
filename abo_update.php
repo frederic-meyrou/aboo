@@ -43,7 +43,7 @@
     if(!empty($_SESSION['abodep']['mois'])) {
         $abodep_mois = $_SESSION['abodep']['mois'];
     } else { // On a pas de session avec le mois on retourne d'ou on vient
-    	header("Location: abodep.php");
+    	header("Location: journal.php");
     }
 	
 // Initialisation de la base
@@ -135,30 +135,35 @@
 
     <!-- Affiche la navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
-      <!-- Marque -->
       <div class="navbar-header">
-        <a class="navbar-brand" href="home.php">Aboo</a>
-      </div>      
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Marque -->
+          <a class="navbar-brand" href="home.php">Aboo</a>
+      </div>     
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="abodep.php">Abonnements & Dépenses</a></li>
-          <li><a href="meusuel.php">Bilan Mensuel</a></li>
-          <li><a href="bilan.php">Bilan Annuel</a></li>
-          <li><a href="encaissements.php">Encaissements</a></li>
-          <li><a href="paiements.php">Paiements</a></li>
-          <li><a href="conf.php">Configuration</a></li>
-          <li><a href="deconnexion.php">Deconnexion</a></li>                    
-           <!--<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Dropdown <b class="caret"></b></a>
+          <li class="active"><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
+          <li><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan</a></li>
+          <li><a href="encaissements.php"><span class="glyphicon glyphicon-credit-card"></span> Encaissements</a></li>
+          <li><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
+          <li><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
+          <li class="dropdown">
+	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Action</a></li>
-            </ul>
-          </li>-->      
+              <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
+              <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
+            </ul> 
+          </li>
+          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span></a></li>      
         </ul>
-      </div><!-- /.navbar-collapse -->    
+      </div><!-- /.navbar-collapse -->
     </nav>
         
     <div class="container">

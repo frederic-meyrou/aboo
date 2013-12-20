@@ -19,28 +19,26 @@
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">   	
-	  <!-- Marque -->
-	  <div class="navbar-header">
-	    <a class="navbar-brand" href="">Aboo</a>
-	  </div>	  
-	  <!-- Liens -->
-	  <div class="collapse navbar-collapse" id="TOP">
-	    <ul class="nav navbar-nav">
-	      <li><a href=""></a></li>	    	
-          <li><a href="connexion.php">Connexion</a></li>     	      
-	       <!--<li class="dropdown">
-	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Dropdown <b class="caret"></b></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#">Action</a></li>
-	          <li class="divider"></li>
-	          <li><a href="#">Action</a></li>
-	        </ul>
-	      </li>-->      
-	    </ul>
-	    <button type="button" class="btn btn-default navbar-btn pull-right">Connexion</button>
-	  </div><!-- /.navbar-collapse -->	  
-	</nav>
+    <!-- Affiche la navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Marque -->
+          <a class="navbar-brand" href="home.php">Aboo</a>
+      </div>     
+      <!-- Liens -->
+      <div class="collapse navbar-collapse" id="TOP">
+        <ul class="nav navbar-nav">
+          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion</a></li>                
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>    
+	
 
     <div class="container">
 

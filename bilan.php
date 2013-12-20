@@ -153,24 +153,21 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li><a href="abodep.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
-          <li><a href="meusuel.php"><span class="glyphicon glyphicon-calendar"></span> Bilan Mensuel</a></li>
-          <li><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan Annuel</a></li>
+          <li><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
+          <li class="active"><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan</a></li>
           <li><a href="encaissements.php"><span class="glyphicon glyphicon-credit-card"></span> Encaissements</a></li>
           <li><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
-          <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
-          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>                    
-           <!--<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Dropdown <b class="caret"></b></a>
+          <li><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
+          <li class="dropdown">
+	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Action</a></li>
-            </ul>
-          </li>-->
+              <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
+              <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
+            </ul> 
+          </li>
+          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span></a></li>      
         </ul>
-          <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
-          <p class="navbar-text navbar-right"></span><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?></p>
       </div><!-- /.navbar-collapse -->
     </nav>
         
