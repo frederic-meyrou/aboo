@@ -91,10 +91,13 @@
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
-	$req = $pdo->prepare($sql2);
-    $req->execute($q);
-    $data2 = $req->fetch(PDO::FETCH_ASSOC);
+    $req->execute($q);	
     $count = $req->rowCount($sql);
+	
+	$req = $pdo->prepare($sql2);
+    $req->execute($q);	
+    $data2 = $req->fetch(PDO::FETCH_ASSOC);
+    
     if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;              
     } else {   
@@ -162,7 +165,7 @@
     </nav>
     
     <div class="container">
-        <h2>Affichage et Modification des Dépenses</h2>
+        <h2>Dépenses & Charges</h2>
         <br>
                       
         <!-- Affiche les informations de debug -->
@@ -191,46 +194,47 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+                <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
 		
-			<table class="table table-striped table-bordered table-hover success">
-				<thead>
-					<tr>
-					  <th>Type</th>
-  					  <th>Montant</th>
-					  <th>Commentaire</th>
-					  <th>Action</th>					  			  
-					</tr>
-				</thead>
-                
-				<tbody>
-				<?php		 
-					foreach ($data as $row) {
-						echo '<tr>';
-						echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
-						echo '<td>' . $row['montant'] . ' €</td>';
-						echo '<td>' . $row['commentaire'] . '</td>';
-					   	echo '<td width=90>';
-				?>		
-						<div class="btn-group btn-group-sm">
-							  	<a href="dep_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-							  	<a href="dep_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-						</div>
-
-					   	</td>						
+				<table class="table table-striped table-bordered table-hover success">
+					<thead>
+						<tr>
+						  <th>Type</th>
+	  					  <th>Montant</th>
+						  <th>Commentaire</th>
+						  <th>Action</th>					  			  
 						</tr>
+					</thead>
+	                
+					<tbody>
+					<?php		 
+						foreach ($data as $row) {
+							echo '<tr>';
+							echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
+							echo '<td>' . $row['montant'] . ' €</td>';
+							echo '<td>' . $row['commentaire'] . '</td>';
+						   	echo '<td width=90>';
+					?>		
+							<div class="btn-group btn-group-sm">
+								  	<a href="dep_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+								  	<a href="dep_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+							</div>
+	
+						   	</td>						
+							</tr>
+				<?php
+					   } // Foreach	
+				?>
+				    </tbody>
+	            </table>
+	            <!-- Affiche les sommmes -->        
+				<p>
+					<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
+				</p>             
+			</div> 	<!-- /row -->
 			<?php
-				   } // Foreach	
 			} // If Affiche
 			?>
-                </tbody>
-            </table>
-            <!-- Affiche les sommmes -->        
-			<p>
-				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
-			</p>             
-			</div> 	<!-- /row -->
-
 		<!-- Affiche le formulaire inline ajout depense -->			
             <div class="row">
                 <h3>Ajout d'une dépense :</h3>
@@ -257,7 +261,7 @@
 		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
-	              	<button type="submit" class="btn btn-success btn-sm">Ajout</button>
+	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
 	            </form>
             </div> 	<!-- /row -->		
             <script type="text/javascript">
@@ -266,7 +270,7 @@
 			<!-- Affiche le bouton retour -->
 			<br>        
 			<p>
-				<a href="journal.php" class="btn btn-success">Retour</a>
+				<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 			</p>
 			
         </div>  <!-- /span -->        			

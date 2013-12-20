@@ -167,8 +167,6 @@
     </nav>
         
     <div class="container">
-        <h2>Console</h2>
-        <br>
                 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -188,10 +186,10 @@
         }   
         ?>  
                 
-        <div class="span10 offset1">
-            <div class="row">
+		<div class="row">
+ 			 <div class="col-md-5 col-md-offset-1">
                 <h3>Modification d'un abonnement</h3>
-
+		        <!-- Formulaire -->  
 	            <form class="form-horizontal" action="abo_update.php" method="post">
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
@@ -227,12 +225,12 @@
 		    		<br>
 		                                                
 		            <div class="form-actions">
-		              <button type="submit" class="btn btn-success">Mise à jour</button>
-		              <a class="btn btn-success" href="abo.php">Retour</a>
+		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
+		              <a class="btn btn-primary" href="abo.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 		            </div>
 	            </form>
-	        </div> <!-- /row -->      			
-        </div> <!-- /span -->      			
+	   		 </div> <!-- /col -->    			
+	    </div> <!-- /row -->   			
     
     </div> <!-- /container -->
   </body>

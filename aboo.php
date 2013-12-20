@@ -29,12 +29,14 @@
             <span class="icon-bar"></span>
           </button>
           <!-- Marque -->
-          <a class="navbar-brand" href="home.php">Aboo</a>
+          <a class="navbar-brand" href="aboo.php">Aboo</a>
       </div>     
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion</a></li>                
+          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion</a></li>
+          <li><a href="connexion2.php"><span class="glyphicon glyphicon-off"></span> Connexion 2</a></li>   
+          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> De-connexion</a></li>                                     
         </ul>
       </div><!-- /.navbar-collapse -->
     </nav>    
