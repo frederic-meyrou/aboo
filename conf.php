@@ -232,8 +232,8 @@ function ChargeSessionExerciceBDD($data) {
                 } // foreach   
             ?>    
             </select>
-            <button type="submit" class="btn btn-success">Changer d'année</button>
-			<a class="btn btn-primary" href="conf_create.php">Créer un nouvel exercice</a>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer d'année</button>
+			<a class="btn btn-primary" href="conf_create.php"><span class="glyphicon glyphicon-plus-sign"></span> Créer un nouvel exercice</a>
         </form>
         <br>
          
@@ -296,12 +296,13 @@ function ChargeSessionExerciceBDD($data) {
 						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
 						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
 						echo '<td>'. $row['montant_treso_initial'] . '</td>';
-						echo '<td width=auto>';
-						//echo '<a class="btn " href="conf_read.php?annee='.$row['annee_debut'].'">Lire</a>';
-						//echo '&nbsp;';                                
-						echo '<a class="btn btn-success" href="conf_update.php?id='.$row['id'].'">Modifier</a>';
-						echo '&nbsp;';
-						echo '<a class="btn btn-danger" href="conf_delete.php?id='.$row['id'].'&annee='.$row['annee_debut'].'">Supprimer</a>';
+						echo '<td width=90>';
+			?>
+						<div class="btn-group btn-group-sm">
+							  	<a href="conf_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+							  	<a href="conf_delete.php?id=<?php echo $row['id'].'&annee='.$row['annee_debut']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+						</div>						                                
+			<?php
 						echo '</td>';
 						echo '</tr>';
 				}

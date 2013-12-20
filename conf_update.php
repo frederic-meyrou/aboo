@@ -23,6 +23,9 @@
         	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id']; 
+    $nom = $_SESSION['authent']['nom'];
+    $prenom = $_SESSION['authent']['prenom'];
+    $nom = $_SESSION['authent']['nom'];
 
 // Récupération des variables de session exercice
     $exercice_id = null;
@@ -179,65 +182,67 @@
         <?php       
         }   
         ?>  
-                	
-        <form class="form-horizontal" action="conf_update.php" method="post">
-        
-            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-            <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
-                <label class="control-label"><?php echo "$champplaceholder" ?></label>
-                <div class="controls">
-                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-                    <?php if (!empty($champError)): ?>
-                        <span class="help-inline"><?php echo $champError;?></span>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php } ?>
-       		
-       		<input type="hidden" name="id" value="<?php echo $id; ?>">
-       		
-       		<div class="control-group">
-                <label class="control-label">Année de départ</label>
-                <div class="controls">
-                    <input name="annee_debut" type="text" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>" readonly="readonly">
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <label class="control-label">Mois de démarage</label>
-                <div class="controls">
-                    <select name="mois_debut" >
-                        <option value="1" <?php echo ($mois_debut==1)?'selected':'';?>>Janvier</option>
-                        <option value="2" <?php echo ($mois_debut==2)?'selected':'';?>>Février</option>
-                        <option value="3" <?php echo ($mois_debut==3)?'selected':'';?>>Mars</option>
-                        <option value="4" <?php echo ($mois_debut==4)?'selected':'';?>>Avril</option>
-                        <option value="5" <?php echo ($mois_debut==5)?'selected':'';?>>Mai</option>
-                        <option value="6" <?php echo ($mois_debut==6)?'selected':'';?>>Juin</option>
-                        <option value="7" <?php echo ($mois_debut==7)?'selected':'';?>>Juillet</option>                    
-                        <option value="8" <?php echo ($mois_debut==8)?'selected':'';?>>Août</option>
-                        <option value="9" <?php echo ($mois_debut==9)?'selected':'';?>>Septembre</option>
-                        <option value="10" <?php echo ($mois_debut==10)?'selected':'';?>>Octobre</option>
-                        <option value="11" <?php echo ($mois_debut==11)?'selected':'';?>>Novembre</option>
-                        <option value="12" <?php echo ($mois_debut==12)?'selected':'';?>>Décembre</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="control-group ">
-                <label class="control-label">Montant de votre trésorerie en début d'exercice</label>
-                <div class="controls">
-                    <input name="montant_treso_initial" type="text" value="<?php echo $montant_treso_initial;?>">
-                </div>
-            </div>
-            
-            <br>                                    
-            <div class="form-actions">
-              <button type="submit" class="btn btn-success">Mise à jour</button>
-              <a class="btn btn-success" href="conf.php">Retour</a>
-            </div>
-        </form>
-  			
-    
+		<div class="row">
+ 			 <div class="col-md-5 col-md-offset-1">
+		        <!-- Formulaire -->                	
+		        <form class="form-horizontal" action="conf_update.php" method="post">
+		        
+		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+		            <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
+		                <label class="control-label"><?php echo "$champplaceholder" ?></label>
+		                <div class="controls">
+		                    <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+		                    <?php if (!empty($champError)): ?>
+		                        <span class="help-inline"><?php echo $champError;?></span>
+		                    <?php endif; ?>
+		                </div>
+		            </div>
+		            <?php } ?>
+		       		
+		       		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		       		
+		       		<div class="control-group">
+		                <label class="control-label">Année de départ</label>
+		                <div class="controls">
+		                    <input name="annee_debut" class="form-control" type="text" value="<?php echo !empty($annee_debut)?$annee_debut:'';?>"  disabled>
+		                </div>
+		            </div>
+		            
+		            <div class="control-group">
+		                <label class="control-label">Mois de démarage</label>
+		                    <select name="mois_debut" class="form-control" >
+		                        <option value="1" <?php echo ($mois_debut==1)?'selected':'';?>>Janvier</option>
+		                        <option value="2" <?php echo ($mois_debut==2)?'selected':'';?>>Février</option>
+		                        <option value="3" <?php echo ($mois_debut==3)?'selected':'';?>>Mars</option>
+		                        <option value="4" <?php echo ($mois_debut==4)?'selected':'';?>>Avril</option>
+		                        <option value="5" <?php echo ($mois_debut==5)?'selected':'';?>>Mai</option>
+		                        <option value="6" <?php echo ($mois_debut==6)?'selected':'';?>>Juin</option>
+		                        <option value="7" <?php echo ($mois_debut==7)?'selected':'';?>>Juillet</option>                    
+		                        <option value="8" <?php echo ($mois_debut==8)?'selected':'';?>>Août</option>
+		                        <option value="9" <?php echo ($mois_debut==9)?'selected':'';?>>Septembre</option>
+		                        <option value="10" <?php echo ($mois_debut==10)?'selected':'';?>>Octobre</option>
+		                        <option value="11" <?php echo ($mois_debut==11)?'selected':'';?>>Novembre</option>
+		                        <option value="12" <?php echo ($mois_debut==12)?'selected':'';?>>Décembre</option>
+		                    </select>
+		            </div>
+		
+		            <div class="control-group ">
+		                <label class="control-label">Montant de votre trésorerie en début d'exercice</label>
+		                <div class="controls">
+		                    <input name="montant_treso_initial" class="form-control" type="text" value="<?php echo $montant_treso_initial;?>">
+		                </div>
+		            </div>
+		            
+		            <br>                                    
+		            <div class="form-actions">
+		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
+		              <a class="btn btn-primary" href="conf.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+		            </div>
+		        </form>
+
+	   		 </div> <!-- /col -->    			
+	    </div> <!-- /row -->    
     </div> <!-- /container -->
   </body>
 </html>

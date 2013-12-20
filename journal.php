@@ -189,6 +189,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
+              <li><a href="debug.php"><span class="glyphicon glyphicon-info-sign"></span> Debug</a></li>
               <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
             </ul> 
           </li>
@@ -198,7 +199,7 @@
     </nav>
         
     <div class="container">
-        <h2>Recettes & Dépenses</h2>
+        <h2>Journal des Recettes & Dépenses</h2>
         <br>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
@@ -212,7 +213,7 @@
                 }   
             ?>    
             </select>
-            <button type="submit" class="btn btn-success">Changer de mois <span class="glyphicon glyphicon-refresh"></span></button>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
         </form>
         <br>
         
@@ -249,7 +250,7 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Journal des recettes et des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+                <h3>Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
             </div>			
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
@@ -287,7 +288,7 @@
 				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
 				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($solde - $total_mois_{$abodep_mois}); ?> €</button>				
 			</p>
-			<p>
+			<!--<p>
 				<?php
 				for ($i = 1; $i <= 12; $i++) {
 				?> 
@@ -295,7 +296,7 @@
 				<?php
 				}
 				?>
-			</p> 			          
+			</p>--> 			          
 			</div> 	<!-- /row -->
 			<?php 	
 			} // if

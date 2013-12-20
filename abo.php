@@ -110,10 +110,12 @@
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
-	$req = $pdo->prepare($sql2);
     $req->execute($q);
-    $data2 = $req->fetch(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
+	
+	$req = $pdo->prepare($sql2);
+    $data2 = $req->fetch(PDO::FETCH_ASSOC);
+
     if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;              
     } else {
@@ -184,7 +186,7 @@
     </nav>
         
     <div class="container">
-        <h2>Affichage et Modification des Abonnement</h2>
+        <h2>Recettes & Abonnements</h2>
         <br>
                       
         <!-- Affiche les informations de debug -->
@@ -212,53 +214,54 @@
 			<?php 
  			if ($affiche) {
 			?>
-            <div class="row">
-                <h3>Liste des abonnements du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+	            <div class="row">
+	                <h3>Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+			
+					<table class="table table-striped table-bordered table-hover success">
+						<thead>
+							<tr>
+							  <th>Type</th>
+							  <th>Montant</th>
+							  <th>Périodicitée</th>
+							  <th>Commentaire</th>
+							  <th>Action</th>
+							</tr>
+						</thead>
+		                
+						<tbody>
+						<?php		 
+							foreach ($data as $row) {
+								echo '<tr>';					
+								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+								echo '<td>' . $row['montant'] . ' €</td>';
+								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';						
+								echo '<td>' . $row['commentaire'] . '</td>';
+							   	echo '<td width=90>';
+						?>		
+								<div class="btn-group btn-group-sm">
+									  	<a href="abo_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+									  	<a href="abo_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+								</div>
 		
-			<table class="table table-striped table-bordered table-hover success">
-				<thead>
-					<tr>
-					  <th>Type</th>
-					  <th>Montant</th>
-					  <th>Périodicitée</th>
-					  <th>Commentaire</th>
-					  <th>Action</th>
-					</tr>
-				</thead>
-                
-				<tbody>
-				<?php		 
-					foreach ($data as $row) {
-						echo '<tr>';					
-						echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-						echo '<td>' . $row['montant'] . ' €</td>';
-						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';						
-						echo '<td>' . $row['commentaire'] . '</td>';
-					   	echo '<td width=90>';
-				?>		
-						<div class="btn-group btn-group-sm">
-							  	<a href="abo_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-							  	<a href="abo_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-						</div>
-
-					   	</td>						
-						</tr>
+							   	</td>						
+								</tr>
+					<?php
+						   } // Foreach	
+					?>
+		                </tbody>
+		            </table>
+		            <!-- Affiche les sommmes -->        
+					<p>
+						<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
+						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
+						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$abodep_mois}); ?> €</button>
+						
+					</p>             
+				</div> 	<!-- /row -->
 			<?php
-				   } // Foreach	
 			} // If Affiche
 			?>
-                </tbody>
-            </table>
-            <!-- Affiche les sommmes -->        
-			<p>
-				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
-				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
-				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$abodep_mois}); ?> €</button>
-				
-			</p>             
-			</div> 	<!-- /row -->
-
-		<!-- Affiche le formulaire inline ajout abonnement -->			
+			<!-- Affiche le formulaire inline ajout abonnement -->			
             <div class="row">
                 <h3>Ajout d'un abonnement :</h3>
 	            <form class="form-inline" role="form" action="abo.php" method="post">
@@ -296,7 +299,7 @@
 		            </div>			       		
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
-	              	<button type="submit" class="btn btn-success btn-sm">Ajout</button>
+	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
 	            </form>
             </div> 	<!-- /row -->
 			<script type="text/javascript">
@@ -305,7 +308,7 @@
 			<!-- Affiche le bouton retour -->
 			<br>        
 			<p>
-				<a href="journal.php" class="btn btn-success">Retour</a>
+				<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 			</p>
 			
         </div>  <!-- /span -->        			
