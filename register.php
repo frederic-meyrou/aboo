@@ -1,3 +1,6 @@
+<!-- 
+© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
+-->
 <?php
 
 // Mode Debug

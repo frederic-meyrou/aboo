@@ -1,3 +1,7 @@
+<!-- 
+© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
+-->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,3 +1,6 @@
+<!-- 
+© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
+-->
 <?php
 
 // Vérifie que la chaine est une date (Booléen)

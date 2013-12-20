@@ -1,3 +1,6 @@
+<!-- 
+© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
+-->
 <?php
 	require_once('fonctions.php');
 // Vérification de l'Authent
