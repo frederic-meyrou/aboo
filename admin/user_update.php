@@ -17,6 +17,11 @@
 // Mode Debug
 	$debug = false;
 
+// Récupération des variables de session d'Authent
+    $user_id = $_SESSION['authent']['id']; 
+    $nom = $_SESSION['authent']['nom'];
+    $prenom = $_SESSION['authent']['prenom'];
+
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
         $sGET[$key]=htmlentities($value, ENT_QUOTES);

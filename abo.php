@@ -54,16 +54,23 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 // Lecture du POST (Choix du mois)
+	$affiche_paiement_etale = false;
     $montant = null;
 	$commentaire = null;
+	$etale = null;
+	$etaleError = null;
 	$montantError = null;	
-    if (isset($sPOST['montant']) ) { // J'ai un POST
+	$periodiciteeError = null;
+	$type = null;
+	
+	if (isset($_POST['montant']) ) { // J'ai un POST
         $type = $sPOST['type'];        
         $montant = $sPOST['montant'];
         $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
+		$etale = isset($_POST['etale']) ? $sPOST['etale'] : 0;
 		
-		// validate input
+		// Validation du formulaire
 		$valid = true;
 		
 		if (empty($montant) || $montant < 0 || $montant == null) {
@@ -80,10 +87,35 @@
 			$valid = false;			
 		}
 		
+		// Test de la checkbox paiement etalé
+		if ($etale == 1 && NumToTypeRecette($type) == "Abonnement") {
+			$affiche_paiement_etale = true;
+			$valid = false;	
+		} elseif ($etale == 1 && NumToTypeRecette($type) != "Abonnement") {
+			$affiche_paiement_etale = false;
+			$etaleError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
+			$valid = false;	
+		}
+		
+		// Vérification des paiements etalés
+		if ($affiche_paiement_etale && isset($_POST['paiement_mois_1'])) { // On a un POST avec les paiements étalés
+			$total = 0;
+			for ($m = 1; $m <= 12; $m++) {
+				$paiement_mois_{$m} = isset($_POST['paiement_mois_' . $m]) ? $sPOST['paiement_mois_' . $m] : 0;
+				$total = $total + $paiement_mois_{$m};
+			} // endfor
+			if ($total == $montant) {
+				$valid = true;
+			} else {
+				$etaleError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
+				$valid = false;
+			}			
+		}
+		
 		// Calcul de la ventilation
 		$ventillation = Ventillation($abodep_mois, $montant, $periodicitee);
 		
-		// On remet la périodicitée du POST
+		// On remet la périodicitée du POST pour enregistrement
 		$periodicitee = $sPOST['periodicitee'];
 
 		// insert data
@@ -91,11 +123,11 @@
 			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
-			Database::disconnect();
+			Database::disconnect();		
+			// Réinitialise le formulaire		
+			header("Location: abo.php");
 		}
 		
-		// Réinitialise le formulaire		
-		header("Location: abo.php");
     } // If POST
 	
 	
@@ -117,6 +149,7 @@
     $count = $req->rowCount($sql);
 	
 	$req = $pdo->prepare($sql2);
+    $req->execute($q);	
     $data2 = $req->fetch(PDO::FETCH_ASSOC);
 
     if ($count==0) { // Il n'y a rien à afficher
@@ -271,25 +304,24 @@
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
-		                    <?php if (!empty($champError)): ?>
-		                     		<span class="help-inline"><?php echo $champError;?></span>
-		                    <?php endif; ?>		            
+		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
 		       				</div>
 		            <?php } ?>
+		            
+					<!-- Formulaire principal -->
 		            <div class="form-group">
 		                    <select name="type" class="form-control">
 				            <?php
 				                foreach ($Liste_Recette as $r) {
 				            ?>
-				                <option value="<?php echo TypeRecetteToNum($r);?>"><?php echo $r;?></option>    
+				                <option value="<?php echo TypeRecetteToNum($r);?>" <?php echo (TypeRecetteToNum($r)==$type)?'selected':'';?>><?php echo $r;?></option>    
 				            <?php 
 				                } // foreach   
 				            ?>
 		                    </select>
 		            </div>		      
 		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
-		            <div class="form-group">
+		            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
 		                    <select name="periodicitee" class="form-control">
 				            <?php
 				                foreach ($Liste_Periodicitee as $p) {
@@ -301,8 +333,41 @@
 		                    </select>
 		            </div>			       		
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+		       		
+		       		<button class="btn btn-default form-group <?php echo !empty($etaleError)?'has-error':'';?>"><span class="glyphicon glyphicon-calendar"></span> Paiement étalé?
+		       		<div class="checkbox form-group">
+					  <label class="checkbox-inline">
+					    <input name="etale" type="checkbox" value="1" <?php echo ($etale==1)?'checked':'';?>>
+					  </label>	
+					</div>
+					</button>
 
-	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
+	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
+
+					<!-- Formulaire conditionnel -->
+					<?php 
+ 					if ($affiche_paiement_etale) {
+						$paiement_mois_Error = null; 						
+ 						for ($m = $abodep_mois; $m <= 12; $m++) {
+							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois($m) . ' €', 'text' );
+						} // endfor
+						echo '<br>';	 
+ 					} // endif
+					?>
+	
+  					<!-- Affiche les erreurs -->
+					<?php if (!empty($montantError)): ?>
+					<span class="has-error"><?php echo $montantError;?></span>
+					<?php endif; ?>
+					<?php if (!empty($periodiciteeError)): ?>
+					<span class="has-error"><?php echo $periodiciteeError;?></span>
+					<?php endif; ?>						
+					<?php if (!empty($commentaireError)): ?>
+					<span class="has-error"><?php echo $commentaireError;?></span>
+					<?php endif; ?>
+					<?php if (!empty($etaleError)): ?>
+					<span class="has-error"><?php echo $etaleError;?></span>
+					<?php endif; ?>
 	            </form>
             </div> 	<!-- /row -->
 			<script type="text/javascript">
