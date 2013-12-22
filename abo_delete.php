@@ -131,8 +131,6 @@
     </nav>
         
     <div class="container">
-        <h2>Console</h2>
-        <br>
 
         <!-- Affiche les informations de debug -->
         <?php 

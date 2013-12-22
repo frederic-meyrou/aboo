@@ -69,7 +69,7 @@
 	        }
 	    } else {
 	        //Utilisateur inconnu
-	        $error_unknown = 'Compte $email inconnu ou mot de passe invalide!';
+	        $error_unknown = "Compte $email inconnu ou mot de passe invalide!";
 	    }  
 	}
 ?>
@@ -97,26 +97,46 @@
     <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
-    <div class="container">
-      <?php if(isset($error_unknown)){ ?> 
-      <div class="alert alert alert-fail alert-dismissable fade in">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong><?php echo "$error_unknown" ?>.</strong>
-      </div>
-      <?php  
-      } ?>
-      <form class="form-signin" action="connexion.php" method="post">
-        <h2 class="form-signin-heading">Connectez-vous</h2>
-
-        <input name="email" type="text" class="form-control" placeholder="Email" required autofocus>
-        <input name="password" type="password" class="form-control" placeholder="Mot de passe" required>
-           <div class="error"><?php if(isset($error_unknown)){ echo $error_unknown; } ?></div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
-      </form>
+    <!-- Affiche la navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Marque -->
+          <a class="navbar-brand" href="connexion.php">Aboo</a>
+      </div>     
+      <!-- Liens -->
+      <div class="collapse navbar-collapse" id="TOP">
+        <ul class="nav navbar-nav">                              
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>    
     
-    <a href="register.php">Vous souhaitez créer un compte ?</a><br/>
-    <a href="oubli.php">Vous avez oublié votre mot de passe ?</a><br/>
+    <div class="container">
+
+      <form class="form-signin" action="connexion.php" method="post">
+        <h2 class="form-signin-heading">Connectez-vous :</h2>
+
+		<div class="control-group <?php echo !empty($error_unknown)?'has-error':'';?>">
+	        <input name="email" type="text" class="form-control" placeholder="eMail" required autofocus>
+	        <input name="password" type="password" class="form-control" placeholder="Mot de passe" required>
+	        		            <?php if (isset($error_unknown)): ?>
+			                        <span class="help-inline"><?php echo $error_unknown;?></span>
+			                    <?php endif; ?>
+		</div>
+		<br>
+        <button class="btn btn-lg btn-success" type="submit"><span class="glyphicon glyphicon-log-in"> Connexion</button>
+        <a href="index.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+        
+        <br><br>
+	    <span class="glyphicon glyphicon-user"></span> <a href="inscription.php"> Vous souhaitez créer un compte ?</a><br/>
+	    <span class="glyphicon glyphicon-lock"></span> <a href="oubli.php"> Vous avez oublié votre mot de passe ?</a><br/>
+    
+      </form>
 
     </div> <!-- /container -->
 </body>
