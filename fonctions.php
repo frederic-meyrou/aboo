@@ -145,3 +145,21 @@ function Ventillation($mois, $montant, $periodicitee) {
     return $ArrayVENTILLATION; 
 }
 
+// Transforme le numero de mois de l'annnée en numero de mois relatif
+function MoisRelatif($num_mois, $exercice_mois) {
+    $num_mois_relatif = ($num_mois - $exercice_mois +1);
+	if ($num_mois_relatif < 0) {
+		$num_mois_relatif = ( 12 + $num_mois_relatif ); 
+	} else {
+		$num_mois_relatif = $num_mois_relatif % 12;
+	}
+    if ( $num_mois_relatif == 0 ) { $num_mois_relatif = 12; }
+	return $num_mois_relatif;
+}
+
+// Transforme un numero de mois relatif en numero de mois de l'année
+function MoisAnnee($num_mois_relatif, $exercice_mois) {
+    $num_mois = ( $num_mois_relatif + $exercice_mois -1 ) % 12;           
+    if ( $num_mois == 0 ) { $num_mois = 12; }
+	return $num_mois;
+}

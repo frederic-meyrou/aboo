@@ -297,6 +297,7 @@
 			<?php
 			} // If Affiche
 			?>
+			
 			<!-- Affiche le formulaire inline ajout abonnement -->			
             <div class="row">
                 <h3>Ajout d'un abonnement :</h3>
@@ -344,18 +345,8 @@
 
 	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
 
-					<!-- Formulaire conditionnel -->
-					<?php 
- 					if ($affiche_paiement_etale) {
-						$paiement_mois_Error = null; 						
- 						for ($m = $abodep_mois; $m <= 12; $m++) {
-							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois($m) . ' €', 'text' );
-						} // endfor
-						echo '<br>';	 
- 					} // endif
-					?>
-	
   					<!-- Affiche les erreurs -->
+  					<div class="help-block">
 					<?php if (!empty($montantError)): ?>
 					<span class="has-error"><?php echo $montantError;?></span>
 					<?php endif; ?>
@@ -368,6 +359,20 @@
 					<?php if (!empty($etaleError)): ?>
 					<span class="has-error"><?php echo $etaleError;?></span>
 					<?php endif; ?>
+					</div>
+							
+					<!-- Formulaire conditionnel -->
+					<?php 
+ 					if ($affiche_paiement_etale) {
+ 						echo '<h4>Choix des mois et des montants de paiements étalés :</h4>';
+						$paiement_mois_Error = null; 						
+ 						for ($m = MoisRelatif($abodep_mois,$exercice_mois); $m <= 12; $m++) {
+							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . MoisAnnee($m,$exercice_mois), NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+						} // endfor
+						echo '<br>';
+ 					} // endif
+					?>
+
 	            </form>
             </div> 	<!-- /row -->
 			<script type="text/javascript">
@@ -375,10 +380,8 @@
 			</script>
 			<!-- Affiche le bouton retour -->
 			<br>        
-			<p>
-				<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
-			</p>
-			
+			<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+		
         </div>  <!-- /span -->        			
     
     </div> <!-- /container -->

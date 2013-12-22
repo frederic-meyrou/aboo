@@ -201,17 +201,14 @@
         </div>
         
         <?php       
-        function AffichePanel($num_mois) {
+        function AffichePanel($mois_relatif) {
             global $total_mois_;
             global $total_recettes_mois_;
             global $total_depenses_mois_;
             global $solde_mois_;
             global $exercice_mois;
             
-            if ($exercice_mois != 1) { // Si le mois de démarrage de l'exercice différent de Janvier
-                $num_mois = ( $num_mois + $exercice_mois -1 ) % 12;           
-            }
-            if ( $num_mois == 0 ) { $num_mois = 12; }
+            $num_mois = MoisAnnee($mois_relatif, $exercice_mois);
         ?>
               <div class="panel panel-success">
                 <div class="panel-heading">
