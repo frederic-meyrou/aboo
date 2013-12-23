@@ -54,15 +54,17 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 // Lecture du POST (Choix du mois)
-	$affiche_paiement_etale = false;
+	$type = null;
     $montant = null;
 	$commentaire = null;
+	$periodicitee = null;
 	$etale = null;
 	$etaleError = null;
 	$montantError = null;	
 	$periodiciteeError = null;
-	$type = null;
-	
+	$enregistre_paiement = false;
+	$affiche_paiement_etale = false;
+		
 	if (isset($_POST['montant']) ) { // J'ai un POST
         $type = $sPOST['type'];        
         $montant = $sPOST['montant'];
@@ -107,6 +109,7 @@
 			} // endfor
 			if ($total == $montant) {
 				$valid = true;
+				$enregistre_paiement = true;
 			} else {
 				$etaleError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
 				$valid = false;
@@ -124,7 +127,13 @@
 			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($user_id, $exercice_id, $type, $montant, MoisRelatif($abodep_mois,$exercice_mois), $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
-			Database::disconnect();		
+			$abonnement_id = $pdo->lastInsertId();
+			if ($enregistre_paiement && $abonnement_id != 0) {
+				$sql = "INSERT INTO paiement (abonnement_id,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				$q = $pdo->prepare($sql);
+				$q->execute(array($abonnement_id, $paiement_mois_{1}, $paiement_mois_{2}, $paiement_mois_{3}, $paiement_mois_{4}, $paiement_mois_{5}, $paiement_mois_{6}, $paiement_mois_{7}, $paiement_mois_{8}, $paiement_mois_{9}, $paiement_mois_{10}, $paiement_mois_{11}, $paiement_mois_{12}));
+			}	
+			Database::disconnect();				
 			// Réinitialise le formulaire		
 			header("Location: abo.php");
 		}
@@ -329,7 +338,7 @@
 				            <?php
 				                foreach ($Liste_Periodicitee as $p) {
 				            ?>
-				                <option value="<?php echo PeriodiciteeToNum($p);?>"><?php echo $p;?></option>    
+				                <option value="<?php echo PeriodiciteeToNum($p);?>" <?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>><?php echo $p;?></option>    
 				            <?php
 				                } // foreach   
 				            ?>
