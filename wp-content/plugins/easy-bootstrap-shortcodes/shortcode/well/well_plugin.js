@@ -1,3 +1,7 @@
+var gWell={
+    title:"Well Shortcode",
+    id :'#oscitas-form-well'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasWell', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_well();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Well Shortcode',
-                        'href' : '#oscitas-form-well',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gWell.id);
                 }
             });
         },
@@ -88,7 +82,7 @@ function create_oscitas_well(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gWell.id);
     });
 }
 

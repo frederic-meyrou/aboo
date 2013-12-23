@@ -7,7 +7,7 @@
 Plugin Name: Clean and Simple Contact Form
 Plugin URI: http://www.megnicholas.co.uk/wordpress-plugins/clean-and-simple-contact-form
 Description: A clean and simple contact form with Google reCAPTCHA and Twitter Bootstrap markup.
-Version: 4.3.0
+Version: 4.3.1
 Author: Meghan Nicholas
 Author URI: http://www.megnicholas.co.uk
 License: GPLv2 or later
@@ -52,16 +52,26 @@ if (!defined('CSCF_PLUGIN_URL')) define('CSCF_PLUGIN_URL', WP_PLUGIN_URL . '/' .
 
 if (!defined('CSCF_VERSION_KEY')) define('CSCF_VERSION_KEY', 'cscf_version');
 
-if (!defined('CSCF_VERSION_NUM')) define('CSCF_VERSION_NUM', '4.3.0');
+if (!defined('CSCF_VERSION_NUM')) define('CSCF_VERSION_NUM', '4.3.1');
 
 if (!defined('CSCF_OPTIONS_KEY')) define('CSCF_OPTIONS_KEY', 'cscf_options');
 
 $cscf = new cscf();
 
-//do we need to upgrade ?
+/*get the current version and update options to the new option*/
 $oldVersion = get_option(CSCF_VERSION_KEY);
 update_option(CSCF_VERSION_KEY, CSCF_VERSION_NUM);
 
-if ($oldVersion < CSCF_VERSION_NUM)
+/*If this is a new installation then set some defaults*/
+if ( $oldVersion == false ) {
+    $options = get_option(CSCF_OPTIONS_KEY);
+    $options['use_client_validation'] = true;
+    $options['load_stylesheet'] = true;
+    $options['confirm-email'] = true;
+    update_option(CSCF_OPTIONS_KEY,$options);
+}
+ 
+/*if necessary do an upgrade*/
+if ($oldVersion < CSCF_VERSION_NUM) {
     $cscf->Upgrade($oldVersion);
-
+}

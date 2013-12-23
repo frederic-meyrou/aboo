@@ -1,3 +1,7 @@
+var gPopover={
+    title:"Popover Shortcode",
+    id :'#oscitas-form-popover'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasOscPopover', {
         init: function(ed, url) {
@@ -6,17 +10,7 @@
                 image: url + '/icon.png',
                 onclick: function() {
                     create_oscitas_popover();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Popover Shortcode',
-                        'href' : '#oscitas-form-popover',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gPopover.id);
                 }
             });
         },
@@ -160,7 +154,7 @@ function create_oscitas_popover(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gPopover.id);
     });
 }
 

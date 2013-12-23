@@ -9,10 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-07-15 16:05+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-12-03 23:05-0000\n"
+"Last-Translator: Arkadiusz Baron <arkadiusz.baron@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6\n"
+"Language: pl_PL\n"
 
 #: class.cscf.php:102
 msgid "Settings"
@@ -20,7 +21,7 @@ msgstr "Ustawienia"
 
 #: class.cscf_contact.php:53
 msgid "Sorry the email addresses do not match."
-msgstr "Podane emaile nie są takie same."
+msgstr "Podane adresy email nie są takie same."
 
 #: class.cscf_contact.php:57 views/contact-form-with-recaptcha.view.php:33
 #: views/contact-form.view.php:14
@@ -47,7 +48,7 @@ msgstr "Podany adres email jest nieprawidłowy."
 
 #: class.cscf_contact.php:81
 msgid "Sorry the code wasn't entered correctly please try again."
-msgstr "Kod jest nieprawidłowy."
+msgstr "Wpisany kod jest nieprawidłowy. Spróbuj ponownie."
 
 #: class.cscf_pluginsettings.php:40
 msgid "Message Sent"
@@ -55,7 +56,7 @@ msgstr "Wiadomość została wysłana"
 
 #: class.cscf_pluginsettings.php:47
 msgid "Thank you for your message, we will be in touch very shortly."
-msgstr "Dziekuje za wiadomość, postaram się odpisać jak najszybciej."
+msgstr "Dziekuję za wiadomość, postaram się odpisać jak najszybciej."
 
 #: class.cscf_pluginsettings.php:54
 msgid ""
@@ -65,11 +66,11 @@ msgstr ""
 
 #: class.cscf_pluginsettings.php:83
 msgid " -  Web Enquiry"
-msgstr "- Zapytanie"
+msgstr " -  Zapytanie"
 
 #: class.cscf_settings.php:41
 msgid "Clean and Simple Contact Form Settings"
-msgstr "Clean and Simple Contact Form Ustawienia"
+msgstr "Ustawienia Clean and Simple Contact Form"
 
 #: class.cscf_settings.php:43
 msgid "You are using version"
@@ -77,7 +78,7 @@ msgstr "Używasz wersji"
 
 #: class.cscf_settings.php:44
 msgid "If you find this plugin useful please consider"
-msgstr "Jeśli ten plugin Ci się przyda, "
+msgstr "Jeśli uważasz ten plugin za przydatny proszę"
 
 #: class.cscf_settings.php:47
 msgid "leaving a review"
@@ -85,7 +86,7 @@ msgstr "zostaw komentarz"
 
 #: class.cscf_settings.php:49
 msgid "Thank you!"
-msgstr "Dziękuje!"
+msgstr "Dziękuję!"
 
 #: class.cscf_settings.php:68
 msgid "ReCAPTCHA Settings"
@@ -93,7 +94,7 @@ msgstr "Ustawienia ReCAPTCHA"
 
 #: class.cscf_settings.php:76
 msgid "Use reCAPTCHA :"
-msgstr "Uzyj reCAPTCHA"
+msgstr "Użyj reCAPTCHA"
 
 #: class.cscf_settings.php:82
 msgid "reCAPTCHA Theme :"
@@ -101,11 +102,11 @@ msgstr "Skórka reCAPTCHA:"
 
 #: class.cscf_settings.php:88
 msgid "reCAPTCHA Public Key :"
-msgstr "Publiczny klucz reCAPTCHA :"
+msgstr "Klucz publiczny reCAPTCHA :"
 
 #: class.cscf_settings.php:94
 msgid "reCAPTCHA Private Key :"
-msgstr "Prywatny klucz reCAPTCHA :"
+msgstr "Klucz prywatny reCAPTCHA :"
 
 #: class.cscf_settings.php:100
 msgid "Message Settings"
@@ -113,7 +114,7 @@ msgstr "Ustawienia wiadomości"
 
 #: class.cscf_settings.php:104
 msgid "Recipient Email :"
-msgstr "Email na który ma zostać wysłany mail :"
+msgstr "Email na który ma zostać wysłana wiadomość :"
 
 #: class.cscf_settings.php:110
 msgid "Email Subject :"
@@ -125,11 +126,11 @@ msgstr "Wiadomość :"
 
 #: class.cscf_settings.php:122
 msgid "Message Sent Heading :"
-msgstr "Nagłówek wyświetlany po wysłaniu wiadomościi :"
+msgstr "Nagłówek wyświetlany po wysłaniu wiadomości :"
 
 #: class.cscf_settings.php:128
 msgid "Message Sent Content :"
-msgstr "Treśći :"
+msgstr "Treść wiadomości :"
 
 #: class.cscf_settings.php:134
 msgid "Styling and Validation"
@@ -139,7 +140,7 @@ msgstr "Styl i walidacja :"
 msgid ""
 "Use the plugin default stylesheet (un-tick to use your theme style sheet "
 "instead) :"
-msgstr "Uzyj wbudowanego stylu (odznaczy by użyć swoich styli) :"
+msgstr "Uzyj wbudowanego stylu (odznacz by użyć swoich styli) :"
 
 #: class.cscf_settings.php:144
 msgid "Use client side validation (AJAX) :"
@@ -147,15 +148,15 @@ msgstr "Użyć Ajax?"
 
 #: class.cscf_settings.php:216
 msgid "Enter your reCAPTCHA settings below :"
-msgstr "Wpisz ponizej swoje ustawienia reCAPTCHA :"
+msgstr "Wpisz poniżej swoje ustawienia reCAPTCHA :"
 
 #: class.cscf_settings.php:217
 msgid "To use reCAPTCHA you must get an API key from"
-msgstr "Aby używać reCAPTCHA musisz mieć klucz API"
+msgstr "Aby używać reCAPTCHA musisz mieć klucz API z"
 
 #: class.cscf_settings.php:222
 msgid "Enter your message settings below :"
-msgstr "Wpisz swoje ustawienia poniżej"
+msgstr "Wpisz swoje ustawienia wiadomości poniżej"
 
 #: class.cscf_settings.php:274
 msgid "Red"
@@ -186,17 +187,17 @@ msgstr "Twój adres email"
 #: views/contact-form-with-recaptcha.view.php:41
 #: views/contact-form.view.php:22
 msgid "Confirm Email Address:"
-msgstr "Potwierdz adres email :"
+msgstr "Potwierdź adres email :"
 
 #: views/contact-form-with-recaptcha.view.php:43
 #: views/contact-form.view.php:24
 msgid "Please enter the same email address again."
-msgstr "Wpisz jeszcze raz swój email"
+msgstr "Wpisz jeszcze raz swój adres email"
 
 #: views/contact-form-with-recaptcha.view.php:43
 #: views/contact-form.view.php:24
 msgid "Confirm Your Email Address"
-msgstr "Potwierdź swoją wiadomość"
+msgstr "Potwierdź swój adres email"
 
 #: views/contact-form-with-recaptcha.view.php:51
 #: views/contact-form.view.php:32
@@ -221,7 +222,7 @@ msgstr "Wpisz wiadomość"
 #: views/contact-form-with-recaptcha.view.php:63
 #: views/contact-form.view.php:44
 msgid "Your Message"
-msgstr "Wiadomość"
+msgstr "Twoja wiadomość"
 
 #: views/contact-form-with-recaptcha.view.php:79
 #: views/contact-form.view.php:51
@@ -246,7 +247,7 @@ msgid ""
 "A clean and simple contact form with Google reCAPTCHA and Twitter Bootstrap "
 "markup."
 msgstr ""
-"Prosty formularz kontaktowy z Google reCAPTCHA i style Twitter Bootstrap."
+"Prosty formularz kontaktowy z Google reCAPTCHA i stylem Twitter Bootstrap."
 
 #. Author of the plugin/theme
 msgid "Meghan Nicholas"

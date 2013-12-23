@@ -3,16 +3,16 @@ Contributors: oscitas
 Link: http://www.osCitasthemes.com
 Tags: Wordpress Shortcodes, Wordpress Bootstrap, Wordpress Bootstrap Shortcode, Bootstrap, Responsive pages, Editor plugin, Bootstrap Shortcode, TinyMCE
 Requires at least: 3.0
-Tested up to: 3.6.1
-Stable tag: 3.7
+Tested up to: 3.8
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Easy Bootstrap Shortcode enable you to add bootstrap 3.0 styles in your pages, post and custom post in simplest manner.
+Easy Bootstrap Shortcode enable you to add bootstrap 3.0.3 styles in your pages, post and custom post in simplest manner.
 
 == Description ==
 
-Easy Bootstrap Shortcode is bootstrap 3.0 compatible plugin which add icons to wordpress editor (tinyMCE Shortcode Buttons) and one can add bootstrap style to their website just by clicking on tinyMCE  editor icon.
+Easy Bootstrap Shortcode is bootstrap 3.0.3 compatible plugin which add icons to wordpress editor (tinyMCE Shortcode Buttons) and one can add bootstrap style to their website just by clicking on tinyMCE  editor icon.
 
 http://www.youtube.com/watch?v=8T0IC1PsdTw
 
@@ -35,13 +35,13 @@ Want to implement responsive tabs to your pages, check this [Easy Responsive Tab
 
 Follow us [@Twitter](https://twitter.com/oscitasthemes), [@facebook](https://www.facebook.com/oscitasthemes), [@google+](https://plus.google.com/109122908951553852347/posts)
 
-= For best results use with bootstrap 3.0 responsive theme =
+= For best results use with bootstrap 3.0.3 responsive theme =
 
 = Features: =
 
 * simplest bootstrap style plugin ever.
 * IE 6+ compatible
-* Bootstrap 3.0 compatible.
+* Bootstrap 3.0.3 compatible.
 * No need to paste shortcode in editor.
 * Add icons to editor.
 * Shortcode added to editor by clicking on icon.
@@ -205,10 +205,27 @@ It's that simple ... just what the name suggests
 
 == Changelog ==
 
+= 2.4.2 =
+
+* [Fixed] Resolved the image upload issue in Thumbnail and Image Shortcodes.
+
+= 2.4.1 =
+
+* [Fixed] Removed the Fancybox.
+
+= 2.4.0 =
+
+* [Update] Updated to Twitter Bootstrap 3.0.3.
+* [Update] Choose custom color option for icon in Icons Shortcode.
+* [Update] Choose font size option for icon in Icons Shortcode.
+* [Update] Choose custom color option for icon in Icon Heading Shortcode.
+* [Update] Choose custom color option for icon in Button Shortcode.
+
 
 = 2.3.6 =
 
 * [fixed] Button Group, Button Group Toolbar, Description List icon issues fixed.
+
 
 = 2.3.5 =
 

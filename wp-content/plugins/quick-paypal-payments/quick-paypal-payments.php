@@ -3,19 +3,23 @@
 Plugin Name: Quick Paypal Payments
 Plugin URI: http://quick-plugins.com/quick-paypal-payments/
 Description: Accept any amount or payment ID before submitting to paypal.
-Version: 3.2
+Version: 3.3
 Author: fisicx
 Author URI: http://quick-plugins.com/
 */
 
 add_shortcode('qpp', 'qpp_start');
-add_action('wp_head', 'qpp_use_custom_css');
 add_filter('plugin_action_links', 'qpp_plugin_action_links', 10, 2 );
 
 if (is_admin()) require_once( plugin_dir_path( __FILE__ ) . '/settings.php' );
 
+$css_dir = plugin_dir_path( __FILE__ ) . '/quick-paypal-payments-custom.css' ;
+$filename = plugin_dir_path( __FILE__ );
+if (is_writable($filename) && !file_exists($css_dir)) qpp_options_css();
+
 wp_enqueue_script( 'qpp_script',plugins_url('quick-paypal-payments.js', __FILE__));
 wp_enqueue_style( 'qpp_style',plugins_url('quick-paypal-payments.css', __FILE__));
+wp_enqueue_style( 'qpp_custom',plugins_url('quick-paypal-payments-custom.css', __FILE__));
 
 function qpp_start($atts) {
 	return qpp_loop($atts);
@@ -63,6 +67,7 @@ function qpp_display_form( $values, $errors, $id ) {
 		else $content .= '<p class="input" >'.strip_tags($values['reference']).'</p>';
 		}
 	if ($qpp['use_quantity']) {$values['quantity'] = strip_tags($values['quantity']); $content .= '<p><span class="input">'.$qpp['quantitylabel'].'</span><input type="text" style="width:3em;margin-left:5px" label="quantity" name="quantity" value="' . $values['quantity'] . '" onfocus="qppclear(this, \'' . $values['quantity'] . '\')" onblur="qpprecall(this, \'' . $values['quantity'] . '\')"/></p>';}
+	if ($qpp['use_account']) {$values['account'] = strip_tags($values['account']); $content .= '<p><input type="text" label="Account" name="account" value="' . $values['account'] . '" onfocus="qppclear(this, \'' . $values['account'] . '\')" onblur="qpprecall(this, \'' . $values['account'] . '\')"/></p>';}
 	if (empty($values['pay'])) {$values['amount'] = strip_tags($values['amount']); $content .= '<p><input type="text" label="Amount" name="amount" value="' . $values['amount'] . '" onfocus="qppclear(this, \'' . $values['amount'] . '\')" onblur="qpprecall(this, \'' . $values['amount'] . '\')"/></p>';}
 	else $content .= '<p class="input" >' . $values['amount'] . '</p>';	
 	$caption = $qpp['submitcaption'];
@@ -87,7 +92,7 @@ function qpp_process_form($values,$id) {
 	$qpp_messages = get_option('qpp_messages'.$id);
 	if(!is_array($qpp_messages)) $qpp_messages = array();
 	$sentdate = date_i18n('d M Y');
-	$qpp_messages[] = array('field0'=>$sentdate,'field1' => $values['reference'] , 'field2' => $values['quantity'],'field3' => $values['amount'],date => $sentdate,);
+	$qpp_messages[] = array('field0'=>$sentdate,'field1' => $values['reference'] , 'field2' => $values['quantity'],'field3' => $values['amount'],'field4' => $values['account'],'date' => $sentdate,);
 	update_option('qpp_messages'.$id,$qpp_messages);
 	$check = preg_replace ( '/[^.,0-9]/', '', $values['amount']);
 	$content = '<h2>'.$send['waiting'].'</h2><form action="https://www.paypal.com/cgi-bin/webscr" method="post" name="frmCart" id="frmCart" ' . $target . '>
@@ -97,7 +102,7 @@ function qpp_process_form($values,$id) {
 	<input type="hidden" name="cancel_return" value="' .  $send['cancelurl'] . '">
 	<input type="hidden" name="no_shipping" value="1">
 	<input type="hidden" name="currency_code" value="' .  $currency[$id] . '">
-	<input type="hidden" name="item_number" value="">
+	<input type="hidden" name="item_number" value="' .$qpp['inputacount'] . ': ' . strip_tags($values['account']) . '">
 	<input type="hidden" name="quantity" value="' . strip_tags($values['quantity']) . '">
 	<input type="hidden" name="item_name" value="' .$qpp['inputreference'] . ': ' . strip_tags($values['reference']) . '">
 	<input type="hidden" name="amount" value="' . $check . '">
@@ -117,7 +122,7 @@ function qpp_current_page_url() {
 	}
 function qpp_loop($atts) {
 	ob_start();
-	extract(shortcode_atts(array( 'form' =>'','amount' => '' , 'id' => '', 'labels' => ''), $atts));
+	extract(shortcode_atts(array( 'form' =>'','amount' => '' , 'id' => '','account' => '', 'labels' => ''), $atts));
 	$qpp = qpp_get_stored_options($form);
 	$formvalues['quantity'] = 1;
 	if (!$labels) $shortcodereference = $qpp['shortcodereference'].' ';
@@ -132,6 +137,7 @@ function qpp_loop($atts) {
 	if (isset($_POST['qppsubmit'.$form]) || isset($_POST['qppsubmit_x'.$form])) {
 		if (isset($_POST['reference'])) {$formvalues['reference'] = $_POST['reference'];$id = $_POST['reference'];}
 		if (isset($_POST['amount'])) $formvalues['amount'] = $_POST['amount'];
+		if (isset($_POST['account'])) $formvalues['account'] = $_POST['account'];
 		if (isset($_POST['quantity'])) $formvalues['quantity'] = $_POST['quantity'];
 		if (qpp_verify_form($formvalues,$form)) qpp_display_form($formvalues,'qpperror',$form);
    		else {
@@ -181,11 +187,11 @@ class qpp_widget extends WP_Widget {
 		<?php
 		}
 	}
-function qpp_use_custom_css () {
+function qpp_options_css () {
 	$qpp_form = qpp_get_stored_setup();
 	$arr = explode(",",$qpp_form['alternative']);
 	foreach ($arr as $item) {
-		$code ='';$corners='';$input='';$background='';
+		$corners='';$input='';$background='';$paragraph='';$submit='';
 		$style = qpp_get_stored_style($item);
 		if ($item !='') $id = '.'.$item; else $id = '.default';
 		if ($style['font'] == 'plugin') {
@@ -203,11 +209,12 @@ function qpp_use_custom_css () {
 		if ($style['corners'] == 'round') $corner = '5px'; else $corner = '0';
 		$corners = ".qpp-style".$id." input[type=text], .qpp-style".$id." textarea, .qpp-style".$id." select, .qpp-style".$id." #submit {border-radius:".$corner.";}\r\n";
 		if ($style['corners'] == 'theme') $corners = '';
-	$code .= "<style type=\"text/css\" media=\"screen\">\r\n.qpp-style".$id." {width:".$width.";}\r\n".$corners.$paragraph.$input.$background.$submit;
+		$code .= ".qpp-style".$id." {width:".$width.";}\r\n".$corners.$paragraph.$input.$background.$submit;
 		if ($style['use_custom'] == 'checked') $code .= $style['styles'] . "\r\n";
-		$code .= "</style>\r\n";
-		echo $code;
 		}
+	$data = $code;	
+	$css_dir = plugin_dir_path( __FILE__ ) . '/quick-paypal-payments-custom.css' ;
+	file_put_contents($css_dir, $data, LOCK_EX); // Save it
 	}
 function qpp_get_stored_setup () {
 	$qpp_setup = get_option('qpp_setup');
@@ -262,6 +269,8 @@ function qpp_get_default_options () {
 	$qpp['inputamount'] = 'Amount to pay';
 	$qpp['quantitylabel'] = 'Quantity';
 	$qpp['quantity'] = '1';
+	$qpp['accountlabel'] = 'Account Number';
+	$qpp['use_account'] = '';
 	$qpp['shortcodereference'] = 'Payment for: ';
 	$qpp['shortcodeamount'] = 'Amount: ';
 	$qpp['paypal-location'] = 'imagebelow';

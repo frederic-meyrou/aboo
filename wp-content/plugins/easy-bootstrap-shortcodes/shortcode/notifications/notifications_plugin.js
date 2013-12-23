@@ -1,3 +1,7 @@
+var gNotifications={
+    title:"Notifications Shortcode",
+    id :'#oscitas-form-notifications'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasNotifications', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_notification();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Notifications Shortcode',
-                        'href' : '#oscitas-form-notifications',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gNotifications.id);
                 }
             });
         },
@@ -99,8 +93,8 @@ function create_oscitas_notification(){
 			
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
-			
-        jQuery.fancybox.close();
+
+        close_dialogue(gNotifications.id);
     });
 }
 

@@ -1,3 +1,7 @@
+var gLists={
+    title:"List Group Shortcode",
+    id :'#oscitas-form-lists'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasLists', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_lists();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'List Group Shortcode',
-                        'href' : '#oscitas-form-lists',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gLists.id);
                 }
             });
         },
@@ -108,8 +102,8 @@ function create_oscitas_lists(){
 			
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
-			
-        jQuery.fancybox.close();
+
+        close_dialogue(gLists.id);
     });
 }
 

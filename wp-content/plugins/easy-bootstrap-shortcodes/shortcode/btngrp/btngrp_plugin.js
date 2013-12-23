@@ -1,22 +1,17 @@
+var btngrp={
+    title:"Button Group Shortcode",
+    id :'#oscitas-form-btngrp'
+};
+
 (function() {
     tinymce.create('tinymce.plugins.oscitasBtngrp', {
         init : function(ed, url) {
             ed.addButton('oscitasbtngrp', {
-                title : 'Button Btngrp Shortcode',
+                title : btngrp.title,
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_btngrp();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Button Group Shortcode',
-                        'href' : '#oscitas-form-btngrp',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(btngrp.id);
                 }
             });
         },
@@ -24,13 +19,8 @@
             return null;
         },
         getInfo : function() {
-            return {
-                longname : "Button Group Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "2.0.0"
-            };
+            plugininfo.longname=button.title;
+            return plugininfo;
         }
     });
     tinymce.PluginManager.add('oscitasbtngrp', tinymce.plugins.oscitasBtngrp);
@@ -43,7 +33,7 @@ function create_oscitas_btngrp(){
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-btngrp">\
+    var form = jQuery('<div id="oscitas-form-btngrp" class="oscitas-container">\
     <table id="oscitas-table" class="form-table">\
 			<tr>\
 				<th class="main_dp_th"><label for="oscitas-btngrp-heading" >Button Group Features</label></th>\
@@ -224,7 +214,7 @@ function create_oscitas_btngrp(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 
-        jQuery.fancybox.close();
+        close_dialogue(btngrp.id);
     });
 }
 

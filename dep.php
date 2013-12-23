@@ -74,7 +74,7 @@
 		if ($valid) {
 			$sql = "INSERT INTO depense (user_id,exercice_id,type,montant,mois,commentaire) values(?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);		
-			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $commentaire));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, MoisRelatif($abodep_mois,$exercice_mois), $commentaire));
 		}
 		
 		// Réinitialise pour le formulaire		
@@ -90,7 +90,7 @@
     $sql2 = "SELECT SUM(montant) FROM depense WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";	
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);

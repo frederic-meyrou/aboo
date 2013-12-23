@@ -1,3 +1,7 @@
+var gTables={
+    title:"Progressbar Shortcode",
+    id :'#oscitas-form-table'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasTables', {
         init : function(ed, url) {
@@ -6,18 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_table();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Table Shortcode',
-                        'href' : '#oscitas-form-table',
-                        
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gTables.id);
                 }
             });
         },
@@ -145,7 +138,7 @@ function create_oscitas_table(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gTables.id);
     });
 }
 

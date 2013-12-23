@@ -1,3 +1,7 @@
+var gPanel={
+    title:"Panel Shortcode",
+    id :'#oscitas-form-panel'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasPanel', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_panel();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Panel Shortcode',
-                        'href' : '#oscitas-form-panel',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gPanel.id);
                 }
             });
         },
@@ -93,7 +87,7 @@ function create_oscitas_panel(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
-        jQuery.fancybox.close();
+        close_dialogue(gPanel.id);
     });
 }
 

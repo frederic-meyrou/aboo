@@ -1,21 +1,22 @@
+# Copyright (C) 2013 Clean and Simple Contact Form
+# This file is distributed under the same license as the Clean and Simple Contact Form package.
 msgid ""
 msgstr ""
-"Project-Id-Version: clean-and-simple-contact-form-by-meg-nicholas.4.1.1\n"
+"Project-Id-Version: Clean and Simple Contact Form 4.2.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/clean-and-simple-contact-form-"
 "by-meg-nicholas\n"
-"POT-Creation-Date: 2013-09-23 07:25:24+00:00\n"
-"PO-Revision-Date: 2013-10-02 09:57-0000\n"
-"Last-Translator: \n"
-"Language-Team: manaz.net <abdullahmanaz@gmail.com>\n"
-"Language: tr_TR informal\n"
+"POT-Creation-Date: 2013-11-06 14:29:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-Basepath: .\n"
+"PO-Revision-Date: 2013-12-06 12:32+0200\n"
+"Last-Translator: Abdullah Manaz <abdullahmanaz@gmail.com>\n"
+"Language-Team: ManazNet <abdullahmanaz@gmail.com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: tr_TR\n"
+"X-Generator: Poedit 1.6.1\n"
 
-#: class.cscf.php:106
+#: class.cscf.php:149
 msgid "Settings"
 msgstr "Kurgu"
 
@@ -23,28 +24,28 @@ msgstr "Kurgu"
 msgid "Sorry the email addresses do not match."
 msgstr "Afedersiniz, EPosta Adresleriniz uyuşmuyor."
 
-#: class.cscf_contact.php:58 views/contact-form.view.php:31
+#: class.cscf_contact.php:59 views/contact-form.view.php:32
 msgid "Please give your email address."
 msgstr "Lütfen EPosta Adresinizi giriniz."
 
-#: class.cscf_contact.php:62
+#: class.cscf_contact.php:63
 msgid "Please confirm your email address."
 msgstr "Lütfen EPosta Adresinizi doğrulayınız."
 
-#: class.cscf_contact.php:66 views/contact-form.view.php:76
+#: class.cscf_contact.php:68 views/contact-form.view.php:79
 msgid "Please give your name."
 msgstr "Lütfen isminizi giriniz."
 
-#: class.cscf_contact.php:70
+#: class.cscf_contact.php:72
 msgid "Please enter a message."
 msgstr "Lütfen bir mesaj giriniz."
 
-#: class.cscf_contact.php:74 views/contact-form.view.php:32
-#: views/contact-form.view.php:55
+#: class.cscf_contact.php:76 views/contact-form.view.php:33
+#: views/contact-form.view.php:57
 msgid "Please enter a valid email address."
 msgstr "Lütfen, geçerli bir EPosta Adresi giriniz."
 
-#: class.cscf_contact.php:82
+#: class.cscf_contact.php:84
 msgid "Sorry the code wasn't entered correctly please try again."
 msgstr "Güvenlik kodunu yanlış girdiniz, tekrar deneyiniz."
 
@@ -68,15 +69,23 @@ msgstr ""
 msgid " -  Web Enquiry"
 msgstr " - Web Talebi"
 
-#: class.cscf_settings.php:42
+#: class.cscf_settings.php:30
+msgid "Contact Form Settings"
+msgstr "İletişim Formu Kurgusu"
+
+#: class.cscf_settings.php:30
+msgid "Contact Form"
+msgstr "İletişim Formu"
+
+#: class.cscf_settings.php:40
 msgid "Clean and Simple Contact Form Settings"
 msgstr "Temiz ve Basit İletişim Formu Kurgusu"
 
-#: class.cscf_settings.php:48
+#: class.cscf_settings.php:46
 msgid "Donate $10, $20 or $50!"
 msgstr "Bağış $10, $20 veya $50!"
 
-#: class.cscf_settings.php:50
+#: class.cscf_settings.php:48
 msgid ""
 "If you like this plugin, please donate to support development and "
 "maintenance of:"
@@ -84,182 +93,186 @@ msgstr ""
 "Bu eklentiyi beğendiyseniz, geliştirilmesine katkıda bulunmak için bağış "
 "yapabilirsiniz."
 
-# Plugin Name des plugin/theme
-#: class.cscf_settings.php:50
+#: class.cscf_settings.php:48
 msgid "Clean and Simple Contact Form!"
 msgstr "Temiz ve Basit İleşitim Formu!"
 
-#: class.cscf_settings.php:65
+#: class.cscf_settings.php:63
 msgid "You are using version"
 msgstr "Kullanılan Versiyon"
 
-#: class.cscf_settings.php:66
+#: class.cscf_settings.php:64
 msgid "If you find this plugin useful please consider"
 msgstr "Bu eklentiyi yararlı bulursanız, lütfen desteklemek için "
 
-#: class.cscf_settings.php:69
+#: class.cscf_settings.php:67
 msgid "leaving a review"
 msgstr "Bir görüş belirtiniz."
 
-#: class.cscf_settings.php:71
+#: class.cscf_settings.php:69
 msgid "Thank you!"
 msgstr "Teşekkür Ederiz!"
 
-#: class.cscf_settings.php:76
+#: class.cscf_settings.php:74
 msgid ""
 "NOTICE: You have JetPack's Contact Form enabled please deactivate it or use "
 "the shortcode [cscf-contact-form] instead."
 msgstr ""
-"NOTICE: You have JetPack's Contact Form enabled please deactivate it or use "
-"the shortcode [cscf-contact-form] instead."
+"NOT: JetPack's Contact Form eklentisi aktif, lütfen onu deaktif ediniz veya "
+"[cscf-contact-form] kısa kodunu kullanınız."
 
-#: class.cscf_settings.php:77
+#: class.cscf_settings.php:75
 msgid "Read More"
-msgstr "Read More"
+msgstr "Fazlasını Oku"
 
-#: class.cscf_settings.php:81
+#: class.cscf_settings.php:79
 msgid "Please Note: To add the contact form to your page please add the text"
 msgstr "Not: İletişim Formunu bir yazınıza veya sayfanıza eklemek için"
 
-#: class.cscf_settings.php:81
+#: class.cscf_settings.php:79
 msgid "to your post or page."
 msgstr "kısa kodunu kullanınız."
 
-#: class.cscf_settings.php:112
+#: class.cscf_settings.php:98
 msgid "ReCAPTCHA Settings"
 msgstr "ReCAPTCHA Kurgusu"
 
-#: class.cscf_settings.php:120
+#: class.cscf_settings.php:106
 msgid "Use reCAPTCHA :"
 msgstr "ReCAPTCHA Kullan:"
 
-#: class.cscf_settings.php:126
+#: class.cscf_settings.php:112
 msgid "reCAPTCHA Theme :"
 msgstr "ReCAPTCHA Teması :"
 
-#: class.cscf_settings.php:132
+#: class.cscf_settings.php:118
 msgid "reCAPTCHA Public Key :"
 msgstr "ReCAPTCHA Public Key :"
 
-#: class.cscf_settings.php:138
+#: class.cscf_settings.php:124
 msgid "reCAPTCHA Private Key :"
 msgstr "ReCAPTCHA Private Key :"
 
-#: class.cscf_settings.php:144
+#: class.cscf_settings.php:130
 msgid "Message Settings"
 msgstr "MesajFormu Kurgusu"
 
-#: class.cscf_settings.php:148
-msgid "Recipient Email :"
-msgstr "Alıcı EPosta Adresi:"
+#: class.cscf_settings.php:134
+msgid "Recipient Emails :"
+msgstr "Alıcı EPosta Adres(ler)i:"
 
-#: class.cscf_settings.php:154
+#: class.cscf_settings.php:140
+msgid "Confirm Email Address :"
+msgstr "EPosta Adres(ler)ini Onayla"
+
+#: class.cscf_settings.php:146
 msgid "Override 'From' Address :"
 msgstr " 'Kimden' bölümünü düzenle :"
 
-#: class.cscf_settings.php:160
+#: class.cscf_settings.php:152
 msgid "'From' Email Address :"
 msgstr " 'Kimden' bölümüne EPosta Adresi :"
 
-#: class.cscf_settings.php:166
+#: class.cscf_settings.php:158
 msgid "Email Subject :"
 msgstr "EPosta Konusu:"
 
-#: class.cscf_settings.php:172
+#: class.cscf_settings.php:164
 msgid "Message :"
-msgstr "Mesaj Metni:"
+msgstr "EPosta Metni :"
 
-#: class.cscf_settings.php:178
+#: class.cscf_settings.php:170
 msgid "Message Sent Heading :"
 msgstr "Gönderilen Mesaj Başlığı:"
 
-#: class.cscf_settings.php:184
+#: class.cscf_settings.php:176
 msgid "Message Sent Content :"
 msgstr "Gönderilen Mesaj Konusu:"
 
-#: class.cscf_settings.php:190
+#: class.cscf_settings.php:182
 msgid "Styling and Validation"
 msgstr "Görünüm ve Doğrulama"
 
-#: class.cscf_settings.php:194
+#: class.cscf_settings.php:186
 msgid ""
 "Use the plugin default stylesheet (un-tick to use your theme style sheet "
 "instead) :"
-msgstr "Temel Görünümü Kullan "
+msgstr ""
+"Temel Görünümü Kullan (Kendi temanızı kullanacaksanız seçimi kaldırın) :"
 
-#: class.cscf_settings.php:200
+#: class.cscf_settings.php:192
 msgid "Use client side validation (AJAX) :"
-msgstr "Doğrulama Yöntemini Kullan (AJAX):"
+msgstr "(AJAX) Doğrulama Yöntemini Kullan :"
 
-#: class.cscf_settings.php:287
+#: class.cscf_settings.php:262
 msgid "Enter your reCAPTCHA settings below :"
 msgstr "ReCAPTCHA Ayarlarını Aşağıya Giriniz:"
 
-#: class.cscf_settings.php:288
+#: class.cscf_settings.php:263
 msgid "To use reCAPTCHA you must get an API key from"
 msgstr "ReCAPTCHA kullanmak için API-Key edinmeniz gerekir:"
 
-#: class.cscf_settings.php:293
+#: class.cscf_settings.php:268
 msgid "Enter your message settings below :"
 msgstr "MesajFormu Kurgunuzu aşağıya giriniz:"
 
-#: class.cscf_settings.php:353
+#: class.cscf_settings.php:342
 msgid "Red"
 msgstr "Kırmızı"
 
-#: class.cscf_settings.php:354
+#: class.cscf_settings.php:343
 msgid "White"
 msgstr "Beyaz"
 
-#: class.cscf_settings.php:355
+#: class.cscf_settings.php:344
 msgid "Blackglass"
 msgstr "Şeffaf"
 
-#: class.cscf_settings.php:356
+#: class.cscf_settings.php:345
 msgid "Clean"
 msgstr "Temiz"
 
-#: views/contact-form.view.php:23
+#: views/contact-form.view.php:24
 msgid "Email Address:"
 msgstr "EPosta Adresi:"
 
-#: views/contact-form.view.php:35
+#: views/contact-form.view.php:36
 msgid "Your Email Address"
-msgstr "EPosta Adresiniz"
+msgstr "EPosta Adresiniz:"
 
-#: views/contact-form.view.php:45
+#: views/contact-form.view.php:47
 msgid "Confirm Email Address:"
-msgstr "EPosta Adresinizi Doğrulayın:"
+msgstr "EPosta Adresinizi doğrulayın:"
 
-#: views/contact-form.view.php:54 views/contact-form.view.php:56
+#: views/contact-form.view.php:56 views/contact-form.view.php:58
 msgid "Please enter the same email address again."
 msgstr "EPosta Adresinizi tekrar giriniz."
 
-#: views/contact-form.view.php:59
+#: views/contact-form.view.php:61
 msgid "Confirm Your Email Address"
 msgstr "EPosta Adresinizi doğrulayınız"
 
-#: views/contact-form.view.php:69
+#: views/contact-form.view.php:72
 msgid "Name:"
 msgstr "Adınız:"
 
-#: views/contact-form.view.php:79
+#: views/contact-form.view.php:82
 msgid "Your Name"
 msgstr "Adınız"
 
-#: views/contact-form.view.php:89
+#: views/contact-form.view.php:92
 msgid "Message:"
 msgstr "Mesaj Metni:"
 
-#: views/contact-form.view.php:96
+#: views/contact-form.view.php:99
 msgid "Please give a message."
 msgstr "Lütfen bir Mesaj giriniz."
 
-#: views/contact-form.view.php:98
+#: views/contact-form.view.php:101
 msgid "Your Message"
 msgstr "Mesaj Metniniz"
 
-#: views/contact-form.view.php:120
+#: views/contact-form.view.php:123
 msgid "Send Message"
 msgstr "Mesajı Gönder"
 
@@ -267,7 +280,6 @@ msgstr "Mesajı Gönder"
 msgid "Sorry, there has been a problem and your message was not sent."
 msgstr "Afedersiniz, bir sorun oldu, mesajınız gitmedi."
 
-# Plugin Name des plugin/theme
 #. Plugin Name of the plugin/theme
 msgid "Clean and Simple Contact Form"
 msgstr "Temiz ve Basit İleşitim Formu"
@@ -282,8 +294,7 @@ msgstr ""
 msgid ""
 "A clean and simple contact form with Google reCAPTCHA and Twitter Bootstrap "
 "markup."
-msgstr ""
-"Google DeCAPTCHA kullanmak suretiyle güvenli, temiz ve basit İletişim Formu."
+msgstr "Google DeCAPTCHA yöntemiyle güvenli, temiz ve basit İletişim Formu."
 
 #. Author of the plugin/theme
 msgid "Meghan Nicholas"

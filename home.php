@@ -227,7 +227,7 @@
 				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes_annee; ?> €</button>
 				<button type="button" class="btn btn-info">Solde : <?php echo $solde_annee; ?> €</button>		
 			</p>			
-			<!--<p>
+			<p>
 				<?php
 				for ($i = 1; $i <= 12; $i++) {
 				?> 
@@ -235,7 +235,7 @@
 				<?php
 				}
 				?>
-			</p>--> 			          
+			</p> 			          
 			</div> 	<!-- /row -->
 			<?php 	
 			} // if
