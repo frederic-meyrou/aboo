@@ -90,7 +90,7 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="user.php">Gestion utilisateurs</a></li>                 
+          <li class="active"><a href="user.php"><span class="glyphicon glyphicon-wrench"></span> Gestion utilisateurs</a></li>                 
           <li class="dropdown">
 	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>

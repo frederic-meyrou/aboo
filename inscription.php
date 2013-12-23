@@ -124,7 +124,7 @@ if(!empty($_POST) && filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)) {
 		<div class="row">
  			 <div class="col-md-5 col-md-offset-1">
  			 	
-	            <h3>Créer un Compte utilisateur</h3><br/>
+	            <h3>Demande de compte utilisateur</h3><br/>
 		        <!-- Formulaire -->  
                 <form class="form-horizontal" action="inscription.php" method="POST">
 
@@ -147,7 +147,7 @@ if(!empty($_POST) && filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)) {
         		    <?php Affiche_Champ($password, $error_password, 'password','Mot de passe', 'password' ); ?>			
                     
 		            <div class="form-actions">
-		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> S'inscrire</button>
+		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> S'inscrire</button>
 		              <a class="btn btn-primary" href="connexion.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 		            </div>
 		                                
