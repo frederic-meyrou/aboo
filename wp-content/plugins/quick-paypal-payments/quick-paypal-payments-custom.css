@@ -1,0 +1,12 @@
+.qpp-style.aboo {width:280px;}
+.qpp-style.aboo input[type=text], .qpp-style.aboo textarea, .qpp-style.aboo select, .qpp-style.aboo #submit {border-radius:5px;}
+.qpp-style.aboo p{font-family: arial, sans-serif; font-size: 1.2em;color: #465069;line-height:100%;;}
+.qpp-style.aboo input[type=text]{border: 1px solid #415063;font-family: arial, sans-serif; color: #465069;;font-size: inherit;}
+.qpp-style.aboo div {background:#FFF;}
+.qpp-style.aboo #submit{color:#FFF;background:#343838;font-family: arial, sans-serif;font-size: inherit;}
+.qpp-style.default {width:280px;}
+.qpp-style.default input[type=text], .qpp-style.default textarea, .qpp-style.default select, .qpp-style.default #submit {border-radius:0;}
+.qpp-style.default p{font-family: arial, sans-serif; font-size: 1.2em;color: #465069;line-height:100%;;}
+.qpp-style.default input[type=text]{border: 1px solid #415063;font-family: arial, sans-serif; color: #465069;;font-size: inherit;}
+.qpp-style.default div {background:#FFF;}
+.qpp-style.default #submit{color:#FFF;background:#343838;font-family: arial, sans-serif;font-size: inherit;}

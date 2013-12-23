@@ -108,7 +108,7 @@
     		(user_id = :userid AND exercice_id = :exerciceid)
     		";
 				
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $mois_choisi);
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($mois_choisi,$exercice_mois));
     $q3 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
     
     $req = $pdo->prepare($sql);
@@ -288,8 +288,8 @@
 				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
 				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
 				<button type="button" class="btn btn-info">Solde : <?php echo $solde; ?> €</button>
-				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
-				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($solde - $total_mois_{$abodep_mois}); ?> €</button>				
+				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}; ?> €</button>
+				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($solde - $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}); ?> €</button>				
 			</p>
 			<!--<p>
 				<?php

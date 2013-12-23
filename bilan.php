@@ -166,6 +166,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
+              <li><a href="debug.php"><span class="glyphicon glyphicon-info-sign"></span> Debug</a></li>  
               <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
             </ul> 
           </li>
@@ -197,7 +198,7 @@
 
         <!-- Affiche les 12 Mois -->
         <div class="page-header">          
-            <h2>Tableau de bord annuel</h2>  
+            <h2>Tableau de bord : <button type="button" class="btn btn-lg btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button></h2>  
         </div>
         
         <?php       
@@ -212,15 +213,15 @@
         ?>
               <div class="panel panel-success">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><?php echo NumToMois($num_mois); ?></h3>
+                  <h3 class="panel-title"><?php echo $mois_relatif . ' : ' .  NumToMois($num_mois); ?></h3>
                 </div>
                 <div class="panel-body">
-                    <li>Recettes : <?php echo $total_recettes_mois_{$num_mois} . ' €'; ?></li>
-                    <li>Dépenses : <?php echo $total_depenses_mois_{$num_mois} . ' €'; ?></li>
-                    <li>Solde brut : <?php echo $solde_mois_{$num_mois} . ' €'; ?></li> 
-                    <li>Salaire : <?php echo $total_mois_{$num_mois} . ' €'; ?></li>
-                    <li>A trésoriser : <?php echo ($total_recettes_mois_{$num_mois} - $total_mois_{$num_mois} ) . ' €'; ?></li>
-                    <li>Tréso réele : <?php echo ($solde_mois_{$num_mois} - $total_mois_{$num_mois} ) . ' €'; ?></li>
+                    <li>Recettes : <?php echo $total_recettes_mois_{$mois_relatif} . ' €'; ?></li>
+                    <li>Dépenses : <?php echo $total_depenses_mois_{$mois_relatif} . ' €'; ?></li>
+                    <li>Solde brut : <?php echo $solde_mois_{$mois_relatif} . ' €'; ?></li> 
+                    <li>Salaire : <?php echo $total_mois_{$mois_relatif} . ' €'; ?></li>
+                    <li>A trésoriser : <?php echo ($total_recettes_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ) . ' €'; ?></li>
+                    <li>Tréso réele : <?php echo ($solde_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ) . ' €'; ?></li>
                 </div>
               </div>
         <?php    

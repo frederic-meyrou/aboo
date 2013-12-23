@@ -1,3 +1,7 @@
+var gProgressbar={
+    title:"Progressbar Shortcode",
+    id :'#oscitas-form-progressbar'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasProgressbar', {
         init : function(ed, url) {
@@ -6,23 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_progressbar();
-                    jQuery.fancybox({
-                        'autoSize':false,
-                        'autoWidth':false,
-                        'fitToView':false,
-                        'height':'auto',
-                        'topRatio':0.1,
-                        'width':800,
-                        'type' : 'inline',
-                        'title' : 'Progressbar Shortcode',
-                        'href' : '#oscitas-form-progressbar',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gProgressbar.id, 800);
                     jQuery('#oscitas-form-progressbar table tr:visible:even').css('background', '#F0F0F0');
                     jQuery('#oscitas-form-progressbar table tr:visible:odd').css('background', '#DADADD');
                 }
@@ -145,7 +133,7 @@ function create_oscitas_progressbar(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gProgressbar.id);
     });
 }
 

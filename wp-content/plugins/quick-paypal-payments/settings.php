@@ -29,7 +29,7 @@ function qpp_admin_tabs($current = 'settings') {
 function qpp_tabbed_page() {
 	$qpp_setup = qpp_get_stored_setup();
 	$id=$qpp_setup['current'];
-	qpp_use_custom_css();
+	qpp_options_css();
 	echo '<div class="wrap">';
 	echo '<h1>Quick Paypal Payments</h1>';
 	if ( isset ($_GET['tab'])) {qpp_admin_tabs($_GET['tab']); $tab = $_GET['tab'];} else {qpp_admin_tabs('setup'); $tab = 'setup';}
@@ -67,12 +67,11 @@ function qpp_setup ($id) {
 		}
 	$qpp_setup = qpp_get_stored_setup();
 	$qpp_curr = qpp_get_stored_curr();
-	$content ='
-		<div class="qpp-options">
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">
 		<form method="post" action="">
 		<h2>Account Email</h2>
 		<p><span style="color:red; font-weight: bold; margin-right: 3px">Important!</span> Enter your PAYPAL email address</p>
-		<input type="text" style="width:90%" label="Email" name="email" value="' . $qpp_setup['email'] . '" /></p>
+		<input type="text" style="width:100%" label="Email" name="email" value="' . $qpp_setup['email'] . '" /></p>
 		<h2 style="color:#B52C00">Existing Forms</h2>
 		<table>
 		<tr><td><b>Form name&nbsp;&nbsp;</b></td><td><b>Currency&nbsp;&nbsp;</b></td><td><b>Shortcode</b></td></tr>';
@@ -97,7 +96,7 @@ function qpp_setup ($id) {
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Create New Form" /></p>
 		</form>
 		</div>
-		<div class="qpp-options"> 
+		<div class="qpp-options" style="float:right"> 
 		<h2>Adding the payment form to your site</h2>
 		<p>To add the basic payment form to your posts or pages use the shortcode: <code>[qpp]</code>.<br />
 		<p>If you have a named form the shortcode is <code>[qpp id="form name"]</code>.<br />
@@ -134,31 +133,31 @@ function qpp_form_options($id) {
 	$id=$qpp_setup['current'];
 	$qpp = qpp_get_stored_options($id);
 	$$qpp['paypal-location'] = 'checked';
-	$content = '<div class="qpp-options">';
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
 	if ($id) $content .='<h2 style="color:#B52C00">Form settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form settings</h2>';
 	$content .= qpp_change_form($qpp_setup);
 	$content .= '<form action="" method="POST">
 		<p>Paypal form heading (optional)</p>
-		<input type="text" style="width:90%" name="title" value="' . $qpp['title'] . '" />
+		<input type="text" style="width:100%" name="title" value="' . $qpp['title'] . '" />
 		<p>This is the blurb that will appear below the heading and above the form (optional):</p>
-		<input type="text" style="width:90%" name="blurb" value="' . $qpp['blurb'] . '" />
+		<input type="text" style="width:100%" name="blurb" value="' . $qpp['blurb'] . '" />
 		<h2>Payment labels</h2>
 		<p>Label for the payment Reference/ID/Number:</p>
-		<input type="text" style="width:90%" name="inputreference" value="' . $qpp['inputreference'] . '" />
+		<input type="text" style="width:100%" name="inputreference" value="' . $qpp['inputreference'] . '" />
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_quantity" ' . $qpp['use_quantity'] . ' value="checked" /> Use quantity field</p>
 		<p>Label for the quantity field:</p>
-		<input type="text" style="width:90%" name="quantitylabel" value="' . $qpp['quantitylabel'] . '" />
+		<input type="text" style="width:100%" name="quantitylabel" value="' . $qpp['quantitylabel'] . '" />
 		<p>Label for the amount field:</p>
-		<input type="text" style="width:90%" name="inputamount" value="' . $qpp['inputamount'] . '" />
+		<input type="text" style="width:100%" name="inputamount" value="' . $qpp['inputamount'] . '" />
 		<h2>Shortcode labels</h2>
 		<p>These are the labels that will display if you are using <a href="?page=quick-paypal-payments/settings.php&tab=help">shortcode attributes</a>.</p>
 		<p>Label for the payment Reference/ID/Number:</p>
-		<input type="text" style="width:90%" name="shortcodereference" value="' . $qpp['shortcodereference'] . '" />
+		<input type="text" style="width:100%" name="shortcodereference" value="' . $qpp['shortcodereference'] . '" />
 		<p>Label for the amount field:</p>
-		<input type="text" style="width:90%" name="shortcodeamount" value="' . $qpp['shortcodeamount'] . '" />
+		<input type="text" style="width:100%" name="shortcodeamount" value="' . $qpp['shortcodeamount'] . '" />
 		<h2>Submit button caption</h2>
-		<input type="text" style="width:90%" name="submitcaption" value="' . $qpp['submitcaption'] . '" />
+		<input type="text" style="width:100%" name="submitcaption" value="' . $qpp['submitcaption'] . '" />
 		<h2>PayPal Image</h2>
 		<p>Add a paypal image to your form. Enter the URL of the image below and slect where you want it to display.</p>
 		<p>Below form title: <input type="radio" label="paypal-location" name="paypal-location" value="imageabove" ' . $imageabove . ' /> Below Submit Button: <input type="radio" label="paypal-location" name="paypal-location" value="imagebelow" ' . $imagebelow . ' /></p>
@@ -167,12 +166,12 @@ function qpp_form_options($id) {
 	<p><input type="submit" name="qpp_submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the form settings?\' );"/></p>
 		</form>
 		</div>
-		<div class="qpp-options">
+		<div class="qpp-options" style="float:right;">
 		<h2 style="color:#B52C00">Form Preview</h2>
 		<p>Note: The preview form uses the wordpress admin styles. Your form will use the theme styles so won\'t look exactly like the one below.</p>';
 	$args = array('form' => $id, 'id' => '', 'amount' => '');
 	$content .= qpp_loop($args);
-	$content .= '</div>';
+	$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_styles($id) {
@@ -196,10 +195,9 @@ function qpp_styles($id) {
 	$$style['background'] = 'checked';
 	$$style['corners'] = 'checked';
 	$$style['styles'] = 'checked';
-	qpp_use_custom_css();
-	$content .='<div class="qpp-options">';
+	qpp_options_css();
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
 	if ($id) $content .='<h2 style="color:#B52C00">Style options for ' . $id . '</h2>';
-
 	else $content .='<h2 style="color:#B52C00">Default form style options</h2>';
 	$content .= qpp_change_form($qpp_setup);
 	$content .= '
@@ -214,9 +212,17 @@ function qpp_styles($id) {
 		<p>
 			<input style="margin:0; padding:0; border:none" type="radio" name="font" value="theme" ' . $theme . ' /> Use your theme font styles<br />
 			<input style="margin:0; padding:0; border:none" type="radio" name="font" value="plugin" ' . $plugin . ' /> Use Plugin font styles (enter font family and size below)</p>
-		<p>Font Family: <input type="text" style="width:15em" label="font-family" name="font-family" value="' . $style['font-family'] . '" /></p>
-		<p>Font Size: <input type="text" style="width:6em" label="font-size" name="font-size" value="' . $style['font-size'] . '" /></p>
-		<p>Font Colour: <input type="text" style="width:15em" label="font-colour" name="font-colour" value="' . $style['font-colour'] . '" /></p>
+		<table>
+		<tr>
+		<td>Font Family: </td><td><input type="text" style="width:15em" label="font-family" name="font-family" value="' . $style['font-family'] . '" /></td>
+		<tr>
+		</tr>
+		<td>Font Size: </td><td><input type="text" style="width:6em" label="font-size" name="font-size" value="' . $style['font-size'] . '" /></td>
+		<tr>
+		</tr>
+		<td>Font Colour: </td><td><input type="text" style="width:15em" label="font-colour" name="font-colour" value="' . $style['font-colour'] . '" /></td>
+		</tr>
+		</table>
 		<h2>Form Border</h2>
 		<p>Note: The rounded corners and shadows only work on CSS3 supported browsers and even then not in IE8. Don\'t blame me, blame Microsoft.</p>
 		<p>
@@ -241,10 +247,18 @@ function qpp_styles($id) {
 			<input style="margin:0; padding:0; border:none;" type="radio" name="corners" value="round" ' . $round . ' /> 5px rounded corners
 		</p>
 		<h2>Submit Button</h2>
-		<p>Font Colour: <input type="text" style="width:15em" label="submit-colour" name="submit-colour" value="' . $style['submit-colour'] . '" /></p>
-		<p>Background: <input type="text" style="width:15em" label="submit-background" name="submit-background" value="' . $style['submit-background'] . '" /></p>
-		<p>Button Image: <input type="text" style="width:25em" label="submit-button" name="submit-button" value="' . $style['submit-button'] . '" /><br>
-		Leave blank if you don\'t want to use an image</p>
+		<table>
+		<tr>
+		<td>Font Colour: </td><td><input type="text" style="width:15em" label="submit-colour" name="submit-colour" value="' . $style['submit-colour'] . '" /></td>
+		<tr>
+		</tr>
+		<td>Background: </td><td><input type="text" style="width:15em" label="submit-background" name="submit-background" value="' . $style['submit-background'] . '" /></td>
+		<tr>
+		</tr>
+		<td>Button Image: </td><td><input type="text" style="width:25em" label="submit-button" name="submit-button" value="' . $style['submit-button'] . '" /><br>
+		Leave blank if you don\'t want to use an image</td>
+		</tr>
+		</table>
 		<h2>Custom CSS</h2>
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_custom" ' . $style['use_custom'] . ' value="checked" /> Use Custom CSS</p>
 		<p><textarea style="width:100%; height: 200px" name="custom">' . $style['custom'] . '</textarea></p>
@@ -254,12 +268,11 @@ function qpp_styles($id) {
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the form styles?\' );"/></p>
 		</form>
 		</div>
-		<div class="qpp-options">
-		<h2 style="color:#B52C00">Test Form</h2>
+		<div class="qpp-options" style="float:right;"> <h2 style="color:#B52C00">Test Form</h2>
 		<p>Not all of your style selections will display here (because of how WordPress works). So check the form on your site.</p>';
 		$args = array('form' => $id, 'id' => '', 'amount' => '');
 	$content .= qpp_loop($args);
-	$content .= '</div>';
+	$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_send_page($id) {
@@ -267,7 +280,7 @@ function qpp_send_page($id) {
 	if( isset( $_POST['Submit'])) {
 		$options = array('waiting','cancelurl','thanksurl','target');
 		foreach ($options as $item) $send[$item] = stripslashes( $_POST[$item]);
-		update_option('qpp_send', $send);
+		update_option('qpp_send'.$id, $send);
 		qpp_admin_notice("The submission settings have been updated.");
 		}
 	if( isset( $_POST['Reset'])) {
@@ -278,8 +291,8 @@ function qpp_send_page($id) {
 	$id=$qpp_setup['current'];
 	$send = qpp_get_stored_send($id);
 	$$send['target'] = 'checked';
-	qpp_use_custom_css();
-	$content = '<div class="qpp-options">';
+	qpp_options_css();
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
 	if ($id) $content .='<h2 style="color:#B52C00">Send settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form send options</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -287,13 +300,13 @@ function qpp_send_page($id) {
 		<form action="" method="POST">
 		<h2>Submission Message</h2>
 		<p>This is what the visitor sees while the paypal page loads</p>
-		<input type="text" style="width:90%" name="waiting" value="' . $send['waiting'] . '" />
+		<input type="text" style="width:100%" name="waiting" value="' . $send['waiting'] . '" />
 		<h2>Cancel and Thank you pages</h2>
 		<p>If you leave these blank paypal will return the user to the current page.</p>
 		<h3>URL of cancellation page</h3>
-		<input type="text" style="width:90%" name="cancelurl" value="' . $send['cancelurl'] . '" />
+		<input type="text" style="width:100%" name="cancelurl" value="' . $send['cancelurl'] . '" />
 		<h3>URL of thank you page</h3>
-		<input type="text" style="width:90%" name="thanksurl" value="' . $send['thanksurl'] . '" />
+		<input type="text" style="width:100%" name="thanksurl" value="' . $send['thanksurl'] . '" />
 		<h2>Paypal Link</h2>
 		<p>
 			<input style="width:20px; margin: 0; padding: 0; border: none;" type="radio" name="target" value="newpage" ' . $newpage . ' /> Open link in new page/tab<br>
@@ -302,12 +315,11 @@ function qpp_send_page($id) {
 			<input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the form settings?\' );"/></p>
 		</form>
 		</div>
-		<div class="qpp-options">
-		<h2 style="color:#B52C00">Form Preview</h2>
+		<div class="qpp-options" style="float:right;"> <h2 style="color:#B52C00">Form Preview</h2>
 		<p>Note: The preview form uses the wordpress admin styles. Your form will use the theme styles so won\'t look exactly like the one below.</p>';
 	$args = array('form' => $id, 'id' => '', 'amount' => '');
 	$content .= qpp_loop($args);
-	$content .= '</div>';
+	$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_error_page($id) {
@@ -325,8 +337,8 @@ function qpp_error_page($id) {
 	$qpp_setup = qpp_get_stored_setup();
 	$id=$qpp_setup['current'];
 	$error = qpp_get_stored_error($id);
-	qpp_use_custom_css();
-	$content = '<div class="qpp-options">';
+	qpp_options_css();
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
 	if ($id) $content .='<h2 style="color:#B52C00">Eror message settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form error message</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -338,16 +350,16 @@ function qpp_error_page($id) {
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the error message?\' );"/></p>
 		</form>
 		</div>
-		<div class="qpp-options">
+		<div class="qpp-options" style="float:right;">
 		<h2 style="color:#B52C00">Error Checker</h2>
 		<p>Try sending a blank form to test your error messages.</p>';
 	$args = array('form' => $id, 'id' => '', 'amount' => '');
 	$content .= qpp_loop($args);
-	$content .= '</div>';
+	$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_shortcodes() {
-	$content .='<div class="qpp-options">
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">
 		<h2>Simple Shortcodes</h2>
 		<p>You can preset the ID and amount fields using shortcode attributes. The basic format is:</p>
 		<p><code>[qpp id="ABC123" amount="$140"]</code>.</p><p>You can use just one or both as required.</p>
@@ -364,7 +376,7 @@ function qpp_shortcodes() {
 		<p><code>[qpp form="name"]</code>.</p>
 		<p>Where "name" is the name of your form. You can have multiple forms on each page.</p>
 		</div>
-		<div class="qpp-options"> 
+		<div class="qpp-options" style="float:right;"> 
 		<h2>Example Shortcodes</h2>
 		<p><code>[qpp id="ABC123"]</code></p>';
 	$args = array('form' =>'abc123','id' => 'ABC123');
@@ -375,7 +387,7 @@ function qpp_shortcodes() {
 	$content .= '<p><code>[qpp id="red hat, blue hat, green hat" amount="&pound;150"]</code></p>';
 	$args = array('form' =>'abc123list','id' => 'red hat, blue hat, green hat','amount'=>'&pound;150');
 	$content .= qpp_loop($args);
-	$content .= '</div>';
+	$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_reset_page($id) {
@@ -432,7 +444,7 @@ function qpp_reset_page($id) {
 		}
 	$qpp_setup = qpp_get_stored_setup();
 	$id=$qpp_setup['current'];
-	$content .='<div class="qpp-options">';
+	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
 	if ($id) $content .='<h2 style="color:#B52C00">Reset the options for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Reset the default form</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -452,7 +464,7 @@ function qpp_reset_page($id) {
 			<input type="hidden" name="email" value="' . $qpp_setup['email'] . '" />
 			<input type="submit" class="button-primary" name="qpp_reset" style="color: #FFF" value="Reset Options" onclick="return window.confirm( \'Are you sure you want to reset these settings?\' );"/>
 		</form>
-	</div>';
+	</div></div>';
 	echo $content;
 	}
 function qpp_delete_everything() {
@@ -607,7 +619,7 @@ function donate_display( $values, $errors ) {
 	<p><input type="text" label="Your name" name="yourname" value="Your name" onfocus="donateclear(this, \'Your name\')" onblur="donaterecall(this, \'Your name\')"/></p>
 	<p><input type="text" label="Amount" name="amount" value="Amount" onfocus="donateclear(this, \'Amount\')" onblur="donaterecall(this, \'Amount\')"/></p>
 	<p><input type="submit" value="Donate" id="submit" name="donate" /></p>
-	</form></div></div>';
+	</form></div></div></div>';
 	echo $content;
 	}
 function donate_process($values) {

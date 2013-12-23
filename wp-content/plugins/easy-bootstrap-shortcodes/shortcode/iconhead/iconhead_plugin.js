@@ -1,3 +1,7 @@
+var gIconHeading={
+    title:"Icon Heading Shortcode",
+    id :'#oscitas-form-iconhead'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasIconhead', {
         init: function(ed, url) {
@@ -6,23 +10,7 @@
                 image: url + '/icon.png',
                 onclick: function() {
                     create_oscitas_iconhead();
-                    jQuery.fancybox({
-                        'autoSize':false,
-                        'autoWidth':false,
-                        'fitToView':false,
-                        'height':'auto',
-                        'topRatio':0.2,
-                        'type' : 'inline',
-                        'title' : 'Icon Heading Shortcode',
-                        'href' : '#oscitas-form-iconhead',
-                        'width':600,
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gIconHeading.id, 600);
                 }
             });
         },
@@ -256,6 +244,11 @@ function create_oscitas_iconhead(){
         </ul></div>\
 				</td>\
 			</tr>\
+			<tr>\
+				<th><label for="oscitas-iconhead-iconcolor">Icon Color:</label></th>\
+				<td><input type="text" name="label" id="oscitas-iconhead-iconcolor" class="color" value="" /><br />\
+				</td>\
+			</tr>\
                         <tr>\
 				<th><label for="oscitas-iconhead-headingtype">Heading Type:</label></th>\
 				<td><select name="oscitas-iconhead-headingtype" id="oscitas-iconhead-headingtype">\
@@ -287,6 +280,7 @@ function create_oscitas_iconhead(){
     var table = form.find('table');
     jQuery('.glyphicon').css('display','inline');
     form.appendTo('body').hide();
+    form.find('.color').wpColorPicker();
     table.find('#click_icon_list').click(function(){
         if(!jQuery(this).hasClass('osc_icon_showing')){
             jQuery(this).addClass('osc_icon_showing')
@@ -314,8 +308,11 @@ function create_oscitas_iconhead(){
         if(table.find('#osc_icon_class_val').val()!=''){
             style=' style="' + table.find('#osc_icon_class_val').val()+'"' ;
         }
+        if(table.find('#oscitas-iconhead-iconcolor').val()!=''){
+            cusclass+= ' color="'+table.find('#oscitas-iconhead-iconcolor').val()+'"';
+        }
         if(table.find('#oscitas-iconhead-class').val()!=''){
-            cusclass= ' class="'+table.find('#oscitas-iconhead-class').val()+'"';
+            cusclass+= ' class="'+table.find('#oscitas-iconhead-class').val()+'"';
         }
         var shortcode = '[iconheading type="'+type+'"';
         
@@ -326,7 +323,7 @@ function create_oscitas_iconhead(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent',0 , shortcode);
 
-        jQuery.fancybox.close();
+        close_dialogue(gIconHeading.id);
     });
 }
 

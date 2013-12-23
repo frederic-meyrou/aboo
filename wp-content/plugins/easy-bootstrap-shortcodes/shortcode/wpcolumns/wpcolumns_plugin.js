@@ -1,3 +1,7 @@
+var gColumns={
+    title:"Columns Shortcode",
+    id :'#oscitas-form-wpcolumns'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasWpcolumns', {
         init : function(ed, url) {
@@ -6,23 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_wpcolumns();
-                    jQuery.fancybox({
-                        'autoSize':false,
-                        'autoWidth':false,
-                        'fitToView':false,
-                        'width':1094,
-                        'type' : 'inline',
-                        'title' : 'Columns Shortcode',
-                        'height': 'auto',
-                        'href' : '#oscitas-form-wpcolumns',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-
-                    });
+                    open_dialogue(gColumns.id, 1094);
                 }
             });
         },
@@ -379,6 +367,6 @@ function create_oscitas_wpcolumns(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
         // closes Thickbox
-        jQuery.fancybox.close();
+        close_dialogue(gColumns.id);
     });
 }

@@ -79,10 +79,11 @@
 		}
 		
 		// Verification de la periodicitee
-		if (($periodicitee == 12) && ($abodep_mois + $periodicitee - 1 ) > 12) { // On lisse la periodicitee
-			$periodicitee = 12 - $abodep_mois + 1;
+		if (($periodicitee == 12) && (MoisRelatif($abodep_mois,$exercice_mois) + $periodicitee - 1 ) > 12) { // Periodicitee annuelle ou lissée
+			// Modification de la valeure de la periodicitee si il est besoin de lisser sur un nombre de mois inférieur à 12
+			$periodicitee = 12 - MoisRelatif($abodep_mois,$exercice_mois) + 1;
 		}
-		if (($abodep_mois + $periodicitee - 1 ) > 12) { // La périodicitee est superieure a l'année
+		if ((MoisRelatif($abodep_mois,$exercice_mois) + $periodicitee - 1 ) > 12) { // La périodicitee est superieure au nombre de mois restant retourne une erreur
 			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
 			$valid = false;			
 		}
@@ -113,7 +114,7 @@
 		}
 		
 		// Calcul de la ventilation
-		$ventillation = Ventillation($abodep_mois, $montant, $periodicitee);
+		$ventillation = Ventillation(MoisRelatif($abodep_mois,$exercice_mois), $montant, $periodicitee);
 		
 		// On remet la périodicitée du POST pour enregistrement
 		$periodicitee = $sPOST['periodicitee'];
@@ -122,7 +123,7 @@
 		if ($valid) {
 			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $type, $montant, $abodep_mois, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, MoisRelatif($abodep_mois,$exercice_mois), $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			Database::disconnect();		
 			// Réinitialise le formulaire		
 			header("Location: abo.php");
@@ -141,7 +142,7 @@
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
     					
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $abodep_mois);
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -213,6 +214,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
+              <li><a href="debug.php"><span class="glyphicon glyphicon-info-sign"></span> Debug</a></li>  
               <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
             </ul> 
           </li>
@@ -289,8 +291,8 @@
 		            <!-- Affiche les sommmes -->        
 					<p>
 						<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
-						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$abodep_mois}; ?> €</button>
-						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$abodep_mois}); ?> €</button>
+						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}; ?> €</button>
+						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}); ?> €</button>
 						
 					</p>             
 				</div> 	<!-- /row -->

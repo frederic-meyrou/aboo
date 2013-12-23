@@ -1,3 +1,7 @@
+var gTooltip={
+    title:"Tooltip Image Shortcode",
+    id :'#oscitas-form-tooltip'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasTooltip', {
         init: function(ed, url) {
@@ -6,17 +10,7 @@
                 image: url + '/icon.png',
                 onclick: function() {
                     create_oscitas_tooltip();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Tooltip Shortcode',
-                        'href' : '#oscitas-form-tooltip',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gTooltip.id);
                 }
             });
         },
@@ -139,7 +133,7 @@ function create_oscitas_tooltip(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gTooltip.id);
     });
 }
 

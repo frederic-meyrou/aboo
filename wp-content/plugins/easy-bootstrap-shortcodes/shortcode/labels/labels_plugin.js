@@ -1,3 +1,7 @@
+var gLabels={
+    title:"Label Shortcode",
+    id :'#oscitas-form-label'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasLabels', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_label();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Label Shortcode',
-                        'href' : '#oscitas-form-label',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gLabels.id);
                 }
             });
         },
@@ -91,7 +85,7 @@ function create_oscitas_label(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        jQuery.fancybox.close();
+        close_dialogue(gLabels.id);
     });
 }
 

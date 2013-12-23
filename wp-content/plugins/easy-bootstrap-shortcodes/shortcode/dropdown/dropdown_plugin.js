@@ -1,3 +1,7 @@
+var gDropdown={
+    title:"Button Dropdown Shortcode",
+    id :'#oscitas-form-dropdown'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasDropdown', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_dropdown();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Button Dropdown Shortcode',
-                        'href' : '#oscitas-form-dropdown',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gDropdown.id);
                 }
             });
         },
@@ -183,8 +177,8 @@ function create_oscitas_dropdown(){
 			
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
-			
-        jQuery.fancybox.close();
+
+        close_dialogue(gDropdown.id);
     });
 }
 

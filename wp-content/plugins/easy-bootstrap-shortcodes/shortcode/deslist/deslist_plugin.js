@@ -1,3 +1,7 @@
+var gDesList={
+    title:"List Group Shortcode",
+    id :'#oscitas-form-deslists'
+};
 (function() {
     tinymce.create('tinymce.plugins.oscitasDeslist', {
         init : function(ed, url) {
@@ -6,17 +10,7 @@
                 image : url+'/icon.png',
                 onclick : function() {
                     create_oscitas_deslists();
-                    jQuery.fancybox({
-                        'type' : 'inline',
-                        'title' : 'Description List Shortcode',
-                        'href' : '#oscitas-form-deslists',
-                        helpers:  {
-                            title : {
-                                type : 'over',
-                                position:'top'
-                            }
-                        }
-                    });
+                    open_dialogue(gDesList.id);
                 }
             });
         },
@@ -102,8 +96,8 @@ function create_oscitas_deslists(){
 			
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
-			
-        jQuery.fancybox.close();
+
+        close_dialogue(gDesList.id);
     });
 }
 
