@@ -67,7 +67,7 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="user.php">Gestion utilisateurs</a></li>                 
+          <li class="active"><a href="user.php"><span class="glyphicon glyphicon-wrench"></span> Gestion utilisateurs</a></li>                 
           <li class="dropdown">
 	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
@@ -85,7 +85,7 @@
         	<br>
 			<div class="row">
 				<p>
-					<a href="user_create.php" class="btn btn-success">Création d'un compte Utilisateur</a>
+					<a href="user_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un compte Utilisateur</a>
 				</p>
 				
 		        <!-- Affiche les informations de debug -->
@@ -120,7 +120,7 @@
 		                  <th>Date inscription</th>
 		                  <th>Date expiration</th>
 		                  <th>Montant abonnement</th>
-                          <th>Administrateur</th>  		                  
+                          <th>Admin</th>  		                  
 		                  <th>Action</th>
 		                </tr>
 		              </thead>
@@ -138,13 +138,17 @@
 							   	echo '<td>'. $row['inscription'] . '</td>';
 								echo '<td>'. $row['expiration'] . '</td>';
 							   	echo '<td>'. $row['montant'] . '</td>';
-                                echo '<td>'. $row['administrateur'] . '</td>';                                  
-							   	echo '<td width=200>';                             
-							   	echo '<a class="btn btn-success" href="user_update.php?id='.$row['id'].'">Modifier</a>';
-							   	echo '&nbsp;';
-							   	echo '<a class="btn btn-danger" href="user_delete.php?id='.$row['id'].'">Supprimer</a>';
-							   	echo '</td>';
-							   	echo '</tr>';
+                                echo '<td>'; echo ($row['administrateur']==1)?'Oui':'Non' . '</td>';                                
+							   	echo '<td width=90>';
+					  ?>	
+								<div class="btn-group btn-group-sm">
+									  	<a href="user_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+									  	<a href="user_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+								</div>
+								
+							   	</td>						
+								</tr>
+					  <?php								                             
 					   }
 					   Database::disconnect();
 					  ?>

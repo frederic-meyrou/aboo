@@ -243,7 +243,7 @@
 			    <div class="form-actions">
 			      <br>  
 		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Création</button>
-		              <a class="btn btn-primary" href="conf.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+		              <a class="btn btn-primary" href="user.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 				</div>
 			    </form>
 			    

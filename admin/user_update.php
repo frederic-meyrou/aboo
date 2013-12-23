@@ -136,7 +136,7 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="user.php">Gestion utilisateurs</a></li>                 
+          <li class="active"><a href="user.php"><span class="glyphicon glyphicon-wrench"></span> Gestion utilisateurs</a></li>                 
           <li class="dropdown">
 	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
@@ -151,44 +151,43 @@
 
         
     <div class="container">   
-    			<div class="span10 offset1">
-    				<div class="row">
-		    			<h3>Mise à jour utilisateur</h3>
-		    		</div>
-
+		<h3>Mise à jour utilisateur</h3>
         
-			        <!-- Affiche les informations de debug -->
-			        <?php 
-			 		if ($debug) {
-					?>
-			        <div class="alert alert alert-danger alert-dismissable fade in">
-			            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			            <strong>Informations de Debug : </strong><br>
-			            SESSION:<br>
-			            <pre><?php var_dump($_SESSION); ?></pre>
-			            POST:<br>
-			            <pre><?php var_dump($_POST); ?></pre>
-			            GET:<br>
-			            <pre><?php var_dump($_GET); ?></pre>
-			        </div>
-			        <?php       
-			        }   
-			        ?>   
-        					
-	    			<form class="form-horizontal" action="user_update.php?id=<?php echo $id?>" method="post">
-                    <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-                    <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
-                        <label class="control-label"><?php echo "$champplaceholder" ?></label>
-                        <div class="controls">
-                            <input name="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
-                            <?php if (!empty($champError)): ?>
-                                <span class="help-inline"><?php echo $champError;?></span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <?php } ?>
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+        <div class="alert alert alert-danger alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            POST:<br>
+            <pre><?php var_dump($_POST); ?></pre>
+            GET:<br>
+            <pre><?php var_dump($_GET); ?></pre>
+        </div>
+        <?php       
+        }   
+        ?>   
+
+		<div class="row">
+ 			 <div class="col-md-5 col-md-offset-1">
+		        <!-- Formulaire -->    		               					
+    			<form class="form-horizontal" action="user_update.php?id=<?php echo $id?>" method="post">
+					<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+					<div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
+					    <label class="control-label"><?php echo "$champplaceholder" ?></label>
+					    <div class="controls">
+					      	<input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+					      	<?php if (!empty($champError)): ?>
+					      		<span class="help-inline"><?php echo $champError;?></span>
+					      	<?php endif; ?>
+					    </div>
+					</div>
+					<?php } ?>
 					
-                    <?php Affiche_Champ($email, $emailError, 'email','eMail', 'mail' ); ?>
+	                <?php Affiche_Champ($email, $emailError, 'email','eMail', 'mail' ); ?>
 					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe', 'password' ); ?>
 					<?php Affiche_Champ($nom, $nomError, 'nom','Nom', 'text' ); ?>
 					<?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom', 'text' ); ?>
@@ -196,15 +195,17 @@
 					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
 					<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-                    <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur', 'number' ); ?>
-                    					
-					    <div class="form-actions">
-					      <br>
-						  <button type="submit" class="btn btn-success">Mise à jour</button>
-						  <a class="btn btn-success" href="user.php">Retour</a>
-						</div>
-					</form>
-				</div>
+	                <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur', 'number' ); ?>
+	                					
+				    <div class="form-actions">
+				      <br>  
+			              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
+			              <a class="btn btn-primary" href="user.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+					</div>
+				</form>
+				
+	   		 </div> <!-- /col -->    			
+	    </div> <!-- /row -->   
 				
     </div> <!-- /container -->
   </body>
