@@ -186,10 +186,10 @@
                 
 		<div class="row">
  			 <div class="col-md-5 col-md-offset-1">
-                <h3>Modification d'une dépense</h3>
+                <h3>Modification d'une dépense <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
 		        <!-- Formulaire -->  
 	            <form class="form-horizontal" action="dep_update.php" method="post">
-	            
+      		            	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            <div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
 		                <label class="control-label"><?php echo "$champplaceholder" ?></label>

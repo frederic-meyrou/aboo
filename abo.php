@@ -52,8 +52,44 @@
     include_once 'database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
 // Lecture du POST (Choix du mois)
+    if (isset($sPOST['mois']) ) { // J'ai un POST
+            $mois_choisi = $sPOST['mois'];
+    } else { // Je n'ai pas de POST
+            $mois_choisi = null;
+    }
+	
+// Selection du mois par défaut
+	// On va lire le mois en cours en BDD si il exite
+	if ($mois_choisi == null) {
+	    $sql = "SELECT mois_encours FROM user WHERE id = ?";
+	    $q = $pdo->prepare($sql);
+	    $q->execute(array($user_id));
+	    $data = $q->fetch(PDO::FETCH_ASSOC);	
+	    $count = $q->rowCount($sql);
+		if ($count==1) { // On a bien un mois en cours
+			$mois_choisi = $data['mois_encours'];
+		}
+	}		
+	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
+		// On a pas de POST ni de SESSION mais on a un mois de debut d'exercice
+		$mois_choisi = $exercice_mois;
+	} elseif ($mois_choisi == null && $abodep_mois != null) {
+		// On a dejà une session mais pas de POST
+		$mois_choisi = $abodep_mois;
+	} elseif ($mois_choisi == null) {
+		// On a vraiment rien on prend le mois courant
+		$mois_choisi = date('n');
+	}
+	$_SESSION['abodep']['mois'] = $mois_choisi;
+    $abodep_mois = $mois_choisi;
+	// On met à jour la BDD pour les champs encours
+    $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($mois_choisi, $user_id));	
+    
+// Lecture du POST Formulaire
 	$type = null;
     $montant = null;
 	$commentaire = null;
@@ -241,7 +277,22 @@
     <div class="container">
         <h2>Recettes & Abonnements</h2>
         <br>
-                      
+
+        <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
+        <form class="form-inline" role="form" action="abo.php" method="post">      
+            <select name="mois" class="form-control">
+            <?php
+                foreach ($Liste_Mois as $m) {
+            ?>
+                <option value="<?php echo MoisToNum($m);?>"<?php echo ($m==NumToMois($mois_choisi))?'selected':'';?>><?php echo "$m";?></option>    
+            <?php       
+                }   
+            ?>    
+            </select>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
+        </form>
+        <br>
+                              
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {

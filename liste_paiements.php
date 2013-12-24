@@ -111,7 +111,7 @@
     </nav>
         
     <div class="container">
-        <h2>Journal Annuel des paiements</h2>
+        <h2>Journal Annuel des paiements étalés</h2>
         <br>
         
         <!-- Affiche les boutons de créations -->      
