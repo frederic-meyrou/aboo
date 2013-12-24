@@ -14,7 +14,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -53,11 +53,16 @@
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-// Lecture du POST (Choix du mois)
-    if (isset($sPOST['mois']) ) { // J'ai un POST
+// Lecture du POST
+    if (isset($sPOST['mois']) ) { // J'ai un POST sur le formulaire de mois
             $mois_choisi = $sPOST['mois'];
-    } else { // Je n'ai pas de POST
+			$selection_active = false;
+    } elseif (count($_POST) > 0) { // Je suis dans le cas du formulaire de selection
+    		$selection_active = true;
+			$mois_choisi = null;
+	} else { // Je n'ai pas de POST
             $mois_choisi = null;
+			$selection_active = false;
     }
 	
 // Selection du mois par défaut
@@ -83,12 +88,14 @@
 		$mois_choisi = date('n');
 	}
 	$_SESSION['abodep']['mois'] = $mois_choisi;
+	$abodep_mois = $mois_choisi;
 	// On met à jour la BDD pour les champs encours
     $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($mois_choisi, $user_id));
 	// Calcul du mois relatif	
 	$mois_choisi_relatif = MoisRelatif($mois_choisi,$exercice_mois);
+	
 
 // Jointure dans la base abonnement/paiement (join sur user_id et exercice_id) 
     $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$mois_choisi_relatif,P.paye_$mois_choisi_relatif FROM paiement P, abonnement A WHERE
@@ -137,23 +144,22 @@
 	        
 	        // On affiche le tableau
 	        $affiche = true;
-    }    
-	$infos = true;         
+    }        
 
-// Lecture et traitement du POST de Selection des lignes
+// Traitement du POST de Selection des lignes
 	// Requette pour mettre à jour la selection des paiements			
     $sql4 = "UPDATE paiement SET paye_$mois_choisi_relatif=1 WHERE id = ?";		
-	
-    if ($mois_choisi == null && count($_POST) > 0 ) { // J'ai un POST de selection
-    	for ($i = 1; $i == count($_POST); $i++) {
-    		$selection[$i] = $sPOST[$i];
-			$selection_active = count($_POST);
+    if ($selection_active) { // J'ai un POST de selection
+    	$selection = array();
+    	for ($i = 1; $i <= count($_POST); $i++) {
+    		//$selection[$i] = $sPOST[$i];
 			$id = $sPOST[$i];
-            $q = $pdo->prepare($sql4);
-            $q->execute(array($id));			
+            $req = $pdo->prepare($sql4);
+            $req->execute(array($id));
     	}
-    } else {
-    		$selection_active = false;         
+	    // On reset le formulaire
+		Database::disconnect();
+	    header('Location:paiements.php');
     }
 	Database::disconnect();
 ?>
@@ -259,58 +265,57 @@
                 
 		<!-- Affiche la table en base sous condition -->
 		<div class="span10">
-			<?php 
- 			if ($affiche) {
-			?>
             <div class="row">
                 <h3>Journal des échéances du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-
-            <form class="form-inline" role="form" action="paiements.php" method="post">            			
-				<table class="table table-striped table-bordered table-hover success">
-					<thead>
-						<tr>
-						  <th><span class="glyphicon glyphicon-ok-sign"></span></th>
-						  <th>Echéance</th>						  
-						  <th>Type</th>
-						  <th>Montant</th>					  					  					  
-						  <th>Périodicitée</th>					  
-						  <th>Commentaire</th>			  
-						</tr>
-					</thead>
-	                
-					<tbody>
-					<?php
-						$i=1;	 
-						foreach ($data as $row) {
-					?>		
+				<?php 
+	 			if ($affiche) {
+				?>
+	            <form class="form-inline" role="form" action="paiements.php" method="post">            			
+					<table class="table table-striped table-bordered table-hover success">
+						<thead>
 							<tr>
-							<td width=30>
-								<label class="checkbox-inline">
-							    	<input name="<?php echo $i; ?>" type="checkbox" value="<?php echo $row['id']; ?>" <?php echo ($row["paye_$mois_choisi_relatif"]==1)?'checked':'';?>>
-							  	</label>
-							</td>					
-					<?php 	
-							echo '<td>' . $row["mois_$mois_choisi_relatif"] . ' €</td>';
-							echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-							echo '<td>' . $row['montant'] . ' €</td>';
-							echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
-							echo '<td>' . $row['commentaire'] . '</td>';
-							echo '</tr>';
-							$i++;
-						}
-					?>						 
-	                </tbody>
-	            </table>
+							  <th><span class="glyphicon glyphicon-ok-sign"></span></th>
+							  <th>Echéance</th>						  
+							  <th>Type</th>
+							  <th>Montant</th>					  					  					  
+							  <th>Périodicitée</th>					  
+							  <th>Commentaire</th>			  
+							</tr>
+						</thead>
+		                
+						<tbody>
+						<?php
+							$i=1;	 
+							foreach ($data as $row) {
+						?>		
+								<tr>
+								<td width=30>			
+									<label class="checkbox-inline">
+								    	<input name="<?php echo $i; ?>" type="checkbox" value="<?php echo $row['id']; ?>" <?php echo ($row["paye_$mois_choisi_relatif"]==1)?'checked':'';?>>
+								  	</label>
+								</td>					
+						<?php 	
+								echo '<td>' . $row["mois_$mois_choisi_relatif"] . ' €</td>';
+								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+								echo '<td>' . $row['montant'] . ' €</td>';
+								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
+								echo '<td>' . $row['commentaire'] . '</td>';
+								echo '</tr>';
+								$i++;
+							}
+						?>						 
+		                </tbody>
+		            </table>
+		            
+		            <!-- Affiche le bouton de formulaire --> 
+		           	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Passer la sélection en statut encaissé</button>
+	            </form>
 	            
-	            <!-- Affiche le bouton de formulaire --> 
-	           	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Passer la sélection en statut encaissé</button>
-            </form>
-            
-            <!-- Affiche les sommmes -->        
-			<p><br>
-				<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
-				<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer_{$mois_choisi_relatif}; ?> €</button>							
-			</p>
+	            <!-- Affiche les sommmes -->        
+				<p><br>
+					<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
+					<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer_{$mois_choisi_relatif}; ?> €</button>							
+				</p>
 			          
 			</div> 	<!-- /row -->
 			<?php 	

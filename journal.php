@@ -83,6 +83,7 @@
 		$mois_choisi = date('n');
 	}
 	$_SESSION['abodep']['mois'] = $mois_choisi;
+    $abodep_mois = $mois_choisi;
 	// On met à jour la BDD pour les champs encours
     $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
     $q = $pdo->prepare($sql);

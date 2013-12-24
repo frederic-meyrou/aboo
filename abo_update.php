@@ -191,9 +191,15 @@
                 
 		<div class="row">
  			 <div class="col-md-5 col-md-offset-1">
-                <h3>Modification d'un abonnement</h3>
+                <h3>Modification d'une recette <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+                
 		        <!-- Formulaire -->  
 	            <form class="form-horizontal" action="abo_update.php" method="post">
+	            	
+	            	<div class="form-group">
+		                <label class="control-label">Type</label><br>
+		                <button type="button" class="control-label btn btn-default"><?php echo NumToTypeRecette($type); ?></button>
+		            </div>
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            <div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
