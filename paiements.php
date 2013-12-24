@@ -14,7 +14,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -86,66 +86,76 @@
 	// On met à jour la BDD pour les champs encours
     $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
     $q = $pdo->prepare($sql);
-    $q->execute(array($mois_choisi, $user_id));	
+    $q->execute(array($mois_choisi, $user_id));
+	// Calcul du mois relatif	
+	$mois_choisi_relatif = MoisRelatif($mois_choisi,$exercice_mois);
 
-// Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
-    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM abonnement WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-    		UNION
-    		(SELECT date_creation, type, montant * -1, commentaire, periodicitee FROM depense WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
-    		ORDER BY date_creation
+// Jointure dans la base abonnement/paiement (join sur user_id et exercice_id) 
+    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$mois_choisi_relatif,P.paye_$mois_choisi_relatif FROM paiement P, abonnement A WHERE
+    		A.id = P.abonnement_id AND 
+    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+    		P.mois_$mois_choisi_relatif <> 0
+    		ORDER by P.paye_$mois_choisi_relatif,A.date_creation
     		";
-// Requette pour calcul de la somme			
-	$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-    		UNION
-    		(SELECT SUM(montant * -1) FROM depense WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
+
+// Requette pour calcul de la somme Totale			
+    $sql2 = "SELECT SUM(P.mois_$mois_choisi_relatif) FROM paiement P, abonnement A WHERE
+    		A.id = P.abonnement_id AND 
+    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+    		P.mois_$mois_choisi_relatif <> 0
     		";
-// requette pour calcul des ventilations abo
-    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
-    		(user_id = :userid AND exercice_id = :exerciceid)
+
+// Requette pour calcul de la somme restant à mettre en recouvrement			
+    $sql3 = "SELECT SUM(P.mois_$mois_choisi_relatif) FROM paiement P, abonnement A WHERE
+    		A.id = P.abonnement_id AND 
+    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+    		P.mois_$mois_choisi_relatif <> 0 AND
+    		P.paye_$mois_choisi_relatif = 0
     		";
-				
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($mois_choisi,$exercice_mois));
-    $q3 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
+    				
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
     
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
-    
-	$req = $pdo->prepare($sql2);
-	$req->execute($q);
-	$data2 = $req->fetchAll(PDO::FETCH_ASSOC);
 	
-	$req = $pdo->prepare($sql3);
-	$req->execute($q3);
+   	$req = $pdo->prepare($sql2);
+	$req->execute($q);
+	$data2 = $req->fetch(PDO::FETCH_ASSOC);
+	
+   	$req = $pdo->prepare($sql3);
+	$req->execute($q);
 	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
 	
 	if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;       
-    	$_SESSION['abodep']['total_recettes'] = 0;
-		$_SESSION['abodep']['total_depenses'] = 0;
-		$_SESSION['abodep']['solde'] = 0;       
     } else {
-    		// Calcul des sommes
-	        $total_recettes= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0;  
-    		$total_depenses= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
-	        $solde = $total_recettes + $total_depenses;
-			$_SESSION['abodep']['total_recettes'] = $total_recettes;
-			$_SESSION['abodep']['total_depenses'] = $total_depenses;
-			$_SESSION['abodep']['solde'] = $solde;
-			// Calcul des sommes ventillées
-	        for ($i = 1; $i <= 12; $i++) { 
-	        	$total_mois_{$i}= !empty($data3["SUM(mois_$i)"]) ? $data3["SUM(mois_$i)"] : 0;
-			}	        
+    		// Calcul des sommes 
+	        $total_mois_{$mois_choisi_relatif}= !empty($data2["SUM(P.mois_$mois_choisi_relatif)"]) ? $data2["SUM(P.mois_$mois_choisi_relatif)"] : 0;
+	        $total_apayer_{$mois_choisi_relatif}= !empty($data3["SUM(P.mois_$mois_choisi_relatif)"]) ? $data3["SUM(P.mois_$mois_choisi_relatif)"] : 0;
+	        
 	        // On affiche le tableau
 	        $affiche = true;
+    }    
+	$infos = true;         
+
+// Lecture et traitement du POST de Selection des lignes
+	// Requette pour mettre à jour la selection des paiements			
+    $sql4 = "UPDATE paiement SET paye_$mois_choisi_relatif=1 WHERE id = ?";		
+	
+    if ($mois_choisi == null && count($_POST) > 0 ) { // J'ai un POST de selection
+    	for ($i = 1; $i == count($_POST); $i++) {
+    		$selection[$i] = $sPOST[$i];
+			$selection_active = count($_POST);
+			$id = $sPOST[$i];
+            $q = $pdo->prepare($sql4);
+            $q->execute(array($id));			
+    	}
+    } else {
+    		$selection_active = false;         
     }
 	Database::disconnect();
-	$infos = true;
 ?>
 
 <!DOCTYPE html>
@@ -184,10 +194,10 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
+          <li><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
           <li><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan</a></li>
           <li><a href="encaissements.php"><span class="glyphicon glyphicon-credit-card"></span> Encaissements</a></li>
-          <li><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
+          <li class="active"><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
           <li><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
           <li class="dropdown">
 	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
@@ -204,11 +214,11 @@
     </nav>
         
     <div class="container">
-        <h2>Journal des Recettes & Dépenses</h2>
+        <h2>Gestion des paiements étalés</h2>
         <br>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-inline" role="form" action="journal.php" method="post">      
+        <form class="form-inline" role="form" action="paiements.php" method="post">      
             <select name="mois" class="form-control">
             <?php
                 foreach ($Liste_Mois as $m) {
@@ -224,10 +234,8 @@
         
         <!-- Affiche les boutons de créations -->      
 		<div class="btn-group">
-			<a href="abo.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-  			<a href="dep.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>	  						
+			<!--<a href="???.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> ???</a>--> 
+  			<a href="liste_paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel des paiements</a>    						
 		</div>  
         
         <!-- Affiche les informations de debug -->
@@ -255,53 +263,55 @@
  			if ($affiche) {
 			?>
             <div class="row">
-                <h3>Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-            </div>			
-			<table class="table table-striped table-bordered table-hover success">
-				<thead>
-					<tr>
-					  <th>Date</th>
-					  <th>Type</th>					  
-					  <th>Montant</th>
-					  <th>Commentaire</th>			  
-					</tr>
-				</thead>
-                
-				<tbody>
-				<?php 			 
-					foreach ($data as $row) {
-						echo '<tr>';
-						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
-					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
-						if (!empty($row['periodicitee'])) {
-					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-						} else {
-					    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
-						}						
-						echo '<td>' . $row['montant'] . ' €</td>';
-						echo '<td>' . $row['commentaire'] . '</td>';
-						echo '</tr>';
-					}
-				?>						 
-                </tbody>
-            </table>
+                <h3>Journal des échéances du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+
+            <form class="form-inline" role="form" action="paiements.php" method="post">            			
+				<table class="table table-striped table-bordered table-hover success">
+					<thead>
+						<tr>
+						  <th><span class="glyphicon glyphicon-ok-sign"></span></th>
+						  <th>Echéance</th>						  
+						  <th>Type</th>
+						  <th>Montant</th>					  					  					  
+						  <th>Périodicitée</th>					  
+						  <th>Commentaire</th>			  
+						</tr>
+					</thead>
+	                
+					<tbody>
+					<?php
+						$i=1;	 
+						foreach ($data as $row) {
+					?>		
+							<tr>
+							<td width=30>
+								<label class="checkbox-inline">
+							    	<input name="<?php echo $i; ?>" type="checkbox" value="<?php echo $row['id']; ?>" <?php echo ($row["paye_$mois_choisi_relatif"]==1)?'checked':'';?>>
+							  	</label>
+							</td>					
+					<?php 	
+							echo '<td>' . $row["mois_$mois_choisi_relatif"] . ' €</td>';
+							echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+							echo '<td>' . $row['montant'] . ' €</td>';
+							echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
+							echo '<td>' . $row['commentaire'] . '</td>';
+							echo '</tr>';
+							$i++;
+						}
+					?>						 
+	                </tbody>
+	            </table>
+	            
+	            <!-- Affiche le bouton de formulaire --> 
+	           	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Passer la sélection en statut encaissé</button>
+            </form>
+            
             <!-- Affiche les sommmes -->        
-			<p>
-				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
-				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
-				<button type="button" class="btn btn-info">Solde : <?php echo $solde; ?> €</button>
-				<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}; ?> €</button>
-				<button type="button" class="btn btn-info">Trésorerie : <?php echo ($solde - $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}); ?> €</button>				
+			<p><br>
+				<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
+				<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer_{$mois_choisi_relatif}; ?> €</button>							
 			</p>
-			<!--<p>
-				<?php
-				for ($i = 1; $i <= 12; $i++) {
-				?> 
-				<button type="button" class="btn btn-default"><?php echo "$i : " . $total_mois_{$i}; ?> €</button>
-				<?php
-				}
-				?>
-			</p>--> 			          
+			          
 			</div> 	<!-- /row -->
 			<?php 	
 			} // if

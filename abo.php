@@ -89,12 +89,18 @@
 			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
 			$valid = false;			
 		}
-		
+
+		// Vérification de la coherence type/periodicitee
+		if (NumToTypeRecette($type) != "Abonnement" && $periodicitee != 1 ) {
+			$periodiciteeError = "Une " . NumToTypeRecette($type) . " ne peut pas faire l'objet d'une periodicitée autre que Ponctuel.";
+			$valid = false;				
+		}
+				
 		// Test de la checkbox paiement etalé
-		if ($etale == 1 && NumToTypeRecette($type) == "Abonnement") {
+		if ($etale == 1 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) {
 			$affiche_paiement_etale = true;
 			$valid = false;	
-		} elseif ($etale == 1 && NumToTypeRecette($type) != "Abonnement") {
+		} elseif ($etale == 1 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
 			$affiche_paiement_etale = false;
 			$etaleError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
 			$valid = false;	
@@ -311,7 +317,7 @@
 			
 			<!-- Affiche le formulaire inline ajout abonnement -->			
             <div class="row">
-                <h3>Ajout d'un abonnement :</h3>
+                <h3>Ajout d'une recette :</h3>
 	            <form class="form-inline" role="form" action="abo.php" method="post">
 	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
