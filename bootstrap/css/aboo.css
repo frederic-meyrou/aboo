@@ -5,4 +5,10 @@
 }
 body { 
     padding-top: 70px; 
+    background-color: #FFFFFF;    
+}
+
+html {
+    font-family: verdana;
+    background-color: #666666;
 }
