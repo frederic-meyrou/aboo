@@ -87,15 +87,20 @@
 	// On met à jour la BDD pour les champs encours
     $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
     $q = $pdo->prepare($sql);
-    $q->execute(array($mois_choisi, $user_id));	
-    
+    $q->execute(array($mois_choisi, $user_id));
+    	
+	// Calcul du mois relatif	
+	$mois_choisi_relatif = MoisRelatif($mois_choisi,$exercice_mois);
+	    
 // Lecture du POST Formulaire
 	$type = null;
     $montant = null;
 	$commentaire = null;
 	$periodicitee = null;
-	$etale = null;
-	$etaleError = null;
+	//$etale = null;
+	$paiement = null;
+	//$etaleError = null;
+	$paiementError = null;
 	$montantError = null;	
 	$periodiciteeError = null;
 	$enregistre_paiement = false;
@@ -106,7 +111,8 @@
         $montant = $sPOST['montant'];
         $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
-		$etale = isset($_POST['etale']) ? $sPOST['etale'] : 0;
+		//$etale = isset($_POST['etale']) ? $sPOST['etale'] : 0;
+		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
 		
 		// Validation du formulaire
 		$valid = true;
@@ -117,11 +123,11 @@
 		}
 		
 		// Verification de la periodicitee
-		if (($periodicitee == 12) && (MoisRelatif($abodep_mois,$exercice_mois) + $periodicitee - 1 ) > 12) { // Periodicitee annuelle ou lissée
+		if (($periodicitee == 12) && ( $mois_choisi_relatif + $periodicitee - 1 ) > 12) { // Periodicitee annuelle ou lissée
 			// Modification de la valeure de la periodicitee si il est besoin de lisser sur un nombre de mois inférieur à 12
-			$periodicitee = 12 - MoisRelatif($abodep_mois,$exercice_mois) + 1;
+			$periodicitee = 12 - $mois_choisi_relatif + 1;
 		}
-		if ((MoisRelatif($abodep_mois,$exercice_mois) + $periodicitee - 1 ) > 12) { // La périodicitee est superieure au nombre de mois restant retourne une erreur
+		if (($mois_choisi_relatif + $periodicitee - 1 ) > 12) { // La périodicitee est superieure au nombre de mois restant retourne une erreur
 			$periodiciteeError= "La périodicité de l'abonnement est trop grande pour l'exercice en cours.";		
 			$valid = false;			
 		}
@@ -133,14 +139,29 @@
 		}
 				
 		// Test de la checkbox paiement etalé
-		if ($etale == 1 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) {
+		//if ($etale == 1 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) {
+		//	$affiche_paiement_etale = true;
+		//	$valid = false;	
+		//} elseif ($etale == 1 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
+		//	$affiche_paiement_etale = false;
+		//	$etaleError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
+		//	$valid = false;	
+		//}
+		
+		// Test du selecteur de paiement
+		if ($paiement == 2 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) { // Paiement étalé
 			$affiche_paiement_etale = true;
 			$valid = false;	
-		} elseif ($etale == 1 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
+		} elseif ($paiement == 2 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
 			$affiche_paiement_etale = false;
-			$etaleError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
+			$paiementError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
 			$valid = false;	
 		}
+		if ($paiement == 0 ) { // Enregistrement du statut du paiement pour la BDD table abonnement
+			$paye = 1;
+		} else {
+			$paye = 0;
+		} 				
 		
 		// Vérification des paiements etalés
 		if ($affiche_paiement_etale && isset($_POST['paiement_mois_1'])) { // On a un POST avec les paiements étalés
@@ -153,24 +174,31 @@
 				$valid = true;
 				$enregistre_paiement = true;
 			} else {
-				$etaleError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
+				//$etaleError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
+				$paiementError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
 				$valid = false;
 			}			
 		}
 		
 		// Calcul de la ventilation
-		$ventillation = Ventillation(MoisRelatif($abodep_mois,$exercice_mois), $montant, $periodicitee);
+		$ventillation = Ventillation($mois_choisi_relatif, $montant, $periodicitee);
 		
 		// On remet la périodicitée du POST pour enregistrement
 		$periodicitee = $sPOST['periodicitee'];
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $type, $montant, MoisRelatif($abodep_mois,$exercice_mois), $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
+			$q->execute(array($user_id, $exercice_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			$abonnement_id = $pdo->lastInsertId();
-			if ($enregistre_paiement && $abonnement_id != 0) {
+			if ($paiement == 1 && $abonnement_id != 0) { // Enregistre le paiement différé dans la table paiement
+				$sql = "INSERT INTO paiement (abonnement_id,mois_{$mois_choisi_relatif}) values(?, ?)";
+				var_dump($sql);
+				$q = $pdo->prepare($sql);
+				$q->execute(array($abonnement_id, $montant));
+			}				
+			if ($enregistre_paiement && $abonnement_id != 0) { // Enregistre le paiement élalé
 				$sql = "INSERT INTO paiement (abonnement_id,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				$q = $pdo->prepare($sql);
 				$q->execute(array($abonnement_id, $paiement_mois_{1}, $paiement_mois_{2}, $paiement_mois_{3}, $paiement_mois_{4}, $paiement_mois_{5}, $paiement_mois_{6}, $paiement_mois_{7}, $paiement_mois_{8}, $paiement_mois_{9}, $paiement_mois_{10}, $paiement_mois_{11}, $paiement_mois_{12}));
@@ -357,8 +385,8 @@
 		            <!-- Affiche les sommmes -->        
 					<p>
 						<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
-						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}; ?> €</button>
-						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{MoisRelatif($abodep_mois,$exercice_mois)}); ?> €</button>
+						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
+						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$mois_choisi_relatif}); ?> €</button>
 						
 					</p>             
 				</div> 	<!-- /row -->
@@ -403,13 +431,20 @@
 		            </div>			       		
 		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 		       		
-		       		<button class="btn btn-default form-group <?php echo !empty($etaleError)?'has-error':'';?>"><span class="glyphicon glyphicon-calendar"></span> Paiement étalé?
+		       		<!--<button class="btn btn-default form-group <?php echo !empty($etaleError)?'has-error':'';?>"><span class="glyphicon glyphicon-calendar"></span> Paiement étalé?
 		       		<div class="checkbox form-group">
 					  <label class="checkbox-inline">
 					    <input name="etale" type="checkbox" value="1" <?php echo ($etale==1)?'checked':'';?>>
 					  </label>	
 					</div>
-					</button>
+					</button>-->
+					<div class="form-group">
+		                    <select name="paiement" id="paiement" class="form-control">
+				                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
+				                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
+				                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
+		                    </select>
+		            </div>
 
 	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
 
@@ -424,9 +459,12 @@
 					<?php if (!empty($commentaireError)): ?>
 					<span class="has-error"><?php echo $commentaireError;?></span>
 					<?php endif; ?>
-					<?php if (!empty($etaleError)): ?>
+					<!--<?php if (!empty($etaleError)): ?>
 					<span class="has-error"><?php echo $etaleError;?></span>
-					<?php endif; ?>
+					<?php endif; ?>-->
+					<?php if (!empty($paiementError)): ?>
+					<span class="has-error"><?php echo $paiementError;?></span>
+					<?php endif; ?>					
 					</div>
 							
 					<!-- Formulaire conditionnel -->
@@ -434,7 +472,7 @@
  					if ($affiche_paiement_etale) {
  						echo '<h4>Choix des mois et des montants de paiements étalés :</h4>';
 						$paiement_mois_Error = null; 						
- 						for ($m = MoisRelatif($abodep_mois,$exercice_mois); $m <= 12; $m++) {
+ 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) {
 							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . MoisAnnee($m,$exercice_mois), NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
 						} // endfor
 						echo '<br>';
