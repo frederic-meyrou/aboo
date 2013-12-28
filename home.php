@@ -155,7 +155,6 @@
         <ul class="nav navbar-nav">
           <li><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
           <li><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan</a></li>
-          <li><a href="encaissements.php"><span class="glyphicon glyphicon-credit-card"></span> Encaissements</a></li>
           <li><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
           <li><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
           <li class="dropdown">
@@ -184,7 +183,19 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
         </div>
-        <br>
+        <div class="alert alert alert-success alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>- CA(M) = Recettes(M) : Chiffre d'affaire</strong><br>
+            <strong>- Dépenses(M) = Dépenses</strong><br>
+            <strong>- Solde Brut (M) = CA (M) - Dépenses (M)</strong><br>
+            <strong>- Ventillation (M) = Recettes de l'exercice ventillées sur le mois courant</strong><br>
+            <strong>- Paiement (M) = Total des echéances des abonements étalés sur le mois courant</strong><br>
+            <strong>- Encaissement (M) = Total des paiements encaissés + recettes du mois courant payées</strong><br>
+            <strong>- Salaire (M) = Montant affecté au salaire = [Trésorerie (M-1) + Encaissement (M)] - [Ventilation (M) - Dépenses (M)]</strong><br>
+            <strong>- Trésorerie (M) = Montant de la trésorerie = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </strong><br>
+            <strong>- A trésoriser (M) = Montant à mettre de côté</strong><br>             
+        </div>
+        <br>        
 	    <?php       
         }   
         ?>          
