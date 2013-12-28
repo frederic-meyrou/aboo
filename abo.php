@@ -285,7 +285,6 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
           <li><a href="bilan.php"><span class="glyphicon glyphicon-calendar"></span> Bilan</a></li>
-          <li><a href="encaissements.php"><span class="glyphicon glyphicon-credit-card"></span> Encaissements</a></li>
           <li><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
           <li><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
           <li class="dropdown">
