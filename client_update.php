@@ -29,7 +29,19 @@
     foreach ($_POST as $key => $value) {
         $sPOST[$key]=htmlentities($value, ENT_QUOTES);
     }
-        	
+
+// Initialisation de la base
+    include_once 'database.php';
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	
+// Vérification du GET
+    $id = null;
+    if ( !empty($sGET['id'])) {
+        $id = $sGET['id'];
+    }  	
+
+// POST	        	
 	if ( !empty($sPOST)) {
 		// keep track validation errors
 		$nomError = null;
@@ -46,6 +58,7 @@
 		$descriptionError = null;
 		
 		// keep track post values
+		$id = $sPOST['id'];
 		$nomclient = $sPOST['nom'];
 		$prenomclient = $sPOST['prenom'];
 		$email = $sPOST['email'];
@@ -79,15 +92,35 @@
 	
 		// insert data
 		if ($valid) {
-			$pdo = Database::connect();
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "INSERT INTO client (user_id,prenom,nom,email,telephone,mobile,adresse1,adresse2,cp,ville,age,profession,description) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "UPDATE client set prenom=?,nom=?,email=?,telephone=?,mobile=?,adresse1=?,adresse2=?,cp=?,ville=?,age=?,profession=?,description=? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $prenomclient, $nomclient, $email, $telephone, $mobile, $adresse1, $adresse2, $cp, $ville, $age, $profession, $description));
+			$q->execute(array($prenomclient, $nomclient, $email, $telephone, $mobile, $adresse1, $adresse2, $cp, $ville, $age, $profession, $description, $id));
 			Database::disconnect();
+			// On retourne d'ou on vient
 			header("Location: mesclients.php");
 		}
-	}
+
+	} else { // Affichage des données du formulaire
+		$sql = "SELECT * FROM client where id = ?";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($id));
+		$data = $q->fetch(PDO::FETCH_ASSOC);
+
+        $id = $data['id'];       
+		$nomclient = $data['nom'];
+		$prenomclient = $data['prenom'];
+		$email = $data['email'];
+		$telephone = $data['telephone'];
+		$mobile = $data['mobile'];
+		$age = $data['age'];
+		$profession = $data['profession'];
+		$adresse1 = $data['adresse1'];
+		$adresse2 = $data['adresse2'];
+		$cp = $data['cp'];
+		$ville = $data['ville'];
+		$description = $data['description'];
+		Database::disconnect();
+	} // If POST
 	
 ?>
 
@@ -148,7 +181,7 @@
         
     <div class="container">
 
-		<h3>Création d'un client</h3>
+		<h3>Modification d'un client</h3>
 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -173,7 +206,7 @@
     	<div class="row">
  			 <div class="col-md-5 col-md-offset-1">    	 
  			 			<!-- Formulaire -->    
- 			 			<form class="form-horizontal" action="client_create.php" method="post">
+ 			 			<form class="form-horizontal" action="client_update.php" method="post">
 						
 							<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 							<div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
@@ -186,7 +219,9 @@
 							    </div>
 							</div>
 							<?php } ?>
-							
+		
+				       		<input type="hidden" name="id" value="<?php echo $id; ?>">							
+
 						    <?php Affiche_Champ($prenomclient, $prenomError, 'prenom','Prénom', 'text' ); ?>
 						    <?php Affiche_Champ($nomclient, $nomError, 'nom','Nom', 'text' ); ?>
 	                        <?php Affiche_Champ($email, $emailError, 'email','eMail', 'email' ); ?>
@@ -202,7 +237,7 @@
 							  
 						    <div class="form-actions">
 						      <br>
-							  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Créer</button>
+							  <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
 							  <a class="btn btn-primary" href="mesclients.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
 						    </div>
 						</form>
