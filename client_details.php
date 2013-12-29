@@ -48,6 +48,12 @@
         $abodep_mois = $_SESSION['abodep']['mois'];
     }
 
+// Vérification du GET
+    $id = null;
+    if ( !empty($sGET['id'])) {
+        $id = $sGET['id'];
+    }  	
+
 // Initialisation de la base
     include_once 'database.php';
     $pdo = Database::connect();
@@ -55,24 +61,14 @@
 	
 // Lecture BDD
 
-	// Requette pour calcul de la somme Annuelle			
 	$sql = "SELECT * FROM client WHERE
-    		user_id = :userid
+    		id = :id
     		";
-
-    $q = array('userid' => $user_id);	
-    
+    $q = array('id' => $id);	
 	$req = $pdo->prepare($sql);
 	$req->execute($q);
-	$data = $req->fetchAll(PDO::FETCH_ASSOC);
-    $count = $req->rowCount($sql);
+	$data = $req->fetch(PDO::FETCH_ASSOC);
 	
-	if ($count==0) { // Il n'y a rien en base sur l'année
-        $affiche = false;         
-    } else {
-        // On affiche le tableau
-        $affiche = true;
-    }
 	Database::disconnect();		
 ?>
 
@@ -134,9 +130,8 @@
         <h2>Gestion de mes clients</h2>       
         <br>
 		<p>
-			<a href="client_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un client</a>
+  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</a>			
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
 		</p>
 				             
@@ -160,9 +155,6 @@
 
 		<!-- Affiche la table en base sous condition -->
 		<div class="span10">
-			<?php 
- 			if ($affiche) {
-			?>
 				<table class="table table-striped table-bordered table-hover success">
 		              <thead>
 		                <tr>
@@ -171,8 +163,13 @@
                           <th>eMail</th>
 		                  <th>Téléphone Fixe</th>
 		                  <th>Téléphone Mobile</th>
+		                  <th>Adresse 1</th>
+		                  <th>Adresse 2</th>
+		                  <th>CP</th>
+		                  <th>Ville</th>
 		                  <th>Age</th>
-		                  <th>Actions</th>
+		                  <th>Profession</th>
+		                  <th>Description</th>
 		                </tr>
 		              </thead>
 		              <tbody>
@@ -184,15 +181,15 @@
 								echo '<td>'. $row['email'] . '</td>';
 								echo '<td>'. $row['telephone'] . '</td>';
 								echo '<td>'. $row['mobile'] . '</td>';
+								echo '<td>'. $row['adresse1'] . '</td>';
+								echo '<td>'. $row['adresse1'] . '</td>';
+							   	echo '<td>'. $row['cp'] . '</td>';
+								echo '<td>'. $row['ville'] . '</td>';
 								echo '<td>'. $row['age'] . '</td>';
+							   	echo '<td>'. $row['profession'] . '</td>';
+							   	echo '<td>'. $row['description'] . '</td>';
 							   	echo '<td width=130>';
-					  ?>	
-								<div class="btn-group btn-group-sm">
-									  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-info glyphicon glyphicon-star" role="button"> </a>
-									  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-									  	<a href="client_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-								</div>
-								
+					  ?>									
 							   	</td>						
 								</tr>
 					  <?php								                             
@@ -201,9 +198,6 @@
 				      </tbody>
 	            </table>
 			</div> 	<!-- /row -->
-			<?php 	
-			} // if
-			?>
         </div>  <!-- /span -->        	        
              
     </div> <!-- /container -->

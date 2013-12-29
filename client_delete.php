@@ -28,52 +28,57 @@
     $user_id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
     $prenom = $_SESSION['authent']['prenom'];
-    $nom = $_SESSION['authent']['nom'];
 
 // Récupération des variables de session exercice
-    $exercice_id = null;
-    $exercice_annee = null;
-    $exercice_mois = null;
-    $exercice_treso = null;
     if(isset($_SESSION['exercice'])) {
         $exercice_id = $_SESSION['exercice']['id'];
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];
-        $exercice_treso = $_SESSION['exercice']['treso'];
+        $exercice_treso = $_SESSION['exercice']['treso'];	
+    } else { // On a pas de session on retourne vers la gestion d'exercice
+    	header("Location: conf.php");    	
     }
 
 // Récupération des variables de session abodep
     $abodep_mois = null;
-    if(isset($_SESSION['abodep'])) {
+    if(!empty($_SESSION['abodep']['mois'])) {
         $abodep_mois = $_SESSION['abodep']['mois'];
+    } else { // On a pas de session avec le mois on retourne d'ou on vient
+    	header("Location: journal.php");
     }
-
+	
 // Initialisation de la base
     include_once 'database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	
-// Lecture BDD
 
-	// Requette pour calcul de la somme Annuelle			
-	$sql = "SELECT * FROM client WHERE
-    		user_id = :userid
-    		";
-
-    $q = array('userid' => $user_id);	
+// GET	
+	$id = 0;
+	if ( !empty($sGET['id'])) {
+		$id = $sGET['id'];
+	}
     
-	$req = $pdo->prepare($sql);
-	$req->execute($q);
-	$data = $req->fetchAll(PDO::FETCH_ASSOC);
-    $count = $req->rowCount($sql);
-	
-	if ($count==0) { // Il n'y a rien en base sur l'année
-        $affiche = false;         
-    } else {
-        // On affiche le tableau
-        $affiche = true;
-    }
-	Database::disconnect();		
+// Lecture et validation du POST
+	if ( !empty($sPOST)) {
+		// keep track post values
+		$id = $sPOST['id'];
+		
+		// delete data : supprime l'enregistrement de la table client
+		$sql = "DELETE FROM client WHERE id = ?";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($id));
+		
+		// update abonnement (Supprime le client_id de tout la table abonnement pour le user courant)
+		$sql2 = "UPDATE abonnement set client_id=null WHERE client_id = ? AND user_id = ?";
+		$q2 = $pdo->prepare($sql2);
+		$q2->execute(array($id,$user_id));				
+
+		Database::disconnect();
+		
+		// On repart d'ou on viens
+		header("Location: mesclients.php");
+		
+	} 
 ?>
 
 <!DOCTYPE html>
@@ -121,8 +126,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
-              <li><a href="debug.php"><span class="glyphicon glyphicon-info-sign"></span> Debug</a></li>  
-              <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>
+              <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
             </ul> 
           </li>
           <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span></a></li>      
@@ -131,15 +135,7 @@
     </nav>
         
     <div class="container">
-        <h2>Gestion de mes clients</h2>       
-        <br>
-		<p>
-			<a href="client_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un client</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</a>			
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
-		</p>
-				             
+
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -156,56 +152,23 @@
         </div>
         <?php       
         }   
-        ?> 
-
-		<!-- Affiche la table en base sous condition -->
-		<div class="span10">
-			<?php 
- 			if ($affiche) {
-			?>
-				<table class="table table-striped table-bordered table-hover success">
-		              <thead>
-		                <tr>
-						  <th>Prénom</th>
-		                  <th>Nom</th>
-                          <th>eMail</th>
-		                  <th>Téléphone Fixe</th>
-		                  <th>Téléphone Mobile</th>
-		                  <th>Age</th>
-		                  <th>Actions</th>
-		                </tr>
-		              </thead>
-		              <tbody>
-		              <?php	
-	 				   foreach ($data as $row) {
-						   		echo '<tr>';
-								echo '<td>'. $row['prenom'] . '</td>';
-							   	echo '<td>'. $row['nom'] . '</td>';
-								echo '<td>'. $row['email'] . '</td>';
-								echo '<td>'. $row['telephone'] . '</td>';
-								echo '<td>'. $row['mobile'] . '</td>';
-								echo '<td>'. $row['age'] . '</td>';
-							   	echo '<td width=130>';
-					  ?>	
-								<div class="btn-group btn-group-sm">
-									  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-info glyphicon glyphicon-star" role="button"> </a>
-									  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-									  	<a href="client_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-								</div>
-								
-							   	</td>						
-								</tr>
-					  <?php								                             
-					   }
-					  ?>
-				      </tbody>
-	            </table>
-			</div> 	<!-- /row -->
-			<?php 	
-			} // if
-			?>
-        </div>  <!-- /span -->        	        
-             
+        ?>  
+        
+		<div class="span10 offset1">
+			<div class="row">
+    			<h3>Suppression d'un client</h3>
+    		</div>
+			
+			<form class="form-horizontal" action="client_delete.php" method="post">
+			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
+			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
+				<div class="form-actions">
+				  <button type="submit" class="btn btn-danger">Oui</button>
+				  <a class="btn" href="mesclients.php">Non</a>
+				</div>
+			</form>
+			
+		</div> <!-- /span10 -->		
     </div> <!-- /container -->
   </body>
 </html>
