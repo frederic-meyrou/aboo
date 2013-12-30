@@ -77,7 +77,9 @@
         $montant = $sPOST['montant'];
         $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
-		
+		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
+		$client_id = isset($_POST['client']) ? $sPOST['client'] : null;
+				
 		// validate input
 		$valid = true;
 		
@@ -91,9 +93,9 @@
            
         // Modif des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE abonnement SET montant=?,commentaire=?, periodicitee=? WHERE id = ?";
+            $sql = "UPDATE abonnement SET montant=?,commentaire=?, client_id=? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($montant, $commentaire, $periodicitee, $id));
+            $q->execute(array($montant, $commentaire, $client_id, $id));
             Database::disconnect();        
             header("Location: abo.php");
         }       
@@ -109,7 +111,30 @@
 		$montant = $data['montant'];
         $commentaire = $data['commentaire'];
 		$type = $data['type'];
-		$periodicitee = $data['periodicitee'];     
+		$periodicitee = $data['periodicitee'];
+		$client_id = $data['client_id'];
+		
+		// Lecture dans la base des clients (sur user_id) 
+    	$sql3 = "SELECT id,prenom,nom FROM client WHERE
+    		(user_id = :userid)
+    		";
+	    $q3 = array('userid' => $user_id);
+		$req3 = $pdo->prepare($sql3);
+	    $req3->execute($q3);	
+	    $data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
+		$count3 = $req3->rowCount($sql3);	    			
+
+		// Liste des clients à afficher
+		$Liste_Client = array();    	
+	    if ($count3!=0) {
+	    	$i=0;
+	    	foreach ($data3 as $row3) {
+				$Liste_Client[$i]['id']=$row3['id'];
+				$Liste_Client[$i]['prenometnom']=ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);
+				$i++;
+			}   	
+	    } 			
+				     
         Database::disconnect();                
     }
     
@@ -215,20 +240,19 @@
 		       		<input type="hidden" name="id" value="<?php echo $id; ?>">
 		       		
 		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
-		            <div class="form-group">
-		            		<label class="control-label">Périodicitée</label>
-		                    <select name="periodicitee" class="form-control">
+					<div class="form-group">
+						<label class="control-label">Client</label>
+		                    <select name="client" id="client" class="form-control">
+				            	<option value="0">N/C</option>
 				            <?php
-				                foreach ($Liste_Periodicitee as $p) {
+				            	foreach ($Liste_Client as $c) {
 				            ?>
-				                <option value="<?php echo PeriodiciteeToNum($p);?>"<?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>> 
-				                	<?php echo $p;?>
-				                </option>    
+				                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
 				            <?php
 				                } // foreach   
-				            ?>
+				            ?>			                				                    
 		                    </select>
-		            </div>			   
+		            </div>		            			   
 		    		<?php Affiche_Champ($commentaire, $commmentaireError, 'commentaire','Commentaire', 'text' ); ?>
 		    		<br>
 		                                                
