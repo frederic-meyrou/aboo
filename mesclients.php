@@ -179,8 +179,8 @@
 		              <?php	
 	 				   foreach ($data as $row) {
 						   		echo '<tr>';
-								echo '<td>'. $row['prenom'] . '</td>';
-							   	echo '<td>'. $row['nom'] . '</td>';
+								echo '<td>'. ucfirst($row['prenom']) . '</td>';
+							   	echo '<td>'. ucfirst($row['nom']) . '</td>';
 								echo '<td>'. $row['email'] . '</td>';
 								echo '<td>'. $row['telephone'] . '</td>';
 								echo '<td>'. $row['mobile'] . '</td>';
