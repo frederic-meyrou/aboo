@@ -60,7 +60,8 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 // Lecture BDD
-
+	
+	// Lecture du detail client
 	$sql = "SELECT * FROM client WHERE
     		id = :id
     		";
@@ -68,6 +69,34 @@
 	$req = $pdo->prepare($sql);
 	$req->execute($q);
 	$data = $req->fetch(PDO::FETCH_ASSOC);
+	// Lecture du CA 
+	$sql2 = "SELECT SUM(montant) FROM abonnement WHERE
+    		client_id = :id AND user_id = :user_id
+    		";
+    $q2 = array('id' => $id, 'user_id' => $user_id);	
+	$req2 = $pdo->prepare($sql2);
+	$req2->execute($q2);
+	$data2 = $req2->fetch(PDO::FETCH_ASSOC);
+	// Lecture des abonnements
+	$sql3 = "SELECT * FROM abonnement WHERE
+    		client_id = :id AND user_id = :user_id AND type = '1'
+    		";
+    $q3 = array('id' => $id, 'user_id' => $user_id);	
+	$req3 = $pdo->prepare($sql3);
+	$req3->execute($q3);
+	$data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
+	$count3 = $req3->rowCount($sql3);
+	// Lecture des reventes
+	$sql4 = "SELECT * FROM abonnement WHERE
+    		client_id = :id AND user_id = :user_id AND type = '2'
+    		";
+    $q4 = array('id' => $id, 'user_id' => $user_id);	
+	$req4 = $pdo->prepare($sql4);
+	$req4->execute($q4);
+	$data4 = $req4->fetchAll(PDO::FETCH_ASSOC);
+	$count4 = $req4->rowCount($sql4);
+	
+	
 	
 	Database::disconnect();		
 ?>
@@ -127,9 +156,10 @@
     </nav>
         
     <div class="container">
-        <h2>Gestion de mes clients</h2>       
+        <h2>Détails d'un client</h2>       
         <br>
 		<p>
+	 	    <a href="mesclients.php" class="btn btn-primary" ><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
@@ -153,52 +183,80 @@
         }   
         ?> 
 
-		<!-- Affiche la table en base sous condition -->
-		<div class="span10">
-				<table class="table table-striped table-bordered table-hover success">
-		              <thead>
-		                <tr>
-						  <th>Prénom</th>
-		                  <th>Nom</th>
-                          <th>eMail</th>
-		                  <th>Téléphone Fixe</th>
-		                  <th>Téléphone Mobile</th>
-		                  <th>Adresse 1</th>
-		                  <th>Adresse 2</th>
-		                  <th>CP</th>
-		                  <th>Ville</th>
-		                  <th>Age</th>
-		                  <th>Profession</th>
-		                  <th>Description</th>
-		                </tr>
-		              </thead>
-		              <tbody>
-		              <?php	
-	 				   foreach ($data as $row) {
-						   		echo '<tr>';
-								echo '<td>'. $row['prenom'] . '</td>';
-							   	echo '<td>'. $row['nom'] . '</td>';
-								echo '<td>'. $row['email'] . '</td>';
-								echo '<td>'. $row['telephone'] . '</td>';
-								echo '<td>'. $row['mobile'] . '</td>';
-								echo '<td>'. $row['adresse1'] . '</td>';
-								echo '<td>'. $row['adresse1'] . '</td>';
-							   	echo '<td>'. $row['cp'] . '</td>';
-								echo '<td>'. $row['ville'] . '</td>';
-								echo '<td>'. $row['age'] . '</td>';
-							   	echo '<td>'. $row['profession'] . '</td>';
-							   	echo '<td>'. $row['description'] . '</td>';
-							   	echo '<td width=130>';
-					  ?>									
-							   	</td>						
-								</tr>
-					  <?php								                             
-					   }
+		<!-- Affiche le detail d'un client -->
+        <h2>Détails de : <?php echo ucfirst($data['prenom']) . ' '. ucfirst($data['nom']); ?></h2>       
+
+    	<div class="row">
+
+			<div class="col-sm-4">
+				
+            <!-- Coordonnées -->    				
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Coordonnées</h3>
+                </div>
+                <div class="panel-body">
+			          <?php	
+								
+								echo 'eMail : '. $data['email'] . '<br>';
+								echo 'Téléphone Fixe : '. $data['telephone'] . '</br>'; 
+								echo 'Mobile : '. $data['mobile']; 
 					  ?>
-				      </tbody>
-	            </table>
-			</div> 	<!-- /row -->
-        </div>  <!-- /span -->        	        
+                </div>
+              </div>
+           
+              <!-- Adresse -->
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Adresse</h3>
+                </div>
+                <div class="panel-body">
+			          <?php	
+								echo $data['adresse1'] . '</br>' . $data['adresse2'] . '</br>';
+							   	echo $data['cp'] . '  '. $data['ville'];
+					  ?>
+                </div>
+              </div>
+              
+            </div> <!-- /col -->  
+                 			
+			<div class="col-sm-4 col-md-offset-0">
+
+              <!-- Statistiques -->
+              <div class="panel panel-warning">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Statistiques</h3>
+                </div>
+                <div class="panel-body">
+			          <?php
+			          		// CA
+			          		echo 'CA : ';
+							echo ($data2["SUM(montant)"] == null)?'0':$data2["SUM(montant)"];
+							echo ' € <br>';
+							// Nombre d'abonnements
+							echo "Nombre d'abonnements : $count3" .	'<br>';
+							// Nombre de reventes
+							echo "Nombre de ventes : $count4" .	'<br>';
+					  ?>
+                </div>
+              </div>
+              
+              <!-- Information diverses -->
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Informations diverses</h3>
+                </div>
+                <div class="panel-body">
+			          <?php	
+								echo 'Age : '. $data['age'] . '<br>';
+							   	echo 'Profession : '. $data['profession'] . '<br>';
+							   	echo 'Description : '. $data['description'];
+					  ?>
+                </div>
+              </div>
+              
+            </div> <!-- /col -->
+		</div> 	<!-- /row -->
              
     </div> <!-- /container -->
   </body>

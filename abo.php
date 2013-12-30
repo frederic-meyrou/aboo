@@ -97,9 +97,8 @@
     $montant = null;
 	$commentaire = null;
 	$periodicitee = null;
-	//$etale = null;
 	$paiement = null;
-	//$etaleError = null;
+	$client_id = null;
 	$paiementError = null;
 	$montantError = null;	
 	$periodiciteeError = null;
@@ -111,8 +110,8 @@
         $montant = $sPOST['montant'];
         $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
-		//$etale = isset($_POST['etale']) ? $sPOST['etale'] : 0;
 		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
+		$client_id = isset($_POST['client']) ? $sPOST['client'] : null;
 		
 		// Validation du formulaire
 		$valid = true;
@@ -137,17 +136,7 @@
 			$periodiciteeError = "Une " . NumToTypeRecette($type) . " ne peut pas faire l'objet d'une periodicitée autre que Ponctuel.";
 			$valid = false;				
 		}
-				
-		// Test de la checkbox paiement etalé
-		//if ($etale == 1 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) {
-		//	$affiche_paiement_etale = true;
-		//	$valid = false;	
-		//} elseif ($etale == 1 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
-		//	$affiche_paiement_etale = false;
-		//	$etaleError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
-		//	$valid = false;	
-		//}
-		
+						
 		// Test du selecteur de paiement
 		if ($paiement == 2 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) { // Paiement étalé
 			$affiche_paiement_etale = true;
@@ -188,9 +177,9 @@
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO abonnement (user_id,exercice_id,client_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
+			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			$abonnement_id = $pdo->lastInsertId();
 			if ($paiement == 1 && $abonnement_id != 0) { // Enregistre le paiement différé dans la table paiement
 				$sql = "INSERT INTO paiement (abonnement_id,mois_{$mois_choisi_relatif}) values(?, ?)";
@@ -220,19 +209,30 @@
     $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
+// Lecture dans la base des clients (sur user_id) 
+    $sql3 = "SELECT id,prenom,nom FROM client WHERE
+    		(user_id = :userid)
+    		";
     					
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
+    $q3 = array('userid' => $user_id);
+    
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
-    $req->execute($q);
+    //$req->execute($q);
     $count = $req->rowCount($sql);
 	
-	$req = $pdo->prepare($sql2);
-    $req->execute($q);	
-    $data2 = $req->fetch(PDO::FETCH_ASSOC);
+	$req2 = $pdo->prepare($sql2);
+    $req2->execute($q);	
+    $data2 = $req2->fetch(PDO::FETCH_ASSOC);
 
-    if ($count==0) { // Il n'y a rien à afficher
+	$req3 = $pdo->prepare($sql3);
+    $req3->execute($q3);	
+    $data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
+	$count3 = $req3->rowCount($sql3);
+        
+    if ($count==0) { // Il n'y a aucunes recettes à afficher
         $affiche = false;              
     } else {
     		// Calcul des sommes
@@ -240,9 +240,22 @@
 	        for ($i = 1; $i <= 12; $i++) { 
 	        	$total_mois_{$i}= !empty($data2["SUM(mois_$i)"]) ? $data2["SUM(mois_$i)"] : 0;
 			}
-	        // On affiche le tableau
+
+			// Liste des clients à afficher
+			$Liste_Client = array();    	
+		    if ($count3!=0) {
+		    	$i=0;
+		    	foreach ($data3 as $row3) {
+					$Liste_Client[$i]['id']=$row3['id'];
+					$Liste_Client[$i]['prenometnom']=ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);
+					$i++;
+				}   	
+		    } 			
+			
+			// On affiche le tableau
 	        $affiche = true;
     }
+	
 	Database::disconnect();
 	$infos = true;
 ?>
@@ -354,6 +367,7 @@
 							  <th>Type</th>
 							  <th>Montant</th>
 							  <th>Périodicitée</th>
+							  <th>Client</th>							  
 							  <th>Commentaire</th>
 							  <th>Action</th>
 							</tr>
@@ -365,7 +379,14 @@
 								echo '<tr>';					
 								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
 								echo '<td>' . $row['montant'] . ' €</td>';
-								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';						
+								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';
+								$result = 'N/C';
+								foreach ($data3 as $row3) {
+									if ($row3['id'] == $row['client_id']) {
+										$result = ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);		
+									}
+								}	
+								echo '<td>' . $result . '</td>';			
 								echo '<td>' . $row['commentaire'] . '</td>';
 							   	echo '<td width=90>';
 						?>		
@@ -428,15 +449,6 @@
 				            ?>
 		                    </select>
 		            </div>			       		
-		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
-		       		
-		       		<!--<button class="btn btn-default form-group <?php echo !empty($etaleError)?'has-error':'';?>"><span class="glyphicon glyphicon-calendar"></span> Paiement étalé?
-		       		<div class="checkbox form-group">
-					  <label class="checkbox-inline">
-					    <input name="etale" type="checkbox" value="1" <?php echo ($etale==1)?'checked':'';?>>
-					  </label>	
-					</div>
-					</button>-->
 					<div class="form-group">
 		                    <select name="paiement" id="paiement" class="form-control">
 				                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
@@ -444,6 +456,19 @@
 				                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
 		                    </select>
 		            </div>
+					<div class="form-group">
+		                    <select name="client" id="client" class="form-control">
+				            	<option value="0">N/C</option>
+				            <?php
+				            	foreach ($Liste_Client as $c) {
+				            ?>
+				                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
+				            <?php
+				                } // foreach   
+				            ?>			                				                    
+		                    </select>
+		            </div>
+		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
 	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
 
@@ -458,9 +483,6 @@
 					<?php if (!empty($commentaireError)): ?>
 					<span class="has-error"><?php echo $commentaireError;?></span>
 					<?php endif; ?>
-					<!--<?php if (!empty($etaleError)): ?>
-					<span class="has-error"><?php echo $etaleError;?></span>
-					<?php endif; ?>-->
 					<?php if (!empty($paiementError)): ?>
 					<span class="has-error"><?php echo $paiementError;?></span>
 					<?php endif; ?>					
