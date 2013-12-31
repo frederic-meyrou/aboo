@@ -112,6 +112,7 @@
 		$commentaire = $sPOST['commentaire'];
 		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
 		$client_id = isset($_POST['client']) ? $sPOST['client'] : null;
+		$verif_paiement_etale = isset($_POST['etale']) ? true : false;
 		
 		// Validation du formulaire
 		$valid = true;
@@ -153,17 +154,16 @@
 		} 				
 		
 		// Vérification des paiements etalés
-		if ($affiche_paiement_etale && isset($_POST['paiement_mois_1'])) { // On a un POST avec les paiements étalés
+		if ($affiche_paiement_etale && $verif_paiement_etale) { // On a un POST avec les paiements étalés
 			$total = 0;
 			for ($m = 1; $m <= 12; $m++) {
-				$paiement_mois_{$m} = isset($_POST['paiement_mois_' . $m]) ? $sPOST['paiement_mois_' . $m] : 0;
+				$paiement_mois_{$m} = isset($_POST['paiement_mois_' . $m]) ? $_POST['paiement_mois_' . $m] : 0;
 				$total = $total + $paiement_mois_{$m};
 			} // endfor
 			if ($total == $montant) {
 				$valid = true;
 				$enregistre_paiement = true;
 			} else {
-				//$etaleError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
 				$paiementError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
 				$valid = false;
 			}			
@@ -183,7 +183,6 @@
 			$abonnement_id = $pdo->lastInsertId();
 			if ($paiement == 1 && $abonnement_id != 0) { // Enregistre le paiement différé dans la table paiement
 				$sql = "INSERT INTO paiement (abonnement_id,mois_{$mois_choisi_relatif}) values(?, ?)";
-				var_dump($sql);
 				$q = $pdo->prepare($sql);
 				$q->execute(array($abonnement_id, $montant));
 			}				
@@ -494,9 +493,10 @@
  						echo '<h4>Choix des mois et des montants de paiements étalés :</h4>';
 						$paiement_mois_Error = null; 						
  						for ($m = $mois_choisi_relatif; $m <= 12; $m++) {
-							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . MoisAnnee($m,$exercice_mois), NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
 						} // endfor
-						echo '<br>';
+						echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
+						echo '<br>';						
  					} // endif
 					?>
 
