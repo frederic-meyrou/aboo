@@ -227,7 +227,7 @@
 			<a href="abo.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
   			<a href="dep.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>	  						
+  			<a href="journal_pdf.php" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>	  						
 		</div>  
         
         <!-- Affiche les informations de debug -->
