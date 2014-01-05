@@ -1,37 +1,19 @@
-var image={
+var gImage={
     title:"Image Effects Shortcode",
-    id :'#oscitas-form-image'
+    id :'oscitas-form-image',
+    pluginName: 'image'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasImage', {
-        init : function(ed, url) {
-            ed.addButton('oscitasimage', {
-                title : 'Image Effects Shortcode',
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_image();
-                    open_dialogue(image.id,'auto');
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            plugininfo.longname=image.title;
-            return plugininfo;
-        }
-    });
-    tinymce.PluginManager.add('oscitasimage', tinymce.plugins.oscitasImage);
+    _create_tinyMCE_options(gImage);
 })();
 
-function create_oscitas_image(){
-    if(jQuery('#oscitas-form-image').length){
-        jQuery('#oscitas-form-image').remove();
+function create_oscitas_image(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-image" title="'+image.title+'"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 				<tr><th><label for="oscitas-label-content">Upload Image:</label></th>\
 				<td id="osc_image_upload"><input id="oscitas-image-src" type="hidden" name="oscitas-thumbnail-src"  value="" />\
                                 <input id="_btn" class="upload_image_button" type="button" value="Upload Image" />\
@@ -106,7 +88,7 @@ function create_oscitas_image(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 
         // closes Dialoguebox
-        close_dialogue(image.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 

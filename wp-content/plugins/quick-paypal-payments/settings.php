@@ -109,12 +109,9 @@ function qpp_setup ($id) {
 		<p>To change the way the form looks use the <a href="?page=quick-paypal-payments/settings.php&tab=styles">styling</a> tab.</p>
 		<p>You can also customise the <a href="?page=quick-paypal-payments/settings.php&tab=error">error messages</a>.</p>
 		<p>If it all goes wrong you can <a href="?page=quick-paypal-payments/settings.php&tab=reset">reset</a> everything.</p>
-		<p>To see all your payment messages click on the <b>Payments</b> link in the dashboard menu or <a href="?page=quick-paypal-payments/quick-paypal-messages.php">click here</a>.</p>
-		<h2>Version 3.2: What\'s New</h2>
-		<p>Patched some security holes and added the option to display a PayPal logo on the form.</p>
-		<p>Please send bug reports and questions to <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>';	
+		<p>To see all your payment messages click on the <b>Payments</b> link in the dashboard menu or <a href="?page=quick-paypal-payments/quick-paypal-messages.php">click here</a>.</p>';	
 		$content .= donate_loop();
-		$content .= '</div>';
+		$content .= '</div></div>';
 	echo $content;
 	}
 function qpp_form_options($id) {
@@ -619,7 +616,7 @@ function donate_display( $values, $errors ) {
 	<p><input type="text" label="Your name" name="yourname" value="Your name" onfocus="donateclear(this, \'Your name\')" onblur="donaterecall(this, \'Your name\')"/></p>
 	<p><input type="text" label="Amount" name="amount" value="Amount" onfocus="donateclear(this, \'Amount\')" onblur="donaterecall(this, \'Amount\')"/></p>
 	<p><input type="submit" value="Donate" id="submit" name="donate" /></p>
-	</form></div></div></div>';
+	</form></div>';
 	echo $content;
 	}
 function donate_process($values) {

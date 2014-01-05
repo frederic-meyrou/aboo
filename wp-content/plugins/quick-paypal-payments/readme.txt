@@ -61,13 +61,14 @@ If it all goes wrong, just reinstall the plugin and start again. If you need hel
 
 == Changelog ==
 
+= 3.3.1 =
+*	Code tweaks
+
 = 3.3 =
 *	Updated to support Wordpress 3.8
 
-
 = 3.2 =
 *	Added the option to display a PayPal logo on the form
-
 
 = 3.1 =
 *	Closed an XSS security hole
