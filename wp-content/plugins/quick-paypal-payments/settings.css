@@ -1,89 +1,16 @@
-.qpp-style td, #qpp-widget td {
-	border-top: 1px solid #005F6B;
-	padding: 5px 10px 5px 0;
-	max-width: 400px;
-	vertical-align:top;
-	}
-.qpp-style td b, #qpp-widget td b {
-	color: #005F6B;
-	}
-.qpp-style th, #qpp-widget th {
-	padding: 5px 10px 5px 0;
-	max-width: 400px;
-	text-align: left;
-	color: #005F6B;
-	}
-
-#qpp_sort { list-style-type: none; margin: 0; padding: 0; width:100%; }
-#qpp_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; height:1.6em; cursor:pointer; border:1px solid #888; clear:left}
-#qpp_sort li.button_active { background-color: white;}
-#qpp_sort li.button_inactive { background-color: #E0E0E0;}
+.qpp-settings {width: 100%;}
+.qpp-options {border:1px solid #B52C00;background:#FFF;padding:0 10px 10px 10px;margin:10px 0 0 0;float:left;width:46%;width: calc(50% - 30px);}
+.qpp-options p {margin: 4px 0;padding: 0;}
+.qpp-options h2 {color: #005F6B;}
+.qpp-options h3 {color: #717DD7;margin: 4px 0 0 0;padding: 0;}
+.qpp-options input[type=text], .qpp-options textarea, .qpp-options select, .qpp-options #submit {margin: 5px 0 7px 0;padding: 6px;color: #465069;font-size: 100%;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; box-sizing: border-box;}
+.qpp-options submit input:focus {color: #FFF;}
+.qpp-options ul {margin: 0;padding: 0;}
+@media screen and (max-width: 768px) {.qpp-options {width: calc(100% - 20px);}
+}
+#qpp_sort {list-style-type: none; margin: 0; padding: 0; width:100%;}
+#qpp_sort li {margin: 3px 0; padding:0.3em 0.8em 0.3em 0.5em;height:1.6em;cursor:pointer;border:1px solid #888;clear:left}
+#qpp_sort li.button_active {background-color:white;}
+#qpp_sort li.button_inactive {background-color:#E0E0E0;}
 #qpp_sort li div {overflow:hidden;}
-
-.qpp-settings {
-	width: 100%;}
-
-.qpp-options {
-	border: 1px solid #B52C00;
-	padding: 0 10px 10px 10px;
-	margin: 10px 0 0 0 ;
-	float: left;
-	width: calc(50% - 30px);
-	}
-@media screen and (max-width: 768px) {
-	.qpp-options {width: calc(100% - 20px);}
-	}
-.qpp-options p {
-	margin: 4px 0;
-	padding: 0;
-	}
-.qpp-options h2 {
-	color: #005F6B;
-	}
-.qpp-options h3 {
-	color: #717DD7;
-	margin: 4px 0 0 0;
-	padding: 0;
-	}
-.qpp-options input[type=text], #qpp-options textarea, #qpp-options select, #qpp-options #submit {
-	margin: 5px 0 7px 0;
-	padding: 6px;
-	color: #465069;
-	font-size: 100%;
-	border:1px solid #415063;
-	width: 100%; 
-	-moz-box-sizing: border-box; 
-	-webkit-box-sizing: border-box; 
-	box-sizing: border-box;
-	}
-.qpp-options submit input:focus {
-	color: #FFF;
-	}
-.qpp-options ul {
-	margin: 0;
-	padding: 0;
-	}
-.qpp-style td, #qpp-widget td {
-	border-top: 1px solid #005F6B;
-	padding: 5px 10px 5px 0;
-	max-width: 400px;
-	vertical-align:top;
-	}
-.qpp-style td b, #qpp-widget td b {
-	color: #005F6B;
-	}
-#qpp-widget th {
-	padding: 5px 10px 5px 0;
-	max-width: 400px;
-	text-align: left;
-	color: #005F6B;
-	}
-#qpp-widget .submit {
-	margin: 0px 0 7px 0;
-	padding: 4px;
-	border:1px solid #415063;
-	color: #FFF;
-	background: #343838;
-	text-align: center;
-	cursor: pointer;
-	}

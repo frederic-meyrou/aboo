@@ -205,6 +205,11 @@ It's that simple ... just what the name suggests
 
 == Changelog ==
 
+= 2.4.3 =
+
+* [Fixed] Few js issues.
+* [Fixed] css for admin popups.
+
 = 2.4.2 =
 
 * [Fixed] Resolved the image upload issue in Thumbnail and Image Shortcodes.
