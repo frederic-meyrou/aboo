@@ -1,0 +1,21 @@
+#site-title a {
+    font-size: 110px;
+    text-decoration: none;
+    margin: 40px;
+}
+
+.basic .jumbotron h1 {
+    color: #BDBDBD;
+    margin-top: 20px;
+    text-shadow: 2px 2px 2px rgba(0,0,0,1);
+    font-style: italic;
+}
+
+img {
+    box-shadow: 1px 1px 12px #555;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 1px 1px 12px #555;
+    -webkit-box-shadow: 1px 1px 12px #555;
+    -webkit-border-radius: 5px;
+}
