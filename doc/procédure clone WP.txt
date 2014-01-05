@@ -1,0 +1,20 @@
+Procédure de clonage de site Wordpress :
+
+A- Site source :
+	1- Installer le Plugin "WP Clone by WP Academy" sur le site source et l'activer
+	2- Utiliser WP CLone + Bouton "Create Backup" -> Création d'une URL et d'un Zip dans wp-content/uploads/wp-clone/wpclone_backup_*.zip
+B- Site Cible :
+	1- Installer le ZIP de Wordpress (même version que site source) sur le site cible
+	2- Copier tout le répertoire des plugin du site source sur le site cible par FTP : wp-content/plugins/**
+	3- Configurer le fichier wp-config.php sur le site cible (copie du fichier source + ajustement pour serveur cible)
+	4- Créer une BDD vide dans PhPMyAdmin sur le serveur Cible (si la BDD existe déjà faire une sauvegarde)
+	5- Lancer site cible : paramêtrer nom du site + login/MdP + eMail + Activer Plugin "WP Clone by WP Academy"
+	6- Restauration, deux cas :
+		6a- Le site source est sur Internet : utiliser WP CLone + "Restore from URL" + Copie URL (copiée en A2)
+		6b- Le site source est sur Localhost : copier le Zip de A2 dans le répertoire cible suivant par FTP : wp-content/uploads/wp-clone/
+			puis utiliser méthode 6a avec l'URL proposée en A2 où localhost est remplaçé par le nom de votre serveur cible.
+		6c- Restauration Ok si message : "Restore Successful!"
+	7- Ré-enregistrer les options de permaliens : Réglages / Permaliens + Enregistrer les modifications.
+	
+	
+
