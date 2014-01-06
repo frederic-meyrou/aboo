@@ -63,7 +63,7 @@
 	    		(SELECT SUM(montant * -1) FROM depense WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid )
 	    		";
-	// Requette pour calcul de la somme	du mois en cours		
+	// Requette pour calcul de la somme	mensuelle		
 		$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
 	    		UNION
@@ -73,11 +73,12 @@
 	// requette pour calcul des ventilations abo Annuelle
 	    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
 	    		(user_id = :userid AND exercice_id = :exerciceid)
-	    		";
+	    		";		
 				
     $q1 = array('userid' => $user_id, 'exerciceid' => $exercice_id);				
     $q3 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
-    
+    $q4 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
+        
 	$req = $pdo->prepare($sql1);
 	$req->execute($q1);
 	$data1 = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -87,7 +88,7 @@
 	$req->execute($q3);
 	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
 	
-	if ($count==0) { // Il n'y a rien en base sur l'année
+	if ($count==0) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
         $affiche = false;         
     } else {
     		// Calcul des sommes Annuelle
@@ -111,7 +112,40 @@
 			// Calcul des sommes ventillées
 	        for ($i = 1; $i <= 12; $i++) { 
 	        	$total_mois_{$i}= !empty($data3["SUM(mois_$i)"]) ? $data3["SUM(mois_$i)"] : 0;
-			}	        
+			}	  
+			
+			// Calcul des paiements
+			$q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
+	        for ($m = 1; $m <= 12; $m++) { 
+				// Requette pour calcul de la somme des paiement mensuelle			
+			    $sql4 = "SELECT SUM(P.mois_$m) FROM paiement P, abonnement A WHERE
+			    		A.id = P.abonnement_id AND 
+			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+			    		P.mois_$m <> 0
+			    		";
+			
+				// Requette pour calcul de la somme restant à mettre en recouvrement mensuelle			
+			    $sql5 = "SELECT SUM(P.mois_$m) FROM paiement P, abonnement A WHERE
+			    		A.id = P.abonnement_id AND 
+			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+			    		P.mois_$m <> 0 AND
+			    		P.paye_$m = 0
+			    		";	
+
+			   	$req4 = $pdo->prepare($sql4);
+				$req4->execute($q);
+				$data4 = $req4->fetch(PDO::FETCH_ASSOC);
+				
+			   	$req5 = $pdo->prepare($sql5);
+				$req5->execute($q);
+				$data5 = $req5->fetch(PDO::FETCH_ASSOC);							
+
+	    		// Calcul des sommes 
+		        $total_paiement_mois_{$m}= !empty($data4["SUM(P.mois_$m)"]) ? $data4["SUM(P.mois_$m)"] : 0;
+		        $total_apayer_mois_{$m}= !empty($data5["SUM(P.mois_$m)"]) ? $data5["SUM(P.mois_$m)"] : 0;						
+
+	        } //End for			   
+	           
 	        // On affiche le tableau
 	        $affiche = true;
     }
@@ -122,19 +156,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <title>Aboo</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
-    <link href="bootstrap/css/aboo.css" rel="stylesheet">
-    <link rel='stylesheet' id='google_fonts-css'  href='http://fonts.googleapis.com/css?family=PT+Sans|Lato:300,400|Lobster|Quicksand' type='text/css' media='all' />
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-</head>
+<?php require 'head.php'; ?>
 
 <body>
     
@@ -207,6 +229,8 @@
             global $total_depenses_mois_;
             global $solde_mois_;
             global $exercice_mois;
+            global $total_paiement_mois_;
+            global $total_apayer_mois_;
             
             $num_mois = MoisAnnee($mois_relatif, $exercice_mois);
         ?>
@@ -215,12 +239,14 @@
                   <h3 class="panel-title"><?php echo $mois_relatif . ' : ' .  NumToMois($num_mois); ?></h3>
                 </div>
                 <div class="panel-body">
-                    <li>Recettes : <?php echo $total_recettes_mois_{$mois_relatif} . ' €'; ?></li>
-                    <li>Dépenses : <?php echo $total_depenses_mois_{$mois_relatif} . ' €'; ?></li>
-                    <li>Solde brut : <?php echo $solde_mois_{$mois_relatif} . ' €'; ?></li> 
-                    <li>Salaire : <?php echo $total_mois_{$mois_relatif} . ' €'; ?></li>
-                    <li>A trésoriser : <?php echo ($total_recettes_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ) . ' €'; ?></li>
-                    <li>Tréso réele : <?php echo ($solde_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ) . ' €'; ?></li>
+                    <li>CA : <?php echo number_format($total_recettes_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>Dépenses : <?php echo number_format($total_depenses_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>Solde brut : <?php echo number_format($solde_mois_{$mois_relatif},2,',','.') . ' €'; ?></li> 
+                    <li>Salaire : <?php echo number_format($total_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>A trésoriser : <?php echo number_format(($total_recettes_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ),2,',','.') . ' €'; ?></li>
+                    <li>Tréso réele : <?php echo number_format(($solde_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ),2,',','.') . ' €'; ?></li>
+                    <li>Encaissé : <?php echo number_format($total_paiement_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>A encaisser : <?php echo number_format($total_apayer_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
                 </div>
               </div>
         <?php    
@@ -271,10 +297,10 @@
             <!-- Affiche les sommmes -->        
 			<p>
 				<button type="button" class="btn btn-primary">Exercice : <?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
-				<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses_annee; ?> €</button>
-				<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes_annee; ?> €</button>
-				<button type="button" class="btn btn-info">Solde : <?php echo $solde_annee; ?> €</button>		
-                <button type="button" class="btn btn-info">Salaire mensuel moyen : <?php echo ( $solde_annee / 12 ); ?> €</button>   
+				<button type="button" class="btn btn-info">Total dépenses : <?php echo number_format($total_depenses_annee,2,',','.'); ?> €</button>
+				<button type="button" class="btn btn-info">Total recettes : <?php echo number_format($total_recettes_annee,2,',','.'); ?> €</button>
+				<button type="button" class="btn btn-info">Solde : <?php echo number_format($solde_annee,2,',','.'); ?> €</button>		
+                <button type="button" class="btn btn-info">Salaire mensuel moyen : <?php echo number_format(( $solde_annee / 12 ),2,',','.'); ?> €</button>   
  			</p>			
 			          
 			</div> 	<!-- /row -->
