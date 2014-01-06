@@ -116,54 +116,12 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <title>Aboo</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
-    <link href="../bootstrap/css/aboo.css" rel="stylesheet">
-    <link rel='stylesheet' id='google_fonts-css'  href='http://fonts.googleapis.com/css?family=PT+Sans|Lato:300,400|Lobster|Quicksand' type='text/css' media='all' />
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-</head>
+<?php require 'head.php'; ?>
 
 <body>
-    
-    <script src="../bootstrap/js/jquery-2.0.3.min.js"></script>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Affiche la navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Marque -->
-          <a class="navbar-brand" href="home.php">Aboo</a>
-      </div>     
-      <!-- Liens -->
-      <div class="collapse navbar-collapse" id="TOP">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="user.php"><span class="glyphicon glyphicon-wrench"></span> Gestion utilisateurs</a></li>                 
-          <li class="dropdown">
-	        <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="../deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>  
-            </ul> 
-          </li>
-          <li><a href="../deconnexion.php"><span class="glyphicon glyphicon-off"></span></a></li>      
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </nav>    
-
-        
+    <?php $page_courante = "user.php"; require 'nav.php'; ?>  
+       
     <div class="container">
 
 		<h3>Création d'un utilisateur</h3>
@@ -224,5 +182,8 @@
 	   		 </div> <!-- /col -->    
 		</div> <!-- /row -->
     </div> <!-- /container -->
+    
+    <?php require 'footer.php'; ?>    
+    
   </body>
 </html>
