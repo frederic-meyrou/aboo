@@ -83,9 +83,6 @@ if(!empty($_POST) && filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)) {
 <?php require 'head.php'; ?>
 
 <body>
-    
-    <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Affiche la navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
@@ -143,5 +140,7 @@ if(!empty($_POST) && filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)) {
 	    </div> <!-- /row -->    
     </div>
 
+    <?php require 'footer.php'; ?>
+    
 </body>
 </html>

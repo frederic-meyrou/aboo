@@ -7,9 +7,6 @@
 <?php require 'head.php'; ?>
 <body>
     
-    <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    
     <!-- Affiche la navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
       <div class="navbar-header">
@@ -45,5 +42,8 @@
     <span class="test">
     	A
     </span>
+    
+    <?php require 'footer.php'; ?>    
+
   </body>
 </html>

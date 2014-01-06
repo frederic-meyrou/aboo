@@ -85,9 +85,6 @@
 
 <body>
     
-    <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-
     <!-- Affiche la navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
       <div class="navbar-header">
@@ -209,5 +206,8 @@
    
 
     </div> <!-- /container -->
+
+    <?php require 'footer.php'; ?>
+
 </body>
 </html>
