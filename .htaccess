@@ -10,3 +10,7 @@ RewriteRule . /aboo/index.php [L]
 </IfModule>
 
 # END WordPress
+### Sécurisation de wp-config :
+<FilesMatch ^wp-config.php$>
+ deny from all
+</FilesMatch>

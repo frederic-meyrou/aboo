@@ -12,3 +12,10 @@ html {
     font-family: verdana;
     background-color: #666666;
 }
+
+.test {
+    color: #9ABC00; 
+    font-family: Lobster,cursive; 
+    font-size: 90px;
+    margin: 200px; 	
+}
