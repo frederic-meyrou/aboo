@@ -16,7 +16,7 @@ function qpp_page_init() {
 	add_options_page('Paypal Payments', 'Paypal Payments', 'manage_options', __FILE__, 'qpp_tabbed_page');
 	}
 function qpp_admin_tabs($current = 'settings') { 
-	$tabs = array( 'setup' => 'Setup' , 'settings' => 'Form Settings', 'styles' => 'Styling' , 'send' => 'Send Options' , 'error' => 'Error Messages' , 'shortcodes' => 'Shortcodes' , 'reset' => 'Reset' , ); 
+	$tabs = array( 'setup' => 'Setup' , 'settings' => 'Form Settings','process' => 'Payment Options' , 'styles' => 'Styling' , 'send' => 'Send Options' , 'error' => 'Error Messages' , 'shortcodes' => 'Shortcodes' , 'reset' => 'Reset' , ); 
 	$links = array();  
 	echo '';
 	echo '<h2 class="nav-tab-wrapper">';
@@ -39,6 +39,7 @@ function qpp_tabbed_page() {
 		case 'styles' : qpp_styles($id); break;
 		case 'send' : qpp_send_page($id); break;
 		case 'error' : qpp_error_page ($id); break;
+		case 'process' : qpp_process ($id); break;
 		case 'shortcodes' : qpp_shortcodes (); break;
 		case 'reset' : qpp_reset_page($id); break;
 		}
@@ -67,7 +68,7 @@ function qpp_setup ($id) {
 		}
 	$qpp_setup = qpp_get_stored_setup();
 	$qpp_curr = qpp_get_stored_curr();
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">
+	$content ='<div class="qpp-settings"><div class="qpp-options">
 		<form method="post" action="">
 		<h2>Account Email</h2>
 		<p><span style="color:red; font-weight: bold; margin-right: 3px">Important!</span> Enter your PAYPAL email address</p>
@@ -90,7 +91,7 @@ function qpp_setup ($id) {
 		<p>Enter form name (letters and numbers only - no spaces or punctuation marks)</p>
 		<p><input type="text" style="width:100%" label="new_Form" name="new_form" value="" /></p>
 		<p>Enter currency code: <input type="text" style="width:6em" label="new_curr" name="new_curr" value="'.$new_curr.'" />(For example: GBP, USD, EUR)</p>
-		<p>Allowed Paypal Currency codes are given <a href="https://cms.paypal.com/uk/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_nvp_currency_codes" target="blank">here</a>.</p>
+		<p>Allowed Paypal Currency codes are given <a href="https://developer.paypal.com/webapps/developer/docs/classic/api/currency_codes/" target="blank">here</a>.</p>
 		<p><span style="color:red; font-weight: bold; margin-right: 3px">Important!</span> If your currency is not listed the plugin will work but paypal will not accept the payment.</p>
 		<input type="hidden" name="alternative" value="' . $qpp_setup['alternative'] . '" />
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Create New Form" /></p>
@@ -117,7 +118,7 @@ function qpp_setup ($id) {
 function qpp_form_options($id) {
 	qpp_change_form_update($id);
 	if( isset( $_POST['qpp_submit'])) {
-		$options = array('title','blurb','inputreference','inputamount','shortcodereference','use_quantity','quantitylabel','shortcodeamount','shortcode_labels','submitcaption','cancelurl,','thanksurl','target','paypal-url','paypal-location');
+		$options = array('title','blurb','inputreference','inputamount','shortcodereference','use_quantity','quantitylabel','use_stock','stocklabel','shortcodeamount','shortcode_labels','submitcaption','cancelurl,','thanksurl','target','paypal-url','paypal-location');
 		foreach ($options as $item) $qpp[$item] = stripslashes( $_POST[$item]);
 		update_option('qpp_options'.$id, $qpp);
 		qpp_admin_notice("The form and submission settings have been updated.");
@@ -130,7 +131,7 @@ function qpp_form_options($id) {
 	$id=$qpp_setup['current'];
 	$qpp = qpp_get_stored_options($id);
 	$$qpp['paypal-location'] = 'checked';
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
 	if ($id) $content .='<h2 style="color:#B52C00">Form settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form settings</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -141,20 +142,23 @@ function qpp_form_options($id) {
 		<input type="text" style="width:100%" name="blurb" value="' . $qpp['blurb'] . '" />
 		<h2>Payment labels</h2>
 		<p>Label for the payment Reference/ID/Number:</p>
-		<input type="text" style="width:100%" name="inputreference" value="' . $qpp['inputreference'] . '" />
+		<input type="text" name="inputreference" value="' . $qpp['inputreference'] . '" />
+		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_stock" ' . $qpp['use_stock'] . ' value="checked" /> Use item number field</p>
+		<p>Label for the item number field:</p>
+		<input type="text" name="stocklabel" value="' . $qpp['stocklabel'] . '" />
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_quantity" ' . $qpp['use_quantity'] . ' value="checked" /> Use quantity field</p>
 		<p>Label for the quantity field:</p>
-		<input type="text" style="width:100%" name="quantitylabel" value="' . $qpp['quantitylabel'] . '" />
+		<input type="text" name="quantitylabel" value="' . $qpp['quantitylabel'] . '" />
 		<p>Label for the amount field:</p>
-		<input type="text" style="width:100%" name="inputamount" value="' . $qpp['inputamount'] . '" />
+		<input type="text" name="inputamount" value="' . $qpp['inputamount'] . '" />
 		<h2>Shortcode labels</h2>
-		<p>These are the labels that will display if you are using <a href="?page=quick-paypal-payments/settings.php&tab=help">shortcode attributes</a>.</p>
+		<p>These are the labels that will display if you are using <a href="?page=quick-paypal-payments/settings.php&tab=shortcodes">shortcode attributes</a>.</p>
 		<p>Label for the payment Reference/ID/Number:</p>
-		<input type="text" style="width:100%" name="shortcodereference" value="' . $qpp['shortcodereference'] . '" />
+		<input type="text" name="shortcodereference" value="' . $qpp['shortcodereference'] . '" />
 		<p>Label for the amount field:</p>
-		<input type="text" style="width:100%" name="shortcodeamount" value="' . $qpp['shortcodeamount'] . '" />
+		<input type="text" name="shortcodeamount" value="' . $qpp['shortcodeamount'] . '" />
 		<h2>Submit button caption</h2>
-		<input type="text" style="width:100%" name="submitcaption" value="' . $qpp['submitcaption'] . '" />
+		<input type="text" name="submitcaption" value="' . $qpp['submitcaption'] . '" />
 		<h2>PayPal Image</h2>
 		<p>Add a paypal image to your form. Enter the URL of the image below and slect where you want it to display.</p>
 		<p>Below form title: <input type="radio" label="paypal-location" name="paypal-location" value="imageabove" ' . $imageabove . ' /> Below Submit Button: <input type="radio" label="paypal-location" name="paypal-location" value="imagebelow" ' . $imagebelow . ' /></p>
@@ -171,6 +175,59 @@ function qpp_form_options($id) {
 	$content .= '</div></div>';
 	echo $content;
 	}
+function qpp_process($id) {
+	qpp_change_form_update($id);
+	if( isset( $_POST['qpp_submit'])) {
+		$options = array('useprocess','processblurb','processref','processtype','processpercent','processfixed','usepostage','postageblurb','postageref','postagetype','postagepercent','postagefixed');
+		foreach ($options as $item) $process[$item] = stripslashes( $_POST[$item]);
+		update_option('qpp_process'.$id, $process);
+		qpp_admin_notice("The processing options have been updated.");
+		}
+	if( isset( $_POST['Reset'])) {
+		delete_option('qpp_process'.$id);
+		qpp_admin_notice("The processing options have been reset.");
+		}
+	$qpp_setup = qpp_get_stored_setup();
+	$id=$qpp_setup['current'];
+	$currency = qpp_get_stored_curr();
+	$process = qpp_get_stored_process($id);
+	$$process['processtype'] = 'checked';
+	$$process['postagetype'] = 'checked';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
+	if ($id) $content .='<h2 style="color:#B52C00">Form settings for ' . $id . '</h2>';
+	else $content .='<h2 style="color:#B52C00">Default form settings</h2>';
+	$content .= qpp_change_form($qpp_setup);
+	$content .= '<form action="" method="POST">
+		<h2>Payment Processing</h2>
+		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="useprocess" ' . $process['useprocess'] . ' value="checked" /> Add payment processing charge</p>
+		<p>Processing blurb (appears on the payment form below the amount):</p>
+		<input type="text" style="width:100%" name="processblurb" value="' . $process['processblurb'] . '" />
+		<p>Processing reference (appears on the PayPal payment):</p>
+		<input type="text" style="width:100%" name="processref" value="' . $process['processref'] . '" />
+		<h3>Processing type</h3>
+		<p><input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="percent" ' . $percent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="processpercent" name="processpercent" value="' . $process['processpercent'] . '" /> %<br>
+		<input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="fixed" ' . $fixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="processfixed" name="processfixed" value="' . $process['processfixed'] . '" /> '.$currency[$id].'</p>
+		<h2>Post and Packing</h2>
+		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="usepostage" ' . $process['usepostage'] . ' value="checked" /> Add payment postageing charge</p>
+		<p>Post and Packing blurb (appears on the payment form below the amount):</p>
+		<input type="text" style="width:100%" name="postageblurb" value="' . $process['postageblurb'] . '" />
+		<p>Post and Packing reference (appears on the PayPal payment):</p>
+		<input type="text" style="width:100%" name="postageref" value="' . $process['postageref'] . '" />
+		<h3>Post and Packing charge type</h3>
+		<p><input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="percent" ' . $percent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="postagepercent" name="postagepercent" value="' . $process['postagepercent'] . '" /> %<br>
+		<input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="fixed" ' . $fixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="postagefixed" name="postagefixed" value="' . $process['postagefixed'] . '" /> '.$currency[$id].'</p>
+		<p><input type="submit" name="qpp_submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the form settings?\' );"/></p>
+		</form>
+		</div>
+		<div class="qpp-options" style="float:right;">
+		<h2 style="color:#B52C00">Form Preview</h2>
+		<p>Note: The preview form uses the wordpress admin styles. Your form will use the theme styles so won\'t look exactly like the one below.</p>';
+	$args = array('form' => $id, 'id' => '', 'amount' => '');
+	$content .= qpp_loop($args);
+	$content .= '</div></div>';
+	echo $content;
+	}
+
 function qpp_styles($id) {
 	qpp_change_form_update();
 	if( isset( $_POST['Submit'])) {
@@ -193,7 +250,7 @@ function qpp_styles($id) {
 	$$style['corners'] = 'checked';
 	$$style['styles'] = 'checked';
 	qpp_options_css();
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
 	if ($id) $content .='<h2 style="color:#B52C00">Style options for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form style options</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -289,7 +346,7 @@ function qpp_send_page($id) {
 	$send = qpp_get_stored_send($id);
 	$$send['target'] = 'checked';
 	qpp_options_css();
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
 	if ($id) $content .='<h2 style="color:#B52C00">Send settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form send options</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -335,7 +392,7 @@ function qpp_error_page($id) {
 	$id=$qpp_setup['current'];
 	$error = qpp_get_stored_error($id);
 	qpp_options_css();
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
 	if ($id) $content .='<h2 style="color:#B52C00">Eror message settings for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Default form error message</h2>';
 	$content .= qpp_change_form($qpp_setup);
@@ -356,8 +413,9 @@ function qpp_error_page($id) {
 	echo $content;
 	}
 function qpp_shortcodes() {
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">
+	$content ='<div class="qpp-settings"><div class="qpp-options">
 		<h2>Simple Shortcodes</h2>
+		<p>To add the basic payment form to your posts or pages use the shortcode: <code>[qpp]</code>.</p>
 		<p>You can preset the ID and amount fields using shortcode attributes. The basic format is:</p>
 		<p><code>[qpp id="ABC123" amount="$140"]</code>.</p><p>You can use just one or both as required.</p>
 		<h2>Shortcode Labels</h2>
@@ -441,7 +499,7 @@ function qpp_reset_page($id) {
 		}
 	$qpp_setup = qpp_get_stored_setup();
 	$id=$qpp_setup['current'];
-	$content ='<div class="qpp-settings"><div class="qpp-options" style="margin-right:10px;">';
+	$content ='<div class="qpp-settings"><div class="qpp-options">';
 	if ($id) $content .='<h2 style="color:#B52C00">Reset the options for ' . $id . '</h2>';
 	else $content .='<h2 style="color:#B52C00">Reset the default form</h2>';
 	$content .= qpp_change_form($qpp_setup);

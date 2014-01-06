@@ -3,7 +3,7 @@
 Plugin Name: Quick Paypal Payments
 Plugin URI: http://quick-plugins.com/quick-paypal-payments/
 Description: Accept any amount or payment ID before submitting to paypal.
-Version: 3.3.1
+Version: 3.4
 Author: fisicx
 Author URI: http://quick-plugins.com/
 */
@@ -45,6 +45,7 @@ function qpp_display_form( $values, $errors, $id ) {
 	$error = qpp_get_stored_error($id);
 	$send = qpp_get_stored_send($id);
 	$style = qpp_get_stored_style($id);
+	$process = qpp_get_stored_process($id);
 	if ($id) $formstyle=$id; else $formstyle='default';
 	if (!empty($qpp['title'])) $qpp['title'] = '<h2>' . $qpp['title'] . '</h2>';
 	if (!empty($qpp['blurb'])) $qpp['blurb'] = '<p>' . $qpp['blurb'] . '</p>';
@@ -67,9 +68,11 @@ function qpp_display_form( $values, $errors, $id ) {
 		else $content .= '<p class="input" >'.strip_tags($values['reference']).'</p>';
 		}
 	if ($qpp['use_quantity']) {$values['quantity'] = strip_tags($values['quantity']); $content .= '<p><span class="input">'.$qpp['quantitylabel'].'</span><input type="text" style="width:3em;margin-left:5px" label="quantity" name="quantity" value="' . $values['quantity'] . '" onfocus="qppclear(this, \'' . $values['quantity'] . '\')" onblur="qpprecall(this, \'' . $values['quantity'] . '\')"/></p>';}
-	if ($qpp['use_account']) {$values['account'] = strip_tags($values['account']); $content .= '<p><input type="text" label="Account" name="account" value="' . $values['account'] . '" onfocus="qppclear(this, \'' . $values['account'] . '\')" onblur="qpprecall(this, \'' . $values['account'] . '\')"/></p>';}
+	if ($qpp['use_stock']) {$values['stock'] = strip_tags($values['stock']); $content .= '<p><input type="text" label="stock" name="stock" value="' . $values['stock'] . '" onfocus="qppclear(this, \'' . $values['stock'] . '\')" onblur="qpprecall(this, \'' . $values['stock'] . '\')"/></p>';}
 	if (empty($values['pay'])) {$values['amount'] = strip_tags($values['amount']); $content .= '<p><input type="text" label="Amount" name="amount" value="' . $values['amount'] . '" onfocus="qppclear(this, \'' . $values['amount'] . '\')" onblur="qpprecall(this, \'' . $values['amount'] . '\')"/></p>';}
 	else $content .= '<p class="input" >' . $values['amount'] . '</p>';	
+	if ($process['useprocess']) $content .= '<p class="input" >'.$process['processblurb'].'</p>';
+	if ($process['usepostage']) $content .= '<p class="input" >'.$process['postageblurb'].'</p>';
 	$caption = $qpp['submitcaption'];
 	if ($style['submit-button']) $content .= '<p><input type="image" value="' . $caption . '" style="border:none;" src="'.$style['submit-button'].'" name="PaymentSubmit" /></p>';
 	else $content .= '<p><input type="submit" value="' . $caption . '" id="submit" name="qppsubmit'.$id.'" /></p>';
@@ -85,6 +88,7 @@ function qpp_process_form($values,$id) {
 	$send = qpp_get_stored_send($id);
 	$style = qpp_get_stored_style($id);
 	$qpp_setup = qpp_get_stored_setup();
+	$process = qpp_get_stored_process ($id);
 	$page_url = qpp_current_page_url();
 	if (empty($send['thanksurl'])) $send['thanksurl'] = $page_url;
 	if (empty($send['cancelurl'])) $send['cancelurl'] = $page_url;
@@ -95,21 +99,35 @@ function qpp_process_form($values,$id) {
 	$qpp_messages[] = array('field0'=>$sentdate,'field1' => $values['reference'] , 'field2' => $values['quantity'],'field3' => $values['amount'],'field4' => $values['account'],'date' => $sentdate,);
 	update_option('qpp_messages'.$id,$qpp_messages);
 	$check = preg_replace ( '/[^.,0-9]/', '', $values['amount']);
+	if ($process['useprocess'] && $process['processtype'] == 'percent') {
+		$percent = preg_replace ( '/[^.,0-9]/', '', $process['processpercent']) / 100;
+		$handling = $values['amount'] * $values['quantity'] * $percent;}
+	if ($process['useprocess'] && $process['processtype'] == 'fixed') {
+		$handling = preg_replace ( '/[^.,0-9]/', '', $process['processfixed']);}
+	if ($process['usepostage'] && $process['postagetype'] == 'percent') {
+		$percent = preg_replace ( '/[^.,0-9]/', '', $process['postagepercent']) / 100;
+		$packing = $values['amount'] * $values['quantity'] * $percent;}
+	if ($process['usepostage'] && $process['postagetype'] == 'fixed') {
+		$packing = preg_replace ( '/[^.,0-9]/', '', $process['postagefixed']);}	
+	
 	$content = '<h2>'.$send['waiting'].'</h2><form action="https://www.paypal.com/cgi-bin/webscr" method="post" name="frmCart" id="frmCart" ' . $target . '>
-	<input type="hidden" name="cmd" value="_xclick">
-	<input type="hidden" name="business" value="' . $qpp_setup['email'] . '">
-	<input type="hidden" name="return" value="' .  $send['thanksurl'] . '">
-	<input type="hidden" name="cancel_return" value="' .  $send['cancelurl'] . '">
-	<input type="hidden" name="no_shipping" value="1">
-	<input type="hidden" name="currency_code" value="' .  $currency[$id] . '">
-	<input type="hidden" name="item_number" value="' .$qpp['inputacount'] . ': ' . strip_tags($values['account']) . '">
-	<input type="hidden" name="quantity" value="' . strip_tags($values['quantity']) . '">
-	<input type="hidden" name="item_name" value="' .$qpp['inputreference'] . ': ' . strip_tags($values['reference']) . '">
-	<input type="hidden" name="amount" value="' . $check . '">
-	</form>
-	<script language="JavaScript">
-	document.getElementById("frmCart").submit();
-	</script>';
+		<input type="hidden" name="cmd" value="_cart">
+		<input type="hidden" name="upload" value="1">
+		<input type="hidden" name="business" value="' . $qpp_setup['email'] . '">
+		<input type="hidden" name="return" value="' .  $send['thanksurl'] . '">
+		<input type="hidden" name="cancel_return" value="' .  $send['cancelurl'] . '">
+		<input type="hidden" name="no_shipping" value="1">
+		<input type="hidden" name="currency_code" value="' .  $currency[$id] . '">
+		<input type="hidden" name="item_name_1" value="' .$qpp['inputreference'] . ': ' . strip_tags($values['reference']) . '">';
+	if ($qpp['use_stock']) $content .= '<input type="hidden" name="item_number_1" value="' .$qpp['stocklabel'] . ': ' . strip_tags($values['stock']) . '">';
+	$content .= '<input type="hidden" name="quantity_1" value="' . strip_tags($values['quantity']) . '">
+		<input type="hidden" name="amount_1" value="' . $check . '">';
+	if ($process['useprocess']) $content .='<input type="hidden" name="item_name_2" value="'.$process['processref'].'">
+		<input type="hidden" name="amount_2" value="' . $handling . '">';
+	if ($process['usepostage']) $content .='<input type="hidden" name="item_name_3" value="'.$process['postageref'].'">
+		<input type="hidden" name="amount_3" value="' . $packing . '">';
+	$content .='</form>
+		<script language="JavaScript">document.getElementById("frmCart").submit();</script>';
 	echo $content;
 	}
 function qpp_current_page_url() {
@@ -122,9 +140,10 @@ function qpp_current_page_url() {
 	}
 function qpp_loop($atts) {
 	ob_start();
-	extract(shortcode_atts(array( 'form' =>'','amount' => '' , 'id' => '','account' => '', 'labels' => ''), $atts));
+	extract(shortcode_atts(array( 'form' =>'','amount' => '' , 'id' => '','stock' => '', 'labels' => ''), $atts));
 	$qpp = qpp_get_stored_options($form);
 	$formvalues['quantity'] = 1;
+	$formvalues['stock'] = $qpp['stocklabel'].' ';
 	if (!$labels) $shortcodereference = $qpp['shortcodereference'].' ';
 	if ($id) {
 		$formvalues['id'] = 'checked';
@@ -137,7 +156,7 @@ function qpp_loop($atts) {
 	if (isset($_POST['qppsubmit'.$form]) || isset($_POST['qppsubmit_x'.$form])) {
 		if (isset($_POST['reference'])) {$formvalues['reference'] = $_POST['reference'];$id = $_POST['reference'];}
 		if (isset($_POST['amount'])) $formvalues['amount'] = $_POST['amount'];
-		if (isset($_POST['account'])) $formvalues['account'] = $_POST['account'];
+		if (isset($_POST['stock'])) $formvalues['stock'] = $_POST['stock'];
 		if (isset($_POST['quantity'])) $formvalues['quantity'] = $_POST['quantity'];
 		if (qpp_verify_form($formvalues,$form)) qpp_display_form($formvalues,'qpperror',$form);
    		else {
@@ -269,8 +288,8 @@ function qpp_get_default_options () {
 	$qpp['inputamount'] = 'Amount to pay';
 	$qpp['quantitylabel'] = 'Quantity';
 	$qpp['quantity'] = '1';
-	$qpp['accountlabel'] = 'Account Number';
-	$qpp['use_account'] = '';
+	$qpp['stocklabel'] = 'Item Number';
+	$qpp['use_stock'] = '';
 	$qpp['shortcodereference'] = 'Payment for: ';
 	$qpp['shortcodeamount'] = 'Amount: ';
 	$qpp['paypal-location'] = 'imagebelow';
@@ -331,4 +350,26 @@ function qpp_get_default_error () {
 	$error['errortitle'] = 'Oops, got a problem here';
 	$error['errorblurb'] = 'Please check the payment details';
 	return $error;
+	}
+function qpp_get_stored_process ($id) {
+	$process = get_option('qpp_process'.$id);
+	if(!is_array($process)) $process = array();
+	$default = qpp_get_default_process();
+	$process = array_merge($default, $process);
+	return $process;
+	}
+function qpp_get_default_process() {
+	$process['useprocess'] = '';
+	$process['processblurb'] = 'A processing fee will be added before payment';
+	$process['processref'] = 'Processing Fee';
+	$process['processtype'] = 'percent';
+	$process['processpercent'] = '5';
+	$process['processfixed'] = '2';
+	$process['usepostage'] = '';
+	$process['postageblurb'] = 'Post and Packing will be added before payment';
+	$process['postageref'] = 'Post and Packing';
+	$process['processtype'] = 'fixed';
+	$process['postagepercent'] = '5';
+	$process['postagefixed'] = '5';
+	return $process;
 	}

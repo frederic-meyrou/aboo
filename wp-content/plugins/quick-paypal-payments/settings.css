@@ -7,7 +7,7 @@
 	-webkit-box-sizing: border-box; box-sizing: border-box;}
 .qpp-options submit input:focus {color: #FFF;}
 .qpp-options ul {margin: 0;padding: 0;}
-@media screen and (max-width: 768px) {.qpp-options {width: calc(100% - 20px);}
+@media screen and (width: calc(100% - 22px);width: -webkit-calc(100% - 22px);}
 }
 #qpp_sort {list-style-type: none; margin: 0; padding: 0; width:100%;}
 #qpp_sort li {margin: 3px 0; padding:0.3em 0.8em 0.3em 0.5em;height:1.6em;cursor:pointer;border:1px solid #888;clear:left}
