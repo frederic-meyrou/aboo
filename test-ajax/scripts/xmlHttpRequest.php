@@ -1,9 +1,10 @@
 <?php
 // change the 4 variables below
-$yourName = 'John Doe';
-$yourEmail = 'user@example.com';
-$yourSubject = 'testJax';
-$referringPage = 'http://www.example.com/testJax/index.php';
+$yourName = 'Derf';
+$yourEmail = 'frederic@aboo.fr';
+$yourSubject = 'testAjax';
+$referringPage = 'http://localhost/aboo/test-ajax/index.php';
+
 // no need to change the rest unless you want to. You could add more error checking but I'm gonna do that later in the official release
 
 header('Content-Type: text/xml');

@@ -1,9 +1,10 @@
 <?php
 // Change the 4 variables below
-$yourName = 'John Doe';
-$yourEmail = 'user@example.com';
-$yourSubject = 'testJax';
-$referringPage = 'http://www.example.com/testJax/index.php';
+$yourName = 'Derf';
+$yourEmail = 'frederic@aboo.fr';
+$yourSubject = 'testAjax';
+$referringPage = 'http://localhost/aboo/test-ajax/index.php';
+
 // No need to edit below unless you really want to. It's using a simple php mail() function. Use your own if you want
 function cleanPosUrl ($str) {
 return stripslashes($str);
