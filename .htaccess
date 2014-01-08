@@ -1,3 +1,8 @@
+# On force le Charset sur tout le site pour Apache
+AddDefaultCharset utf-8
+
+# On enleve les extention de fichier .php .html Etc
+RewriteRule ^aboo$ aboo.php [L]
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
@@ -10,7 +15,7 @@ RewriteRule . /aboo/index.php [L]
 </IfModule>
 
 # END WordPress
-### Sécurisation de wp-config :
+### Securisation de wp-config :
 <FilesMatch ^wp-config.php$>
  deny from all
 </FilesMatch>
