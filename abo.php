@@ -14,7 +14,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -100,6 +100,7 @@
 	$paiement = null;
 	$client_id = null;
 	$paiementError = null;
+    $paiement_mois_Error = null;
 	$montantError = null;	
 	$periodiciteeError = null;
 	$enregistre_paiement = false;
@@ -116,11 +117,18 @@
 		
 		// Validation du formulaire
 		$valid = true;
-		
-		if (empty($montant) || $montant < 0 || $montant == null) {
-			$montantError= "Veuillez entrer un montant positif ou nul.";
-			$valid = false;
+
+		if ($montant == "0") {
+		    $montant = 0;
 		}
+		if ($montant < 0) {
+            $montantError= "Veuillez entrer un montant positif ou nul.";
+            $valid = false;
+        }
+        if (!is_numeric($montant)) {
+            $montantError= "Veuillez entrer un montant.";
+            $valid = false;
+        }				
 		
 		// Verification de la periodicitee
 		if (($periodicitee == 12) && ( $mois_choisi_relatif + $periodicitee - 1 ) > 12) { // Periodicitee annuelle ou lissée
@@ -139,7 +147,7 @@
 		}
 						
 		// Test du selecteur de paiement
-		if ($paiement == 2 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) { // Paiement étalé
+		if ($valid && $paiement == 2 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) { // Paiement étalé
 			$affiche_paiement_etale = true;
 			$valid = false;	
 		} elseif ($paiement == 2 && ( NumToTypeRecette($type) != "Abonnement" || $periodicitee == 1)) {
@@ -154,7 +162,7 @@
 		} 				
 		
 		// Vérification des paiements etalés
-		if ($affiche_paiement_etale && $verif_paiement_etale) { // On a un POST avec les paiements étalés
+		if ($affiche_paiement_etale && $verif_paiement_etale) { // On a un POST avec les paiements étalés et sans pb de validation
 			$total = 0;
 			for ($m = 1; $m <= 12; $m++) {
 				$paiement_mois_{$m} = isset($_POST['paiement_mois_' . $m]) ? $_POST['paiement_mois_' . $m] : 0;
@@ -164,7 +172,7 @@
 				$valid = true;
 				$enregistre_paiement = true;
 			} else {
-				$paiementError = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
+				$paiement_mois_Error = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
 				$valid = false;
 			}			
 		}
@@ -367,109 +375,132 @@
 			} // If Affiche
 			?>
 			
-			<!-- Affiche le formulaire inline ajout abonnement -->			
+			<!-- Affiche le formulaire inline ajout abonnement -->		
             <div class="row">
-                <h3>Ajout d'une recette :</h3>
-	            <form class="form-inline" role="form" action="abo.php" method="post">
-	            
-		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
-		       				</div>
-		            <?php } ?>
-		            
-					<!-- Formulaire principal -->
-		            <div class="form-group">
-		                    <select name="type" class="form-control">
-				            <?php
-				                foreach ($Liste_Recette as $r) {
-				            ?>
-				                <option value="<?php echo TypeRecetteToNum($r);?>" <?php echo (TypeRecetteToNum($r)==$type)?'selected':'';?>><?php echo $r;?></option>    
-				            <?php 
-				                } // foreach   
-				            ?>
-		                    </select>
-		            </div>		      
-		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
-		            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
-		                    <select name="periodicitee" class="form-control">
-				            <?php
-				                foreach ($Liste_Periodicitee as $p) {
-				            ?>
-				                <option value="<?php echo PeriodiciteeToNum($p);?>" <?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>><?php echo $p;?></option>    
-				            <?php
-				                } // foreach   
-				            ?>
-		                    </select>
-		            </div>			       		
-					<div class="form-group">
-		                    <select name="paiement" id="paiement" class="form-control">
-				                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
-				                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
-				                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
-		                    </select>
-		            </div>
-					<div class="form-group">
-		                    <select name="client" id="client" class="form-control">
-				            	<option value="0">N/C</option>
-				            <?php
-				            	foreach ($Liste_Client as $c) {
-				            ?>
-				                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
-				            <?php
-				                } // foreach   
-				            ?>			                				                    
-		                    </select>
-		            </div>
-		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
-
-	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
-
-  					<!-- Affiche les erreurs -->
-  					<div class="help-block">
-					<?php if (!empty($montantError)): ?>
-					<span class="has-error"><?php echo $montantError;?></span>
-					<?php endif; ?>
-					<?php if (!empty($periodiciteeError)): ?>
-					<span class="has-error"><?php echo $periodiciteeError;?></span>
-					<?php endif; ?>						
-					<?php if (!empty($commentaireError)): ?>
-					<span class="has-error"><?php echo $commentaireError;?></span>
-					<?php endif; ?>
-					<?php if (!empty($paiementError)): ?>
-					<span class="has-error"><?php echo $paiementError;?></span>
-					<?php endif; ?>					
-					</div>
-							
-					<!-- Modal paiement-->
-					<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						        <h3 class="modal-title" id="PaiementModalLabel">Choix des mois et des montants de paiements étalés :</h3>
-						      </div><!-- /.modal-header -->
-						      <div class="modal-body">
-						      	<?php 
-									$paiement_mois_Error = null; 						
-			 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) {
-										Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
-									} // endfor
-									echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
-									echo '<br>';
-								?>
-						      </div><!-- /.modal-body -->					    				  
-							  <div class="modal-footer">
-							  	<div class="form-actions pull-right">
-					              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
-							    </div>
-						      </div><!-- /.modal-footer -->
-					    </div><!-- /.modal-content -->
-					  </div><!-- /.modal-dialog -->
-					</div><!-- /.modal -->
-
-	            </form>
-            </div> 	<!-- /row -->
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Ajout d'une recette :</strong></div>
+                    <div class="panel-body">
+        	            <form class="form-inline" role="form" action="abo.php" method="post">
+        	            
+        		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+        		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+        		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
+        		       				</div>
+        		            <?php } ?>
+        		            
+        					<!-- Formulaire principal -->
+        		            <div class="form-group">
+        		                    <select name="type" class="form-control">
+        				            <?php
+        				                foreach ($Liste_Recette as $r) {
+        				            ?>
+        				                <option value="<?php echo TypeRecetteToNum($r);?>" <?php echo (TypeRecetteToNum($r)==$type)?'selected':'';?>><?php echo $r;?></option>    
+        				            <?php 
+        				                } // foreach   
+        				            ?>
+        		                    </select>
+        		            </div>		      
+                            <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
+                                <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                            </div>        		       		
+        		            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
+        		                    <select name="periodicitee" class="form-control">
+        				            <?php
+        				                foreach ($Liste_Periodicitee as $p) {
+        				            ?>
+        				                <option value="<?php echo PeriodiciteeToNum($p);?>" <?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>><?php echo $p;?></option>    
+        				            <?php
+        				                } // foreach   
+        				            ?>
+        		                    </select>
+        		            </div>			       		
+        					<div class="form-group">
+        		                    <select name="paiement" id="paiement" class="form-control">
+        				                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
+        				                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
+        				                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
+        		                    </select>
+        		            </div>
+        					<div class="form-group">
+        		                    <select name="client" id="client" class="form-control">
+        				            	<option value="0">N/C</option>
+        				            <?php
+        				            	foreach ($Liste_Client as $c) {
+        				            ?>
+        				                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
+        				            <?php
+        				                } // foreach   
+        				            ?>			                				                    
+        		                    </select>
+        		            </div>
+        		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+        
+        	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
+        
+          					<!-- Affiche les erreurs -->
+          					<div class="help-block has-error">
+        					<?php if (!empty($montantError)): ?>
+        					<span class="help-block has-error"><?php echo $montantError;?></span>
+        					<?php endif; ?>
+        					<?php if (!empty($periodiciteeError)): ?>
+        					<span class="help-block has-error"><?php echo $periodiciteeError;?></span>
+        					<?php endif; ?>						
+        					<?php if (!empty($commentaireError)): ?>
+        					<span class="help-block has-error"><?php echo $commentaireError;?></span>
+        					<?php endif; ?>
+        					<?php if (!empty($paiementError)): ?>
+        					<span class="help-block has-error"><?php echo $paiementError;?></span>
+        					<?php endif; ?>					
+        					</div>
+        							
+        					<!-- Modal paiement-->
+        					<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
+        					  <div class="modal-dialog">
+        					    <div class="modal-content">
+        						      <div class="modal-header">
+        						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        						        <h3 class="modal-title" id="PaiementModalLabel">Saisie des paiements étalés :</h3>
+        						      </div><!-- /.modal-header -->
+        						      <div class="modal-body">
+                                        <?php 
+                                        if ($affiche_paiement_etale) { // On affiche le formulaire que si nécessaire
+                                            echo "Répartissez votre " . NumToTypeRecette($type) . " de $montant € sur les mois suivants : "; 
+                                            echo '<div class="panel panel-default"><div class="panel-body">';                                         
+                                            echo '<dl class="dl-horizontal">'; 						
+        			 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) { // Affiche les champs paiements
+        			 						    echo '<dt>';
+                                                echo '<dt>' . NumToMois(MoisAnnee($m,$exercice_mois)) . ' : </dt>';
+                                                echo '<dd>';
+        										Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+        										echo '</dd>';
+        									} // endfor
+        									echo '</dl>';
+                                            echo '</div></div>';
+        									echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
+        								    echo '<div class="help-block has-error">';
+                                            if (!empty($paiement_mois_Error)) {
+                                                echo '<span class="help-block has-error">' . $paiement_mois_Error . '</span>';
+                                            echo '</div>';
+                                            } // If
+                                        } // IF
+                                        ?>                                                         
+        						      </div><!-- /.modal-body -->					    				  
+        							  <div class="modal-footer">
+        							  	<div class="form-actions pull-right">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>							  	    
+        					              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
+        							    </div>
+        						      </div><!-- /.modal-footer -->
+        					    </div><!-- /.modal-content -->
+        					  </div><!-- /.modal-dialog -->
+        					</div><!-- /.modal -->
+        
+        	            </form>
+        	            
+                    </div>  <!-- /row -->
+                </div>  <!-- /panel-body -->        	            
+            </div> 	<!-- /panel -->
 			
 			<!-- Affiche le bouton retour -->
 			<br>        
