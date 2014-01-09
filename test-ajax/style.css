@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+body, h1, h2, p { font-size: 1em; margin: 0; padding: 0; }
+body {
+  font-family: Verdana, Geneva, Arial, sans-serif;
+  text-align: center;
+}
+#page {
+   position: relative;
+   margin: 0 auto;
+   width:600px;
+   height:200px;
+   border-top: medium solid #ff0000;
+   border-bottom: medium solid #ff0000;
+}
+#info {
+	position: absolute;
+    left: 100px;
+    top: 30px;
+	visibility:hidden
+}
+#resultat {   
+	font-weight:bold;
+}
+#formulaire {
+	position: absolute;
+	left: 38px;
+	top: 103px;
+	width: 532px;
+}
+#charge {
+    position: absolute;
+    left: 310px;
+    top: 50px;
+	visibility:hidden;
+}
+#commentaire {
+   position: relative;
+   margin: 0 auto;
+   width:600px;
+   text-align: left;
+   font-size: 0.8em;
+   font-style: italic
+}

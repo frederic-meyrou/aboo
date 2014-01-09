@@ -14,7 +14,7 @@
 	require_once('fonctions.php');
 
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -204,12 +204,56 @@
 			</div> 	<!-- /row -->
 			<?php 	
 			} // if
-			?>
-        </div>  <!-- /span -->        	        
-             
+			?> 
+		
+        </div>  <!-- /span -->    
+			           
     </div> <!-- /container -->
-    
+        
     <?php require 'footer.php'; ?>
+    
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+</div>
+<div class="modal-body">
+Exemple de modal
+</div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->    
+    
+		<center><a class="btn btn-default" data-toggle="modal" href="#login" data-target="#login">Login</a></center>
+		
+		<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			   <div class="modal-content">		
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4>Test modal</h4>
+					</div>
+					<div class="modal-body">
+					<form method="post" action='home.php' name="loginForm">
+						<p><input type="text" class="span3" name="email" id="email" placeholder="Email" value=""></p>
+						<p><input type="password" class="span3" id="loginPassword" name="loginPassword" placeholder="Mot de passe"></p>
+						<p><button type="submit" class="btn btn-success">Login</button>&nbsp;<a href="/forgotpassword">MdP oublié</a></p>
+					</form>
+					</div>																	
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+
+    
+    <script>
+	    $(document).ready(function(){ // Le DOM est chargé
+	    	//alert($("h2").text());   	
+		});
+	</script>
         
   </body>
 </html>

@@ -441,24 +441,36 @@
 					<?php endif; ?>					
 					</div>
 							
-					<!-- Formulaire conditionnel -->
-					<?php 
- 					if ($affiche_paiement_etale) {
- 						echo '<h4>Choix des mois et des montants de paiements étalés :</h4>';
-						$paiement_mois_Error = null; 						
- 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) {
-							Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
-						} // endfor
-						echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
-						echo '<br>';						
- 					} // endif
-					?>
+					<!-- Modal paiement-->
+					<div class="modal fade" id="paiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						        <h3 class="modal-title" id="PaiementModalLabel">Choix des mois et des montants de paiements étalés :</h3>
+						      </div><!-- /.modal-header -->
+						      <div class="modal-body">
+						      	<?php 
+									$paiement_mois_Error = null; 						
+			 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) {
+										Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+									} // endfor
+									echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
+									echo '<br>';
+								?>
+						      </div><!-- /.modal-body -->					    				  
+							  <div class="modal-footer">
+							  	<div class="form-actions pull-right">
+					              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
+							    </div>
+						      </div><!-- /.modal-footer -->
+					    </div><!-- /.modal-content -->
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
 
 	            </form>
             </div> 	<!-- /row -->
-			<script type="text/javascript">
-				document.getElementById('montant').focus(); 
-			</script>
+			
 			<!-- Affiche le bouton retour -->
 			<br>        
 			<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
@@ -468,6 +480,22 @@
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
+
+    <script>
+    	$('#montant').focus();
+	</script>
+	
+	<?php 
+	if ($affiche_paiement_etale) { // Modal conditionné par PHP
+	?>	
+	    <script>
+		    $(document).ready(function(){ // Le DOM est chargé
+				$('#paiement').modal('show');	
+			});
+		</script>
+	<?php	 									
+	} // endif
+	?>    
         
   </body>
 </html>

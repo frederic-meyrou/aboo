@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>atelier14-1 : Machine à sous - ASYNCHRONE</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="jquery.js" type="text/javascript"></script>
+  <script type="text/javascript" src="fonctionsMachine.js"></script>
+</head>
+
+ <body>
+ <h2> Atelier14-1 </h2>
+
+ <div id="page">
+   <!--zone du résultat-->
+
+   <div id="info">Bravo, M <span id="gagnant"></span>&nbsp;vous avez gagné <span id="resultat"></span>&nbsp;Euros</div>
+   <!--zone du chargeur-->
+
+   <img id="charge" src="chargeur.gif"  />
+   <!--zone du formulaire-->
+
+   <div id="formulaire">
+
+  <form>  
+     <p>Indiquez nom et prénom :
+       <input type="text" id="nom" name="nom"  />
+       -
+       <input type="text" id="prenom" name="prenom"  />
+</p>
+     
+     <br />
+     <p>avant de
+       <input name="button" id="button" type="button"  value="JOUER" />
+       </p>
+   </form>
+
+   </div>
+ </div>
+
+ <!--commentaires sur l'atelier-->
+ <div id="commentaire">
+ 	<ul>
+		<li>Communication <strong>A</strong>SYNCHRONE vers un  fichier PHP (valeur de gain al&eacute;atoire)</li>
+		
+      <li>Avec une feuille de style</li>
+ 	    <li>Avec contr&ocirc;le de readyState et de status</li>
+ 	    <li>Avec gestion du chargeur et blocage du bouton</li>
+ 	    <li>Avec une fonction universelle de cr&eacute;ation d'objet XHR </li>
+ 	    <li>Avec les fonctions DOM</li>
+ 	    <li>Avec fonctions JS externes</li>
+        <li>Avec un champ nom</li>
+        <li>Avec détection de compatibilité du navigateur dès le chargement</li>
+        <li>Avec gestion de l'encodage en UTF-8</li>
+        <li>Avec controle de la saisie du champ</li>
+        <li><strong>Avec Requete POST et réponse Texte en JQUERY</strong></li>
+   </ul>
+ </div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!-- 
 © Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
 -->
+
 <?php
 	session_start();
 
@@ -16,7 +17,7 @@
     }
 
 	// Mode Debug
-	$debug = true;
+	$debug = false;
 	
 	// Init BDD
     $pdo = Database::connect();
@@ -24,6 +25,7 @@
 
 	$email = null;
 	$password = null;
+	
     // Le Formulaire est rempli
 	if (isset($sPOST['email']) && isset($sPOST['password'])) {
 	    $email = $sPOST['email'];
@@ -72,10 +74,21 @@
 		        // Redirection vers la home sécurisé            
 		        header('Location:home.php');
 	        }
-	    } else {
+	    } else { // Rien en base
 	        //Utilisateur inconnu
-	        $error_unknown = "Compte $email inconnu ou mot de passe invalide!";
+	        $errorEmail = "Compte $email inconnu ou mot de passe invalide!";
+			$errorPassword = " ";			
 	    }  
+	} else { // Formulaire incomplet
+		$errorPassword=null;	
+		$errorEmail=null;			
+		$errorPassword=null;	       	        
+	        if (isset($sPOST['password']) && empty($sPOST['password'])) {
+	        	$errorPassword="Le Mot de passe vide";
+	        }
+	        if (isset($sPOST['email']) && empty($sPOST['email'])) {
+	        	$errorEmail="L'eMail est vide";
+	        }				
 	}
 ?>
 
@@ -126,88 +139,54 @@
         <?php       
         }   
         ?>  
-        
-			<!-- Modal Login-->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
+        	
+		<!-- Modal Login-->
+		<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      	<form class="form-horizontal" method="post" action='connexion2.php' name="loginForm">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Aboo</h4>
+			        <h3 class="modal-title" id="LoginModalLabel">Connectez-vous!</h3>
 			      </div><!-- /.modal-header -->
 			      <div class="modal-body">
-			      	<form id="login" action="connexion2.php" method="POST">
-			        	<h2>Connectez-vous!</h2>
-				        <input name="email" id="email" type="email" class="form-control" value="<?php if(!empty($email)){ echo $email; } ?>" placeholder="Email" required autofocus><br/>
-				        <input name="password" id="password" type="password" class="form-control" value="" value="<?php if(!empty($password)){ echo $password; } ?>" placeholder="Mot de passe" required>
-				           <div class="error"><?php if(isset($error_unknown)){ echo $error_unknown; } ?></div>
-		      		</form>
-		      		<script type="text/javascript">
-						document.getElementById('email').focus(); 
-					</script>
-			      </div><!-- /.modal-body -->
-			      <hr>
-			      <div class="modal-body">		      
-			          <h4> 
+			      	<div class="form-group <?php echo !empty($errorEmail)?'has-error':'';?>">
+				        <input name="email" id="email" type="email" class="form-control" value="<?php if(!empty($email)){ echo $email; } ?>" placeholder="Email" maxlength=96 required autofocus>
+				        <?php if (!empty($errorEmail)): ?>
+		                	<span class="help-inline"><?php echo $errorEmail;?></span>
+		                <?php endif; ?>
+	 		        </div>	      		
+			      	<div class="form-group <?php echo !empty($errorPassword)?'has-error':'';?>">
+				        <input name="password" id="password" type="password" class="form-control" value="" value="<?php if(!empty($password)){ echo $password; } ?>" placeholder="Mot de passe" maxlength=20 required>
+				        <?php if (!empty($errorPassword)): ?>
+		                	<span class="help-inline"><?php echo $errorPassword;?></span>
+		                <?php endif; ?>
+	 		        </div>	      		
+ 			        <h5> 
 			           	<span class="glyphicon glyphicon-user"></span> <a href="inscription.php"> Vous souhaitez créer un compte ?</a><br/>
 					    <span class="glyphicon glyphicon-lock"></span> <a href="oubli.php"> Vous avez oublié votre mot de passe ?</a>
-					  </h4>
-			      </div><!-- /.modal-body -->					    
+					</h5>
+			      </div><!-- /.modal-body -->					    				  
 				  <div class="modal-footer">
-			        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> Connexion</button>
-			        <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>
+				  	<div class="form-actions pull-right">
+				        <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>
+				        <button type="submit" class="btn btn-lg btn-success" ><span class="glyphicon glyphicon-log-in"></span> Connexion</button>
+				    </div>
 			      </div><!-- /.modal-footer -->
-			    </div><!-- /.modal-content -->
-			  </div><!-- /.modal-dialog -->
-
-			</div><!-- /.modal -->
-      
-        <!-- Affiche les informations de debug -->
-        <?php 
- 		if ($debug) {
-		?>
-		<div class="span10 offset1">
-        <div class="alert alert-danger alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Informations de Debug : </strong><br>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-            email:<br>
-            <pre><?php var_dump($email); ?></pre>
-            password:<br>
-            <pre><?php var_dump($password); ?></pre>
-            
-            
-        </div>
-       </div>
-        <?php       
-        }   
-        ?>        
-      
-      <?php if(isset($error_unknown)){ ?> 
-      <div class="alert alert alert-fail alert-dismissable fade in">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong><?php echo "$error_unknown" ?>.</strong>
-      </div>
-      <?php  
-      } ?>
-      
-      <!--<form class="form-signin" action="connexion.php" method="post">
-        <h2 class="form-signin-heading">Connectez-vous</h2>
-
-        <input name="email" type="text" class="form-control" placeholder="Email" required autofocus>
-        <input name="password" type="password" class="form-control" placeholder="Mot de passe" required>
-           <div class="error"><?php if(isset($error_unknown)){ echo $error_unknown; } ?></div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
-      </form>-->
-   
+		        </form>	
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
+    
+    <script>
+	    $(document).ready(function(){ // Le DOM est chargé
+			$('#login').modal('show');	
+		});
+	</script>    
 
 </body>
 </html>
