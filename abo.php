@@ -442,7 +442,7 @@
 					</div>
 							
 					<!-- Modal paiement-->
-					<div class="modal fade" id="paiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
+					<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
 					  <div class="modal-dialog">
 					    <div class="modal-content">
 						      <div class="modal-header">
@@ -490,7 +490,7 @@
 	?>	
 	    <script>
 		    $(document).ready(function(){ // Le DOM est chargé
-				$('#paiement').modal('show');	
+				$('#modalPaiement').modal('show');	
 			});
 		</script>
 	<?php	 									
