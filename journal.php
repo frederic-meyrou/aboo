@@ -178,8 +178,8 @@
         
         <!-- Affiche les boutons de créations -->      
 		<div class="btn-group">
-			<a href="abo.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-  			<a href="dep.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+			<a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
+  			<a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
   			<a href="journal_pdf.php" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>	  						
 		</div>  

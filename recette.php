@@ -14,7 +14,7 @@
 	require_once('lib/fonctions.php');
 
 // Mode Debug
-	$debug = true;
+	$debug = false;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -201,7 +201,7 @@
 			}	
 			Database::disconnect();				
 			// Réinitialise le formulaire		
-			header("Location: abo.php");
+			header("Location: recette.php");
 		}
 		
     } // If POST
@@ -280,7 +280,7 @@
         <br>
 
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-inline" role="form" action="abo.php" method="post">      
+        <form class="form-inline" role="form" action="recette.php" method="post">      
             <select name="mois" class="form-control">
             <?php
                 foreach ($Liste_Mois as $m) {
@@ -352,8 +352,8 @@
 							   	echo '<td width=90>';
 						?>		
 								<div class="btn-group btn-group-sm">
-									  	<a href="abo_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-									  	<a href="abo_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+									  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+									  	<a href="recette_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
 								</div>
 		
 							   	</td>						
@@ -381,7 +381,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Ajout d'une recette :</strong></div>
                     <div class="panel-body">
-        	            <form class="form-inline" role="form" action="abo.php" method="post">
+        	            <form class="form-inline" role="form" action="recette.php" method="post">
         	            
         		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
         		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">

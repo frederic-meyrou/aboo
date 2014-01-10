@@ -114,7 +114,7 @@
 		}
 		
 		// Réinitialise pour le formulaire		
-		header("Location: dep.php");
+		header("Location: depense.php");
     } // If POST
 	
 	
@@ -162,7 +162,7 @@
         <br>
 
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-inline" role="form" action="dep.php" method="post">      
+        <form class="form-inline" role="form" action="depense.php" method="post">      
             <select name="mois" class="form-control">
             <?php
                 foreach ($Liste_Mois as $m) {
@@ -224,8 +224,8 @@
 						   	echo '<td width=90>';
 					?>		
 							<div class="btn-group btn-group-sm">
-								  	<a href="dep_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-								  	<a href="dep_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+								  	<a href="depense_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+								  	<a href="depense_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
 							</div>
 	
 						   	</td>						
@@ -246,7 +246,7 @@
 		<!-- Affiche le formulaire inline ajout depense -->			
             <div class="row">
                 <h3>Ajout d'une dépense :</h3>
-	            <form class="form-inline" role="form" action="dep.php" method="post">
+	            <form class="form-inline" role="form" action="depense.php" method="post">
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
 		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            

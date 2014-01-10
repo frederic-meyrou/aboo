@@ -152,7 +152,18 @@
 	                        <?php Affiche_Champ($ville, $villeError, 'ville','Ville', 'text' ); ?>
 	                        <?php Affiche_Champ($age, $ageError, 'age','Age', 'number' ); ?>
 	                        <?php Affiche_Champ($profession, $professionError, 'profession','Profession', 'text' ); ?>
-	                        <?php Affiche_Champ($description, $descriptionError, 'description','Description', 'text' ); ?>
+	                        <!--<?php Affiche_Champ($description, $descriptionError, 'description','Description', 'text' ); ?>-->
+                            <div class="control-group <?php echo !empty($descriptionError)?'has-error':'';?>">
+                                <label class="control-label">Description</label>
+                                <div class="controls">
+                                    <textarea name="description" class="form-control" rows="5">
+                                    <?php echo !empty($description)?$description:'';?>
+                                    </textarea>    
+                                    <?php if (!empty($descriptionError)): ?>
+                                        <span class="help-inline"><?php echo $descriptionError;?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>	                        
 							  
 						    <div class="form-actions">
 						      <br>

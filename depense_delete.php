@@ -65,15 +65,13 @@
 		$id = $sPOST['id'];
 		
 		// delete data
-		$sql = "DELETE FROM recette WHERE id = ?";
+		$sql = "DELETE FROM depense WHERE id = ?";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		Database::disconnect();
-		
-		// TODO : Ici il faut supprimer les paiements!!!
 
 		// On repart d'ou on viens
-		header("Location: abo.php");
+		header("Location: depense.php");
 		
 	} 
 ?>
@@ -87,6 +85,8 @@
     <?php $page_courante = "journal.php"; require 'nav.php'; ?>
         
     <div class="container">
+        <h2>Console</h2>
+        <br>
 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -108,22 +108,22 @@
         
 		<div class="span10 offset1">
 			<div class="row">
-    			<h3>Suppression d'une recette</h3>
+    			<h3>Suppression d'une dépense</h3>
     		</div>
 			
-			<form class="form-horizontal" action="abo_delete.php" method="post">
+			<form class="form-horizontal" action="depense_delete.php" method="post">
 			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
 			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
 				<div class="form-actions">
 				  <button type="submit" class="btn btn-danger">Oui</button>
-				  <a class="btn" href="abo.php">Non</a>
+				  <a class="btn" href="depense.php">Non</a>
 				</div>
 			</form>
 			
 		</div> <!-- /span10 -->		
     </div> <!-- /container -->
+    
+    <?php require 'footer.php'; ?>    
 
-    <?php require 'footer.php'; ?>
-        
   </body>
 </html>
