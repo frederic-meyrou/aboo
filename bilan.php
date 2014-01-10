@@ -57,21 +57,21 @@
 // Lecture tableau de bord
 
 	// Requette pour calcul de la somme Annuelle			
-		$sql1 = "(SELECT SUM(montant) FROM abonnement WHERE
+		$sql1 = "(SELECT SUM(montant) FROM recette WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid )
 	    		UNION
 	    		(SELECT SUM(montant * -1) FROM depense WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid )
 	    		";
 	// Requette pour calcul de la somme	mensuelle		
-		$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
+		$sql2 = "(SELECT SUM(montant) FROM recette WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
 	    		UNION
 	    		(SELECT SUM(montant * -1) FROM depense WHERE
 	    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
 	    		";
 	// requette pour calcul des ventilations abo Annuelle
-	    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
+	    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
 	    		(user_id = :userid AND exercice_id = :exerciceid)
 	    		";		
 				
@@ -118,15 +118,15 @@
 			$q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
 	        for ($m = 1; $m <= 12; $m++) { 
 				// Requette pour calcul de la somme des paiement mensuelle			
-			    $sql4 = "SELECT SUM(P.mois_$m) FROM paiement P, abonnement A WHERE
-			    		A.id = P.abonnement_id AND 
+			    $sql4 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$m <> 0
 			    		";
 			
 				// Requette pour calcul de la somme restant à mettre en recouvrement mensuelle			
-			    $sql5 = "SELECT SUM(P.mois_$m) FROM paiement P, abonnement A WHERE
-			    		A.id = P.abonnement_id AND 
+			    $sql5 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$m <> 0 AND
 			    		P.paye_$m = 0

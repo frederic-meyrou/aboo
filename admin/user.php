@@ -78,7 +78,7 @@
 		                  <th>Téléphone</th>
 		                  <th>Date inscription</th>
 		                  <th>Date expiration</th>
-		                  <th>Montant abonnement</th>
+		                  <th>Montant recette</th>
                           <th>Admin</th>  		                  
 		                  <th>Action</th>
 		                </tr>

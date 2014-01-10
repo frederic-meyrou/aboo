@@ -70,15 +70,15 @@
 	$req->execute($q);
 	$data = $req->fetch(PDO::FETCH_ASSOC);
 	// Lecture du CA 
-	$sql2 = "SELECT SUM(montant) FROM abonnement WHERE
+	$sql2 = "SELECT SUM(montant) FROM recette WHERE
     		client_id = :id AND user_id = :user_id
     		";
     $q2 = array('id' => $id, 'user_id' => $user_id);	
 	$req2 = $pdo->prepare($sql2);
 	$req2->execute($q2);
 	$data2 = $req2->fetch(PDO::FETCH_ASSOC);
-	// Lecture des abonnements
-	$sql3 = "SELECT * FROM abonnement WHERE
+	// Lecture des recettes
+	$sql3 = "SELECT * FROM recette WHERE
     		client_id = :id AND user_id = :user_id AND type = '1'
     		";
     $q3 = array('id' => $id, 'user_id' => $user_id);	
@@ -87,7 +87,7 @@
 	$data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
 	$count3 = $req3->rowCount($sql3);
 	// Lecture des reventes
-	$sql4 = "SELECT * FROM abonnement WHERE
+	$sql4 = "SELECT * FROM recette WHERE
     		client_id = :id AND user_id = :user_id AND type = '2'
     		";
     $q4 = array('id' => $id, 'user_id' => $user_id);	
@@ -187,7 +187,7 @@
 			          		echo 'CA : ';
 							echo ($data2["SUM(montant)"] == null)?'0':$data2["SUM(montant)"];
 							echo ' € <br>';
-							// Nombre d'abonnements
+							// Nombre d'recettes
 							echo "Nombre d'abonnements : $count3" .	'<br>';
 							// Nombre de reventes
 							echo "Nombre de ventes : $count4" .	'<br>';

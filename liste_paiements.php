@@ -117,24 +117,24 @@
 			
  			for ($num_mois = 1; $num_mois <= 12; $num_mois++) {
  				
-				// Jointure dans la base abonnement/paiement (join sur user_id et exercice_id) 
-			    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, abonnement A WHERE
-			    		A.id = P.abonnement_id AND 
+				// Jointure dans la base recette/paiement (join sur user_id et exercice_id) 
+			    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0
 			    		ORDER by P.paye_$num_mois,A.date_creation
 			    		";
 			
 				// Requette pour calcul de la somme Totale			
-			    $sql2 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, abonnement A WHERE
-			    		A.id = P.abonnement_id AND 
+			    $sql2 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0
 			    		";
 			
 				// Requette pour calcul de la somme restant à mettre en recouvrement			
-			    $sql3 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, abonnement A WHERE
-			    		A.id = P.abonnement_id AND 
+			    $sql3 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0 AND
 			    		P.paye_$num_mois = 0

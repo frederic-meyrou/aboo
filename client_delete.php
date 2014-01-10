@@ -68,8 +68,8 @@
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		
-		// update abonnement (Supprime le client_id de tout la table abonnement pour le user courant)
-		$sql2 = "UPDATE abonnement set client_id=null WHERE client_id = ? AND user_id = ?";
+		// update recette (Supprime le client_id de tout la table recette pour le user courant)
+		$sql2 = "UPDATE recette set client_id=null WHERE client_id = ? AND user_id = ?";
 		$q2 = $pdo->prepare($sql2);
 		$q2->execute(array($id,$user_id));				
 

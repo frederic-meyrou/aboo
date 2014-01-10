@@ -155,7 +155,7 @@
 			$paiementError = "Seul un abonnement peut faire l'objet d'un etalement des paiements";
 			$valid = false;	
 		}
-		if ($paiement == 0 ) { // Enregistrement du statut du paiement pour la BDD table abonnement
+		if ($paiement == 0 ) { // Enregistrement du statut du paiement pour la BDD table recette
 			$paye = 1;
 		} else {
 			$paye = 0;
@@ -172,7 +172,7 @@
 				$valid = true;
 				$enregistre_paiement = true;
 			} else {
-				$paiement_mois_Error = "Le total de vos paiements étalés est différent du montant de l'abonnement!";
+				$paiement_mois_Error = "Le total de vos paiements étalés est différent du montant de l'recette!";
 				$valid = false;
 			}			
 		}
@@ -185,19 +185,19 @@
 
 		// insert data
 		if ($valid) {
-			$sql = "INSERT INTO abonnement (user_id,exercice_id,client_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
-			$abonnement_id = $pdo->lastInsertId();
-			if ($paiement == 1 && $abonnement_id != 0) { // Enregistre le paiement différé dans la table paiement
-				$sql = "INSERT INTO paiement (abonnement_id,mois_{$mois_choisi_relatif}) values(?, ?)";
+			$recette_id = $pdo->lastInsertId();
+			if ($paiement == 1 && $recette_id != 0) { // Enregistre le paiement différé dans la table paiement
+				$sql = "INSERT INTO paiement (recette_id,mois_{$mois_choisi_relatif}) values(?, ?)";
 				$q = $pdo->prepare($sql);
-				$q->execute(array($abonnement_id, $montant));
+				$q->execute(array($recette_id, $montant));
 			}				
-			if ($enregistre_paiement && $abonnement_id != 0) { // Enregistre le paiement élalé
-				$sql = "INSERT INTO paiement (abonnement_id,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			if ($enregistre_paiement && $recette_id != 0) { // Enregistre le paiement élalé
+				$sql = "INSERT INTO paiement (recette_id,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				$q = $pdo->prepare($sql);
-				$q->execute(array($abonnement_id, $paiement_mois_{1}, $paiement_mois_{2}, $paiement_mois_{3}, $paiement_mois_{4}, $paiement_mois_{5}, $paiement_mois_{6}, $paiement_mois_{7}, $paiement_mois_{8}, $paiement_mois_{9}, $paiement_mois_{10}, $paiement_mois_{11}, $paiement_mois_{12}));
+				$q->execute(array($recette_id, $paiement_mois_{1}, $paiement_mois_{2}, $paiement_mois_{3}, $paiement_mois_{4}, $paiement_mois_{5}, $paiement_mois_{6}, $paiement_mois_{7}, $paiement_mois_{8}, $paiement_mois_{9}, $paiement_mois_{10}, $paiement_mois_{11}, $paiement_mois_{12}));
 			}	
 			Database::disconnect();				
 			// Réinitialise le formulaire		
@@ -207,13 +207,13 @@
     } // If POST
 	
 	
-// Lecture dans la base des abonnements (sur user_id et exercice_id et mois) 
-    $sql = "SELECT * FROM abonnement WHERE
+// Lecture dans la base des recettes (sur user_id et exercice_id et mois) 
+    $sql = "SELECT * FROM recette WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		ORDER by date_creation
     		";
 // Requette pour calcul de la somme	
-    $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
+    $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
 // Lecture dans la base des clients (sur user_id) 
@@ -314,7 +314,7 @@
         }   
         ?>  
         
-		<!-- Affiche la table des abonnements en base sous condition -->
+		<!-- Affiche la table des recettes en base sous condition -->
 		<div class="span10">
 			<?php 
  			if ($affiche) {
@@ -375,7 +375,7 @@
 			} // If Affiche
 			?>
 			
-			<!-- Affiche le formulaire inline ajout abonnement -->		
+			<!-- Affiche le formulaire inline ajout recette -->		
             <div class="row">
                 
                 <div class="panel panel-default">

@@ -65,10 +65,12 @@
 		$id = $sPOST['id'];
 		
 		// delete data
-		$sql = "DELETE FROM abonnement WHERE id = ?";
+		$sql = "DELETE FROM recette WHERE id = ?";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		Database::disconnect();
+		
+		// TODO : Ici il faut supprimer les paiements!!!
 
 		// On repart d'ou on viens
 		header("Location: abo.php");
@@ -106,7 +108,7 @@
         
 		<div class="span10 offset1">
 			<div class="row">
-    			<h3>Suppression d'un abonnement</h3>
+    			<h3>Suppression d'une recette</h3>
     		</div>
 			
 			<form class="form-horizontal" action="abo_delete.php" method="post">

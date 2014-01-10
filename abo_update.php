@@ -93,7 +93,7 @@
            
         // Modif des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE abonnement SET montant=?,commentaire=?, client_id=? WHERE id = ?";
+            $sql = "UPDATE recette SET montant=?,commentaire=?, client_id=? WHERE id = ?";
             $q = $pdo->prepare($sql);
             $q->execute(array($montant, $commentaire, $client_id, $id));
             Database::disconnect();        
@@ -103,7 +103,7 @@
         // Lecture des infos ds la base
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM abonnement where id = ?";
+        $sql = "SELECT * FROM recette where id = ?";
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);

@@ -89,8 +89,8 @@
     $q = $pdo->prepare($sql);
     $q->execute(array($mois_choisi, $user_id));	
 
-// Lecture dans la base des abonnements et des dépenses (join sur user_id et exercice_id et mois) 
-    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM abonnement WHERE
+// Lecture dans la base des recettes et des dépenses (join sur user_id et exercice_id et mois) 
+    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM recette WHERE
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		UNION
     		(SELECT date_creation, type, montant * -1, commentaire, periodicitee FROM depense WHERE
@@ -98,14 +98,14 @@
     		ORDER BY date_creation
     		";
 // Requette pour calcul de la somme			
-	$sql2 = "(SELECT SUM(montant) FROM abonnement WHERE
+	$sql2 = "(SELECT SUM(montant) FROM recette WHERE
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		UNION
     		(SELECT SUM(montant * -1) FROM depense WHERE
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
     		";
 // requette pour calcul des ventilations abo
-    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM abonnement WHERE
+    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
     		(user_id = :userid AND exercice_id = :exerciceid)
     		";
 				
