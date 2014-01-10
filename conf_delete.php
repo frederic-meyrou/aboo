@@ -4,7 +4,7 @@
 <?php
 // Vérification de l'Authent
     session_start();
-    require('authent.php');
+    require('lib/authent.php');
     if( !Authent::islogged()){
         // Non authentifié on repart sur la HP
         header('Location:index.php');

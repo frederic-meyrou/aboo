@@ -6,7 +6,7 @@
 	session_start();
 
 	// Dépendances
-	include 'database.php';
+	include 'lib/database.php';
 
 	// Sécurisation POST & GET
     foreach ($_GET as $key => $value) {

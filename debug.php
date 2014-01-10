@@ -5,14 +5,14 @@
 <?php
 // Vérification de l'Authent
     session_start();
-    require('authent.php');
+    require('lib/authent.php');
     if( !Authent::islogged()){
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
 
 // Dépendances
-	require_once('fonctions.php');
+	require_once('lib/fonctions.php');
 
 // Mode Debug
 	$debug = true;
@@ -51,7 +51,7 @@
     }
 
 // Initialisation de la base
-    include_once 'database.php';
+    include_once 'lib/database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	

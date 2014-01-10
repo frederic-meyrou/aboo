@@ -2,10 +2,10 @@
 © Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
 -->
 <?php
-	require_once('fonctions.php');
+	require_once('lib/fonctions.php');
 // Vérification de l'Authent
     session_start();
-    require('authent.php');
+    require('lib/authent.php');
     if( !Authent::islogged()){
         // Non authentifi� on repart sur la HP
         header('Location:index.php');
@@ -23,7 +23,7 @@
     $user_id = $_SESSION['authent']['id']; 
 	
 // Initialisation de la base
-    include_once 'database.php';
+    include_once 'lib/database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     

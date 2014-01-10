@@ -22,7 +22,7 @@ class SwpaPlugin
     }
 
     public static function pageMain() { SwpaUtil::includePage('dashboard.php'); }
-    public static function pageDatabase() { SwpaUtil::includePage('database.php'); }
+    public static function pageDatabase() { SwpaUtil::includePage('lib/database.php'); }
     public static function pageScanner() { SwpaUtil::includePage('scanner.php'); }
     public static function pageLiveTraffic() { SwpaUtil::includePage('live_traffic.php'); }
     public static function pageBlog() { SwpaUtil::includePage('blog.php'); }

@@ -15,7 +15,7 @@
     }
 
 // Initialisation de la base
-    include_once 'database.php';
+    include_once 'lib/database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
