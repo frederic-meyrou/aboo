@@ -168,7 +168,7 @@ $content = ob_get_contents(); ob_clean();
 
 // Génération du PDF et envoi au navigateur
 
-require('html2pdf/html2pdf.class.php');
+require('lib/html2pdf/html2pdf.class.php');
 try{
 	$pdf = new HTML2PDF('P','A4','fr');
 	//$pdf->setModeDebug();
