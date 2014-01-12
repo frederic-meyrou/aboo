@@ -10,7 +10,6 @@
         header('Location:index.php');
     }
 
-
 // Mode Debug
 	$debug = false;
 
@@ -26,9 +25,6 @@
 	if ( !empty($sGET['id']) && !empty($sGET['annee'])) {
 		$id = $sGET['id'];
 		$annee = $sGET['annee'];
-	} else {
-		// Redirection vers conf puisque on a rien à supprimer
-		header('Location:conf.php');
 	}
 	
 // Récupération des variables de session d'Authent
@@ -49,23 +45,43 @@
         $exercice_treso = $_SESSION['exercice']['treso'];
     }
 
+// Initialisation de la base
+    include_once 'lib/database.php';
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
 // Lecture et validation du POST
 	if ( !empty($sPOST)) {
 		// keep track post values
 		$id = $sPOST['id'];
-		
-		// delete data
-		$pdo = Database::connect();
-		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "DELETE FROM exercice WHERE id = ?";
-		$q = $pdo->prepare($sql);
-		$q->execute(array($id));
-		Database::disconnect();
+        $annee = $sPOST['annee'];
 
-        // On supprimer la session
+        // Suppression Exercice
+        $sql = "DELETE FROM exercice WHERE id = ?";
+        $req = $pdo->prepare($sql);
+        $req->execute(array($id));   
+        		
+        // On test si les information courante de l'utilisateur sont toujours valides sinon on les effaces
+        $sql2 = "SELECT * FROM user WHERE id = ?";
+        $req = $pdo->prepare($sql2);
+        $req->execute(array($user_id)); 
+        $data2 = $req->fetch(PDO::FETCH_ASSOC);
+        
+        if ($data2['exerciceid_encours'] == $id) { 
+            $sql3 = "UPDATE user SET exerciceid_encours = ?, mois_encours = ?  WHERE id = ?";
+            $req = $pdo->prepare($sql3);
+            $req->execute(array(NULL,NULL,$user_id));
+            // On supprimer la session ABODEP
+            $_SESSION['abodep'] = array();          
+        }        
+        
+        // On supprime la session
         if ($annee == $exercice_annee) {
             $_SESSION['exercice'] = array();
-        }            
+        }
+        
+        // On retourne d'ou on vient
+        Database::disconnect();                    
 		header("Location: conf.php");
 		
 	} 
@@ -104,6 +120,7 @@
 		<div class="span10 offset1">
 			<form class="form-horizontal" action="conf_delete.php" method="post">
 			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
+              <input type="hidden" name="annee" value="<?php echo $annee;?>"/>			  
 			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
 				<div class="form-actions">
 				  <button type="submit" class="btn btn-danger">Oui</button>
