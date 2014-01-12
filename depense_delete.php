@@ -10,9 +10,6 @@
         header('Location:index.php');
     }
 
-// Dépendances
-	require_once('lib/fonctions.php');
-
 // Mode Debug
 	$debug = false;
 
@@ -53,12 +50,6 @@
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// GET	
-	$id = 0;
-	if ( !empty($sGET['id'])) {
-		$id = $sGET['id'];
-	}
-    
 // Lecture et validation du POST
 	if ( !empty($sPOST)) {
 		// keep track post values
@@ -69,61 +60,7 @@
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		Database::disconnect();
-
-		// On repart d'ou on viens
-		header("Location: depense.php");
-		
 	} 
+    // On repart d'ou on viens
+    header("Location: depense.php");    
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<?php require 'head.php'; ?>
-
-<body>
-
-    <?php $page_courante = "journal.php"; require 'nav.php'; ?>
-        
-    <div class="container">
-        <h2>Console</h2>
-        <br>
-
-        <!-- Affiche les informations de debug -->
-        <?php 
- 		if ($debug) {
-		?>
-        <div class="alert alert alert-danger alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Informations de Debug : </strong><br>
-            SESSION:<br>
-            <pre><?php var_dump($_SESSION); ?></pre>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-        </div>
-        <?php       
-        }   
-        ?>  
-        
-		<div class="span10 offset1">
-			<div class="row">
-    			<h3>Suppression d'une dépense</h3>
-    		</div>
-			
-			<form class="form-horizontal" action="depense_delete.php" method="post">
-			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
-			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
-				<div class="form-actions">
-				  <button type="submit" class="btn btn-danger">Oui</button>
-				  <a class="btn" href="depense.php">Non</a>
-				</div>
-			</form>
-			
-		</div> <!-- /span10 -->		
-    </div> <!-- /container -->
-    
-    <?php require 'footer.php'; ?>    
-
-  </body>
-</html>
