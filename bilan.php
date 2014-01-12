@@ -74,19 +74,32 @@
 	    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
 	    		(user_id = :userid AND exercice_id = :exerciceid)
 	    		";		
-				
-    $q1 = array('userid' => $user_id, 'exerciceid' => $exercice_id);				
-    $q3 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
-    $q4 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
-        
+    // Requette pour calcul de la somme des encaissements annuels
+        $sql4 = "SELECT SUM(montant) FROM recette WHERE
+                (user_id = :userid AND exercice_id = :exerciceid) AND
+                paye = 1
+                ";
+    // Requette pour calcul de la somme des encaissements mensuel
+        $sql5 = "SELECT SUM(montant) FROM recette WHERE
+                (user_id = :userid AND exercice_id = :exerciceid AND mois = :mois) AND
+                paye = 1
+                ";
+    // Association des variables            				
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id);				
+    
+    // Envoi des requettes    
 	$req = $pdo->prepare($sql1);
-	$req->execute($q1);
+	$req->execute($q);
 	$data1 = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql1);
 	
 	$req = $pdo->prepare($sql3);
-	$req->execute($q3);
+	$req->execute($q);
 	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
+
+    $req = $pdo->prepare($sql4);
+    $req->execute($q); 
+    $data4 = $req->fetch(PDO::FETCH_ASSOC);		
 	
 	if ($count==0) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
         $affiche = false;         
@@ -95,56 +108,52 @@
 	        $total_recettes_annee= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0;  
     		$total_depenses_annee= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
 	        $solde_annee = $total_recettes_annee + $total_depenses_annee;
+	        $total_encaissements_annee= !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
 			
-    		// Calcul des sommes de tout les mois
-            for ($i = 1; $i <= 12; $i++) {
-                // Requette BDD
-                $q2 = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $i);
+    		// Calcul des sommes mensuelles
+            for ($m = 1; $m <= 12; $m++) {
+                // Association des variables 
+                $q2 = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $m);
+                // Envoi des requettes 
                 $req = $pdo->prepare($sql2);
                 $req->execute($q2);
                 $data2 = $req->fetchAll(PDO::FETCH_ASSOC);
-                // Calcul     
-                $total_recettes_mois_{$i}= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0; 
-                $total_depenses_mois_{$i}= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
-                $solde_mois_{$i}= $total_recettes_mois_{$i} + $total_depenses_mois_{$i};               
-            }    		      
-			
-			// Calcul des sommes ventillées
-	        for ($i = 1; $i <= 12; $i++) { 
-	        	$total_mois_{$i}= !empty($data3["SUM(mois_$i)"]) ? $data3["SUM(mois_$i)"] : 0;
-			}	  
-			
-			// Calcul des paiements
-			$q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
-	        for ($m = 1; $m <= 12; $m++) { 
-				// Requette pour calcul de la somme des paiement mensuelle			
-			    $sql4 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
-			    		A.id = P.recette_id AND 
-			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
-			    		P.mois_$m <> 0
-			    		";
-			
-				// Requette pour calcul de la somme restant à mettre en recouvrement mensuelle			
-			    $sql5 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
-			    		A.id = P.recette_id AND 
-			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
-			    		P.mois_$m <> 0 AND
-			    		P.paye_$m = 0
-			    		";	
-
-			   	$req4 = $pdo->prepare($sql4);
-				$req4->execute($q);
-				$data4 = $req4->fetch(PDO::FETCH_ASSOC);
-				
-			   	$req5 = $pdo->prepare($sql5);
-				$req5->execute($q);
-				$data5 = $req5->fetch(PDO::FETCH_ASSOC);							
-
-	    		// Calcul des sommes 
-		        $total_paiement_mois_{$m}= !empty($data4["SUM(P.mois_$m)"]) ? $data4["SUM(P.mois_$m)"] : 0;
-		        $total_apayer_mois_{$m}= !empty($data5["SUM(P.mois_$m)"]) ? $data5["SUM(P.mois_$m)"] : 0;						
-
-	        } //End for			   
+                $req = $pdo->prepare($sql5);
+                $req->execute($q2); 
+                $data5 = $req->fetch(PDO::FETCH_ASSOC);                     
+                // Calcul CA, Depenses et Solde Brut    
+                $total_recettes_mois_{$m}= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0; 
+                $total_depenses_mois_{$m}= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
+                $solde_mois_{$m}= $total_recettes_mois_{$m} + $total_depenses_mois_{$m};               
+                // Calcul des sommes ventillées (grille annuelle)
+                $total_mois_{$m}= !empty($data3["SUM(mois_$m)"]) ? $data3["SUM(mois_$m)"] : 0;
+                // Calcul des encaissements
+                $total_encaissements_{$m}= !empty($data5["SUM(montant)"]) ? $data5["SUM(montant)"] : 0;
+                // Calcul des paiements :
+                // Requette pour calcul de la somme des paiement mensuelle          
+                $sql6 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
+                        A.id = P.recette_id AND 
+                        A.user_id = :userid AND A.exercice_id = :exerciceid AND
+                        P.mois_$m <> 0
+                        ";
+                // Requette pour calcul de la somme restant à mettre en recouvrement mensuelle          
+                $sql7 = "SELECT SUM(P.mois_$m) FROM paiement P, recette A WHERE
+                        A.id = P.recette_id AND 
+                        A.user_id = :userid AND A.exercice_id = :exerciceid AND
+                        P.mois_$m <> 0 AND
+                        P.paye_$m = 0
+                        ";  
+                // Envoi des requettes 
+                $req = $pdo->prepare($sql6);
+                $req->execute($q);
+                $data6 = $req->fetch(PDO::FETCH_ASSOC);
+                $req = $pdo->prepare($sql7);
+                $req->execute($q);
+                $data7 = $req->fetch(PDO::FETCH_ASSOC);                            
+                // Calcul des sommes 
+                $total_paiement_mois_{$m}= !empty($data6["SUM(P.mois_$m)"]) ? $data6["SUM(P.mois_$m)"] : 0;
+                $total_apayer_mois_{$m}= !empty($data7["SUM(P.mois_$m)"]) ? $data7["SUM(P.mois_$m)"] : 0;                                                                       
+            } // End for
 	           
 	        // On affiche le tableau
 	        $affiche = true;
@@ -197,6 +206,7 @@
             global $exercice_mois;
             global $total_paiement_mois_;
             global $total_apayer_mois_;
+            global $total_encaissements_;
             
             $num_mois = MoisAnnee($mois_relatif, $exercice_mois);
         ?>
@@ -211,8 +221,9 @@
                     <li>Salaire : <?php echo number_format($total_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
                     <li>A trésoriser : <?php echo number_format(($total_recettes_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ),2,',','.') . ' €'; ?></li>
                     <li>Tréso réele : <?php echo number_format(($solde_mois_{$mois_relatif} - $total_mois_{$mois_relatif} ),2,',','.') . ' €'; ?></li>
-                    <li>Encaissé : <?php echo number_format($total_paiement_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
-                    <li>A encaisser : <?php echo number_format($total_apayer_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>Encaissement : <?php echo number_format($total_paiement_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>                    
+                    <li>Paiements : <?php echo number_format($total_paiement_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>Paiements échus : <?php echo number_format($total_apayer_mois_{$mois_relatif},2,',','.') . ' €'; ?></li>
                 </div>
               </div>
         <?php    
@@ -265,6 +276,7 @@
 				<button type="button" class="btn btn-primary">Exercice : <?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
 				<button type="button" class="btn btn-info">Total dépenses : <?php echo number_format($total_depenses_annee,2,',','.'); ?> €</button>
 				<button type="button" class="btn btn-info">Total recettes : <?php echo number_format($total_recettes_annee,2,',','.'); ?> €</button>
+                <button type="button" class="btn btn-info">Total encaissements : <?php echo number_format($total_encaissements_annee,2,',','.'); ?> €</button>				
 				<button type="button" class="btn btn-info">Solde : <?php echo number_format($solde_annee,2,',','.'); ?> €</button>		
                 <button type="button" class="btn btn-info">Salaire mensuel moyen : <?php echo number_format(( $solde_annee / 12 ),2,',','.'); ?> €</button>   
  			</p>			

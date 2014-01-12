@@ -24,6 +24,7 @@ function NumToMois($num_mois)
         global $Liste_Mois;
         return $Liste_Mois[$num_mois];
     } else {
+        error_log("Erreur NumToMois : variable invalide.", 3, "./erreur.log");             
         return null;
     }		
 }
@@ -32,6 +33,7 @@ function NumToMois($num_mois)
 function MoisToNum($nom_mois)
 {
     if (empty($nom_mois) || $nom_mois == null) {
+        error_log("Erreur MoisToNum : variable invalide.", 3, "./erreur.log");           
         return null;
     } else {
     	global $Liste_Mois;
@@ -51,6 +53,7 @@ function NumToTypeRecette($type)
         global $Liste_Recette;
         return $Liste_Recette[$type];
     } else {
+        error_log("Erreur NumToTypeRecette : variable invalide.", 3, "./erreur.log");            
         return null;
     }		
 }
@@ -59,6 +62,7 @@ function NumToTypeRecette($type)
 function TypeRecetteToNum($recette)
 {
     if (empty($recette) || $recette == null) {
+        error_log("Erreur TypeRecetteToNum : variable invalide.", 3, "./erreur.log");    
         return null;
     } else {
     	global $Liste_Recette;
@@ -77,6 +81,7 @@ function NumToTypeDepense($type)
         global $Liste_Depense;
         return $Liste_Depense[$type];
     } else {
+        error_log("Erreur NumToTypeDepense : variable invalide.", 3, "./erreur.log");            
         return null;
     }		
 }
@@ -85,6 +90,7 @@ function NumToTypeDepense($type)
 function TypeDepenseToNum($depense)
 {
     if (empty($depense) || $depense == null) {
+        error_log("Erreur TypeDepenseToNum : variable invalide.", 3, "./erreur.log");              
         return null;
     } else {
     	global $Liste_Depense;
@@ -104,6 +110,7 @@ function NumToPeriodicitee($num)
         global $Liste_Periodicitee;
         return $Liste_Periodicitee[$num];
     } else {
+        error_log("Erreur NumToPeriodicitee : variable invalide.", 3, "./erreur.log"); 
         return null;
     }		
 }
@@ -112,6 +119,7 @@ function NumToPeriodicitee($num)
 function PeriodiciteeToNum($periode)
 {
     if (empty($periode) || $periode == null) {
+        error_log("Erreur PeriodiciteeToNum : variable invalide.", 3, "./erreur.log");         
         return null;
     } else {
     	global $Liste_Periodicitee;
@@ -124,15 +132,15 @@ function PeriodiciteeToNum($periode)
 function Ventillation($mois, $montant, $periodicitee) {
     // Vérifications
     if ($mois < 1 or $mois > 12) {
-        error_log("Erreur : variable mois invalide.", 3, "./erreur.log");  
+        error_log("Erreur Ventillation : variable mois invalide.", 3, "./erreur.log");  
         return NULL;
     }
     if ($periodicitee < 0 or $periodicitee > 12 ) {
-        error_log("Erreur : variable periodicitee invalide.", 3, "./erreur.log");  
+        error_log("Erreur Ventillation : variable periodicitee invalide.", 3, "./erreur.log");  
         return NULL;
     }
     if (($periodicitee+$mois-1) > 12 ) {
-        error_log("Erreur : variable periodicitee trop grande.", 3, "./erreur.log");  
+        error_log("Erreur Ventillation : variable periodicitee trop grande.", 3, "./erreur.log");  
         return NULL;
     }	
     $ArrayVENTILLATION = array (1 => 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);        
@@ -147,6 +155,10 @@ function Ventillation($mois, $montant, $periodicitee) {
 
 // Transforme le numero de mois de l'annnée en numero de mois relatif
 function MoisRelatif($num_mois, $exercice_mois) {
+    if ($exercice_mois < 1 or $exercice_mois > 12) {
+        error_log("Erreur MoisRelatif : variable exercice_mois invalide.", 3, "./erreur.log");  
+        return NULL;
+    }      
     $num_mois_relatif = ($num_mois - $exercice_mois +1);
 	if ($num_mois_relatif < 0) {
 		$num_mois_relatif = ( 12 + $num_mois_relatif ); 
@@ -159,6 +171,14 @@ function MoisRelatif($num_mois, $exercice_mois) {
 
 // Transforme un numero de mois relatif en numero de mois de l'année
 function MoisAnnee($num_mois_relatif, $exercice_mois) {
+    if ($num_mois_relatif < 1 or $num_mois_relatif > 12) {
+        error_log("Erreur MoisAnnee : variable mois_relatif invalide.", 3, "./erreur.log");  
+        return NULL;
+    }
+    if ($exercice_mois < 1 or $exercice_mois > 12) {
+        error_log("Erreur MoisAnnee : variable exercice_mois invalide.", 3, "./erreur.log");  
+        return NULL;
+    }    
     $num_mois = ( $num_mois_relatif + $exercice_mois -1 ) % 12;           
     if ( $num_mois == 0 ) { $num_mois = 12; }
 	return $num_mois;

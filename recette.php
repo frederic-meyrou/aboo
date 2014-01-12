@@ -185,16 +185,19 @@
 
 		// insert data
 		if ($valid) {
+		    // Enregistre la recette
 			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			$recette_id = $pdo->lastInsertId();
-			if ($paiement == 1 && $recette_id != 0) { // Enregistre le paiement différé dans la table paiement
+            // Enregistre une recette avec paiement différé dans la table paiement (mois courant)
+			if ($paiement == 1 && $recette_id != 0) {
 				$sql = "INSERT INTO paiement (recette_id,mois_{$mois_choisi_relatif}) values(?, ?)";
 				$q = $pdo->prepare($sql);
 				$q->execute(array($recette_id, $montant));
-			}				
-			if ($enregistre_paiement && $recette_id != 0) { // Enregistre le paiement élalé
+			}
+            // Enregistre le paiement élalé	des abonnements	dans la table paiement		
+			if ($enregistre_paiement && $recette_id != 0) { 
 				$sql = "INSERT INTO paiement (recette_id,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				$q = $pdo->prepare($sql);
 				$q->execute(array($recette_id, $paiement_mois_{1}, $paiement_mois_{2}, $paiement_mois_{3}, $paiement_mois_{4}, $paiement_mois_{5}, $paiement_mois_{6}, $paiement_mois_{7}, $paiement_mois_{8}, $paiement_mois_{9}, $paiement_mois_{10}, $paiement_mois_{11}, $paiement_mois_{12}));
@@ -207,27 +210,34 @@
     } // If POST
 	
 	
-// Lecture dans la base des recettes (sur user_id et exercice_id et mois) 
+    // Lecture dans la base des recettes (sur user_id et exercice_id et mois) 
     $sql = "SELECT * FROM recette WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		ORDER by date_creation
     		";
-// Requette pour calcul de la somme	
+    // Requette pour calcul de la somme	du montant (CA)
     $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
-// Lecture dans la base des clients (sur user_id) 
+    // Lecture dans la base des clients (sur user_id) 
     $sql3 = "SELECT id,prenom,nom FROM client WHERE
     		(user_id = :userid)
+    		ORDER by nom
     		";
-    					
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
     $q3 = array('userid' => $user_id);
-    
+    // Requette pour calcul de la somme des encaissements
+    $sql4 = "SELECT SUM(montant) FROM recette WHERE
+            (user_id = :userid AND exercice_id = :exerciceid AND mois = :mois) AND
+            paye = 1
+            ";
+                        
+    // Selecteur					
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
+
+    // Execution des requettes    
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
-    //$req->execute($q);
     $count = $req->rowCount($sql);
 	
 	$req2 = $pdo->prepare($sql2);
@@ -238,17 +248,21 @@
     $req3->execute($q3);	
     $data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
 	$count3 = $req3->rowCount($sql3);
-        
+
+    $req4 = $pdo->prepare($sql4);
+    $req4->execute($q); 
+    $data4 = $req4->fetch(PDO::FETCH_ASSOC);	
+   	        
     if ($count==0) { // Il n'y a aucunes recettes à afficher
         $affiche = false;              
     } else {
     		// Calcul des sommes
-	        $total_recettes= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
+	        $total_recettes= floatval(!empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0);
 	        for ($i = 1; $i <= 12; $i++) { 
 	        	$total_mois_{$i}= !empty($data2["SUM(mois_$i)"]) ? $data2["SUM(mois_$i)"] : 0;
 			}
-
-			// Liste des clients à afficher
+            $total_encaissement= floatval(!empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0);
+			// Liste des clients à afficher dans le select
 			$Liste_Client = array();    	
 		    if ($count3!=0) {
 		    	$i=0;
@@ -258,7 +272,6 @@
 					$i++;
 				}   	
 		    } 			
-			
 			// On affiche le tableau
 	        $affiche = true;
     }
@@ -308,6 +321,16 @@
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
+            DATA :<br>
+            <pre><?php var_dump($data); ?></pre>
+            DATA2 :<br>
+            <pre><?php var_dump($data2); ?></pre>  
+            DATA3 :<br>
+            <pre><?php var_dump($data3); ?></pre>
+            DATA4 :<br>
+            <pre><?php var_dump($data4); ?></pre>
+            DATA5 :<br>
+            <pre><?php var_dump($data5); ?></pre>                                        
         </div>
        </div>
         <?php       
@@ -366,6 +389,7 @@
 		            <!-- Affiche les sommmes -->        
 					<p>
 						<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
+                        <button type="button" class="btn btn-info">Total encaissement : <?php echo $total_encaissement; ?> €</button>						
 						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
 						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$mois_choisi_relatif}); ?> €</button>
 						
