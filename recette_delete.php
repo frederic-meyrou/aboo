@@ -57,10 +57,10 @@
 		// keep track post values
 		$id = $sPOST['id'];
 
-        // Suppression des paiements associés
-        $sql1 = "DELETE FROM paiement WHERE recette_id = ?";
-        $q = $pdo->prepare($sql1);
-        $q->execute(array($id));  
+        // Suppression des paiements associés (par trigger)
+        //$sql1 = "DELETE FROM paiement WHERE recette_id = ?";
+        //$q = $pdo->prepare($sql1);
+        //$q->execute(array($id));  
         		
 		// suppression de la recette
 		$sql2 = "DELETE FROM recette WHERE id = ?";

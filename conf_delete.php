@@ -85,8 +85,7 @@
         $req = $pdo->prepare($sql4);
         $req->execute(array($id));
 
-        // 	Suppression des paiements	
-        //TODO il faut faire un select sur recette puis une boucle sur fetchall et un delete sur paiement avec recette_id ...
+        // 	Suppression des paiements (par trigger)	
 	} 
 
 // On retourne d'ou on vient
