@@ -2,6 +2,10 @@
 © Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
 -->
 <?php
+// Dépendances
+	require_once('lib/fonctions.php');
+    include_once('lib/database.php');
+	
 // Vérification de l'Authent
     session_start();
     require('lib/authent.php');
@@ -10,10 +14,6 @@
         header('Location:index.php');
     }
 
-// Dépendances
-	require_once('lib/fonctions.php');
-    require_once('lib/database.php');
-	
 // Mode Debug
 	$debug = false;
 
@@ -50,7 +50,6 @@
     }
 	
 // Initialisation de la base
-    include_once 'lib/database.php';
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
