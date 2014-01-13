@@ -259,7 +259,7 @@ function ChargeSessionExerciceBDD($data) {
 							  	<a href="conf_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
 							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
 							  	<a href="#" id="<?php echo $row['id']; ?>"
-							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#AnneeInput').val('<?php echo $row['annee_debut']; ?>'); $('#modalDelete').modal('show'); "
+							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#AnneeInput').val('<?php echo $row['annee_debut']; ?>'); $('<?php echo ($row['annee_debut']==$exercice_annee) ? '#modalImpossible' : '#modalDelete'; ?>').modal('show'); "
 							  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
 						</div>						                                
 			<?php
@@ -298,6 +298,25 @@ function ChargeSessionExerciceBDD($data) {
                         </div>
                       </div><!-- /.modal-footer -->
                     </form>                   
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->	
+            <!-- Modal Impossible -->
+            <div class="modal fade" id="modalImpossible" tabindex="-1" role="dialog" aria-labelledby="ImpossibleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="ImpossibleModalLabel">Suppression d'une exercice :</h3>
+                      </div><!-- /.modal-header -->
+                      <div class="modal-body">
+                          <center><strong>
+                           <p class="alert alert-warning">Impossible de supprimer l'exercice courant.</p>
+                          </strong></center>
+                      </div><!-- /.modal-body -->                                         
+                      <div class="modal-footer">                       
+                            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                      </div><!-- /.modal-footer -->                 
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->	
