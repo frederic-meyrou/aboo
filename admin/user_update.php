@@ -2,6 +2,10 @@
 © Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
 -->
 <?php 
+// Dépendances
+	require_once('../lib/fonctions.php');
+	require_once('../lib/database.php');
+	
 // Vérification de l'Authent
     session_start();
     require('../lib/authent.php');
@@ -10,10 +14,6 @@
         header('Location:../index.php');
     }
 			
-// Dépendances
-	require_once('../lib/fonctions.php');
-	require_once('../lib/database.php');
-	
 // Mode Debug
 	$debug = false;
 
@@ -52,7 +52,6 @@
 		$inscriptionError = null;
 		$expirationError = null;
 		$montantError = null;
-        $adminError = null;
         		
 		// keep track post values
 		$password = $sPOST['password'];
@@ -63,10 +62,53 @@
 		$inscription = $sPOST['inscription'];
 		$expiration = $sPOST['expiration'];
 		$montant = $sPOST['montant'];
-        $administrateur = $sPOST['administrateur'];
+
+		// Statut utilisateur Radio
+		empty($sPOST['utilisateur']) ? $utilisateur=0 : $utilisateur=1;
+		empty($sPOST['administrateur']) ? $administrateur=0 : $administrateur=1;
 		
 		// validate input
-		$valid = true;		
+		$valid = true;
+        if (empty($email)) {
+            $emailError = 'Veuillez entrer votre adresse Email';
+            $valid = false;
+        } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+            $emailError = 'Veuillez entrer une adresse eMail valide';
+            $valid = false;
+        }
+		if (empty($password)) {
+			$passwordError = 'Veuillez entrer un mot de passe';
+			$valid = false;
+		}
+		if (empty($nom)) {
+			$nomError = 'Veuillez entrer un nom';
+			$valid = false;
+		}
+		if (empty($prenom)) {
+			$prenomError = 'Veuillez entrer un prénom';
+			$valid = false;
+		}
+		if (empty($telephone)) {
+			$telephoneError = 'Veuillez entrer un numéro de téléphone';
+			$valid = false;
+		}
+		if (empty($inscription)) {
+			$inscriptionError = 'Veuillez entrer une date AA-MM-JJ';
+			$valid = false;
+		} elseif ( !IsDate($inscription)) {
+			$inscription = 'AA-MM-JJ';
+			$valid = false;
+		}
+		if (empty($expiration)) {
+			$expiration = NULL;
+		} elseif ( !IsDate($expiration)) {
+			$expiration = 'AA-MM-JJ';
+			$valid = false;
+		}
+		if (empty($montant)) {
+			$montant = 0;
+		}
+		$montant = number_format($montant,2,',','.');	
 		
 		// update data
 		if ($valid) {
@@ -93,7 +135,9 @@
 		$inscription = $data['inscription'];
 		$expiration = $data['expiration'];
         $montant = $data['montant'];        
-        $administrateur = $data['administrateur'];        
+        $administrateur = $data['administrateur'];
+		// Valeure pour Radio
+		$administrateur == 1 ? $utilisateur=0 : $utilisateur=1;        
 		
 		Database::disconnect();
 	}
@@ -153,7 +197,19 @@
 					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
 					<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-	                <?php Affiche_Champ($administrateur, $adminError, 'administrateur','Administrateur', 'number' ); ?>
+					
+                    <div class="radio">
+					  <label>
+					    <input type="radio" name="administrateur" id="utilisateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
+					    Utilisateur
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="administrateur" id="administrateur" value="1" <?php echo ($administrateur==1)?'checked':''; ?>>
+					    Administrateur
+					  </label>
+					</div>
 	                					
 				    <div class="form-actions">
 				      <br>  

@@ -7,7 +7,7 @@ class Authent{
     static function islogged(){
         //global $cnx;
         if(isset($_SESSION['authent']) && isset($_SESSION['authent']['email']) && isset($_SESSION['authent']['password'])){
-            include_once 'lib/database.php';
+            //include_once 'lib/database.php';
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = 'SELECT email,password FROM user WHERE email = :email AND password = :password';

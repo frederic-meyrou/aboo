@@ -2,17 +2,17 @@
 © Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
 -->
 <?php 
-// Vérification de l'Authent
+// Dépendances
+	require_once('../lib/fonctions.php');
+	require_once('../lib/database.php');
+
+	// Vérification de l'Authent
     session_start();
     require('../lib/authent.php');
     if( !Authent::islogged()){
         // Non authentifié on repart sur la HP
         header('Location:../index.php');
     }
-		
-// Dépendances
-	require_once('../lib/fonctions.php');
-	require_once('../lib/database.php');
 	
 // Mode Debug
 	$debug = false;
@@ -29,7 +29,12 @@
     foreach ($_POST as $key => $value) {
         $sPOST[$key]=htmlentities($value, ENT_QUOTES);
     }
-        	
+	
+// Valeures par défaut :
+	$administrateur=0;
+	$utilisateur=1;	
+
+// Traitement du formulaire :        	
 	if ( !empty($sPOST)) {
 		// keep track validation errors
 		$passwordError = null;
@@ -41,7 +46,6 @@
 		$inscriptionError = null;
 		$expirationError = null;
 		$montantError = null;
-        $adminError = null;
 		
 		// keep track post values
 		$password = $sPOST['password'];
@@ -52,8 +56,13 @@
 		$inscription = $sPOST['inscription'];
 		$expiration = $sPOST['expiration'];
 		$montant = $sPOST['montant'];
-        $administrateur = $sPOST['administrateur'];
 		
+		// Statut utilisateur Radio
+		empty($sPOST['utilisateur']) ? $utilisateur=0 : $utilisateur=1;
+		empty($sPOST['administrateur']) ? $administrateur=0 : $administrateur=1;
+		echo $sPOST['utilisateur'];
+		echo $sPOST['administrateur'];
+
 		// validate input
 		$valid = true;
         if (empty($email)) {
@@ -95,10 +104,8 @@
 		if (empty($montant)) {
 			$montant = 0;
 		}
-        if (empty($administrateur)) {
-            $administrateur = 0;
-        }
-	
+		$montant = number_format($montant,2,',','.');
+				
 		// insert data
 		if ($valid) {
 			$pdo = Database::connect();
@@ -171,7 +178,19 @@
 						    <?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 						    <?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
 						    <?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-	                        <?php Affiche_Champ($administrateur, $adminError, '$administrateur','Admin', 'text' ); ?>					 
+
+	                        <div class="radio">
+							  <label>
+							    <input type="radio" name="administrateur" id="utilisateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
+							    Utilisateur
+							  </label>
+							</div>
+							<div class="radio">
+							  <label>
+							    <input type="radio" name="administrateur" id="administrateur" value="1" <?php echo ($administrateur==1)?'checked':''; ?>>
+							    Administrateur
+							  </label>
+							</div>	                								 
 							  
 						    <div class="form-actions">
 						      <br>
