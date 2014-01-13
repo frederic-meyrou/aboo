@@ -21,12 +21,6 @@
         $sPOST[$key]=htmlentities($value, ENT_QUOTES);
     }
     	
-// Récupère l'ID de l'exercice à supprimer en GET
-	if ( !empty($sGET['id']) && !empty($sGET['annee'])) {
-		$id = $sGET['id'];
-		$annee = $sGET['annee'];
-	}
-	
 // Récupération des variables de session d'Authent
     $user_id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
@@ -79,59 +73,21 @@
         if ($annee == $exercice_annee) {
             $_SESSION['exercice'] = array();
         }
-        
-        // On retourne d'ou on vient
-        Database::disconnect();                    
-		header("Location: conf.php");
-		
+
+        // Suppression depenses et recettes
+        $sql3 = "DELETE FROM recette WHERE exercice_id = ?";
+        $req = $pdo->prepare($sql3);
+        $req->execute(array($id));
+
+        $sql4 = "DELETE FROM depense WHERE exercice_id = ?";
+        $req = $pdo->prepare($sql4);
+        $req->execute(array($id));
+
+        // 	Suppression des paiements	
+        //TODO il faut faire un select sur recette puis une boucle sur fetchall et un delete sur paiement avec recette_id ...
 	} 
+
+// On retourne d'ou on vient
+    Database::disconnect();                    
+	header("Location: conf.php");
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<?php require 'head.php'; ?>
-
-<body>
-
-    <?php $page_courante = "conf.php"; require 'nav.php'; ?>
-        
-    <div class="container">
-        <h2>Suppression d'un exercice</h2>
-        <br>
-
-        <!-- Affiche les informations de debug -->
-        <?php 
- 		if ($debug) {
-		?>
-        <div class="alert alert alert-danger alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Informations de Debug : </strong><br>
-            SESSION:<br>
-            <pre><?php var_dump($_SESSION); ?></pre>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-        </div>
-        <?php       
-        }   
-        ?>  
-        
-		<div class="span10 offset1">
-			<form class="form-horizontal" action="conf_delete.php" method="post">
-			  <input type="hidden" name="id" value="<?php echo $id;?>"/>
-              <input type="hidden" name="annee" value="<?php echo $annee;?>"/>			  
-			  <p class="alert alert-danger">Confirmation de la suppression ?</p>
-				<div class="form-actions">
-				  <button type="submit" class="btn btn-danger">Oui</button>
-				  <a class="btn" href="conf.php">Non</a>
-				</div>
-			</form>
-			
-		</div> <!-- /span10 -->		
-    </div> <!-- /container -->
-
-    <?php require 'footer.php'; ?>
-        
-  </body>
-</html>

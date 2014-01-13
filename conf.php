@@ -257,7 +257,10 @@ function ChargeSessionExerciceBDD($data) {
 			?>
 						<div class="btn-group btn-group-sm">
 							  	<a href="conf_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-							  	<a href="conf_delete.php?id=<?php echo $row['id'].'&annee='.$row['annee_debut']; ?>" class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+							  	<a href="#" id="<?php echo $row['id']; ?>"
+							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#AnneeInput').val('<?php echo $row['annee_debut']; ?>'); $('#modalDelete').modal('show'); "
+							  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
 						</div>						                                
 			<?php
 						echo '</td>';
@@ -270,6 +273,35 @@ function ChargeSessionExerciceBDD($data) {
             </table>
             
 			</div> 	<!-- /row -->
+				
+            <!-- Modal Delete -->
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="form-horizontal" action="conf_delete.php" method="post">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une exercice :</h3>
+                      </div><!-- /.modal-header -->
+                      <div class="modal-body">
+                          <center><strong>
+                           <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
+                           <p class="alert alert-warning">Attention cette action supprimera aussi tous recette et dépenses associées.</p>
+                           <input id="DeleteInput" type="hidden" name="id" value=""/>
+                           <input id="AnneeInput" type="hidden" name="annee" value=""/>
+                          </strong></center>
+                      </div><!-- /.modal-body -->                                         
+                      <div class="modal-footer">
+                        <div class="form-actions">                              
+                            <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
+                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                        </div>
+                      </div><!-- /.modal-footer -->
+                    </form>                   
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->	
+                			
         </div>  <!-- /span -->        			
     
     </div> <!-- /container -->
