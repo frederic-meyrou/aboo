@@ -142,7 +142,7 @@
                         A.user_id = :userid AND A.exercice_id = :exerciceid AND
                         P.mois_$m <> 0 AND
                         P.paye_$m = 0
-                        ";  
+                        ";                         
                 // Envoi des requettes 
                 $req = $pdo->prepare($sql6);
                 $req->execute($q);
@@ -153,21 +153,29 @@
                 // Calcul des sommes 
                 $total_paiement_mois_{$m}= !empty($data6["SUM(P.mois_$m)"]) ? $data6["SUM(P.mois_$m)"] : 0;
                 $total_apayer_mois_{$m}= !empty($data7["SUM(P.mois_$m)"]) ? $data7["SUM(P.mois_$m)"] : 0; 
-				
+				$total_encaissement_mois_{$m}= $total_paiement_mois_{$m} - $total_apayer_mois_{$m};
+                
 				// Calcul des compteurs à afficher
-            	$report_salaire_{$m}= 0;
-				$report_treso_{$m}= 0;
 				$mois_relatif_prec = $m - 1;
 			
 				if ($m == 1) { // Premier mois, cas particulier : on utilise la treso de début d'exercice
-					$treso_{$m} = $exercice_treso + $total_encaissements_{$m} - $total_depenses_mois_{$m};
-					$salaire_{$m} = ($total_mois_{$m} > $treso_{$m}) ? $treso_{m} : $total_mois_{$m};
-					$report_salaire_{$m}= ($total_mois_{$m} > $treso_{$m}) ? ($total_mois_{$m} - $treso_{$m}) : 0;
+					$treso_{$m} = $exercice_treso + $total_encaissements_{$m} + $total_encaissement_mois_{$m} + $total_depenses_mois_{$m};
+					$salaire_{$m} = ($total_mois_{$m} > $treso_{$m}) ? $treso_{$m} : $total_mois_{$m};
+					if ( ($treso_{$m} > 0 ) && ($total_mois_{$m} > $treso_{$m}) ) {
+					   $report_salaire_{$m}= $total_mois_{$m} - $treso_{$m};
+                    } else {
+                       $report_salaire_{$m}= 0;
+                    }    
 				} else {
-					$treso_{$m} = $report_treso_{$mois_relatif_prec} + $total_encaissements_{$m} - $total_depenses_mois_{$m};
-					$salaire_{$m} = (($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) > $treso_{$m}) ? $treso_{$m} : $total_mois_{$m} + $report_salaire_{$mois_relatif_prec};
-					$report_salaire_{$m}= (($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) > $treso_{$m}) ? ($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) - $treso_{$m} : 0;
+					$treso_{$m} = $report_treso_{$mois_relatif_prec} + $total_encaissements_{$m} + $total_encaissement_mois_{$m} + $total_depenses_mois_{$m};
+					$salaire_{$m} = (($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) > $treso_{$m}) ? $treso_{$m} : $total_mois_{$m} + $report_salaire_{$mois_relatif_prec};    
+                    if ( ($treso_{$m} > 0 ) && (($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) > $treso_{$m}) ) {
+                       $report_salaire_{$m}= ($total_mois_{$m} + $report_salaire_{$mois_relatif_prec}) - $treso_{$m};
+                    } else {
+                       $report_salaire_{$m}= 0;
+                    }                      
 				}
+                if ($salaire_{$m} <= 0) {$salaire_{$m}=0;} 
 				$report_treso_{$m}= $treso_{$m} - $salaire_{$m};                                                                      
             } // End for
 	           
@@ -225,7 +233,8 @@
             global $exercice_mois;
             global $total_paiement_mois_;
             global $total_apayer_mois_;
-            global $total_encaissements_;		
+            global $total_encaissements_;
+            global $total_encaissement_mois_;		
 			global $report_treso_;
 			global $report_salaire_;
 			global $treso_;
@@ -235,17 +244,18 @@
             $num_mois = MoisAnnee($mois_relatif, $exercice_mois);
 			$mois_relatif_prec = $mois_relatif - 1;
 			
-			// Calcul des compteurs à afficher
+			// Compteurs à afficher
 			$CA=$total_recettes_mois_{$mois_relatif};
 			$DEPENSE=$total_depenses_mois_{$mois_relatif};
 			$SOLDE=$solde_mois_{$mois_relatif};
 			$VENTIL=$total_mois_{$mois_relatif};
 			$PAIEMENT=$total_paiement_mois_{$mois_relatif};
 			$ECHUS=$total_apayer_mois_{$mois_relatif};
-			$ENCAISSEMENT=$total_encaissements_{$mois_relatif};
+			$ENCAISSEMENT=$total_encaissements_{$mois_relatif} + $total_encaissement_mois_{$mois_relatif};
 			$TRESO=$treso_{$mois_relatif};
-			$SALAIRE=$salaire_{$mois_relatif};			
-			$ATRESORISER=$TRESO - $SALAIRE;
+			$SALAIRE=$salaire_{$mois_relatif};
+            $REPORT_SALAIRE=$report_salaire_{$mois_relatif};			
+			$ATRESORISER=$report_treso_{$mois_relatif};
 
         ?>
               <div class="panel panel-success">
@@ -258,9 +268,9 @@
                     <li>Solde brut : <?php echo number_format($SOLDE,2,',','.') . ' €'; ?></li> 
                     <li>Ventilation : <?php echo number_format($VENTIL,2,',','.') . ' €'; ?></li>                   
                     <li>Salaire : <?php echo number_format($SALAIRE,2,',','.') . ' €'; ?></li>
-                    <li>Report Salaire : <?php echo number_format($report_salaire_{$mois_relatif},2,',','.') . ' €'; ?></li>
+                    <li>Report Salaire : <?php echo number_format($REPORT_SALAIRE,2,',','.') . ' €'; ?></li>
                     <li>Tréso avant salaire : <?php echo number_format($TRESO,2,',','.') . ' €'; ?></li>
-                    <li>A trésoriser après salaire : <?php echo number_format($ATRESORISER,2,',','.') . ' €'; ?></li>
+                    <li>A trésoriser : <?php echo number_format($ATRESORISER,2,',','.') . ' €'; ?></li>
                     <li>Encaissement : <?php echo number_format($ENCAISSEMENT,2,',','.') . ' €'; ?></li>                    
                     <li>Paiements : <?php echo number_format($PAIEMENT,2,',','.') . ' €'; ?></li>
                     <li>Paiements échus : <?php echo number_format($ECHUS,2,',','.') . ' €'; ?></li>
@@ -316,9 +326,9 @@
 				<button type="button" class="btn btn-primary">Exercice : <?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
 				<button type="button" class="btn btn-info">Total dépenses : <?php echo number_format($total_depenses_annee,2,',','.'); ?> €</button>
 				<button type="button" class="btn btn-info">Total recettes : <?php echo number_format($total_recettes_annee,2,',','.'); ?> €</button>
-                <button type="button" class="btn btn-info">Total encaissements : <?php echo number_format($total_encaissements_annee,2,',','.'); ?> €</button>				
-				<button type="button" class="btn btn-info">Solde : <?php echo number_format($solde_annee,2,',','.'); ?> €</button>		
-                <button type="button" class="btn btn-info">Salaire mensuel moyen : <?php echo number_format(( $solde_annee / 12 ),2,',','.'); ?> €</button>   
+                <button type="button" class="btn btn-info">Total encaissements : <?php echo number_format($total_encaissements_annee + $total_encaissement_mois_{1} + $total_encaissement_mois_{2} + $total_encaissement_mois_{3} + $total_encaissement_mois_{4} + $total_encaissement_mois_{5} + $total_encaissement_mois_{6} + $total_encaissement_mois_{7} + $total_encaissement_mois_{8} + $total_encaissement_mois_{9} + $total_encaissement_mois_{10} + $total_encaissement_mois_{11} + $total_encaissement_mois_{12},2,',','.'); ?> €</button>				
+				<button type="button" class="btn btn-info">Solde brut : <?php echo number_format($solde_annee,2,',','.'); ?> €</button>		
+                <button type="button" class="btn btn-info">Salaire : <?php echo number_format(( $salaire_{1} + $salaire_{2} + $salaire_{3} + $salaire_{4} + $salaire_{5} + $salaire_{6} + $salaire_{7} + $salaire_{8} + $salaire_{9} + $salaire_{10} + $salaire_{11} + $salaire_{12} ),2,',','.'); ?> €</button>   
  			</p>			
 			          
 			</div> 	<!-- /row -->
