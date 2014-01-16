@@ -57,7 +57,7 @@
 		$adresse2 = $sPOST['adresse2'];
 		$cp = $sPOST['cp'];
 		$ville = $sPOST['ville'];
-		$description = $sPOST['description'];
+		$description = trim($sPOST['description']);
 		
 		// validate input
 		$valid = true;
