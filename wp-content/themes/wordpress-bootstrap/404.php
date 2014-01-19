@@ -10,8 +10,8 @@
 
 							<div class="hero-unit">
 							
-								<h1>Epic 404 - Article Not Found</h1>
-								<p>This is embarassing. We can't find what you were looking for.</p>
+								<h1>Epic 404 - Page non disponible</h1>
+								<p>C'est tr&egrave;s embarrassant. Nous ne pouvons trouver ce que vous recherchez.</p>
 															
 							</div>
 													
