@@ -1,42 +1,19 @@
-var gIcon={
+var icon={
     title:"Icon Shortcode",
-    id :'#oscitas-form-icon'
+    id :'oscitas-form-icon',
+    pluginName: 'icon'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasIcon', {
-        init : function(ed, url) {
-            ed.addButton('oscitasicon', {
-                title : 'Icon Shortcode',
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_icon();
-                    open_dialogue(gIcon.id, 600);
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            return {
-                longname : "Icon Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "2.0.0"
-            };
-        }
-    });
-    tinymce.PluginManager.add('oscitasicon', tinymce.plugins.oscitasIcon);
+    _create_tinyMCE_options(icon, 800);
 })();
 
-function create_oscitas_icon(){
-    if(jQuery('#oscitas-form-icon').length){
-        jQuery('#oscitas-form-icon').remove();
+function create_oscitas_icon(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-icon" class="oscitas-container"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
                         <tr>\
                         <th><label for="oscitas-heading-icon">Select Icon:</label></th>\
 				<td><div id="click_icon_list_icon" class="oscitas-icon-div"><span id="osc_show_icon_icon"></span><span class="show-drop"></span></div><input type="hidden" id="osc_icon_class_val_icon" value="glyphicon-adjust">\
@@ -313,7 +290,7 @@ function create_oscitas_icon(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        close_dialogue(gIcon.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 

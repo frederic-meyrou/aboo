@@ -1,42 +1,19 @@
-var gIconHeading={
+var iconhead={
     title:"Icon Heading Shortcode",
-    id :'#oscitas-form-iconhead'
+    id :'oscitas-form-iconhead',
+    pluginName: 'iconhead'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasIconhead', {
-        init: function(ed, url) {
-            ed.addButton('oscitasiconhead', {
-                title: 'Icon Heading Shortcode',
-                image: url + '/icon.png',
-                onclick: function() {
-                    create_oscitas_iconhead();
-                    open_dialogue(gIconHeading.id, 600);
-                }
-            });
-        },
-        createControl: function(n, cm) {
-            return null;
-        },
-        getInfo: function() {
-            return {
-                longname: "Icon Heading Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "."
-            };
-        }
-    });
-    tinymce.PluginManager.add('oscitasiconhead', tinymce.plugins.oscitasIconhead);
+    _create_tinyMCE_options(iconhead, 800);
 })();
 
-function create_oscitas_iconhead(){
-    if(jQuery('#oscitas-form-iconhead').length){
-        jQuery('#oscitas-form-iconhead').remove();
+function create_oscitas_iconhead(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-iconhead" class="oscitas-container"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 			<tr>\
 				<th><label for="oscitas-heading-icon">Select Icon:</label></th>\
 				<td><div id="click_icon_list" class="oscitas-icon-div"><span id="osc_show_icon"></span><span class="show-drop"></span></div><input type="hidden" id="osc_icon_class_val" value="">\
@@ -323,7 +300,7 @@ function create_oscitas_iconhead(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent',0 , shortcode);
 
-        close_dialogue(gIconHeading.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 

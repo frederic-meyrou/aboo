@@ -4,7 +4,7 @@ Link: http://www.osCitasthemes.com
 Tags: Wordpress Shortcodes, Wordpress Bootstrap, Wordpress Bootstrap Shortcode, Bootstrap, Responsive pages, Editor plugin, Bootstrap Shortcode, TinyMCE
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 2.4.0
+Stable tag: 2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,8 +32,6 @@ http://www.youtube.com/watch?v=eSrFVAro8Nc
 Looking for parallax slider, check this [Easy Wordpress Parallax Slider](http://wordpress.org/plugins/easy-wp-parallax-slider/)
 
 Want to implement responsive tabs to your pages, check this [Easy Responsive Tabs](http://wordpress.org/plugins/easy-responsive-tabs/)
-
-Follow us [@Twitter](https://twitter.com/oscitasthemes), [@facebook](https://www.facebook.com/oscitasthemes), [@google+](https://plus.google.com/109122908951553852347/posts)
 
 = For best results use with bootstrap 3.0.3 responsive theme =
 
@@ -171,6 +169,7 @@ And to give use the custom css for admin
 
 If you'd like to contribute to this plugin, you can find it [hosted on GitHub](https://github.com/oscitasthemes/Easy-Bootstrap-Shortcode).
 
+Follow us [@Twitter](https://twitter.com/oscitasthemes), [@facebook](https://www.facebook.com/oscitasthemes), [@google+](https://plus.google.com/109122908951553852347/posts)
 
 
 
@@ -204,6 +203,30 @@ It's that simple ... just what the name suggests
 
 
 == Changelog ==
+
+= 2.5 =
+
+* [New] Custom CSS Option in EBS Setting Page.
+
+= 2.4.8 =
+
+* [Fixed] CSS file priority order change.
+
+= 2.4.7 =
+
+* [Fixed] Image issue resolved for setting page.
+
+= 2.4.6 =
+
+* Add Icons for new Dropdown menu in TinyMCE Editor.
+
+= 2.4.5 =
+
+* Add New Dropdown Menu Option in TinyMCE Editor.
+
+= 2.4.4 =
+
+* [Fixed] css for admin popups.
 
 = 2.4.3 =
 

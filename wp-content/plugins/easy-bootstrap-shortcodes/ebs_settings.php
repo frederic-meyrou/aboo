@@ -1,6 +1,6 @@
 <div class="ebs_page_settings">
     <h1>Easy Bootstrap Shortcode Settings for js/css files</h1><form name="ebs_setting" id="ebs_setting" method="post" action="">
-        <div class="ebs_details">
+        <?php  if(!apply_filters('plugin_oscitas_theme_check',false)){ ?><div class="ebs_details">
             <label class="ebs_setting_label">bootstrap.js file</label>
             <p>
                 <input type="radio" name="b_js" id="b_js_plugin" class="check_cdn" value="1" <?php echo ($js == 1) ? 'checked=checked' : '' ?>>
@@ -30,13 +30,29 @@
                 <input type="radio" name="b_css" id="b_css_theme" value="2" <?php echo ($css == 2) ? 'checked=checked' : '' ?>><label for="b_css_theme">Use from theme or any other plugin</label>
             </p>
         </div>
-        <div class="ebs_btn"><input type="submit" name="ebs_submit" value="Update Settings"></div>
-        <div style="clear: both;"></div>
+        <?php } ?>
+        <div class="ebs_details">
+            <label class="ebs_setting_label">Editor Button Style</label>
+            <p>
+                <label for="ebsp_icon" class="ebs_editor_label" title="Icons"><input type="radio" name="ebsp_editor_opt" id="ebsp_icon" value="icon" <?php echo ($ebsp_editor_opt == 'icon') ? 'checked=checked' : '' ?> style="display: none" class="ebs_editor_style"><img src="<?php echo EBS_PLUGIN_URL.'images/icons.png'?>"></label>
+
+                <label for="ebsp_dropdown" class="ebs_editor_label" title="Dropdown"><input type="radio" name="ebsp_editor_opt" id="ebsp_dropdown" value="dropdown" <?php echo ($ebsp_editor_opt == 'dropdown') ? 'checked=checked' : '' ?> style="display: none" class="ebs_editor_style"><img src="<?php echo EBS_PLUGIN_URL.'images/dropdown.png'?>"></label>
+
+            </p>
+        </div>
+        <div class="ebs_details">
+            <label class="ebs_setting_label">Custom CSS</label>
+            <p>
+              <textarea  name="ebs_custom_css" id="ebs_custom_css"><?php echo trim($ebs_custom_css) ?></textarea>
+            </p>
+        </div>
+        <div class="ebs_btn"><input type="submit" name="ebs_submit" class="button-primary" value="Update Settings"></div>
+        <?php  if(!apply_filters('plugin_oscitas_theme_check',false)){ ?><div style="clear: both;"></div>
         <br /><br /><br />
         <b>CDN Links for bootstrap.js, you can use any of these</b>
         <ul>
             <li>
-                //netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js
+                <?php echo str_replace('http:','',EBS_JS_CDN)?>
             </li>
             <li>
                 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js
@@ -46,9 +62,10 @@
         <b>CDN Links for respond.js, you can use any of these</b>
         <ul>
             <li>
-                //cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.min.js
+                <?php echo str_replace('http:','',EBS_RESPOND_CDN)?>
             </li>
         </ul>
+        <?php } ?>
     </form>
     <br />
     <a href="http://oscitasthemes.com/products/easy-bootstrap-shortcodes-pro/" target="_blank">
@@ -80,4 +97,21 @@
             show_respond_cdn();
         })
     })
+</script>
+<script type="text/javascript">
+    function show_editor_style(){
+        jQuery('.ebs_editor_label').removeClass('val_selected');
+        if(jQuery('#ebsp_icon').prop('checked')){
+            jQuery('#ebsp_icon').parent().addClass('val_selected');
+        } else if(jQuery('#ebsp_dropdown').prop('checked')){
+            jQuery('#ebsp_dropdown').parent().addClass('val_selected');
+        }
+    }
+    jQuery(document).ready(function(){
+        show_editor_style();
+        jQuery('.ebs_editor_style').click(function(){
+            show_editor_style();
+        })
+    });
+
 </script>

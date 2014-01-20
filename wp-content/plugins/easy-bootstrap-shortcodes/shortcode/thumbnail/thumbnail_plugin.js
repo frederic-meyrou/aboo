@@ -1,37 +1,19 @@
 var thumbnail={
     title:"Responsive Image Shortcode",
-    id :'#oscitas-form-thumbnail'
+    id :'oscitas-form-thumbnail',
+    pluginName: 'thumbnail'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasThumbnail', {
-        init : function(ed, url) {
-            ed.addButton('oscitasthumbnail', {
-                title : thumbnail.title,
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_thumbnail();
-                    open_dialogue(thumbnail.id);
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            plugininfo.longname=thumbnail.title;
-            return plugininfo;
-        }
-    });
-    tinymce.PluginManager.add('oscitasthumbnail', tinymce.plugins.oscitasThumbnail);
+    _create_tinyMCE_options(thumbnail);
 })();
 
-function create_oscitas_thumbnail(){
-    if(jQuery('#oscitas-form-thumbnail').length){
-        jQuery('#oscitas-form-thumbnail').remove();
+function create_oscitas_thumbnail(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-thumbnail" title="'+thumbnail.title+'"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 				<th><label for="oscitas-label-content">Upload Image:</label></th>\
 				<td id="osc_thumbnail_upload"><input id="oscitas-thumbnail-src" type="hidden" name="oscitas-thumbnail-src"  value="" />\
                                 <input id="_btn" class="upload_image_button" type="button" value="Upload Image" />\
@@ -114,7 +96,7 @@ function create_oscitas_thumbnail(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 
         // closes Dialoguebox
-        close_dialogue(thumbnail.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 

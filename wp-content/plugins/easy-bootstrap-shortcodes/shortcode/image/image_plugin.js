@@ -1,10 +1,10 @@
-var gImage={
+var image={
     title:"Image Effects Shortcode",
     id :'oscitas-form-image',
     pluginName: 'image'
 };
 (function() {
-    _create_tinyMCE_options(gImage);
+    _create_tinyMCE_options(image);
 })();
 
 function create_oscitas_image(pluginObj){

@@ -1,43 +1,19 @@
-var gColumns={
+var wpcolumns={
     title:"Columns Shortcode",
-    id :'#oscitas-form-wpcolumns'
+    id :'oscitas-form-wpcolumns',
+    pluginName: 'wpcolumns'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasWpcolumns', {
-        init : function(ed, url) {
-            ed.addButton('oscitaswpcolumns', {
-                title : 'Columns Shortcodes',
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_wpcolumns();
-                    open_dialogue(gColumns.id, 1094);
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            return {
-                longname : "Columns Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "2.0.0"
-            };
-        }
-    });
-    tinymce.PluginManager.add('oscitaswpcolumns', tinymce.plugins.oscitasWpcolumns);
+    _create_tinyMCE_options(wpcolumns, 1094);
 })();
 
-function create_oscitas_wpcolumns(){
-    if(jQuery('#oscitas-form-wpcolumns').length){
-        jQuery('#oscitas-form-wpcolumns').remove();
+function create_oscitas_wpcolumns(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-wpcolumns" class="oscitas-container">\
-                <table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 			<tr>\
 				<th><label for="oscitas-no-of-wpcolumns">Number of columns</label></th>\
 				<td><select name="type" id="oscitas-no-of-wpcolumns">\
@@ -150,9 +126,8 @@ function create_oscitas_wpcolumns(){
         });
         ele +='</tbody></table>';
         table.find('#append_column_table').html(ele);
-        jQuery('#oscitas-form-wpcolumns table>tr:visible:even').css('background', '#F0F0F0');
-        jQuery('#oscitas-form-wpcolumns table>tr:visible:odd').css('background', '#DADADD');
-
+        jQuery("#oscitas-table tr:not(#appended tr):visible:even").css('background-color', '#DADADD');
+        jQuery("#oscitas-table tr:not(#appended tr):visible:odd").css('background-color', '#F0F0F0');
     }
     function chnage_col_value(){
 
@@ -170,8 +145,8 @@ function create_oscitas_wpcolumns(){
             })
 
         }
-        jQuery('#oscitas-form-wpcolumns table tr:visible:even').css('background', '#F0F0F0');
-        jQuery('#oscitas-form-wpcolumns table tr:visible:odd').css('background', '#DADADD');
+        jQuery("#oscitas-table tr:not(#appended tr):visible:even").css('background-color', '#DADADD');
+        jQuery("#oscitas-table tr:not(#appended tr):visible:odd").css('background-color', '#F0F0F0');
     }
 
     show_table();
@@ -367,6 +342,6 @@ function create_oscitas_wpcolumns(){
         // inserts the shortcode into the active editor
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
         // closes Thickbox
-        close_dialogue(gColumns.id);
+        close_dialogue(pluginObj.hashId);
     });
 }

@@ -1,42 +1,19 @@
-var gTables={
+var tables={
     title:"Progressbar Shortcode",
-    id :'#oscitas-form-table'
+    id :'oscitas-form-table',
+    pluginName: 'tables'
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasTables', {
-        init : function(ed, url) {
-            ed.addButton('oscitastables', {
-                title : 'Table Shortcode',
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_table();
-                    open_dialogue(gTables.id);
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            return {
-                longname : "Table Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "2.0.0"
-            };
-        }
-    });
-    tinymce.PluginManager.add('oscitastables', tinymce.plugins.oscitasTables);
+    _create_tinyMCE_options(tables);
 })();
 
-function create_oscitas_table(){
-    if(jQuery('#oscitas-form-table').length){
-        jQuery('#oscitas-form-table').remove();
+function create_oscitas_tables(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-table" class="oscitas-container"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 			<tr>\
 				<th><label for="oscitas-table-width">Table Width</label></th>\
 				<td><input type="text" name="icontag" id="oscitas-table-width" value="100%" /><br />\
@@ -138,7 +115,7 @@ function create_oscitas_table(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        close_dialogue(gTables.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 

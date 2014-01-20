@@ -1,42 +1,20 @@
-var gButton={
+var buttons={
     title:"Button Shortcode",
-    id :'#oscitas-form-button'
+    id :'oscitas-form-button',
+    pluginName: 'buttons'
+
 };
 (function() {
-    tinymce.create('tinymce.plugins.oscitasButtons', {
-        init : function(ed, url) {
-            ed.addButton('oscitasbuttons', {
-                title : gButton.title,
-                image : url+'/icon.png',
-                onclick : function() {
-                    create_oscitas_button();
-                    open_dialogue(gButton.id,800);
-                }
-            });
-        },
-        createControl : function(n, cm) {
-            return null;
-        },
-        getInfo : function() {
-            return {
-                longname : "Button Shortcode",
-                author : 'Oscitas Themes',
-                authorurl : 'http://www.oscitasthemes.com/',
-                infourl : 'http://www.oscitasthemes.com/',
-                version : "2.0.0"
-            };
-        }
-    });
-    tinymce.PluginManager.add('oscitasbuttons', tinymce.plugins.oscitasButtons);
+    _create_tinyMCE_options(buttons, 800);
 })();
 
-function create_oscitas_button(){
-    if(jQuery('#oscitas-form-button').length){
-        jQuery('#oscitas-form-button').remove();
+function create_oscitas_buttons(pluginObj){
+    if(jQuery(pluginObj.hashId).length){
+        jQuery(pluginObj.hashId).remove();
     }
     // creates a form to be displayed everytime the button is clicked
     // you should achieve this using AJAX instead of direct html code like this
-    var form = jQuery('<div id="oscitas-form-button" class="oscitas-container"><table id="oscitas-table" class="form-table">\
+    var form = jQuery('<div id="'+pluginObj.id+'" class="oscitas-container" title="'+pluginObj.title+'"><table id="oscitas-table" class="form-table">\
 			<tr>\
 				<th><label for="oscitas-button-style">Style:</label></th>\
 				<td><select name="type" id="oscitas-button-style">\
@@ -413,7 +391,7 @@ function create_oscitas_button(){
         tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 			
         // closes fancybox
-        close_dialogue(gButton.id);
+        close_dialogue(pluginObj.hashId);
     });
 }
 
