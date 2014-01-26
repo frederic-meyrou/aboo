@@ -180,8 +180,8 @@
             <!-- Affiche les sommmes -->        
             <p>
                 <button type="button" class="btn btn-primary">Exercice : <?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
+                <button type="button" class="btn btn-info">CA : <?php echo number_format($TableauBilanAnnuel['CA'],2,',','.'); ?> €</button>
                 <button type="button" class="btn btn-info">Total dépenses : <?php echo number_format($TableauBilanAnnuel['DEPENSE'],2,',','.'); ?> €</button>
-                <button type="button" class="btn btn-info">Total recettes : <?php echo number_format($TableauBilanAnnuel['CA'],2,',','.'); ?> €</button>
                 <button type="button" class="btn btn-info">Solde brut : <?php echo number_format($TableauBilanAnnuel['SOLDE'],2,',','.'); ?> €</button>    
                 <button type="button" class="btn btn-info">Total encaissements : <?php echo number_format($TableauBilanAnnuel['ENCAISSEMENT'],2,',','.'); ?> €</button>
                 <button type="button" class="btn btn-info">Total echus : <?php echo number_format($TableauBilanAnnuel['ECHUS'],2,',','.'); ?> €</button>   

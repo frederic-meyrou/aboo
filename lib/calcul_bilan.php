@@ -95,7 +95,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     
         if ($m == 1) { // Premier mois, cas particulier : on utilise la treso de début d'exercice
             $TRESO_{$m} = $exercicetreso + $ENCAISSEMENT_{$m} + $DEPENSE_{$m};
-            $SALAIRE_{$m} = ($VENTIL_{$m} > $TRESO_{$m}) ? $TRESO_{$m} : $VENTIL_{$m};
+            $SALAIRE_{$m} = ($VENTIL_{$m} > $TRESO_{$m}) ? ($TRESO_{$m} + $DEPENSE_{$m} ) : ( $VENTIL_{$m} + $DEPENSE_{$m} );
             if ( ($TRESO_{$m} > 0 ) && ($VENTIL_{$m} > $TRESO_{$m}) ) { // Si on a de la treso ET que la ventilation est supérieur à la treso
                $REPORT_SALAIRE_{$m}= $VENTIL_{$m} - $TRESO_{$m};
             } else {
@@ -103,7 +103,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             }    
         } else { // Tous les autres mois
             $TRESO_{$m} = $REPORT_TRESO_{$mois_relatif_prec} + $ENCAISSEMENT_{$m} + $DEPENSE_{$m};
-            $SALAIRE_{$m} = (($VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec}) > $TRESO_{$m}) ? $TRESO_{$m} : $VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec};    
+            $SALAIRE_{$m} = (($VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec}) > $TRESO_{$m}) ? ( $TRESO_{$m} + $DEPENSE_{$m} ) : ( $VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec} + $DEPENSE_{$m} );    
             if ( ($TRESO_{$m} > 0 ) && (($VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec}) > $TRESO_{$m}) ) { // Si on a de la treso ET que la ventilation + report salaire est supérieur à la treso
                $REPORT_SALAIRE_{$m}= ($VENTIL_{$m} + $REPORT_SALAIRE_{$mois_relatif_prec}) - $TRESO_{$m};
             } else {
