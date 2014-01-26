@@ -11,7 +11,7 @@ function osc_theme_dropdown($params, $content = null) {
     if ($dropup != 'dropup') {
         $dropup = '';
     }
-    $out = '<div class="btn-group ' . $dropup . ' ' . $class . '">' . do_shortcode($content) . '</div>';
+    $out = '<div class="btn-group ' . $dropup . ' ' . $class .EBS_CONTAINER_CLASS. '">' . do_shortcode($content) . '</div>';
     $out .= "
     <script>
        jQuery(document).ready(function(){
@@ -31,13 +31,13 @@ function osc_theme_dropdown_head($params, $content = null) {
                 'split' => ''), $params));
     $out = '';
     if ($split == "split") {
-        $out = '<button type="button" class="btn ' . $size . ' ' . $style . '">' . $content . '</button>';
+        $out = '<button type="button" class="btn ' . $size . ' ' . $style .EBS_CONTAINER_CLASS. '">' . $content . '</button>';
 
-        $out .= '<button type="button" class="btn ' . $size . ' ' . $style . ' dropdown-toggle" data-toggle="dropdown">';
-        $out .= '<span class="caret"></span></button>';
+        $out .= '<button type="button" class="btn ' . $size . ' ' . $style .EBS_CONTAINER_CLASS. ' dropdown-toggle" data-toggle="dropdown">';
+        $out .= '<span class="caret'.EBS_CONTAINER_CLASS.'"></span></button>';
     } else {
-        $out = ' <button type="button" class="btn ' . $size . ' ' . $style . ' dropdown-toggle" data-toggle="dropdown">';
-        $out .= $content . ' <span class="caret"></span> </button>';
+        $out = ' <button type="button" class="btn ' . $size . ' ' . $style .EBS_CONTAINER_CLASS. ' dropdown-toggle" data-toggle="dropdown">';
+        $out .= $content . ' <span class="caret'.EBS_CONTAINER_CLASS.'"></span> </button>';
     }
 
     return $out;
@@ -49,7 +49,7 @@ function osc_theme_dropdown_body($params, $content = null) {
     $content = str_replace("]<br />", ']', $content);
     $content = str_replace("]<br />\n", ']', $content);
     $content = str_replace("<br />\n[", '[', $content);
-    $out = '<ul class="dropdown-menu" role="menu">' . do_shortcode($content) . '</ul>';
+    $out = '<ul class="dropdown-menu'.EBS_CONTAINER_CLASS.'" role="menu">' . do_shortcode($content) . '</ul>';
     return $out;
 }
 

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2013-12-13 07:59:12+0000\n"
+"PO-Revision-Date: 2014-01-24 19:42:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -453,7 +453,7 @@ msgstr "Nouvelles de WordPress"
 
 #: wp-admin/includes/dashboard.php:230
 msgid "WordPress %1$s running %2$s theme."
-msgstr "WordPress %1$s avec le theme %2$s."
+msgstr "WordPress %1$s avec le thème %2$s."
 
 #: wp-admin/includes/dashboard.php:363
 msgid "What&#8217;s on your mind?"
@@ -511,7 +511,7 @@ msgstr "WordPress %s est disponible."
 
 #: wp-admin/includes/class-wp-upgrader.php:2234
 msgid "Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s."
-msgstr "Votre site à l&rsquo;adresse %1$s a fait face à un échec critique en essayant de faire une mise à jour de WordPress vers la version %2$s."
+msgstr "Votre site à l'adresse %1$s a fait face à un échec critique en essayant de faire une mise à jour de WordPress vers la version %2$s."
 
 #: wp-admin/includes/class-wp-upgrader.php:2263
 msgid "Your site was running version %s."
@@ -545,7 +545,7 @@ msgstr "[%1$s] URGENT : suite à une mise à jour échouée, votre site est peut
 
 #: wp-admin/includes/class-wp-upgrader.php:2199
 msgid "Howdy! Your site at %1$s has been updated automatically to WordPress %2$s."
-msgstr "Salutations ! Votre site à ladresse %1$s a été automatiquement mis à jour vers WordPress %2$s."
+msgstr "Salutations ! Votre site à l'adresse %1$s a été automatiquement mis à jour vers WordPress %2$s."
 
 #: wp-admin/includes/class-wp-upgrader.php:2202
 msgid "No further action is needed on your part."
@@ -557,7 +557,7 @@ msgstr "Pour en savoir plus sur la version %s, lisez l'écran À Propos de WordP
 
 #: wp-admin/includes/class-wp-upgrader.php:2219
 msgid "Please update your site at %1$s to WordPress %2$s."
-msgstr "Veuillez mettre à jour votre site à l'adresse %s1$s pour le passer à WordPress %2$s."
+msgstr "Veuillez mettre à jour votre site à l'adresse %1$s pour le passer à WordPress %2$s."
 
 #: wp-admin/includes/class-wp-upgrader.php:2226
 msgid "We tried but were unable to update your site automatically."
@@ -566,7 +566,7 @@ msgstr "Malgré nos tentatives, nous n'avons pas pu mettre votre site à jour au
 #: wp-admin/includes/class-wp-upgrader.php:2211
 #: wp-admin/includes/class-wp-upgrader.php:2228
 msgid "Updating is easy and only takes a few moments:"
-msgstr "La mise à jour est facile et ne requiert que quelques secondes&nbsp;:"
+msgstr "La mise à jour est facile et ne requiert que quelques secondes :"
 
 #: wp-admin/includes/class-wp-upgrader.php:2236
 msgid "Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s."
@@ -622,7 +622,7 @@ msgstr "Si vous souhaitez vous en occuper, %s sera bloqué et ne pourra pas term
 
 #: wp-admin/update-core.php:49
 msgid "If you need to re-install version %s, you can do so here or download the package and re-install manually:"
-msgstr "Si vous souhaitez réinstaller la version %s, vous pouvez le faire ici, ou télécharger l&rsquo;archive pour la réinstaller vous-même&nbsp;:"
+msgstr "Si vous souhaitez réinstaller la version %s, vous pouvez le faire ici, ou télécharger l&rsquo;archive pour la eéinstaller vous-même&nbsp;:"
 
 #: wp-admin/update-core.php:160
 msgid "Future security updates will be applied automatically."
@@ -856,26 +856,26 @@ msgstr "Mot-clé supprimé."
 #: wp-admin/edit.php:238
 msgid "%s post not updated, somebody is editing it."
 msgid_plural "%s posts not updated, somebody is editing them."
-msgstr[0] "%s entrée n&rsquo;a pas été mise à jour&nbsp;: quelqu&rsquo;un est déjà en train de la modifier."
-msgstr[1] "%s entrées n&rsquo;ont pas été mises à jour&nbsp;: quelqu&rsquo;un est déjà en train de les modifier."
+msgstr[0] "%s article n&rsquo;a pas été mis à jour&nbsp;: quelqu&rsquo;un est déjà en train de la modifier."
+msgstr[1] "%s articles n&rsquo;ont pas été mis à jour&nbsp;: quelqu&rsquo;un est déjà en train de les modifier."
 
 #: wp-admin/edit.php:239
 msgid "%s post permanently deleted."
 msgid_plural "%s posts permanently deleted."
-msgstr[0] "%s commentaire supprimé définitivement."
-msgstr[1] "%s commentaires supprimés définitivement."
+msgstr[0] "%s article supprimé définitivement."
+msgstr[1] "%s articles supprimés définitivement."
 
 #: wp-admin/edit.php:240
 msgid "%s post moved to the Trash."
 msgid_plural "%s posts moved to the Trash."
-msgstr[0] "%s commentaire déplacé dans la Corbeille."
-msgstr[1] "%s commentaires déplacés dans la Corbeille."
+msgstr[0] "%s article déplacé dans la Corbeille."
+msgstr[1] "%s articles déplacés dans la Corbeille."
 
 #: wp-admin/edit.php:241
 msgid "%s post restored from the Trash."
 msgid_plural "%s posts restored from the Trash."
-msgstr[0] "%s commentaire récupéré depuis la Corbeille."
-msgstr[1] "%s commentaires récupérés depuis la Corbeille."
+msgstr[0] "%s article récupéré depuis la Corbeille."
+msgstr[1] "%s articles récupérés depuis la Corbeille."
 
 #: wp-admin/edit.php:244
 msgid "%s page updated."
@@ -886,8 +886,8 @@ msgstr[1] "%s pages mises à jour."
 #: wp-admin/edit.php:245
 msgid "%s page not updated, somebody is editing it."
 msgid_plural "%s pages not updated, somebody is editing them."
-msgstr[0] "%s entrée n&rsquo;a pas été mise à jour&nbsp;: quelqu&rsquo;un est déjà en train de la modifier."
-msgstr[1] "%s entrées n&rsquo;ont pas été mises à jour&nbsp;: quelqu&rsquo;un est déjà en train de les modifier."
+msgstr[0] "%s page n&rsquo;a pas été mise à jour&nbsp;: quelqu&rsquo;un est déjà en train de la modifier."
+msgstr[1] "%s pages n&rsquo;ont pas été mises à jour&nbsp;: quelqu&rsquo;un est déjà en train de les modifier."
 
 #: wp-admin/edit.php:246
 msgid "%s page permanently deleted."
@@ -909,7 +909,7 @@ msgstr[1] "%s pages récupérées depuis la Corbeille."
 
 #: wp-admin/revision.php:107
 msgid "Compare two different revisions by <strong>selecting the &#8220;Compare any two revisions&#8221; box</strong> to the side."
-msgstr "Comparez deux révisions différentes en <strong>cochant  la case &laquo;&nbsp;Comparer n&rsquo;importe quelles révisions</strong> sur le côté."
+msgstr "Comparez deux révisions différentes en <strong>cochant  la case &laquo;&nbsp;Comparer n&rsquo;importe quelles révisions&nbsp;&raquo;</strong> sur le côté."
 
 #: wp-admin/includes/template.php:1897
 msgid "Compare Revisions"
@@ -1203,7 +1203,7 @@ msgstr "Chaque menu personnalisé peut contenir un mélange de liens vers des pa
 
 #: wp-admin/nav-menus.php:503
 msgid "Add one or several items at once by <strong>selecting the checkbox next to each item and clicking Add to Menu</strong>"
-msgstr "Ajoutez un ou plusieurs éléments à la fois en <strong>cochant la case à côté de chaque élément puis en cliquant sur &laquo;&nsbp;Ajouter au menu&nbsp;&raquo;</strong>"
+msgstr "Ajoutez un ou plusieurs éléments à la fois en <strong>cochant la case à côté de chaque élément puis en cliquant sur &laquo;&nbsp;Ajouter au menu&nbsp;&raquo;</strong>"
 
 #: wp-admin/nav-menus.php:504
 msgid "To add a custom link, <strong>expand the Links section, enter a URL and link text, and click Add to Menu</strong>"
@@ -1526,7 +1526,7 @@ msgstr "<strong>Contrôle des blocs</strong> - Cliquez sur la barre de titre d&r
 
 #: wp-admin/widgets.php:67
 msgid "When changing themes, there is often some variation in the number and setup of widget areas/sidebars and sometimes these conflicts make the transition a bit less smooth. If you changed themes and seem to be missing widgets, scroll down on this screen to the Inactive Widgets area, where all of your widgets and their settings will have been saved."
-msgstr "En changeant de thèmes, il y a souvent des variations sur le nombre et l&rsquo;agencement des zones de widgets et des barres latérales, et parfois tout cela entre en conflit, rendant la transition moins aisée. Si vous avez changé de thème et que certains widgets semblent manquer, faites défiler cet écran jusqu&rsquo;en bas pour les retrouver dans la zone des widgets inactifs, où ils ont été conservés avec leurs derniers réglages."
+msgstr "En changeant de thèmes, il y a souvent des variations sur le nombre et l&rsquo;agencement des zones de widgets et des barres latérales, et parfois tout cela entre en conflit, rendant la transition moins aisée. Si vous avec changé de thème et que certains widgets semblent manquer, faites défiler cet écran jusqu&rsquo;en bas pour les retrouver dans la zone des widgets inactifs, où ils ont été conservés avec leurs derniers réglages."
 
 #: wp-admin/includes/media.php:2260
 msgid "You are using the multi-file uploader. Problems? Try the <a href=\"%1$s\" target=\"%2$s\">browser uploader</a> instead."
@@ -1726,7 +1726,7 @@ msgstr "Bienvenue dans WordPress %1$s. Vous allez être redirigé vers l&rsquo;�
 
 #: wp-admin/options-reading.php:58
 msgid "You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display and whether to show full text or a summary."
-msgstr "Vous pouvez également contrôler l&rsquo;affichage de votre contenu dans les flux RSS, comme le nombre maximum d&rsquo;entrées à afficher, et s&rsquo;il faut afficher l&rsquo;article en entier ou juste un résumé."
+msgstr "Vous pouvez également contrôler l&rsquo;affichage de votre contenu dans les flux RSS, comme le nombre maximum d&rsquo;articles à afficher, et s&rsquo;il faut afficher l&rsquo;article en entier ou juste un résumé."
 
 #: wp-admin/options-reading.php:64 wp-admin/options-reading.php:144
 #: wp-admin/options-reading.php:145
@@ -4752,7 +4752,7 @@ msgstr "Si vous choisissez une option autre que &laquo;&nbsp;Valeur par défaut&
 
 #: wp-admin/widgets.php:66
 msgid "Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area."
-msgstr "De nombreux thèmes affichent par défaut quelques widgets dans la barre latérale, jusqu&rsquo;à ce que vous la modifiiez vous-mêmes. Ces widgets par défaut ne sont pas automatiquement affichés dans le gestionnaire de barre latérale. Après avoir fait vos propres modifications de widgets, vous pouvez rajouter les widgets par défaut depuis la section &laquo;&nbsp;Widgets Disponibles&nbsp;&raquo;."
+msgstr "De nombreux thèmes affichent par défaut quelques widgets dans la barre latérale, jusqu&rsquo;à ce que vous la modifiez vous-mêmes. Ces widgets par défaut ne sont pas automatiquement affichés dans le gestionnaire de barre latérale. Après avoir fait vos propres modifications de widgets, vous pouvez rajouter les widgets par défaut depuis la section &laquo;&nbsp;Widgets Disponibles&nbsp;&raquo;."
 
 #: wp-admin/widgets.php:58
 msgid "If you want to remove the widget but save its setting for possible future use, just drag it into the Inactive Widgets area. You can add them back anytime from there. This is especially helpful when you switch to a theme with fewer or different widget areas."
@@ -5108,11 +5108,11 @@ msgstr "Une ligne jaune indique que le commentaire est en attente de modération
 
 #: wp-admin/includes/class-wp-posts-list-table.php:595
 msgid "Edit this item"
-msgstr "Modifier cette entrée"
+msgstr "Modifier cet élément"
 
 #: wp-admin/includes/class-wp-posts-list-table.php:596
 msgid "Edit this item inline"
-msgstr "Modifier cette entrée sur place"
+msgstr "Modifier cet élément sur place"
 
 #: wp-admin/includes/class-wp-posts-list-table.php:600
 msgid "Restore this item from the Trash"
@@ -5120,11 +5120,11 @@ msgstr "Récupérer ce élément depuis la Corbeille"
 
 #: wp-admin/includes/class-wp-posts-list-table.php:602
 msgid "Move this item to the Trash"
-msgstr "Déplacer cette entrée dans la Corbeille"
+msgstr "Déplacer cet élément dans la Corbeille"
 
 #: wp-admin/includes/class-wp-posts-list-table.php:604
 msgid "Delete this item permanently"
-msgstr "Supprimer cette entrée définitivement"
+msgstr "Supprimer cet élément définitivement"
 
 #: wp-admin/includes/meta-boxes.php:526
 msgid "Allow comments."
@@ -5142,7 +5142,7 @@ msgstr "Retourner aux mises à jour de WordPress"
 
 #: wp-admin/edit-form-advanced.php:320
 msgid "<strong>Publish</strong> - You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post."
-msgstr "<strong>Publier</strong> - Vous pouvez définir la manière dont votre article est publié dans le bloc &laquo;&nsbp;Publier&nbsp;&raquo;. Pour &laquo;&nbsp;État&nbsp;&raquo;, &laquo;&nbsp;Visibilité&nbsp;&raquo;, &laquo;&nbsp;Format&nbsp;&raquo; et &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo;, un clic sur le lien &laquo;&nbsp;Modifier&nbsp;&raquo; affichera plus d&rsquo;options. &laquo;&nbsp;Visibilité&nbsp;&raquo; inclut des options pour protéger l&rsquo;article avec un mot de passe ou faire en sorte qu&rsquo;il reste en tête de page indéfiniment. &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo; vous permet de programmer la publication de votre article à une date précise, dans le futur ou le passé&nbsp;; cela vous permet d&rsquo;écrire à l&rsquo;avance des articles à publier, ou de les antidater."
+msgstr "<strong>Publier</strong> - Vous pouvez définir la manière dont votre article est publié dans le bloc &laquo;&nbsp;Publier&nbsp;&raquo;. Pour &laquo;&nbsp;État&nbsp;&raquo;, &laquo;&nbsp;Visibilité&nbsp;&raquo;, &laquo;&nbsp;Format&nbsp;&raquo; et &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo;, un clic sur le lien &laquo;&nbsp;Modifier&nbsp;&raquo; affichera plus d&rsquo;options. &laquo;&nbsp;Visibilité&nbsp;&raquo; inclut des options pour protéger l&rsquo;article avec un mot de passe ou faire en sorte qu&rsquo;il reste en tête de page indéfiniment. &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo; vous permet de programmer la publication de votre article à une date précise, dans le futur ou le passé&nbsp;; cela vous permet d&rsquo;écrire à l&rsquo;avance des articles à publier, ou de les antidater."
 
 #: wp-admin/edit-form-advanced.php:327
 msgid "<strong>Featured Image</strong> - This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the featured image as a post thumbnail on the home page, a custom header, etc."
@@ -5166,7 +5166,7 @@ msgstr "Vous pouvez afficher une simple liste de titres, ou une liste avec des e
 
 #: wp-admin/edit.php:171
 msgid "You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab."
-msgstr "Vous pouvez cacher/afficher les colonnes en fonction de vos besoins, et décider du nombre d&rsquo;articles à afficher par écran à l&rsquo;aide de l&rsquo;onglet &laquo;&nbsp;Options de l&rsquo;écran&nbsp;&raquo;&nbsp;."
+msgstr "Vous pouvez cacher/afficher les colonnes en fonction de vos besoins, et décider du nombre d&rsquo;articles à afficher par écran à l&rsquo;aide de l&rsquo;onglet &laquo;&nbsp;Options de l&rsquo;écran&nbsp;&raquo;&nbsp;;"
 
 #: wp-admin/edit.php:172
 msgid "You can filter the list of posts by post status using the text links in the upper left to show All, Published, Draft, or Trashed posts. The default view is to show all posts."
@@ -7311,7 +7311,7 @@ msgstr "Comparer les versions de &laquo;&nbsp;%1$s&nbsp;&raquo;"
 
 #: wp-admin/themes.php:345
 msgid "Tags:"
-msgstr "Mots-clefs&nbsp;:"
+msgstr "Mots-clés&nbsp;:"
 
 #: wp-admin/theme-editor.php:20
 msgid "Edit Themes"
@@ -8206,7 +8206,7 @@ msgstr "Contenu non ajouté."
 
 #: wp-admin/edit-tags.php:263
 msgid "Items deleted."
-msgstr "Contenus supprimés."
+msgstr "Élements supprimés."
 
 #: wp-admin/edit-tags.php:340
 msgid "<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>."
@@ -9985,7 +9985,7 @@ msgstr "Enregistrement automatique désactivé&nbsp;: %s modifie actuellement ce
 #: wp-admin/edit-tags.php:262 wp-admin/includes/ajax-actions.php:1442
 #: wp-admin/includes/ajax-actions.php:1447
 msgid "Item not updated."
-msgstr "L&rsquo;entrée n&rsquo;a pas été mise à jour"
+msgstr "L&rsquo;élément n&rsquo;a pas été mis à jour"
 
 #: wp-admin/includes/ajax-actions.php:1483
 #: wp-admin/includes/class-wp-posts-list-table.php:286

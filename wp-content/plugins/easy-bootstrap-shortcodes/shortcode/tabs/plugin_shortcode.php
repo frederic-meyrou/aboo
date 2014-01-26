@@ -13,8 +13,8 @@ function osc_theme_tabs($params, $content = null) {
                     ), $params));
     $_oscitas_tabs[$id] = array();
     do_shortcode($content);
-    $scontent = '<ul class="nav nav-tabs " id="oscitas-tabs-' . $id . '">' . implode('', $_oscitas_tabs[$id]['tabs']) . '</ul><div
-    class="tab-content">' . implode('', $_oscitas_tabs[$id]['panes']) . '</div>';
+    $scontent = '<ul class="nav nav-tabs'.EBS_CONTAINER_CLASS.'" id="oscitas-tabs-' . $id . '">' . implode('', $_oscitas_tabs[$id]['tabs']) . '</ul><div
+    class="tab-content'.EBS_CONTAINER_CLASS.'">' . implode('', $_oscitas_tabs[$id]['panes']) . '</div>';
     if (trim($scontent) != "") {
         $output = '<div class="' . $class . '">' . $scontent;
         $output .= '</div>';
@@ -38,9 +38,9 @@ function osc_theme_tab($params, $content = null) {
         $_oscitas_tabs[$index]['tabs'] = array();
     }
     $pane_id = 'pane-' . $index . '-' .  count($_oscitas_tabs[$index]['tabs']);
-    $_oscitas_tabs[$index]['tabs'][] = '<li class="' . $active . '"><a href="#' . $pane_id . '" data-toggle="tab">' . $title
+    $_oscitas_tabs[$index]['tabs'][] = '<li class="' . $active .EBS_CONTAINER_CLASS. '"><a class="'.EBS_CONTAINER_CLASS.'" href="#' . $pane_id . '" data-toggle="tab">' . $title
             . '</a></li>';
-    $_oscitas_tabs[$index]['panes'][] = '<div class="tab-pane ' . $active . '" id="'
+    $_oscitas_tabs[$index]['panes'][] = '<div class="tab-pane ' . $active .EBS_CONTAINER_CLASS. '" id="'
             . $pane_id . '">'
             . do_shortcode
                     (trim($content)) . '</div>';

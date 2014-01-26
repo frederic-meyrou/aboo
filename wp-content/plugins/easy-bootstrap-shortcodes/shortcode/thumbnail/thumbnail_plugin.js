@@ -81,7 +81,7 @@ function create_oscitas_thumbnail(pluginObj){
         if(table.find('#oscitas-thumbnail-class').val()!=''){
             cusclass= ' class="'+table.find('#oscitas-thumbnail-class').val()+'"';
         }
-        if(table.find('#oscitas-thumbnail-class').val()!=''){
+        if(table.find('#oscitas-thumbnail-link').val()!=''){
             link= ' link="'+form.find('#oscitas-thumbnail-link').val()+'"';
         }
 

@@ -14,10 +14,8 @@ function osc_theme_iconhead($params, $content = null) {
     if ($style != '') {
         $style = ' <span class="glyphicon ' . $style . '" '.$color.'></span> ';
     }
-    if ($class != '') {
-        $class = ' class="' . $class . '"';
-    }
-    $out = '<' . $type . $class . '>' . $style . do_shortcode($content) . '</' . $type . '>';
+
+    $out = '<' . $type . ' class="' . $class .EBS_CONTAINER_CLASS. '" >' . $style . do_shortcode($content) . '</' . $type . '>';
 
     return $out;
 }

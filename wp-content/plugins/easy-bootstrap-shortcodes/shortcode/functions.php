@@ -1,6 +1,16 @@
 <?php
 
 // Add Shortcode buttons in TinyMCE
+$css = get_option( 'EBS_BOOTSTRAP_CSS_LOCATION', 1 );
+if($css==3){
+    define('EBS_CONTAINER_CLASS',' oscitas-bootstrap-container');
+    define('EBS_POPOVER_TEMPLATE','<div class="popover'.EBS_CONTAINER_CLASS.'"><div class="arrow'.EBS_CONTAINER_CLASS.'"></div><h3 class="popover-title'.EBS_CONTAINER_CLASS.'"></h3><div class="popover-content'.EBS_CONTAINER_CLASS.' "></div></div>');
+    define('EBS_TOOLTIP_TEMPLATE','<div class="tooltip'.EBS_CONTAINER_CLASS.'"><div class="tooltip-arrow'.EBS_CONTAINER_CLASS.'"></div><div class="tooltip-inner'.EBS_CONTAINER_CLASS.'"></div></div>');
+} else{
+    define('EBS_CONTAINER_CLASS','');
+    define('EBS_POPOVER_TEMPLATE','');
+    define('EBS_TOOLTIP_TEMPLATE','');
+}
 $elements = array(
     'toggles',
     'tabs',
@@ -23,7 +33,8 @@ $elements = array(
     'icon',
     'image',
     'progressbar',
-     
+    'servicebox'
+
 );
 
 foreach ($elements as $element) {
@@ -67,3 +78,4 @@ function osc_add_ebs_plugin($plugin_array) {
     return $plugin_array;
     return $plugin_array;
 }
+

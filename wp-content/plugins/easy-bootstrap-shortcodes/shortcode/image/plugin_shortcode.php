@@ -13,7 +13,7 @@ function osc_theme_image($params, $content = 'Label') {
     $out = '';
 
 
-    $out = '<img src="' . $src . '" class="' . $class .' '. $shape . '">';
+    $out = '<img src="' . $src . '" class="' . $class .' '. $shape .EBS_CONTAINER_CLASS. '">';
 
     return $out;
 }

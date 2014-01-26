@@ -13,7 +13,7 @@ function osc_theme_oscitasthumbnail($params, $content = 'Label') {
                     ), $params));
     $out = '';
 	if ($border != '') {
-		$borderClass = 'img-thumbnail ';
+		$borderClass = 'img-thumbnail';
 	} else {
 		$borderClass = 'img-responsive';
 	}
@@ -23,7 +23,7 @@ function osc_theme_oscitasthumbnail($params, $content = 'Label') {
 	if ($link != '') {
 		$out .='<a href="' . $link . '">';
 	}
-	$out .= '<img src="' . $src . '" class="' . $borderClass . ' oscitas-res-image">';
+	$out .= '<img src="' . $src . '" class="' . $borderClass.EBS_CONTAINER_CLASS . ' oscitas-res-image">';
 	if ($link != '') {
 		$out .='</a>';
 	}

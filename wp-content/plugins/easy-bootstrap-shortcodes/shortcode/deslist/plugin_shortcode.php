@@ -8,7 +8,7 @@ function osc_theme_deslist($params, $content = null) {
     $content = str_replace("]<br />", ']', $content);
     $content = str_replace("]<br />\n", ']', $content);
     $content = str_replace("<br />\n[", '[', $content);
-    return '<dl class="osc-deslist ' . $style . ' '.$class.'">' . do_shortcode($content) . '</dl>';
+    return '<dl class="osc-deslist ' . $style . ' '.$class.EBS_CONTAINER_CLASS.'">' . do_shortcode($content) . '</dl>';
 }
 
 add_shortcode('dl', 'osc_theme_deslist');

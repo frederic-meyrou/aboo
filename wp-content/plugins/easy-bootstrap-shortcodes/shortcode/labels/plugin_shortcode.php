@@ -12,7 +12,7 @@ function osc_theme_labels($params, $content = 'Label') {
     $out = '';
     $content = str_replace("<br />", '', $content);
     $content = str_replace("<br />\n", '', $content);
-    $out = '<span class="label ' . $type . ' ' . $class . '">' . do_shortcode($content) . '</span>';
+    $out = '<span class="label ' . $type . ' ' . $class . EBS_CONTAINER_CLASS.'">' . do_shortcode($content) . '</span>';
     return $out;
 }
 

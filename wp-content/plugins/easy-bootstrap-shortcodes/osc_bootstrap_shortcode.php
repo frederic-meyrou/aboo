@@ -4,7 +4,7 @@
   Plugin Name: Easy Bootstrap Shortcode
   Plugin URI: http://www.oscitasthemes.com
   Description: Add bootstrap 3.0 styles to your theme by wordpress editor shortcode buttons.
-  Version: 2.5
+  Version: 2.5.3
   Author: oscitas
   Author URI: http://www.oscitasthemes.com
   License: Under the GPL v2 or later
@@ -169,6 +169,8 @@ else:
         wp_enqueue_script('thickbox');
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
+        wp_enqueue_script('jquery-ui-slider');
+        wp_enqueue_style('jquery-ui-slider-css', plugins_url('/styles/slider.css', __FILE__));
         if (!apply_filters('ebs_bootstrap_icon_css_url',false)) {
             wp_enqueue_style('bootstrap-icon', plugins_url('/styles/bootstrap-icon.min.css', __FILE__));
         } else{
@@ -235,7 +237,16 @@ else:
                 } else {
                     wp_enqueue_style('bootstrap', apply_filters('ebs_bootstrap_css_url',false));
                 }
-            } else {
+            }
+//            elseif($css==3){
+//                if (!apply_filters('ebs_no_bootstrap_theme_css_url',false)) {
+//                    wp_enqueue_style('bootstrap', plugins_url('/styles/bootstrap-oscitas.css', __FILE__));
+//                } else {
+//                    wp_enqueue_style('bootstrap', apply_filters('ebs_no_bootstrap_theme_css_url',false));
+//                }
+//
+//            }
+            else {
                 if (!apply_filters('ebs_bootstrap_icon_css_url',false)) {
                     //wp_enqueue_style('bootstrap-icon', plugins_url('/styles/bootstrap-icon.min.css', __FILE__));
                 } else{

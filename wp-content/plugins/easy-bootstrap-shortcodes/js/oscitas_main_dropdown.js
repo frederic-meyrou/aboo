@@ -41,6 +41,7 @@ if(ebs_editor_opt=='dropdown'){
                         current_object.osc_element_call(c, "Icon Heading", prefix+"iconhead",800);
                         current_object.osc_element_call(c, "Label", prefix+"labels");
                         current_object.osc_element_call(c, "Well", prefix+"well");
+                        current_object.osc_element_call(c, "Servicebox", prefix+"servicebox",800);
                         current_object.osc_element_call(c, "Description List", prefix+"deslist");
                         c = b.addMenu({title:" Miscellaneous", icon_src: ebs_url+'images/misc.png'});
                         current_object.osc_element_call(c, "Responsive Image", prefix+"thumbnail");

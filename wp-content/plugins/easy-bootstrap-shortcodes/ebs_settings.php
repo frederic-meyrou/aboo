@@ -1,33 +1,36 @@
 <div class="ebs_page_settings">
-    <h1>Easy Bootstrap Shortcode Settings for js/css files</h1><form name="ebs_setting" id="ebs_setting" method="post" action="">
+    <h1>Easy Bootstrap Shortcode Settings</h1><form name="ebs_setting" id="ebs_setting" method="post" action="">
         <?php  if(!apply_filters('plugin_oscitas_theme_check',false)){ ?><div class="ebs_details">
-            <label class="ebs_setting_label">bootstrap.js file</label>
+            <label class="ebs_setting_label">Bootstrap JS File</label>
             <p>
                 <input type="radio" name="b_js" id="b_js_plugin" class="check_cdn" value="1" <?php echo ($js == 1) ? 'checked=checked' : '' ?>>
                 <label for="b_js_plugin">Use from EBS Plugin</label>
                 <input type="radio" name="b_js" id="b_js_theme" class="check_cdn" value="2" <?php echo ($js == 2) ? 'checked=checked' : '' ?>><label for="b_js_theme">Use from theme or any other plugin</label>
                 <input type="radio" name="b_js" class="check_cdn" id="b_js_cdn" <?php echo ($js == 3) ? 'checked=checked' : '' ?> value="3"><label for="b_js_cdn">Load from CDN</label>
         </div>
-        <div class="ebs_details show_cdn" ><label class="ebs_setting_label">bootstrap.js CDN Path</label><input type="text" name="cdn_path" id="cdn_path" value="<?php echo $cdn; ?>">
+        <div class="ebs_details show_cdn" ><label class="ebs_setting_label">bootstrap.js CDN Path</label>
+            <p><input type="text" name="cdn_path" id="cdn_path" value="<?php echo $cdn; ?>">
             </p>
         </div>
         <div class="ebs_details">
-            <label class="ebs_setting_label">respond.js file for IE6+ compatible </label>
+            <label class="ebs_setting_label">IE6+ compatibility JS File </label>
             <p>
                 <input type="radio" name="respond_js" id="respond_js_plugin" class="respond_cdn" value="1" <?php echo ($respond == 1) ? 'checked=checked' : '' ?>>
                 <label for="respond_js_plugin">Use from EBS Plugin</label>
                 <input type="radio" name="respond_js" id="respond_js_theme" class="respond_cdn" value="2" <?php echo ($respond == 2) ? 'checked=checked' : '' ?>><label for="respond_js_theme">Use from theme or any other plugin</label>
                 <input type="radio" name="respond_js" class="respond_cdn" id="respond_js_cdn" <?php echo ($respond == 3) ? 'checked=checked' : '' ?> value="3"><label for="respond_js_cdn">Load from CDN</label>
         </div>
-        <div class="ebs_details respond_show_cdn" ><label class="ebs_setting_label">respond.js CDN Path</label><input type="text" name="respond_cdn_path" id="respond_cdn_path" value="<?php echo $respondcdn; ?>">
+        <div class="ebs_details respond_show_cdn" ><label class="ebs_setting_label">respond.js CDN Path</label>
+            <p><input type="text" name="respond_cdn_path" id="respond_cdn_path" value="<?php echo $respondcdn; ?>">
             </p>
         </div>
         <div class="ebs_details">
 
-            <label class="ebs_setting_label">bootstrap.css file</label>
+            <label class="ebs_setting_label">Bootstrap Styling CSS File</label>
             <p><input type="radio" name="b_css" id="b_css_plugin" value="1" <?php echo ($css == 1) ? 'checked=checked' : '' ?>>
                 <label for="b_css_plugin" >Use from EBS Plugin</label>
                 <input type="radio" name="b_css" id="b_css_theme" value="2" <?php echo ($css == 2) ? 'checked=checked' : '' ?>><label for="b_css_theme">Use from theme or any other plugin</label>
+                <!--<input type="radio" name="b_css" id="b_css_nobs" value="3" <?php //echo ($css == 3) ? 'checked=checked' : '' ?>><label for="b_css_nobs">No bootstrap theme</label>-->
             </p>
         </div>
         <?php } ?>
@@ -41,7 +44,7 @@
             </p>
         </div>
         <div class="ebs_details">
-            <label class="ebs_setting_label">Custom CSS</label>
+            <label class="ebs_setting_label">Custom CSS Editor</label>
             <p>
               <textarea  name="ebs_custom_css" id="ebs_custom_css"><?php echo trim($ebs_custom_css) ?></textarea>
             </p>
