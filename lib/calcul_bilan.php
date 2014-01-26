@@ -132,6 +132,35 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     return $TableauBilan;
 }
 
+function SauveBilanMensuel($userid, $exerciceid, $BilanMensuel) {
+    
+// Initialisation de la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    for ($mois = 1; $mois <= 12; $mois++) {
+        
+        // On test que l'enregistrement existe
+        $sql = "SELECT * FROM bilan WHERE user_id = ?, exercice_id = ?, mois = ?";
+        $q = $pdo->prepare($sql);
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+        $count = $req->rowCount($sql);
+
+        if ($count==0) { // On crée l'enregistrement        
+            $sql2 = "INSERT INTO bilan (user_id,exercice_id,mois,ca,depenses,ventilation,paiements,encaissements,echus,salaire,treso,report_treso,report_salaire) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $q2 = array($userid, $exerciceid, $mois, $BilanMensuel[$mois]['CA'], $BilanMensuel[$mois]['DEPENSE'], $BilanMensuel[$mois]['VENTIL'], $BilanMensuel[$mois]['PAIEMENT'], $BilanMensuel[$mois]['ENCAISSEMENT'], $BilanMensuel[$mois]['ECHUS'], $BilanMensuel[$mois]['SALAIRE'], $BilanMensuel[$mois]['TRESO'], $BilanMensuel[$mois]['REPORT_TRESO'], $BilanMensuel[$mois]['REPORT_SALAIRE']);   
+        } else { // On met à jour l'enregistrement
+            $sql2 = "UPDATE bilan set ca=?,depenses=?,ventilation=?,paiements=?,encaissements=?,echus=?,salaire=?,treso=?,report_treso=?,report_salaire=? WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+            $q2 = array($BilanMensuel[$mois]['CA'], $BilanMensuel[$mois]['DEPENSE'], $BilanMensuel[$mois]['VENTIL'], $BilanMensuel[$mois]['PAIEMENT'], $BilanMensuel[$mois]['ENCAISSEMENT'], $BilanMensuel[$mois]['ECHUS'], $BilanMensuel[$mois]['SALAIRE'], $BilanMensuel[$mois]['TRESO'], $BilanMensuel[$mois]['REPORT_TRESO'], $BilanMensuel[$mois]['REPORT_SALAIRE'],$userid, $exerciceid, $mois);               
+        }
+        // On execute la requette                  
+        $req2 = $pdo->prepare($sql2);
+        $req2->execute($q2);
+    }                 
+    Database::disconnect();      
+}
+
+
 function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //TableauBilan = array[assoc]
     //CA
