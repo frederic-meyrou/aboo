@@ -22,9 +22,8 @@
       <!-- Liens -->
       <div class="collapse navbar-collapse" id="TOP">
         <ul class="nav navbar-nav">
-          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion</a></li>
-          <li><a href="connexion2.php"><span class="glyphicon glyphicon-off"></span> Connexion 2</a></li>   
-          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> De-connexion</a></li>                                     
+          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion Classique</a></li>
+          <li><a href="connexion2.php"><span class="glyphicon glyphicon-off"></span> Connexion Modale</a></li>                                    
         </ul>
       </div><!-- /.navbar-collapse -->
     </nav>    
@@ -38,11 +37,7 @@
         </div>
 
     </div> <!-- /container -->
-    
-    <span class="test">
-    	A
-    </span>
-    
+       
     <?php require 'footer.php'; ?>    
 
   </body>

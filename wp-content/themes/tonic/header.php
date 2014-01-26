@@ -20,9 +20,6 @@ $bavotasan_theme_options = bavotasan_theme_options();
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-<link rel="shortcut icon" href="<?php echo home_url(); ?>/favicon.ico" type="image/x-icon">
-<link rel="icon" href="<?php echo home_url(); ?>/favicon.ico" type="image/x-icon">
-
 <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <?php wp_head(); ?>
 </head>

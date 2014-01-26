@@ -1,12 +1,5 @@
 <?php
 /**
-Theme Name: Tonic
-Description: Thème enfant pour Tonic
-Author: FME
-Template: tonic
-**/
- 
-/**
  * The template for displaying the footer.
  *
  * Contains footer content and the closing of the
@@ -29,7 +22,7 @@ $bavotasan_theme_options = bavotasan_theme_options();
 		<div class="row">
 			<p class="copyright c12">
 				<span class="fl"><?php printf( __( 'Copyright &copy; %s %s. All Rights Reserved.', 'tonic' ), date( 'Y' ), ' <a href="' . home_url() . '">' . get_bloginfo( 'name' ) .'</a>' ); ?></span>
-				<span class="credit-link fr"><i class="icon-leaf"></i><?php echo '<a href="' . home_url() . '/wp-login.php">Login</a>'; ?></span>
+				<span class="credit-link fr"><i class="icon-leaf"></i><?php printf( __( 'Designed by %s.', 'tonic' ), '<a href="https://themes.bavotasan.com/2013/tonic/">Themes by bavotasan.com</a>' ); ?></span>
 			</p><!-- .c12 -->
 		</div><!-- .row -->
 	</div><!-- #footer-content.grid -->

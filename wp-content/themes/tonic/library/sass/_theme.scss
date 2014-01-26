@@ -155,17 +155,6 @@ body {
 			}
 		}
 
-		&.current-menu-item > a,
-		&.current-menu-parent > a {
-			color: #fff;
-			text-shadow: none;
-			background-color: #428bca;
-
-			&:hover {
-				color: #fff;
-			}
-		}
-
 		li a:not(:last-child):after {
 			content: "\f0da";
 			margin: 2px 0 0 10px;
@@ -201,29 +190,31 @@ body {
 }
 
 .sub-menu {
-	@include border-radius(4px);
-	@include box-shadow( 0 6px 12px black(0.175) );
+	.nav & {
+		@include border-radius(4px);
+		@include box-shadow( 0 6px 12px black(0.175) );
 
-	position: absolute;
-	top: 100%;
-	left: 0;
-	z-index: 1000;
-	display: none;
-	float: left;
-	min-width: 160px;
-	padding: 5px 0;
-	margin: 2px 0 0;
-	list-style: none;
-	background-color: #ffffff;
-	border: 1px solid #cccccc;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	background-clip: padding-box;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 1000;
+		display: none;
+		float: left;
+		min-width: 160px;
+		padding: 5px 0;
+		margin: 2px 0 0;
+		list-style: none;
+		background-color: #ffffff;
+		border: 1px solid #cccccc;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		background-clip: padding-box;
+	}
 
-	.open > & {
+	.nav .open > & {
 		display: block;
 	}
 
-	> li > a {
+	.nav & > li > a {
 		display: block;
 		padding: 3px 20px;
 		clear: both;
@@ -256,7 +247,7 @@ body {
 		left: 10px;
 	}
 
-	.sub-menu {
+	.nav & .sub-menu {
 		@include border-radius(0 6px 6px 6px);
 
 		top: 0;
@@ -348,6 +339,7 @@ li.sub-menu-parent.open > a {
 	}
 
 	#site-navigation {
+		.navbar-inner,
 		li,
 		ul ul {
 			width: 100%;
@@ -382,6 +374,7 @@ li.sub-menu-parent.open > a {
 
 		ul {
 			padding: 0;
+			width: 100%;
 		}
 
 		li {
@@ -623,6 +616,7 @@ li.sub-menu-parent.open > a {
 		float: none !important;
 		margin-left: auto;
 		margin-right: auto;
+		clear: both;
 	}
 }
 
@@ -1355,5 +1349,11 @@ article.error404 {
 
 	img {
 		margin-bottom: 0 !important;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#wpadminbar {
+		position: fixed !important;
 	}
 }

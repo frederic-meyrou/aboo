@@ -3,13 +3,46 @@
     font-family: Lobster,cursive; 
     font-size: 48px; 
 }
+
+@font-face {
+    font-family: "Titillium";
+    font-style: normal;
+    font-weight: 300;
+    src: url("../fonts/titillium-light-webfont.svg#titillium-light-webfont") format("svg"), url("../fonts/titillium-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-light-webfont.woff") format("woff"), url("../fonts/titillium-light-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Titillium";
+    font-style: italic;
+    font-weight: 300;
+    src: url("../fonts/titillium-lightitalic-webfont.svg#titillium-lightitalic-webfont") format("svg"), url("../fonts/titillium-lightitalic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-lightitalic-webfont.woff") format("woff"), url("../fonts/titillium-lightitalic-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Titillium";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/titillium-regular-webfont.svg#titillium-regular-webfont") format("svg"), url("../fonts/titillium-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-regular-webfont.woff") format("woff"), url("../fonts/titillium-regular-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Titillium";
+    font-style: italic;
+    font-weight: 400;
+    src: url("../fonts/titillium-regularitalic-webfont.svg#titillium-regular-webfont") format("svg"), url("../fonts/titillium-regularitalic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-regularitalic-webfont.woff") format("woff"), url("../fonts/titillium-regularitalic-webfont.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Titillium";
+    font-style: normal;
+    font-weight: 600;
+    src: url("../fonts/titillium-semibold-webfont.svg#titillium-semibold-webfont") format("svg"), url("../fonts/titillium-semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-semibold-webfont.woff") format("woff"), url("../fonts/titillium-semibold-webfont.ttf") format("truetype");
+}
+
 body { 
+	font-family: "Titillium", Arial, sans-serif;	
     padding-top: 70px; 
     background-color: #FFFFFF;    
 }
 
 html {
-    font-family: verdana;
+    /*font-family: verdana;*/
     background-color: #666666;
 }
 
@@ -18,4 +51,13 @@ html {
     font-family: Lobster,cursive; 
     font-size: 90px;
     margin: 200px; 	
+}
+
+img {
+	box-shadow: 1px 1px 12px #555;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-moz-box-shadow: 1px 1px 12px #555;
+	-webkit-box-shadow: 1px 1px 12px #555;
+	-webkit-border-radius: 5px;
 }

@@ -4,7 +4,7 @@ Theme URI: https://themes.bavotasan.com/2013/tonic/
 Author: c.bavota
 Author URI: http://bavotasan.com/
 Description: Create a truly unique design with Tonic, a lightweight and fully responsive HTML5 theme based on the Gridiculous boilerplate. Use the new Theme Options customizer to add your own header image, custom background, page layout, site width and more. Distinguish each post with one of the eight supported post formats, such as: Video, Image, Aside, Status, Audio, Quote, Link and Gallery. Install JetPack to display each of your galleries through a tiled view and jQuery carousel. Compatible with bbPress & BuddyPress. Built using SASS, Compass and Twitter Bootstrap. Tonic uses Google Fonts for improved typeface readability and works perfectly in desktop browsers, tablets and handheld devices. For a live demo go to http://demos.bavotasan.com/tonic/.
-Version: 1.0.8.1
+Version: 1.0.9
 Tags: white, black, gray, light, silver, one-column, two-columns, right-sidebar, left-sidebar, flexible-width, custom-background, custom-header, custom-menu, custom-colors, editor-style, featured-image-header, featured-images, post-formats, sticky-post, threaded-comments, translation-ready, theme-options
 
 License: GNU General Public License v3.0
@@ -2987,14 +2987,6 @@ body.basic {
 .basic .nav li a:not(:last-child):after {
   content: "\f024";
 }
-.nav li.current-menu-item > a, .nav li.current-menu-parent > a {
-  color: #fff;
-  text-shadow: none;
-  background-color: #428bca;
-}
-.nav li.current-menu-item > a:hover, .nav li.current-menu-parent > a:hover {
-  color: #fff;
-}
 .nav li li a:not(:last-child):after {
   content: "\f0da";
   margin: 2px 0 0 10px;
@@ -3020,7 +3012,7 @@ body.basic {
   left: auto;
 }
 
-.sub-menu {
+.nav .sub-menu {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -3044,10 +3036,10 @@ body.basic {
   border: 1px solid rgba(0, 0, 0, 0.15);
   background-clip: padding-box;
 }
-.open > .sub-menu {
+.nav .open > .sub-menu {
   display: block;
 }
-.sub-menu > li > a {
+.nav .sub-menu > li > a {
   display: block;
   padding: 3px 20px;
   clear: both;
@@ -3077,7 +3069,7 @@ body.basic {
   top: -6px;
   left: 10px;
 }
-.sub-menu .sub-menu {
+.nav .sub-menu .sub-menu {
   -webkit-border-radius: 0 6px 6px 6px;
   -moz-border-radius: 0 6px 6px 6px;
   -ms-border-radius: 0 6px 6px 6px;
@@ -3169,6 +3161,7 @@ li.sub-menu-parent.open > a {
   clear: both;
   float: left;
 }
+.offcanvas #site-navigation .navbar-inner,
 .offcanvas #site-navigation li,
 .offcanvas #site-navigation ul ul {
   width: 100%;
@@ -3197,6 +3190,7 @@ li.sub-menu-parent.open > a {
 }
 .offcanvas #site-navigation ul {
   padding: 0;
+  width: 100%;
 }
 .offcanvas #site-navigation li a {
   -webkit-border-radius: 0;
@@ -3425,6 +3419,7 @@ li.sub-menu-parent.open > a {
   float: none !important;
   margin-left: auto;
   margin-right: auto;
+  clear: both;
 }
 
 /* =Article
@@ -4117,6 +4112,11 @@ article.error404 .entry-content {
   margin-bottom: 0 !important;
 }
 
+@media screen and (max-width: 600px) {
+  #wpadminbar {
+    position: fixed !important;
+  }
+}
 /* =WordPress Core
 -------------------------------------------------------------- */
 .alignnone {

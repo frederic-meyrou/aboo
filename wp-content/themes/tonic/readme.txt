@@ -40,6 +40,14 @@ License: [[http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL|SIL O
 
 == CHANGELOG ==
 
+01/13/2014 v1.0.9
+* Fixed issue with quick edit erasing settings
+* Added documentation to admin bar
+* Fixed widget menu CSS
+* Updated POT file
+* Added fix for 3.8 admin bar
+* Modified footer link
+
 11/12/2013 v1.0.8.1
 * Removed message bar as per WP.org request
 
