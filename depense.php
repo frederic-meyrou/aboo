@@ -278,34 +278,47 @@
 			?>
 		<!-- Affiche le formulaire inline ajout depense -->			
             <div class="row">
-                <h3>Ajout d'une dépense :</h3>
-	            <form class="form-inline" role="form" action="depense.php" method="post">
-		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
-		                    <?php if (!empty($champError)): ?>
-		                     		<span class="help-inline"><?php echo $champError;?></span>
-		                    <?php endif; ?>		            
-		       				</div>
-		            <?php } ?>
-		            <div class="form-group">
-		                    <select name="type" class="form-control">
-				            <?php
-				                foreach ($Liste_Depense as $d) {
-				            ?>
-				                <option value="<?php echo TypeDepenseToNum($d);?>"><?php echo $d;?></option>    
-				            <?php 
-				                } // foreach   
-				            ?>
-		                    </select>
-		            </div>		
-                    <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
-                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
-                    </div>                          	                  		            
-		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+                
+                <?php 
+                    // Insère l'aide en ligne pour les actions
+                    $IDModale = "modalAideFormDepense";
+                    include('lib/aide.php'); 
+                ?>                
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Ajout d'une dépense : </strong><a href="#" onclick="$('#modalAideFormDepense').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
+                    <div class="panel-body">
+                
+        	            <form class="form-inline" role="form" action="depense.php" method="post">
+        		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+        		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+        		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
+        		                    <?php if (!empty($champError)): ?>
+        		                     		<span class="help-inline"><?php echo $champError;?></span>
+        		                    <?php endif; ?>		            
+        		       				</div>
+        		            <?php } ?>
+        		            <div class="form-group">
+        		                    <select name="type" class="form-control">
+        				            <?php
+        				                foreach ($Liste_Depense as $d) {
+        				            ?>
+        				                <option value="<?php echo TypeDepenseToNum($d);?>"><?php echo $d;?></option>    
+        				            <?php 
+        				                } // foreach   
+        				            ?>
+        		                    </select>
+        		            </div>		
+                            <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
+                                <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                            </div>                          	                  		            
+        		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+        
+        	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
+        	            </form>
+                    </div>  <!-- /panel-body -->                        
+                </div>  <!-- /panel -->
 
-	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
-	            </form>
             </div> 	<!-- /row -->		
 			
 			<!-- Affiche le bouton retour -->

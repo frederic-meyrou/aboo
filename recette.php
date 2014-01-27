@@ -436,9 +436,15 @@
 			
 			<!-- Affiche le formulaire inline ajout recette -->		
             <div class="row">
-                
+
+                <?php 
+                    // Insère l'aide en ligne pour les actions
+                    $IDModale = "modalAideFormRecette";
+                    include('lib/aide.php'); 
+                ?>
+                                            
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Ajout d'une recette :</strong></div>
+                    <div class="panel-heading"><strong>Ajout d'une recette : </strong><a href="#" onclick="$('#modalAideFormRecette').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
                     <div class="panel-body">
         	            <form class="form-inline" role="form" action="recette.php" method="post">
         	            
@@ -494,7 +500,7 @@
         		                    </select>
         		            </div>
         		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
-        
+        		       		
         	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
         
           					<!-- Affiche les erreurs -->
