@@ -6,6 +6,7 @@
 // Dépendances
 	require_once('lib/fonctions.php');
     include_once('lib/database.php');
+    include_once('lib/calcul_bilan.php');    
 
 // Vérification de l'Authent
     session_start();
@@ -51,66 +52,9 @@
         $abodep_mois = $_SESSION['abodep']['mois'];
     }
 
-// Initialisation de la base
-    $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	
-// Lecture tableau de bord
-
-	// Requette pour calcul de la somme Annuelle			
-		$sql1 = "(SELECT SUM(montant) FROM recette WHERE
-	    		user_id = :userid AND exercice_id = :exerciceid )
-	    		UNION
-	    		(SELECT SUM(montant * -1) FROM depense WHERE
-	    		user_id = :userid AND exercice_id = :exerciceid )
-	    		";
-	// Requette pour calcul de la somme	du mois en cours		
-		$sql2 = "(SELECT SUM(montant) FROM recette WHERE
-	    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-	    		UNION
-	    		(SELECT SUM(montant * -1) FROM depense WHERE
-	    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
-	    		";
-	// requette pour calcul des ventilations abo Annuelle
-	    $sql3 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
-	    		(user_id = :userid AND exercice_id = :exerciceid)
-	    		";
-				
-    $q1 = array('userid' => $user_id, 'exerciceid' => $exercice_id);				
-    $q3 = array('userid' => $user_id, 'exerciceid' => $exercice_id);
-    
-	$req = $pdo->prepare($sql1);
-	$req->execute($q1);
-	$data1 = $req->fetchAll(PDO::FETCH_ASSOC);
-    $count = $req->rowCount($sql1);
-	
-	$req = $pdo->prepare($sql3);
-	$req->execute($q3);
-	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
-	
-	if ($count!=0) { // Il n'y a rien en base sur l'année     
-			
-    		// Calcul des sommes de tout les mois
-            for ($i = 1; $i <= 12; $i++) {
-                // Requette BDD
-                $q2 = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => $i);
-                $req = $pdo->prepare($sql2);
-                $req->execute($q2);
-                $data2 = $req->fetchAll(PDO::FETCH_ASSOC);
-                // Calcul     
-                $total_recettes_mois_{$i}= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0; 
-                $total_depenses_mois_{$i}= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
-                $solde_mois_{$i}= $total_recettes_mois_{$i} + $total_depenses_mois_{$i};               
-            }    		      
-			
-			// Calcul des sommes ventillées
-	        for ($i = 1; $i <= 12; $i++) { 
-	        	$total_mois_{$i}= !empty($data3["SUM(mois_$i)"]) ? $data3["SUM(mois_$i)"] : 0;
-			}	        
-
-    }
-	Database::disconnect();
-		
+// Charge le Bilan    
+    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
+    $TableauBilanAnnuel = CalculBilanAnnuel($user_id, $exercice_id, $TableauBilanMensuel);   		
 ?>
 
 <!DOCTYPE html>
@@ -133,14 +77,10 @@
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
             <pre><?php var_dump($_SESSION); ?></pre>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-            DATA1 Sommes annuelles:<br>
-            <pre><?php var_dump($data1); ?></pre>
-            DATA3 Ventilation:<br>
-            <pre><?php var_dump($data3); ?></pre>                           
+            Bilan Mensuel:<br>
+            <pre><?php var_dump($TableauBilanMensuel); ?></pre>
+            Bilan Annuel:<br>
+            <pre><?php var_dump($TableauBilanAnnuel); ?></pre>                       
         </div>
         <?php       
         }   

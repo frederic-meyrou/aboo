@@ -61,7 +61,6 @@
     } else {
             // On affiche le tableau
             $affiche = true;
-            $infos = true;
     }
 
 ?>
