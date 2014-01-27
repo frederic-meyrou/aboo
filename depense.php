@@ -5,7 +5,8 @@
 // Dépendances
 	require_once('lib/fonctions.php');
     include_once('lib/database.php');
-
+    include_once('lib/calcul_bilan.php');  
+    
 // Vérification de l'Authent
     session_start();
     require('lib/authent.php');
@@ -122,31 +123,24 @@
     $sql = "SELECT * FROM depense WHERE
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		";
-// Requette pour calcul de la somme	
-    $sql2 = "SELECT SUM(montant) FROM depense WHERE
-    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-    		";	
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
+    
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->execute($q);	
     $count = $req->rowCount($sql);
-	
-	$req = $pdo->prepare($sql2);
-    $req->execute($q);	
-    $data2 = $req->fetch(PDO::FETCH_ASSOC);
     
     if ($count==0) { // Il n'y a rien à afficher
         $affiche = false;              
-    } else {   
-    		// Calcul des sommes
-    		$total_depenses= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
-	        // On affiche le tableau
-	        $affiche = true;
+    } else { // On affiche le tableau 
+        $affiche = true;
     }
 	Database::disconnect();
 	$infos = true;
+	
+// Charge le Bilan    
+    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);      	
 ?>
 
 <!DOCTYPE html>
@@ -191,11 +185,22 @@
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
         </div>
-       </div>
+        </div>
         <?php       
         }   
         ?>  
-        
+
+        <!-- Affiche les sommmes -->        
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Dépenses :</button>
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
+        </div> 
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Trésorerie :</button>               
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+        </div>
+        <br><br> 
+                        
 		<!-- Affiche la table des dépenses en base sous condition -->
 		<div class="span10">
 			<?php 
@@ -240,11 +245,7 @@
 					   } // Foreach	
 				?>
 				    </tbody>
-	            </table>
-	            <!-- Affiche les sommmes -->        
-				<p>
-					<button type="button" class="btn btn-info">Total dépenses : <?php echo $total_depenses; ?> €</button>
-				</p>             
+	            </table>         
 			</div> 	<!-- /row -->
 
             <!-- Modal Delete -->

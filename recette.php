@@ -5,7 +5,8 @@
 // Dépendances
 	require_once('lib/fonctions.php');
     include_once('lib/database.php');
-	
+    include_once('lib/calcul_bilan.php');  
+    	
 // Vérification de l'Authent
     session_start();
     require('lib/authent.php');
@@ -13,8 +14,6 @@
         // Non authentifié on repart sur la HP
         header('Location:index.php');
     }
-
-
 
 // Mode Debug
 	$debug = false;
@@ -217,69 +216,38 @@
     		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
     		ORDER by date_creation
     		";
-    // Requette pour calcul de la somme	du montant (CA)
-    $sql2 = "SELECT SUM(montant),SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
-    		(user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
-    		";
     // Lecture dans la base des clients (sur user_id) 
     $sql3 = "SELECT id,prenom,nom FROM client WHERE
     		(user_id = :userid)
     		ORDER by nom
     		";
-    $q3 = array('userid' => $user_id);
-    // Requette pour calcul de la somme des encaissements
-    $sql4 = "SELECT SUM(montant) FROM recette WHERE
-            (user_id = :userid AND exercice_id = :exerciceid AND mois = :mois) AND
-            paye = 1
-            ";
                         
     // Selecteur					
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
+    $q3 = array('userid' => $user_id);
 
     // Execution des requettes    
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
-	
-	$req2 = $pdo->prepare($sql2);
-    $req2->execute($q);	
-    $data2 = $req2->fetch(PDO::FETCH_ASSOC);
 
 	$req3 = $pdo->prepare($sql3);
     $req3->execute($q3);	
     $data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
 	$count3 = $req3->rowCount($sql3);
-
-    $req4 = $pdo->prepare($sql4);
-    $req4->execute($q); 
-    $data4 = $req4->fetch(PDO::FETCH_ASSOC);	
    	        
     if ($count==0) { // Il n'y a aucunes recettes à afficher
         $affiche = false;              
-    } else {
-    		// Calcul des sommes
-	        $total_recettes= floatval(!empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0);
-	        for ($i = 1; $i <= 12; $i++) { 
-	        	$total_mois_{$i}= !empty($data2["SUM(mois_$i)"]) ? $data2["SUM(mois_$i)"] : 0;
-			}
-            $total_encaissement= floatval(!empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0);
-			// Liste des clients à afficher dans le select
-			$Liste_Client = array();    	
-		    if ($count3!=0) {
-		    	$i=0;
-		    	foreach ($data3 as $row3) {
-					$Liste_Client[$i]['id']=$row3['id'];
-					$Liste_Client[$i]['prenometnom']=ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);
-					$i++;
-				}   	
-		    } 			
-			// On affiche le tableau
-	        $affiche = true;
+    } else { // On affiche le tableau			
+	    $affiche = true;
     }
 	
 	Database::disconnect();
 	$infos = true;
+    
+// Charge le Bilan    
+    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);      
 ?>
 
 <!DOCTYPE html>
@@ -334,10 +302,37 @@
             DATA5 :<br>
             <pre><?php var_dump($data5); ?></pre>                                        
         </div>
-       </div>
+        </div>
         <?php       
         }   
         ?>  
+        
+        <!-- Affiche les sommmes -->  
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">CA :</button>
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
+        </div>    
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Encaissements :</button>
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ENCAISSEMENT']; ?> €</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Paiement étalés :</button>
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['PAIEMENT']; ?> €</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Paiement échus :</button>
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ECHUS']; ?> €</button>
+        </div>                                            
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Salaire :</button>                             
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
+        </div>    
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Trésorerie :</button>               
+            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+        </div>
+        <br><br>  
         
 		<!-- Affiche la table des recettes en base sous condition -->
 		<div class="span10">
@@ -394,14 +389,7 @@
 					?>
 		                </tbody>
 		            </table>
-		            <!-- Affiche les sommmes -->        
-					<p>
-						<button type="button" class="btn btn-info">Total recettes : <?php echo $total_recettes; ?> €</button>
-                        <button type="button" class="btn btn-info">Total encaissement : <?php echo $total_encaissement; ?> €</button>						
-						<button type="button" class="btn btn-info">Total affecté au salaire : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
-						<button type="button" class="btn btn-info">Trésorerie : <?php echo ($total_recettes - $total_mois_{$mois_choisi_relatif}); ?> €</button>
-						
-					</p>             
+	                              
 				</div> 	<!-- /row -->
 				
                 <!-- Modal Delete -->
@@ -560,9 +548,7 @@
         					    </div><!-- /.modal-content -->
         					  </div><!-- /.modal-dialog -->
         					</div><!-- /.modal -->
-        
         	            </form>
-        	            
                     </div>  <!-- /row -->
                 </div>  <!-- /panel-body -->        	            
             </div> 	<!-- /panel -->
