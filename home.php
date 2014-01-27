@@ -139,11 +139,13 @@ function ChargeSessionExerciceBDD($data) {
                     <strong>- Dépenses(M) = Dépenses</strong><br>
                     <strong>- Solde Brut (M) = CA (M) - Dépenses (M)</strong><br>
                     <strong>- Ventillation (M) = Recettes de l'exercice ventillées sur le mois courant</strong><br>
-                    <strong>- Paiement (M) = Total des echéances des abonements étalés sur le mois courant</strong><br>
+                    <strong>- Paiement (M) = Total des echéances des abonements étalés sur le mois courant + Recettes à régler</strong><br>
+                    <strong>- Paiement echus (M) = Total des paiements à encaisser sur le mois courant</strong><br>
                     <strong>- Encaissement (M) = Total des paiements encaissés + recettes du mois courant payées</strong><br>
                     <strong>- Salaire (M) = Montant affecté au salaire = [Trésorerie (M-1) + Encaissement (M)] - [Ventilation (M) - Dépenses (M)]</strong><br>
                     <strong>- Trésorerie (M) = Montant de la trésorerie = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </strong><br>
-                    <strong>- A trésoriser (M) = Montant à mettre de côté</strong><br> 
+                    <strong>- Report Tréso (M) = Montant à mettre de côté</strong><br> 
+                    <strong>- Report Salaire (M) = Salaire non versé reporté au mois suivant</strong><br> 
               </div>
             </div>        
         </div>

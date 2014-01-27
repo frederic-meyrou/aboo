@@ -212,7 +212,7 @@
 		                                                
 		            <div class="form-actions">
 		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
-		              <a class="btn btn-primary" href="recette.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+		              <a class="btn btn-primary" href="recette.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 		            </div>
 	            </form>
 	   		 </div> <!-- /col -->    			

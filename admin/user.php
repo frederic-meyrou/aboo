@@ -137,7 +137,7 @@
 		          <div class="modal-footer">
 		            <div class="form-actions">                              
 		                <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-		                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+		                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
 		            </div>
 		          </div><!-- /.modal-footer -->
 		        </form>                   

@@ -140,6 +140,9 @@
 		<div class="span10">
 			<?php 
  			if ($affiche) {
+ 			    // Insère l'aide en ligne pour les actions
+ 			    $IDModale = "modalAideActions";
+		        include('lib/aide.php');
 			?>
 			<form class="form-horizontal" action="mesclients.php" method="post">			
 				<table class="table table-striped table-bordered table-hover success">
@@ -152,7 +155,7 @@
 		                  <th>Téléphone Fixe</th>
 		                  <th>Téléphone Mobile</th>
 		                  <th>Age</th>
-		                  <th>Actions</th>
+		                  <th>Actions <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
 		                </tr>
 		              </thead>
 		              <tbody>
@@ -214,7 +217,7 @@
                       <div class="modal-footer">
                         <div class="form-actions">                              
                             <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
                         </div>
                       </div><!-- /.modal-footer -->
                     </form>                   
@@ -256,7 +259,7 @@
                       <div class="modal-footer">
                         <div class="form-actions">                              
                             <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-envelope"></span> Envoyer</button>
-                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
                         </div>
                       </div><!-- /.modal-footer -->
                     </form>                   

@@ -169,7 +169,7 @@
 			      </div><!-- /.modal-body -->					    				  
 				  <div class="modal-footer">
 				  	<div class="form-actions pull-right">
-				        <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>
+				        <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>
 				        <button type="submit" class="btn btn-lg btn-success" ><span class="glyphicon glyphicon-log-in"></span> Connexion</button>
 				    </div>
 			      </div><!-- /.modal-footer -->

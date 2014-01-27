@@ -228,6 +228,9 @@ function ChargeSessionExerciceBDD($data) {
 		<div class="span10">
 			<?php 
  			if ($affiche) {
+                // Insère l'aide en ligne pour les actions
+                $IDModale = "modalAideActions";
+                include('lib/aide.php'); 			    
 			?>
             <div class="row">
                 <h3>Liste des exercices</h3>
@@ -239,7 +242,7 @@ function ChargeSessionExerciceBDD($data) {
 					  <th>Années exercice</th>
 					  <th>Mois de démarrage</th>
 					  <th>Montant de trésorerie de départ</th>
-					  <th>Action</th>
+					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
 					  
 					</tr>
 				</thead>
@@ -294,7 +297,7 @@ function ChargeSessionExerciceBDD($data) {
                       <div class="modal-footer">
                         <div class="form-actions">                              
                             <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
                         </div>
                       </div><!-- /.modal-footer -->
                     </form>                   
@@ -315,7 +318,7 @@ function ChargeSessionExerciceBDD($data) {
                           </strong></center>
                       </div><!-- /.modal-body -->                                         
                       <div class="modal-footer">                       
-                            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
                       </div><!-- /.modal-footer -->                 
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->

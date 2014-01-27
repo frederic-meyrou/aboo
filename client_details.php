@@ -113,7 +113,7 @@
         <h2>Détails d'un client</h2>       
         <br>
 		<p>
-	 	    <a href="mesclients.php" class="btn btn-primary" ><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>			
+	 	    <a href="mesclients.php" class="btn btn-primary" ><span class="glyphicon glyphicon-eject"></span> Retour</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</a>			
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>

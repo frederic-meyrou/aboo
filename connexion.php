@@ -130,7 +130,7 @@
 		</div>
 		<br>
         <button class="btn btn-lg btn-success" type="submit"><span class="glyphicon glyphicon-log-in"> Connexion</button>
-        <a href="index.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+        <a href="index.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>
         
         <br><br>
 	    <span class="glyphicon glyphicon-user"></span> <a href="inscription.php"> Vous souhaitez créer un compte ?</a><br/>

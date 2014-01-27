@@ -69,7 +69,7 @@
         
         <!-- Affiche les boutons de créations -->      
 		<div class="btn-group">
-  			<a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>  	
+  			<a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>  	
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
   			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>			  						
 		</div>  

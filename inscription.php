@@ -134,7 +134,7 @@ if(!empty($_POST) && filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)) {
                     
 		            <div class="form-actions">
 		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> S'inscrire</button>
-		              <a class="btn btn-primary" href="connexion.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+		              <a class="btn btn-primary" href="connexion.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 		            </div>
 		                                
                 </form>

@@ -343,6 +343,9 @@
 		<div class="span10">
 			<?php 
  			if ($affiche) {
+                // Insère l'aide en ligne pour les actions
+                $IDModale = "modalAideActions";
+                include('lib/aide.php'); 			    
 			?>
 	            <div class="row">
 	                <h3>Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
@@ -355,7 +358,7 @@
 							  <th>Périodicitée</th>
 							  <th>Client</th>							  
 							  <th>Commentaire</th>
-							  <th>Action</th>
+							  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
 							</tr>
 						</thead>
 		                
@@ -420,7 +423,7 @@
                           <div class="modal-footer">
                             <div class="form-actions">                              
                                 <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>                                  
+                                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
                             </div>
                           </div><!-- /.modal-footer -->
                         </form>                   
@@ -544,7 +547,7 @@
         						      </div><!-- /.modal-body -->					    				  
         							  <div class="modal-footer">
         							  	<div class="form-actions pull-right">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-up"></span> Retour</button>							  	    
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>							  	    
         					              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
         							    </div>
         						      </div><!-- /.modal-footer -->
@@ -560,7 +563,7 @@
 			
 			<!-- Affiche le bouton retour -->
 			<br>        
-			<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-chevron-up"></span> Retour</a>
+			<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 		
         </div>  <!-- /span -->        			
     
