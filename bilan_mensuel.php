@@ -61,7 +61,7 @@
 
 <body>
 
-    <?php $page_courante = "bilan.php"; require 'nav.php'; ?>
+    <?php $page_courante = "bilan_mensuel.php"; require 'nav.php'; ?>
         
     <div class="container">
      
