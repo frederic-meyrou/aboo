@@ -4,6 +4,20 @@
     font-size: 48px; 
 }
 
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #9ABC00;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #9ABC00;
+    color: black;
+}
+
+.dropdown-menu > .active > a:hover, .dropdown-menu > .active, .dropdown-menu > .active > a{
+    background-color: #BBBBBB;
+    color: black;
+}
+
 @font-face {
     font-family: "Titillium";
     font-style: normal;
