@@ -145,7 +145,7 @@
 		        include('lib/aide.php');
 			?>
 			<form class="form-horizontal" action="mesclients.php" method="post">			
-				<table class="table table-striped table-bordered table-hover success">
+				<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 		              <thead>
 		                <tr>
 						  <th><span class="glyphicon glyphicon-ok-sign"></span></th>		                	
@@ -275,7 +275,26 @@
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
-    
+
+    <script>  
+        /* Table initialisation */
+        $(document).ready(function() {
+            $('.datatable').dataTable({
+                "sPaginationType": "bs_full"
+            });
+            $('.datatable').each(function(){
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Rechercher');
+                search_input.addClass('form-control input-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-sm');
+            });             
+        });
+    </script> 
+        
 	<?php 
 	if ($affiche_modal_email) { // Modal conditionné par PHP
 	?>	

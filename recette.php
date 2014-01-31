@@ -335,239 +335,245 @@
         <br><br>  
         
 		<!-- Affiche la table des recettes en base sous condition -->
-		<div class="span10">
-			<?php 
- 			if ($affiche) {
-                // Insère l'aide en ligne pour les actions
-                $IDModale = "modalAideActions";
-                include('lib/aide.php'); 			    
-			?>
-	            <div class="row">
-	                <h3>Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-			
-					<table class="table table-striped table-bordered table-hover success">
-						<thead>
-							<tr>
-							  <th>Type</th>
-							  <th>Montant</th>
-							  <th>Périodicitée</th>
-							  <th>Client</th>							  
-							  <th>Commentaire</th>
-							  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
-							</tr>
-						</thead>
-		                
-						<tbody>
-						<?php		 
-							foreach ($data as $row) {
-								echo '<tr>';					
-								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-								echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';
-								$result = 'N/C';
-								foreach ($data3 as $row3) {
-									if ($row3['id'] == $row['client_id']) {
-										$result = ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);		
-									}
-								}	
-								echo '<td>' . $result . '</td>';			
-								echo '<td>' . $row['commentaire'] . '</td>';
-							   	echo '<td width=90>';
-						?>		
-								<div class="btn-group btn-group-sm">
-									  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-									  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
-									  	<a href="#" id="<?php echo $row['id']; ?>"
-									  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-									  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-								</div>
-		
-							   	</td>						
-								</tr>
-					<?php
-						   } // Foreach	
-					?>
-		                </tbody>
-		            </table>
-	                              
-				</div> 	<!-- /row -->
-				
-                <!-- Modal Delete -->
-                <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form class="form-horizontal" action="recette_delete.php" method="post">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une recette :</h3>
-                          </div><!-- /.modal-header -->
-                          <div class="modal-body">
-                              <strong>
-                               <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
-                               <center>Attention cette action supprimera aussi tous les paiements étalé associés.</center>
-                               <input id="DeleteInput" type="hidden" name="id" value=""/>
-                              </strong>
-                          </div><!-- /.modal-body -->                                         
-                          <div class="modal-footer">
-                            <div class="form-actions">                              
-                                <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-                            </div>
-                          </div><!-- /.modal-footer -->
-                        </form>                   
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->				
-			<?php
-			} // If Affiche
-			?>
-			
-			<!-- Affiche le formulaire inline ajout recette -->		
-            <div class="row">
+		<?php 
+		if ($affiche) {
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideActions";
+            include('lib/aide.php'); 			    
+		?>
+        <h3>Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
 
-                <?php 
-                    // Insère l'aide en ligne pour les actions
-                    $IDModale = "modalAideFormRecette";
-                    include('lib/aide.php'); 
-                ?>
-                                            
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Ajout d'une recette : </strong><a href="#" onclick="$('#modalAideFormRecette').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
-                    <div class="panel-body">
-        	            <form class="form-inline" role="form" action="recette.php" method="post">
-        	            
-        		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-        		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-        		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
-        		       				</div>
-        		            <?php } ?>
-        		            
-        					<!-- Formulaire principal -->
-        		            <div class="form-group">
-        		                    <select name="type" class="form-control">
-        				            <?php
-        				                foreach ($Liste_Recette as $r) {
-        				            ?>
-        				                <option value="<?php echo TypeRecetteToNum($r);?>" <?php echo (TypeRecetteToNum($r)==$type)?'selected':'';?>><?php echo $r;?></option>    
-        				            <?php 
-        				                } // foreach   
-        				            ?>
-        		                    </select>
-        		            </div>		      
-                            <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
-                                <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
-                            </div>        		       		
-        		            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
-        		                    <select name="periodicitee" class="form-control">
-        				            <?php
-        				                foreach ($Liste_Periodicitee as $p) {
-        				            ?>
-        				                <option value="<?php echo PeriodiciteeToNum($p);?>" <?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>><?php echo $p;?></option>    
-        				            <?php
-        				                } // foreach   
-        				            ?>
-        		                    </select>
-        		            </div>			       		
-        					<div class="form-group">
-        		                    <select name="paiement" id="paiement" class="form-control">
-        				                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
-        				                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
-        				                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
-        		                    </select>
-        		            </div>
-        					<div class="form-group">
-        		                    <select name="client" id="client" class="form-control">
-        				            	<option value="0">N/C</option>
-        				            <?php
-        				            	foreach ($Liste_Client as $c) {
-        				            ?>
-        				                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
-        				            <?php
-        				                } // foreach   
-        				            ?>			                				                    
-        		                    </select>
-        		            </div>
-        		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
-        		       		
-        	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
-        
-          					<!-- Affiche les erreurs -->
-          					<div class="help-block has-error">
-        					<?php if (!empty($montantError)): ?>
-        					<span class="help-block has-error"><?php echo $montantError;?></span>
-        					<?php endif; ?>
-        					<?php if (!empty($periodiciteeError)): ?>
-        					<span class="help-block has-error"><?php echo $periodiciteeError;?></span>
-        					<?php endif; ?>						
-        					<?php if (!empty($commentaireError)): ?>
-        					<span class="help-block has-error"><?php echo $commentaireError;?></span>
-        					<?php endif; ?>
-        					<?php if (!empty($paiementError)): ?>
-        					<span class="help-block has-error"><?php echo $paiementError;?></span>
-        					<?php endif; ?>					
-        					</div>
-        							
-        					<!-- Modal paiement-->
-        					<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
-        					  <div class="modal-dialog">
-        					    <div class="modal-content">
-        						      <div class="modal-header">
-        						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        						        <h3 class="modal-title" id="PaiementModalLabel">Saisie des paiements étalés :</h3>
-        						      </div><!-- /.modal-header -->
-        						      <div class="modal-body">
-                                        <?php 
-                                        if ($affiche_paiement_etale) { // On affiche le formulaire que si nécessaire
-                                            echo "Répartissez votre " . NumToTypeRecette($type) . " de $montant € sur les mois suivants : "; 
-                                            echo '<div class="panel panel-default"><div class="panel-body">';                                         
-                                            echo '<dl class="dl-horizontal">'; 						
-        			 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) { // Affiche les champs paiements
-        			 						    echo '<dt>';
-                                                echo '<dt>' . NumToMois(MoisAnnee($m,$exercice_mois)) . ' : </dt>';
-                                                echo '<dd>';
-        										Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
-        										echo '</dd>';
-        									} // endfor
-        									echo '</dl>';
-                                            echo '</div></div>';
-        									echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
-        								    echo '<div class="help-block has-error">';
-                                            if (!empty($paiement_mois_Error)) {
-                                                echo '<span class="help-block has-error">' . $paiement_mois_Error . '</span>';
-                                            echo '</div>';
-                                            } // If
-                                        } // IF
-                                        ?>                                                         
-        						      </div><!-- /.modal-body -->					    				  
-        							  <div class="modal-footer">
-        							  	<div class="form-actions pull-right">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>							  	    
-        					              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
-        							    </div>
-        						      </div><!-- /.modal-footer -->
-        					    </div><!-- /.modal-content -->
-        					  </div><!-- /.modal-dialog -->
-        					</div><!-- /.modal -->
-        	            </form>
-                    </div>  <!-- /row -->
-                </div>  <!-- /panel-body -->        	            
-            </div> 	<!-- /panel -->
-			
-			<!-- Affiche le bouton retour -->
-			<br>        
-			<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
-		
-        </div>  <!-- /span -->        			
+		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+			<thead>
+				<tr>
+				  <th>Type</th>
+				  <th>Montant</th>
+				  <th>Périodicitée</th>
+				  <th>Client</th>							  
+				  <th>Commentaire</th>
+				  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
+				</tr>
+			</thead>
+            
+			<tbody>
+			<?php		 
+				foreach ($data as $row) {
+					echo '<tr>';					
+					echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+					echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';
+					$result = 'N/C';
+					foreach ($data3 as $row3) {
+						if ($row3['id'] == $row['client_id']) {
+							$result = ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);		
+						}
+					}	
+					echo '<td>' . $result . '</td>';			
+					echo '<td>' . $row['commentaire'] . '</td>';
+				   	echo '<td width=90>';
+			?>		
+					<div class="btn-group btn-group-sm">
+						  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+						  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+						  	<a href="#" id="<?php echo $row['id']; ?>"
+						  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
+						  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+					</div>
+
+				   	</td>						
+					</tr>
+		<?php
+			   } // Foreach	
+		?>
+            </tbody>
+        </table>
+				
+        <!-- Modal Delete -->
+        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" action="recette_delete.php" method="post">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une recette :</h3>
+                  </div><!-- /.modal-header -->
+                  <div class="modal-body">
+                      <strong>
+                       <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
+                       <center>Attention cette action supprimera aussi tous les paiements étalé associés.</center>
+                       <input id="DeleteInput" type="hidden" name="id" value=""/>
+                      </strong>
+                  </div><!-- /.modal-body -->                                         
+                  <div class="modal-footer">
+                    <div class="form-actions">                              
+                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
+                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
+                    </div>
+                  </div><!-- /.modal-footer -->
+                </form>                   
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->				
+    	<?php
+    	} // If Affiche
+    	?>
+    	
+    	<!-- Affiche le formulaire inline ajout recette -->		
+        <?php 
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideFormRecette";
+            include('lib/aide.php'); 
+        ?>
+                                    
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Ajout d'une recette : </strong><a href="#" onclick="$('#modalAideFormRecette').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
+            <div class="panel-body">
+                <form class="form-inline" role="form" action="recette.php" method="post">
+                
+    	            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+    	            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+    	                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
+    	       				</div>
+    	            <?php } ?>
+    	            
+    				<!-- Formulaire principal -->
+    	            <div class="form-group">
+    	                    <select name="type" class="form-control">
+    			            <?php
+    			                foreach ($Liste_Recette as $r) {
+    			            ?>
+    			                <option value="<?php echo TypeRecetteToNum($r);?>" <?php echo (TypeRecetteToNum($r)==$type)?'selected':'';?>><?php echo $r;?></option>    
+    			            <?php 
+    			                } // foreach   
+    			            ?>
+    	                    </select>
+    	            </div>		      
+                    <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
+                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                    </div>        		       		
+    	            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
+    	                    <select name="periodicitee" class="form-control">
+    			            <?php
+    			                foreach ($Liste_Periodicitee as $p) {
+    			            ?>
+    			                <option value="<?php echo PeriodiciteeToNum($p);?>" <?php echo (PeriodiciteeToNum($p)==$periodicitee)?'selected':'';?>><?php echo $p;?></option>    
+    			            <?php
+    			                } // foreach   
+    			            ?>
+    	                    </select>
+    	            </div>			       		
+    				<div class="form-group">
+    	                    <select name="paiement" id="paiement" class="form-control">
+    			                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
+    			                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
+    			                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
+    	                    </select>
+    	            </div>
+    				<div class="form-group">
+    	                    <select name="client" id="client" class="form-control">
+    			            	<option value="0">N/C</option>
+    			            <?php
+    			            	foreach ($Liste_Client as $c) {
+    			            ?>
+    			                <option value="<?php echo $c['id'];?>" <?php echo ($c['id']==$client_id)?'selected':'';?>><?php echo $c['prenometnom'];?></option>    
+    			            <?php
+    			                } // foreach   
+    			            ?>			                				                    
+    	                    </select>
+    	            </div>
+    	       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+    	       		
+                  	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
+    
+    				<!-- Affiche les erreurs -->
+    				<div class="help-block has-error">
+    				<?php if (!empty($montantError)): ?>
+    				<span class="help-block has-error"><?php echo $montantError;?></span>
+    				<?php endif; ?>
+    				<?php if (!empty($periodiciteeError)): ?>
+    				<span class="help-block has-error"><?php echo $periodiciteeError;?></span>
+    				<?php endif; ?>						
+    				<?php if (!empty($commentaireError)): ?>
+    				<span class="help-block has-error"><?php echo $commentaireError;?></span>
+    				<?php endif; ?>
+    				<?php if (!empty($paiementError)): ?>
+    				<span class="help-block has-error"><?php echo $paiementError;?></span>
+    				<?php endif; ?>					
+    				</div>
+    						
+    				<!-- Modal paiement-->
+    				<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
+    				  <div class="modal-dialog">
+    				    <div class="modal-content">
+    					      <div class="modal-header">
+    					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    					        <h3 class="modal-title" id="PaiementModalLabel">Saisie des paiements étalés :</h3>
+    					      </div><!-- /.modal-header -->
+    					      <div class="modal-body">
+                                <?php 
+                                if ($affiche_paiement_etale) { // On affiche le formulaire que si nécessaire
+                                    echo "Répartissez votre " . NumToTypeRecette($type) . " de $montant € sur les mois suivants : "; 
+                                    echo '<div class="panel panel-default"><div class="panel-body">';                                         
+                                    echo '<dl class="dl-horizontal">'; 						
+    		 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) { // Affiche les champs paiements
+    		 						    echo '<dt>';
+                                        echo '<dt>' . NumToMois(MoisAnnee($m,$exercice_mois)) . ' : </dt>';
+                                        echo '<dd>';
+    									Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+    									echo '</dd>';
+    								} // endfor
+    								echo '</dl>';
+                                    echo '</div></div>';
+    								echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
+    							    echo '<div class="help-block has-error">';
+                                    if (!empty($paiement_mois_Error)) {
+                                        echo '<span class="help-block has-error">' . $paiement_mois_Error . '</span>';
+                                    echo '</div>';
+                                    } // If
+                                } // IF
+                                ?>                                                         
+    					      </div><!-- /.modal-body -->					    				  
+    						  <div class="modal-footer">
+    						  	<div class="form-actions pull-right">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>							  	    
+    				              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
+    						    </div>
+    					      </div><!-- /.modal-footer -->
+    				    </div><!-- /.modal-content -->
+    				  </div><!-- /.modal-dialog -->
+    				</div><!-- /.modal -->
+                </form>
+    
+            </div>  <!-- /panel-body -->        	            
+        </div> 	<!-- /panel -->
+    	
+    	<!-- Affiche le bouton retour -->
+    	<br>        
+    	<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+     			
     
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
 
-    <script>
-        $(document).ready(function(){ // Le DOM est chargé
-            // RaS
+    <script>  
+        /* Table initialisation */
+        $(document).ready(function(){
+            $('.datatable').dataTable({
+                "sPaginationType": "bs_full"
+            });
+            $('.datatable').each(function(){
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Rechercher');
+                search_input.addClass('form-control input-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-sm');
+            });             
         });
-    </script>
+    </script> 
 	
 	<?php 
 	if ($affiche_paiement_etale) { // Modal conditionné par PHP

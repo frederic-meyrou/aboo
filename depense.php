@@ -202,51 +202,49 @@
         <br><br> 
                         
 		<!-- Affiche la table des dépenses en base sous condition -->
-		<div class="span10">
-			<?php 
- 			if ($affiche) {
-                // Insère l'aide en ligne pour les actions
-                $IDModale = "modalAideActions";
-                include('lib/aide.php'); 			    
-			?>
-            <div class="row">
-                <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-		
-				<table class="table table-striped table-bordered table-hover success">
-					<thead>
-						<tr>
-						  <th>Type</th>
-	  					  <th>Montant</th>
-						  <th>Commentaire</th>
-						  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>					  			  
-						</tr>
-					</thead>
-	                
-					<tbody>
-					<?php		 
-						foreach ($data as $row) {
-							echo '<tr>';
-							echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
-							echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-							echo '<td>' . $row['commentaire'] . '</td>';
-						   	echo '<td width=90>';
-					?>		
-							<div class="btn-group btn-group-sm">
-								  	<a href="depense_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-                                    <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
-                                    <a href="#" id="<?php echo $row['id']; ?>"
-                                       onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-                                       class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-							</div>
-	
-						   	</td>						
-							</tr>
-				<?php
-					   } // Foreach	
-				?>
-				    </tbody>
-	            </table>         
-			</div> 	<!-- /row -->
+		<?php 
+		if ($affiche) {
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideActions";
+            include('lib/aide.php'); 			    
+		?>
+
+        <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+
+		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+			<thead>
+				<tr>
+				  <th>Type</th>
+				  <th>Montant</th>
+				  <th>Commentaire</th>
+				  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>					  			  
+				</tr>
+			</thead>
+            
+			<tbody>
+			<?php		 
+				foreach ($data as $row) {
+					echo '<tr>';
+					echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
+					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+					echo '<td>' . $row['commentaire'] . '</td>';
+				   	echo '<td width=90>';
+			?>		
+					<div class="btn-group btn-group-sm">
+						  	<a href="depense_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+                            <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+                            <a href="#" id="<?php echo $row['id']; ?>"
+                               onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
+                               class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+					</div>
+
+				   	</td>						
+					</tr>
+		<?php
+			   } // Foreach	
+		?>
+		    </tbody>
+        </table>         
 
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -277,68 +275,73 @@
 			<?php
 			} // If Affiche
 			?>
-		<!-- Affiche le formulaire inline ajout depense -->			
-            <div class="row">
-                
-                <?php 
-                    // Insère l'aide en ligne pour les actions
-                    $IDModale = "modalAideFormDepense";
-                    include('lib/aide.php'); 
-                ?>                
-                
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Ajout d'une dépense : </strong><a href="#" onclick="$('#modalAideFormDepense').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
-                    <div class="panel-body">
-                
-        	            <form class="form-inline" role="form" action="depense.php" method="post">
-        		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-        		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-        		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
-        		                    <?php if (!empty($champError)): ?>
-        		                     		<span class="help-inline"><?php echo $champError;?></span>
-        		                    <?php endif; ?>		            
-        		       				</div>
-        		            <?php } ?>
-        		            <div class="form-group">
-        		                    <select name="type" class="form-control">
-        				            <?php
-        				                foreach ($Liste_Depense as $d) {
-        				            ?>
-        				                <option value="<?php echo TypeDepenseToNum($d);?>"><?php echo $d;?></option>    
-        				            <?php 
-        				                } // foreach   
-        				            ?>
-        		                    </select>
-        		            </div>		
-                            <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
-                                <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
-                            </div>                          	                  		            
-        		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+		<!-- Affiche le formulaire inline ajout depense -->			               
+        <?php 
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideFormDepense";
+            include('lib/aide.php'); 
+        ?>                
         
-        	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
-        	            </form>
-                    </div>  <!-- /panel-body -->                        
-                </div>  <!-- /panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Ajout d'une dépense : </strong><a href="#" onclick="$('#modalAideFormDepense').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
+            <div class="panel-body">
+        
+	            <form class="form-inline" role="form" action="depense.php" method="post">
+		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
+		                    <?php if (!empty($champError)): ?>
+		                     		<span class="help-inline"><?php echo $champError;?></span>
+		                    <?php endif; ?>		            
+		       				</div>
+		            <?php } ?>
+		            <div class="form-group">
+		                    <select name="type" class="form-control">
+				            <?php
+				                foreach ($Liste_Depense as $d) {
+				            ?>
+				                <option value="<?php echo TypeDepenseToNum($d);?>"><?php echo $d;?></option>    
+				            <?php 
+				                } // foreach   
+				            ?>
+		                    </select>
+		            </div>		
+                    <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
+                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                    </div>                          	                  		            
+		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
 
-            </div> 	<!-- /row -->		
+	              	<button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button>
+	            </form>
+            </div>  <!-- /panel-body -->                        
+        </div>  <!-- /panel -->
 			
 			<!-- Affiche le bouton retour -->
 			<br>        
 			<p>
 				<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
-			</p>
-			
-        </div>  <!-- /span -->        			
+			</p>    			
     
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
     
-    <script>
-        $(document).ready(function(){ // Le DOM est chargé
-            // RaS
+    <script>  
+        /* Table initialisation */
+        $(document).ready(function() {
+            $('.datatable').dataTable();
+            $('.datatable').each(function(){
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Rechercher');
+                search_input.addClass('form-control input-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-sm');
+            });             
         });
-    </script>    
+    </script> 
         
   </body>
 </html>
