@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="bootstrap/css/datatables.css" rel="stylesheet" type="text/css" media="screen">
     <link href="bootstrap/css/aboo.css" rel="stylesheet">
     <link rel='stylesheet' id='google_fonts-css'  href='http://fonts.googleapis.com/css?family=PT+Sans|Lato:300,400|Lobster|Quicksand' type='text/css' media='all' />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">

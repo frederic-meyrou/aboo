@@ -198,48 +198,87 @@
         <br>  
         
 		<!-- Affiche la table en base sous condition -->
-		<div class="span10">
-			<?php 
- 			if ($affiche) {
-			?>
-            <div class="row">
-                <h3>Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-    			<table class="table table-striped table-bordered table-hover success">
-    				<thead>
-    					<tr>
-    					  <th>Date</th>
-    					  <th>Type</th>					  
-    					  <th>Montant</th>
-    					  <th>Commentaire</th>			  
-    					</tr>
-    				</thead>
-                    
-    				<tbody>
-    				<?php 			 
-    					foreach ($data as $row) {
-    						echo '<tr>';
-    						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
-    					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
-    						if (!empty($row['periodicitee'])) {
-    					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-    						} else {
-    					    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
-    						}						
-    						echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-    						echo '<td>' . $row['commentaire'] . '</td>';
-    						echo '</tr>';
-    					}
-    				?>						 
-                    </tbody>
-                </table>
-			</div> 	<!-- /row -->
-			<?php 	
-			} // if
-			?>
-        </div>  <!-- /span -->        			    
+		<?php 
+		if ($affiche) {
+		?>
+        <h3>Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+			<thead>
+				<tr>
+				  <th>Date</th>
+				  <th>Type</th>					  
+				  <th>Montant</th>
+				  <th>Commentaire</th>			  
+				</tr>
+			</thead>
+            
+			<tbody>
+			<?php 			 
+				foreach ($data as $row) {
+					echo '<tr>';
+					//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
+				    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
+					if (!empty($row['periodicitee'])) {
+				    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+					} else {
+				    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
+					}						
+					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+					echo '<td>' . $row['commentaire'] . '</td>';
+					echo '</tr>';
+				}
+			?>						 
+            </tbody>
+        </table>
+
+		<?php 	
+		} // if
+		?>
+  			    
     </div> <!-- /container -->
     
     <?php require 'footer.php'; ?>
+
+		<script>  
+			/* Table initialisation */
+			$(document).ready(function() {
+				$('.datatable').dataTable({
+					"sPaginationType": "bs_normal",					
+					"oLanguage": {
+					    "sProcessing":     "Traitement en cours...",
+					    "sSearch":         "Rechercher&nbsp;:",
+					    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+					    "sInfo":           "Affichage de _END_ &eacute;lements sur _TOTAL_",
+					    "sInfoEmpty":      "Pas de donn&eacute;es",
+					    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+					    "sInfoPostFix":    "",
+					    "sLoadingRecords": "Chargement en cours...",
+					    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+					    "sEmptyTable":     "Aucune donnée disponible dans le tableau",
+					    "oPaginate": {
+					        "sFirst":      "Premier",
+					        "sPrevious":   "Pr&eacute;c&eacute;dent",
+					        "sNext":       "Suivant",
+					        "sLast":       "Dernier"
+					    },
+					    "oAria": {
+					        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+					        "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+					    }
+					}
+				} );
+			$('.datatable').each(function(){
+					var datatable = $(this);
+					// SEARCH - Add the placeholder for Search and Turn this into in-line form control
+					var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+					search_input.attr('placeholder', 'Rechercher');
+					search_input.addClass('form-control input-sm');
+					// LENGTH - Inline-Form control
+					var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+					length_sel.addClass('form-control input-sm');
+				});				
+			} );
+		</script>    
     
   </body>
 </html>
