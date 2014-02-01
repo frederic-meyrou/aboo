@@ -165,75 +165,81 @@
         }   
         ?>  
 
-        <!-- Affiche les sommmes -->      
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">CA :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Dépenses :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Solde brut :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SOLDE']; ?> €</button>
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Salaire :</button>                             
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Trésorerie :</button>               
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
-        </div>
-        <br><br>
+        <!-- Affiche les sommmes -->
+        <div>      
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">CA :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Dépenses :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Solde brut :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SOLDE']; ?> €</button>
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Salaire :</button>                             
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Trésorerie :</button>               
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+	        </div>
+		</div>
+        <br>
 
         <!-- Affiche les boutons de créations -->      
-        <div class="btn-group">
-            <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-            <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
-            <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-            <a href="journal_pdf.php" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
+        <div>
+	        <div class="btn-group btn-group-lg">
+	            <a href="recette.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
+	            <a href="depense.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+	        </div>
         </div>
-        <br>  
+        <br>
         
-		<!-- Affiche la table en base sous condition -->
-		<?php 
-		if ($affiche) {
-		?>
-        <h3>Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
-			<thead>
-				<tr>
-				  <th>Date</th>
-				  <th>Type</th>					  
-				  <th>Montant</th>
-				  <th>Commentaire</th>			  
-				</tr>
-			</thead>
-            
-			<tbody>
-			<?php 			 
-				foreach ($data as $row) {
-					echo '<tr>';
-					//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
-				    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
-					if (!empty($row['periodicitee'])) {
-				    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-					} else {
-				    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
-					}						
-					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-					echo '<td>' . $row['commentaire'] . '</td>';
-					echo '</tr>';
-				}
-			?>						 
-            </tbody>
-        </table>
-
-		<?php 	
-		} // if
-		?>
+		<!-- Affiche la table -->
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button>
+			<div class="btn-group pull-right">
+	            <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+	            <a href="journal_pdf.php" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
+	        </div>	        
+	        </h3>
+		  </div>			
+		  <div class="panel-body">		
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+				<thead>
+					<tr>
+					  <th>Date</th>
+					  <th>Type</th>					  
+					  <th>Montant</th>
+					  <th>Commentaire</th>			  
+					</tr>
+				</thead>
+	            
+				<tbody>
+				<?php 			 
+					foreach ($data as $row) {
+						echo '<tr>';
+						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
+					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
+						if (!empty($row['periodicitee'])) {
+					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+						} else {
+					    	echo '<td>' . NumToTypeDepense($row['type']) . '</td>';							
+						}						
+						echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+						echo '<td>' . $row['commentaire'] . '</td>';
+						echo '</tr>';
+					}
+				?>						 
+	            </tbody>
+	        </table>
+		  </div>
+		</div> <!-- /panel -->
   			    
     </div> <!-- /container -->
     

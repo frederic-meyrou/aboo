@@ -190,61 +190,66 @@
         }   
         ?>  
 
-        <!-- Affiche les sommmes -->        
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Dépenses :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
-        </div> 
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Trésorerie :</button>               
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+        <!-- Affiche les sommmes -->       
+        <div> 
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Dépenses :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
+	        </div> 
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Trésorerie :</button>               
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+	        </div>
         </div>
-        <br><br> 
+        <br>
                         
-		<!-- Affiche la table des dépenses en base sous condition -->
-		<?php 
-		if ($affiche) {
-            // Insère l'aide en ligne pour les actions
-            $IDModale = "modalAideActions";
-            include('lib/aide.php'); 			    
-		?>
+		<!-- Affiche la table -->
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+	        <h3 class="panel-title">Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+		  </div>			
+		  <div class="panel-body">
+			<?php 
+	            // Insère l'aide en ligne pour les actions
+	            $IDModale = "modalAideActions";
+	            include('lib/aide.php'); 			    
+			?>
 
-        <h3>Liste des dépenses du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
 
-		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
-			<thead>
-				<tr>
-				  <th>Type</th>
-				  <th>Montant</th>
-				  <th>Commentaire</th>
-				  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>					  			  
-				</tr>
-			</thead>
-            
-			<tbody>
-			<?php		 
-				foreach ($data as $row) {
-					echo '<tr>';
-					echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
-					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-					echo '<td>' . $row['commentaire'] . '</td>';
-				   	echo '<td width=90>';
-			?>		
-					<div class="btn-group btn-group-sm">
-						  	<a href="depense_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-                            <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
-                            <a href="#" id="<?php echo $row['id']; ?>"
-                               onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-                               class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-					</div>
-
-				   	</td>						
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+				<thead>
+					<tr>
+					  <th>Type</th>
+					  <th>Montant</th>
+					  <th>Commentaire</th>
+					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>					  			  
 					</tr>
-		<?php
-			   } // Foreach	
-		?>
-		    </tbody>
-        </table>         
+				</thead>
+	            
+				<tbody>
+				<?php		 
+					foreach ($data as $row) {
+						echo '<tr>';
+						echo '<td>' . NumToTypeDepense($row['type']) . '</td>';
+						echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+						echo '<td>' . $row['commentaire'] . '</td>';
+					   	echo '<td width=90>';
+				?>		
+						<div class="btn-group btn-group-sm">
+							  	<a href="depense_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+	                            <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+	                            <a href="#" id="<?php echo $row['id']; ?>"
+	                               onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
+	                               class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+						</div>
+	
+					   	</td>						
+						</tr>
+			<?php
+				   } // Foreach	
+			?>
+			    </tbody>
+	        </table>         
 
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -271,10 +276,9 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->              
-			
-			<?php
-			} // If Affiche
-			?>
+		  </div>
+		</div>  <!-- /panel -->			
+
 		<!-- Affiche le formulaire inline ajout depense -->			               
         <?php 
             // Insère l'aide en ligne pour les actions

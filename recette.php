@@ -307,116 +307,119 @@
         }   
         ?>  
         
-        <!-- Affiche les sommmes -->  
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">CA :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Encaissements :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ENCAISSEMENT']; ?> €</button>
+        <!-- Affiche les sommmes -->
+        <div>
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">CA :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Encaissements :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ENCAISSEMENT']; ?> €</button>
+	        </div>
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Paiement étalés :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['PAIEMENT']; ?> €</button>
+	        </div>
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Paiement échus :</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ECHUS']; ?> €</button>
+	        </div>                                            
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Salaire :</button>                             
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
+	        </div>    
+	        <div class="btn-group">
+	            <button type="button" class="btn btn-info">Trésorerie :</button>               
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+	        </div>
         </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Paiement étalés :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['PAIEMENT']; ?> €</button>
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Paiement échus :</button>
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ECHUS']; ?> €</button>
-        </div>                                            
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Salaire :</button>                             
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
-        </div>    
-        <div class="btn-group">
-            <button type="button" class="btn btn-info">Trésorerie :</button>               
-            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
-        </div>
-        <br><br>  
+        <br>
         
-		<!-- Affiche la table des recettes en base sous condition -->
-		<?php 
-		if ($affiche) {
-            // Insère l'aide en ligne pour les actions
-            $IDModale = "modalAideActions";
-            include('lib/aide.php'); 			    
-		?>
-        <h3>Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-
-		<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
-			<thead>
-				<tr>
-				  <th>Type</th>
-				  <th>Montant</th>
-				  <th>Périodicitée</th>
-				  <th>Client</th>							  
-				  <th>Commentaire</th>
-				  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
-				</tr>
-			</thead>
-            
-			<tbody>
-			<?php		 
-				foreach ($data as $row) {
-					echo '<tr>';					
-					echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-					echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-					echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';
-					$result = 'N/C';
-					foreach ($data3 as $row3) {
-						if ($row3['id'] == $row['client_id']) {
-							$result = ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);		
-						}
-					}	
-					echo '<td>' . $result . '</td>';			
-					echo '<td>' . $row['commentaire'] . '</td>';
-				   	echo '<td width=90>';
-			?>		
-					<div class="btn-group btn-group-sm">
-						  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-						  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
-						  	<a href="#" id="<?php echo $row['id']; ?>"
-						  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-						  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
-					</div>
-
-				   	</td>						
+		<!-- Affiche la table -->
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+	        <h3 class="panel-title">Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+		  </div>			
+		  <div class="panel-body">
+			<?php 
+	            // Insère l'aide en ligne pour les actions
+	            $IDModale = "modalAideActions";
+	            include('lib/aide.php'); 			    
+			?>
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+				<thead>
+					<tr>
+					  <th>Type</th>
+					  <th>Montant</th>
+					  <th>Périodicitée</th>
+					  <th>Client</th>							  
+					  <th>Commentaire</th>
+					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
 					</tr>
-		<?php
-			   } // Foreach	
-		?>
-            </tbody>
-        </table>
+				</thead>
+	            
+				<tbody>
+				<?php		 
+					foreach ($data as $row) {
+						echo '<tr>';					
+						echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+						echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';
+						$result = 'N/C';
+						foreach ($data3 as $row3) {
+							if ($row3['id'] == $row['client_id']) {
+								$result = ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);		
+							}
+						}	
+						echo '<td>' . $result . '</td>';			
+						echo '<td>' . $row['commentaire'] . '</td>';
+					   	echo '<td width=90>';
+				?>		
+						<div class="btn-group btn-group-sm">
+							  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+							  	<a href="#" id="<?php echo $row['id']; ?>"
+							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
+							  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+						</div>
+	
+					   	</td>						
+						</tr>
+			<?php
+				   } // Foreach	
+			?>
+	            </tbody>
+	        </table>
 				
-        <!-- Modal Delete -->
-        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-                <form class="form-horizontal" action="recette_delete.php" method="post">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une recette :</h3>
-                  </div><!-- /.modal-header -->
-                  <div class="modal-body">
-                      <strong>
-                       <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
-                       <center>Attention cette action supprimera aussi tous les paiements étalé associés.</center>
-                       <input id="DeleteInput" type="hidden" name="id" value=""/>
-                      </strong>
-                  </div><!-- /.modal-body -->                                         
-                  <div class="modal-footer">
-                    <div class="form-actions">                              
-                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-                    </div>
-                  </div><!-- /.modal-footer -->
-                </form>                   
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->				
-    	<?php
-    	} // If Affiche
-    	?>
+	        <!-- Modal Delete -->
+	        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+	          <div class="modal-dialog">
+	            <div class="modal-content">
+	                <form class="form-horizontal" action="recette_delete.php" method="post">
+	                  <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                    <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une recette :</h3>
+	                  </div><!-- /.modal-header -->
+	                  <div class="modal-body">
+	                      <strong>
+	                       <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
+	                       <center>Attention cette action supprimera aussi tous les paiements étalé associés.</center>
+	                       <input id="DeleteInput" type="hidden" name="id" value=""/>
+	                      </strong>
+	                  </div><!-- /.modal-body -->                                         
+	                  <div class="modal-footer">
+	                    <div class="form-actions">                              
+	                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
+	                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
+	                    </div>
+	                  </div><!-- /.modal-footer -->
+	                </form>                   
+	            </div><!-- /.modal-content -->
+	          </div><!-- /.modal-dialog -->
+	        </div><!-- /.modal -->				
+		  </div>
+		</div>  <!-- /panel -->
     	
     	<!-- Affiche le formulaire inline ajout recette -->		
         <?php 
