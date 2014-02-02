@@ -106,12 +106,12 @@
     <?php $page_courante = "mesclients.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Gestion de mes clients</h2>       
-        <br>
+        
+        <div class="page-header">           
+            <h2>Gestion de mes clients</h2>       
+        </div>
 		<p>
-			<a href="client_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un client</a>	
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
+			<a href="client_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un client</a>
 		</p>
 				             
         <!-- Affiche les informations de debug -->
@@ -136,142 +136,151 @@
         }   
         ?> 
 
-		<!-- Affiche la table en base sous condition -->
-		<div class="span10">
-			<?php 
- 			if ($affiche) {
- 			    // Insère l'aide en ligne pour les actions
- 			    $IDModale = "modalAideActions";
-		        include('lib/aide.php');
-			?>
-			<form class="form-horizontal" action="mesclients.php" method="post">			
-				<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
-		              <thead>
-		                <tr>
-						  <th><span class="glyphicon glyphicon-ok-sign"></span></th>		                	
-						  <th>Prénom</th>
-		                  <th>Nom</th>
-                          <th>eMail</th>
-		                  <th>Téléphone Fixe</th>
-		                  <th>Téléphone Mobile</th>
-		                  <th>Age</th>
-		                  <th>Actions <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
-		                </tr>
-		              </thead>
-		              <tbody>
-		              <?php	
-	 				  foreach ($data as $row) {
-					  ?>		
-						<tr>
-							<td width=30>			
-								<label class="checkbox-inline">
-							    	<input name="selection[]" type="checkbox" value="<?php echo $row['id']; ?>" >
-							  	</label>
-							</td>					
-					  <?php 							   
-							echo '<td>'. ucfirst($row['prenom']) . '</td>';
-						   	echo '<td>'. ucfirst($row['nom']) . '</td>';
-							echo '<td>'. $row['email'] . '</td>';
-							echo '<td>'. $row['telephone'] . '</td>';
-							echo '<td>'. $row['mobile'] . '</td>';
-							echo '<td>'. $row['age'] . '</td>';
-						   	echo '<td width=130>';
-					  ?>	
-							<div class="btn-group btn-group-sm">
-								  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-info glyphicon glyphicon-star" role="button"> </a>
-								  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
-                                    <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
-                                    <a href="#" id="<?php echo $row['id']; ?>"
-                                       onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-                                       class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>									  	
-							</div>
-							
-						   	</td>						
-						</tr>
-					  <?php								                             
-					  } // Foreach
-					  ?>
-				      </tbody>
-	            </table>
-			</div> 	<!-- /row -->
+		<!-- Affiche la table -->
+		<?php 
+		    // Insère l'aide en ligne pour les actions
+		    $IDModale = "modalAideActions";
+	        include('lib/aide.php');
+		?>
+		<form class="form-horizontal" action="mesclients.php" method="post">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p>  
+            <h3 class="panel-title">Liste de mes clients :             
+            <div class="btn-group pull-right">
+                <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>             
+            </div>
+            </h3>
+            </p>            
+          </div>            
+          <div class="panel-body">                  			    			
+            <div class="table-responsive">  			    
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+	              <thead>
+	                <tr>
+					  <th><span class="glyphicon glyphicon-ok-sign"></span></th>		                	
+					  <th>Prénom</th>
+	                  <th>Nom</th>
+                      <th>eMail</th>
+	                  <th>Téléphone Fixe</th>
+	                  <th>Téléphone Mobile</th>
+	                  <th>Age</th>
+	                  <th>Actions <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              <?php	
+ 				  foreach ($data as $row) {
+				  ?>		
+					<tr>
+						<td width=30>			
+							<label class="checkbox-inline">
+						    	<input name="selection[]" type="checkbox" value="<?php echo $row['id']; ?>" >
+						  	</label>
+						</td>					
+				  <?php 							   
+						echo '<td>'. ucfirst($row['prenom']) . '</td>';
+					   	echo '<td>'. ucfirst($row['nom']) . '</td>';
+						echo '<td>'. $row['email'] . '</td>';
+						echo '<td>'. $row['telephone'] . '</td>';
+						echo '<td>'. $row['mobile'] . '</td>';
+						echo '<td>'. $row['age'] . '</td>';
+					   	echo '<td width=130>';
+				  ?>	
+						<div class="btn-group btn-group-sm">
+							  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-info glyphicon glyphicon-star" role="button"> </a>
+							  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+                                <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
+                                <a href="#" id="<?php echo $row['id']; ?>"
+                                   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
+                                   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>									  	
+						</div>
+						
+					   	</td>						
+					</tr>
+				  <?php								                             
+				  } // Foreach
+				  ?>
+			      </tbody>
+            </table>
+            </div> <!-- /table-responsive -->
+          </div>
+        </div> <!-- /panel -->
+        
+	    <!-- Bouton de Submit de selection -->
+	  	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</button>				
+		</form>
+		<br>
 
-		    <!-- Bouton de Submit de selection -->
-		  	<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</button>				
-			</form>
-
-            <!-- Modal Delete -->
-            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                    <form class="form-horizontal" action="client_delete.php" method="post">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 class="modal-title" id="DeleteModalLabel">Suppression d'un client :</h3>
-                      </div><!-- /.modal-header -->
-                      <div class="modal-body">
-                          <strong>
-                           <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
-                           <input id="DeleteInput" type="hidden" name="id" value=""/>
-                          </strong>
-                      </div><!-- /.modal-body -->                                         
-                      <div class="modal-footer">
-                        <div class="form-actions">                              
-                            <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-                        </div>
-                      </div><!-- /.modal-footer -->
-                    </form>                   
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-            <!-- Modal eMail -->
-            <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="EmailModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                    <form class="form-horizontal" action="mesclients.php" method="post">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 class="modal-title" id="EmailModalLabel">Envoi d'un eMail de relance :</h3>
-                      </div><!-- /.modal-header -->
-                      <div class="modal-body">
-					  <div class="panel panel-success">
-						  <div class="panel-heading">
-						    <h3 class="panel-title">Liste des client à relancer</h3>
-						  </div>
-						  <div class="panel-body">
-						  	<table class="table table-condensed table-bordered">
-	                      	<?php
-						    for ($i=0; $i<count($selection); $i++) {
-								echo '<tr>';
-						        echo '<p><td>' . $data2['ID'.$selection[$i]][0] . '</td><td>' . $data2['ID'.$selection[$i]][1] . '</td><td>' . $data2['ID'.$selection[$i]][2] . '</td></p>';
-								echo '</tr>';
-							} // for
-							?>
-							</table>                      	
-						  </div>
-					  </div>					        
+        <!-- Modal Delete -->
+        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" action="client_delete.php" method="post">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="DeleteModalLabel">Suppression d'un client :</h3>
+                  </div><!-- /.modal-header -->
+                  <div class="modal-body">
                       <strong>
-                       <p class="alert alert-warning">Confirmez-vous l'envoi ?</p>
-                       <input id="emailok" type="hidden" name="emailok" value="1"/>
+                       <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
+                       <input id="DeleteInput" type="hidden" name="id" value=""/>
                       </strong>
-                      </div><!-- /.modal-body -->                                         
-                      <div class="modal-footer">
-                        <div class="form-actions">                              
-                            <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-envelope"></span> Envoyer</button>
-                            <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-                        </div>
-                      </div><!-- /.modal-footer -->
-                    </form>                   
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->            
+                  </div><!-- /.modal-body -->                                         
+                  <div class="modal-footer">
+                    <div class="form-actions">                              
+                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
+                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
+                    </div>
+                  </div><!-- /.modal-footer -->
+                </form>                   
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal eMail -->
+        <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="EmailModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" action="mesclients.php" method="post">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="EmailModalLabel">Envoi d'un eMail de relance :</h3>
+                  </div><!-- /.modal-header -->
+                  <div class="modal-body">
+				  <div class="panel panel-success">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">Liste des client à relancer</h3>
+					  </div>
+					  <div class="panel-body">
+					  	<table class="table table-condensed table-bordered">
+                      	<?php
+					    for ($i=0; $i<count($selection); $i++) {
+							echo '<tr>';
+					        echo '<p><td>' . $data2['ID'.$selection[$i]][0] . '</td><td>' . $data2['ID'.$selection[$i]][1] . '</td><td>' . $data2['ID'.$selection[$i]][2] . '</td></p>';
+							echo '</tr>';
+						} // for
+						?>
+						</table>                      	
+					  </div>
+				  </div>					        
+                  <strong>
+                   <p class="alert alert-warning">Confirmez-vous l'envoi ?</p>
+                   <input id="emailok" type="hidden" name="emailok" value="1"/>
+                  </strong>
+                  </div><!-- /.modal-body -->                                         
+                  <div class="modal-footer">
+                    <div class="form-actions">                              
+                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-envelope"></span> Envoyer</button>
+                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
+                    </div>
+                  </div><!-- /.modal-footer -->
+                </form>                   
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->            
             
-			<?php 	
-			} // if
-			?>
-        </div>  <!-- /span -->        	        	             
-    
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>

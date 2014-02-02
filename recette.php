@@ -259,8 +259,9 @@
     <?php $page_courante = "journal.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Recettes & Abonnements</h2>
-        <br>
+        <div class="page-header">   
+            <h2>Recettes & Abonnements</h2>
+        </div>
 
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
         <form class="form-inline" role="form" action="recette.php" method="post">      
@@ -274,9 +275,11 @@
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
+            <!-- Affiche le bouton retour -->
+            <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>                              
         </form>
         <br>
-                              
+        
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -309,27 +312,27 @@
         
         <!-- Affiche les sommmes -->
         <div>
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">CA :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Encaissements :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ENCAISSEMENT']; ?> €</button>
 	        </div>
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Paiement étalés :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['PAIEMENT']; ?> €</button>
 	        </div>
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Paiement échus :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ECHUS']; ?> €</button>
 	        </div>                                            
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Salaire :</button>                             
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie :</button>               
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
 	        </div>
@@ -339,7 +342,7 @@
 		<!-- Affiche la table -->
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-	        <h3 class="panel-title">Liste des recettes du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+	        <h3 class="panel-title">Liste des recettes du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
 		  </div>			
 		  <div class="panel-body">
 			<?php 
@@ -347,6 +350,7 @@
 	            $IDModale = "modalAideActions";
 	            include('lib/aide.php'); 			    
 			?>
+            <div class="table-responsive">  			
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
@@ -391,6 +395,7 @@
 			?>
 	            </tbody>
 	        </table>
+            </div> <!-- /table-responsive -->    	        
 				
 	        <!-- Modal Delete -->
 	        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -549,11 +554,6 @@
     
             </div>  <!-- /panel-body -->        	            
         </div> 	<!-- /panel -->
-    	
-    	<!-- Affiche le bouton retour -->
-    	<br>        
-    	<a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
-     			
     
     </div> <!-- /container -->
 

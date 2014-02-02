@@ -173,8 +173,9 @@
     <?php $page_courante = "paiements.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Gestion des paiements étalés</h2>
-        <br>
+        <div class="page-header">           
+            <h2>Gestion des paiements étalés</h2>
+        </div>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
         <form class="form-inline" role="form" action="paiements.php" method="post">      
@@ -188,15 +189,11 @@
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
+            <!-- Affiche les boutons de créations -->              
+            <a href="liste_paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel des paiements</a>                
         </form>
         <br>
-        
-        <!-- Affiche les boutons de créations -->      
-		<div class="btn-group">
-			<!--<a href="???.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> ???</a>--> 
-  			<a href="liste_paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel des paiements</a>    						
-		</div>  
-        
+               
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -216,14 +213,14 @@
         }   
         ?>  
                 
-		<!-- Affiche la table en base sous condition -->
-		<div class="span10">
-            <div class="row">
-                <h3>Journal des échéances du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
-				<?php 
-	 			if ($affiche) {
-				?>
-	            <form class="form-inline" role="form" action="paiements.php" method="post">            			
+		<!-- Affiche la table -->
+        <div class="panel panel-default">
+          <div class="panel-heading">		
+                <h3 class="panel-title">Journal des échéances du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+          </div>            
+          <div class="panel-body">                     
+	            <form class="form-inline" role="form" action="paiements.php" method="post">
+                    <div class="table-responsive">  	                            			
 					<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 						<thead>
 							<tr>
@@ -234,8 +231,7 @@
 							  <th>Périodicitée</th>					  
 							  <th>Commentaire</th>			  
 							</tr>
-						</thead>
-		                
+						</thead>        
 						<tbody>
 						<?php
 							$i=1;	 
@@ -259,22 +255,25 @@
 						?>						 
 		                </tbody>
 		            </table>
+                    </div> <!-- /table-responsive -->
+            </div>
+        </div> <!-- /panel -->                      		            
 		            
 		            <!-- Affiche le bouton de formulaire --> 
-		           	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Passer la sélection en statut encaissé</button>
+		           	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Passer la sélection en statut encaissé</button>		      
 	            </form>
-	            
-	            <!-- Affiche les sommmes -->        
-				<p><br>
+	            <br><br>
+	            <!-- Affiche les sommmes -->
+                <?php   
+                if ($affiche) {
+                ?>              	                    
+				<p>
 					<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total_mois_{$mois_choisi_relatif}; ?> €</button>
 					<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer_{$mois_choisi_relatif}; ?> €</button>							
-				</p>
-			          
-			</div> 	<!-- /row -->
-			<?php 	
-			} // if
-			?>
-        </div>  <!-- /span -->        			
+				</p>			          
+    			<?php 	
+    			} // if
+    			?>   			
     
     </div> <!-- /container -->
 

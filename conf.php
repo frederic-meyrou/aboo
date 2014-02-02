@@ -175,8 +175,10 @@ function ChargeSessionExerciceBDD($data) {
     <?php $page_courante = "conf.php"; require 'nav.php'; ?>
     
     <div class="container">
-        <h2>Configuration de l'exercice</h2>
-        <br>
+
+        <div class="page-header">           
+            <h2>Configuration de l'exercice</h2>
+        </div>
         
         <!-- Affiche le dropdown formulaire année avec selection automatique de l'année en cours de la session -->
         <form class="form-inline" role="form" action="conf.php" method="post">      
@@ -225,16 +227,15 @@ function ChargeSessionExerciceBDD($data) {
         ?>  
         
 		<!-- Affiche la table des exercices en base sous condition -->
-		<div class="span10">
 			<?php 
  			if ($affiche) {
                 // Insère l'aide en ligne pour les actions
                 $IDModale = "modalAideActions";
                 include('lib/aide.php'); 			    
 			?>
-            <div class="row">
-                <h3>Liste des exercices</h3>
-            </div>			
+            <h3>Liste des exercices</h3>
+            			
+	        <div class="table-responsive">  
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
@@ -274,8 +275,7 @@ function ChargeSessionExerciceBDD($data) {
 			?>
                 </tbody>
             </table>
-            
-			</div> 	<!-- /row -->
+            </div> <!-- /table-responsive -->            
 				
             <!-- Modal Delete -->
             <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -323,8 +323,6 @@ function ChargeSessionExerciceBDD($data) {
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->	
-                			
-        </div>  <!-- /span -->        			
     
     </div> <!-- /container -->
 

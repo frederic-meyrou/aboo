@@ -67,7 +67,7 @@
 	        }   
 	        ?>  
 	       				
-			
+	        <div class="table-responsive">  		
 			<table class="table table-striped table-bordered table-hover success">
 	              <thead>
 	                <tr>
@@ -116,6 +116,7 @@
 				  ?>
 			      </tbody>
             </table>
+            </div> <!-- /table-responsive -->              
 	   	</div> <!-- /row -->
 	   
 		<!-- Modal Delete -->

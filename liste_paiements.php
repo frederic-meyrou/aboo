@@ -64,16 +64,9 @@
     <?php $page_courante = "paiements.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Journal Annuel des paiements étalés</h2>
-        <br>
-        
-        <!-- Affiche les boutons de créations -->      
-		<div class="btn-group">
-  			<a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>  	
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>			  						
-		</div>  
-        <br><br>
+        <div class="page-header">           
+            <h2>Journal Annuel des paiements étalés</h2>
+        </div>
                 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -95,9 +88,19 @@
         ?>  
                 
 		<!-- Affiche la table en base -->
-		<div class="span10">
-            <div class="row">
-
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p>         
+            <h3 class="panel-title">Journal annuel :
+                <div class="btn-group pull-right">                
+                    <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                    <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
+                </div>              
+            </h3>
+            </p>                  
+          </div>            
+          <div class="panel-body">		
+            <div class="table-responsive">       
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
@@ -187,16 +190,15 @@
 			?>	                        
                 		</tbody>
             </table>
-            
+            </div> <!-- /table-responsive -->
+          </div>
+        </div> <!-- /panel -->                
             <!-- Affiche les sommmes -->        
 			<p><br>
+			    <a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 				<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total; ?> €</button>
 				<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer; ?> €</button>							
-			</p>
-			          
-			</div> 	<!-- /row -->
-
-        </div>  <!-- /span -->        			
+			</p>   			
     
     </div> <!-- /container -->
 

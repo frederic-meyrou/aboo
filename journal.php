@@ -128,8 +128,9 @@
     <?php $page_courante = "journal.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Journal des Recettes & Dépenses</h2>
-        <br>
+        <div class="page-header">          
+            <h2>Journal des Recettes & Dépenses</h2>
+        </div>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
         <form class="form-inline" role="form" action="journal.php" method="post">      
@@ -143,7 +144,13 @@
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
+            <div class="btn-group">
+                <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
+                <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+            </div>
         </form>
+        <!-- Affiche les boutons de créations -->      
+
         <br>       
         
         <!-- Affiche les informations de debug -->
@@ -167,49 +174,41 @@
 
         <!-- Affiche les sommmes -->
         <div>      
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">CA :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Dépenses :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Solde brut :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SOLDE']; ?> €</button>
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Salaire :</button>                             
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
 	        </div>    
-	        <div class="btn-group">
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie :</button>               
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
 	        </div>
 		</div>
         <br>
-
-        <!-- Affiche les boutons de créations -->      
-        <div>
-	        <div class="btn-group btn-group-lg">
-	            <a href="recette.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-	            <a href="depense.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
-	        </div>
-        </div>
-        <br>
-        
+                
 		<!-- Affiche la table -->
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button>
-			<div class="btn-group pull-right">
+	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button>
+			<div class="btn-group btn-group-sm pull-right">
 	            <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
 	            <a href="journal_pdf.php" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
 	        </div>	        
 	        </h3>
 		  </div>			
-		  <div class="panel-body">		
+		  <div class="panel-body">
+		    <div class="table-responsive">    		
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 				<thead>
 					<tr>
@@ -238,6 +237,7 @@
 				?>						 
 	            </tbody>
 	        </table>
+          </div> <!-- /table-responsive -->	        
 		  </div>
 		</div> <!-- /panel -->
   			    

@@ -7,7 +7,7 @@ $.extend( true, $.fn.dataTable.defaults, {
         "sSearch":         "Rechercher&nbsp;:",
         "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
         "sInfo":           "Affichage de _END_ &eacute;lements sur _TOTAL_",
-        "sInfoEmpty":      "Pas de donn&eacute;es",
+        "sInfoEmpty":      "",
         "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
         "sInfoPostFix":    "",
         "sLoadingRecords": "Chargement en cours...",
