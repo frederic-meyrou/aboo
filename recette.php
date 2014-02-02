@@ -330,7 +330,7 @@
 	        </div>                                            
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Salaire :</button>                             
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['VENTIL']; ?> €</button>                            
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SALAIRE']; ?> €</button>                            
 	        </div>    
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie :</button>               
