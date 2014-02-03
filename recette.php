@@ -422,15 +422,9 @@
             <div class="panel-heading"><strong>Ajout d'une recette : </strong><a href="#" onclick="$('#modalAideFormRecette').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
             <div class="panel-body">
                 <form class="form-inline" role="form" action="recette.php" method="post">
-                
-    	            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-    	            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-    	                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		                      
-    	       				</div>
-    	            <?php } ?>
-    	            
-    				<!-- Formulaire principal -->
-    	            <div class="form-group">
+                        
+    				<!-- Formulaire principal -->                 
+    	            <div class="form-group ">
     	                    <select name="type" class="form-control">
     			            <?php
     			                foreach ($Liste_Recette as $r) {
@@ -441,10 +435,7 @@
     			            ?>
     	                    </select>
     	            </div>		      
-                    <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
-                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
-                    </div>        		       		
-    	            <div class="form-group <?php echo !empty($periodiciteeError)?'has-error':'';?>">
+    	            <div class="form-group  <?php echo !empty($periodiciteeError)?'has-error':'';?>">
     	                    <select name="periodicitee" class="form-control">
     			            <?php
     			                foreach ($Liste_Periodicitee as $p) {
@@ -455,14 +446,14 @@
     			            ?>
     	                    </select>
     	            </div>			       		
-    				<div class="form-group">
+    				<div class="form-group ">
     	                    <select name="paiement" id="paiement" class="form-control">
     			                <option value="0" <?php echo ($paiement == '0')?'selected':'';?>>Réglé</option>
     			                <option value="1" <?php echo ($paiement == '1')?'selected':'';?>>A régler</option>   
     			                <option value="2" <?php echo ($paiement == '2')?'selected':'';?>>Paiement étalé</option>   				                				                    
     	                    </select>
     	            </div>
-    				<div class="form-group">
+    				<div class="form-group ">
     	                    <select name="client" id="client" class="form-control">
     			            	<option value="0">N/C</option>
     			            <?php
@@ -474,7 +465,16 @@
     			            ?>			                				                    
     	                    </select>
     	            </div>
-    	       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
+    	            <label class="form-group ">
+                        <button class="btn btn-default" > <input type="checkbox" id="black" value="1">Non déclaré</button>
+                    </label>
+    	            <br>
+                    <div class="form-group  <?php echo !empty($montantError)?'has-error':'';?>">
+                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                    </div>
+                    <div class="form-group  <?php echo !empty($commentaireError)?'has-error':'';?>">
+                        <input name="commentaire" id="commentaire" type="text" class="form-control" value="<?php echo !empty($commentaire)?$commentaire:'';?>" placeholder="Commentaire">                              
+                    </div>                      
     	       		
                   	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout</button><br>
     
