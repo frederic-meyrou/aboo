@@ -395,36 +395,10 @@
 			?>
 	            </tbody>
 	        </table>
-            </div> <!-- /table-responsive -->    	        
-				
-	        <!-- Modal Delete -->
-	        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-	          <div class="modal-dialog">
-	            <div class="modal-content">
-	                <form class="form-horizontal" action="recette_delete.php" method="post">
-	                  <div class="modal-header">
-	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                    <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une recette :</h3>
-	                  </div><!-- /.modal-header -->
-	                  <div class="modal-body">
-	                      <strong>
-	                       <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
-	                       <center>Attention cette action supprimera aussi tous les paiements étalé associés.</center>
-	                       <input id="DeleteInput" type="hidden" name="id" value=""/>
-	                      </strong>
-	                  </div><!-- /.modal-body -->                                         
-	                  <div class="modal-footer">
-	                    <div class="form-actions">                              
-	                        <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-	                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-	                    </div>
-	                  </div><!-- /.modal-footer -->
-	                </form>                   
-	            </div><!-- /.modal-content -->
-	          </div><!-- /.modal-dialog -->
-	        </div><!-- /.modal -->				
-		  </div>
-		</div>  <!-- /panel -->
+            </div> <!-- /table-responsive -->
+                	        
+            <!-- Modal delete-->				
+            <?php include('modal/recette_delete.php'); ?>
     	
     	<!-- Affiche le formulaire inline ajout recette -->		
         <?php 
@@ -510,47 +484,7 @@
     				</div>
     						
     				<!-- Modal paiement-->
-    				<div class="modal fade" id="modalPaiement" tabindex="-1" role="dialog" aria-labelledby="PaiementModalLabel" aria-hidden="true">
-    				  <div class="modal-dialog">
-    				    <div class="modal-content">
-    					      <div class="modal-header">
-    					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    					        <h3 class="modal-title" id="PaiementModalLabel">Saisie des paiements étalés :</h3>
-    					      </div><!-- /.modal-header -->
-    					      <div class="modal-body">
-                                <?php 
-                                if ($affiche_paiement_etale) { // On affiche le formulaire que si nécessaire
-                                    echo "Répartissez votre " . NumToTypeRecette($type) . " de $montant € sur les mois suivants : "; 
-                                    echo '<div class="panel panel-default"><div class="panel-body">';                                         
-                                    echo '<dl class="dl-horizontal">'; 						
-    		 						for ($m = $mois_choisi_relatif; $m <= 12; $m++) { // Affiche les champs paiements
-    		 						    echo '<dt>';
-                                        echo '<dt>' . NumToMois(MoisAnnee($m,$exercice_mois)) . ' : </dt>';
-                                        echo '<dd>';
-    									Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
-    									echo '</dd>';
-    								} // endfor
-    								echo '</dl>';
-                                    echo '</div></div>';
-    								echo '<input type="hidden" name="etale" value="1">'; //Flag pour traitement du formulaire
-    							    echo '<div class="help-block has-error">';
-                                    if (!empty($paiement_mois_Error)) {
-                                        echo '<span class="help-block has-error">' . $paiement_mois_Error . '</span>';
-                                    echo '</div>';
-                                    } // If
-                                } // IF
-                                ?>                                                         
-    					      </div><!-- /.modal-body -->					    				  
-    						  <div class="modal-footer">
-    						  	<div class="form-actions pull-right">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>							  	    
-    				              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout des paiements</button>
-    						    </div>
-    					      </div><!-- /.modal-footer -->
-    				    </div><!-- /.modal-content -->
-    				  </div><!-- /.modal-dialog -->
-    				</div><!-- /.modal -->
-                </form>
+                    <?php include('modal/recette_paiement.php'); ?>
     
             </div>  <!-- /panel-body -->        	            
         </div> 	<!-- /panel -->

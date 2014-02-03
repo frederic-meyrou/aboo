@@ -68,7 +68,7 @@
 	        ?>  
 	       				
 	        <div class="table-responsive">  		
-			<table class="table table-striped table-bordered table-hover success">
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 	              <thead>
 	                <tr>
                       <th>eMail</th>
@@ -119,36 +119,29 @@
             </div> <!-- /table-responsive -->              
 	   	</div> <!-- /row -->
 	   
-		<!-- Modal Delete -->
-		<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		        <form class="form-horizontal" action="user_delete.php" method="post">
-		          <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		            <h3 class="modal-title" id="DeleteModalLabel">Suppression Utilisateur :</h3>
-		          </div><!-- /.modal-header -->
-		          <div class="modal-body">
-		              <center><strong>
-		               <p class="alert alert-danger">Confirmez-vous la suppression ?</p>
-		               <!--<p class="alert alert-warning">Attention cette action supprimera aussi tout les enregistrements associées.</p>-->
-		               <input id="DeleteInput" type="hidden" name="id" value=""/>
-		              </strong></center>
-		          </div><!-- /.modal-body -->                                         
-		          <div class="modal-footer">
-		            <div class="form-actions">                              
-		                <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Suppression</button>
-		                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-eject"></span> Retour</button>                                  
-		            </div>
-		          </div><!-- /.modal-footer -->
-		        </form>                   
-		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->	   
+        <!-- Modal delete-->                
+        <?php include('../modal/admin_delete.php'); ?>      
 	
 	</div> <!-- /container -->
     
     <?php require 'footer.php'; ?>    
+    
+    <script>  
+        /* Table initialisation */
+        $(document).ready(function() {
+            $('.datatable').dataTable();
+            $('.datatable').each(function(){
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Rechercher');
+                search_input.addClass('form-control input-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-sm');
+            });             
+        });
+    </script>     
     
   </body>
 </html>

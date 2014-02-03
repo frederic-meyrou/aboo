@@ -199,7 +199,8 @@
 		        </form>
 
 	   		 </div> <!-- /col -->    			
-	    </div> <!-- /row -->    
+	    </div> <!-- /row -->
+	    <br>    
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
