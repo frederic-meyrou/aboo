@@ -106,6 +106,7 @@
 	$periodiciteeError = null;
 	$enregistre_paiement = false;
 	$affiche_paiement_etale = false;
+    $black = false;
 		
 	if (isset($_POST['montant']) ) { // J'ai un POST
         $type = $sPOST['type'];        
@@ -115,6 +116,7 @@
 		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
 		$client_id = isset($_POST['client']) ? $sPOST['client'] : null;
 		$verif_paiement_etale = isset($_POST['etale']) ? true : false;
+		$black = isset($_POST['black']) ? true : false;
 		
 		// Validation du formulaire
 		$valid = true;
@@ -146,7 +148,14 @@
 			$periodiciteeError = "Une " . NumToTypeRecette($type) . " ne peut pas faire l'objet d'une periodicitée autre que Ponctuel.";
 			$valid = false;				
 		}
-						
+
+        // Type de déclaration (black)              
+        if ($black) {
+            $declaration = 0;
+        } else {
+            $declaration = 1;
+        } 
+        						
 		// Test du selecteur de paiement
 		if ($valid && $paiement == 2 && (NumToTypeRecette($type) == "Abonnement" && $periodicitee != 1 )) { // Paiement étalé
 			$affiche_paiement_etale = true;
@@ -160,8 +169,9 @@
 			$paye = 1;
 		} else {
 			$paye = 0;
-		} 				
-		
+		}
+				
+        
 		// Vérification des paiements etalés
 		if ($affiche_paiement_etale && $verif_paiement_etale) { // On a un POST avec les paiements étalés et sans pb de validation
 			$total = 0;
@@ -187,9 +197,9 @@
 		// insert data
 		if ($valid) {
 		    // Enregistre la recette
-			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,paye,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,paye,declaration,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
+			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $declaration, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			$recette_id = $pdo->lastInsertId();
             // Enregistre une recette avec paiement différé dans la table paiement (mois courant)
 			if ($paiement == 1 && $recette_id != 0) {
@@ -304,17 +314,7 @@
             POST:<br>
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-            DATA :<br>
-            <pre><?php var_dump($data); ?></pre>
-            DATA2 :<br>
-            <pre><?php var_dump($data2); ?></pre>  
-            DATA3 :<br>
-            <pre><?php var_dump($data3); ?></pre>
-            DATA4 :<br>
-            <pre><?php var_dump($data4); ?></pre>
-            DATA5 :<br>
-            <pre><?php var_dump($data5); ?></pre>                                        
+            <pre><?php var_dump($_GET); ?></pre>           
         </div>
         </div>
         <?php       
@@ -327,6 +327,10 @@
 	            <button type="button" class="btn btn-info">CA :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
 	        </div>    
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info">CA non déclaré:</button>
+                <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['NON_DECLARE']; ?> €</button>
+            </div> 
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Encaissements :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['ENCAISSEMENT']; ?> €</button>
@@ -466,7 +470,7 @@
     	                    </select>
     	            </div>
     	            <label class="form-group ">
-                        <button class="btn btn-default" > <input type="checkbox" id="black" value="1">Non déclaré</button>
+                        <button class="btn btn-default"> <input type="checkbox" name="black" id="black" value="1" <?php echo ($black)?'checked':'';?>>Non déclaré</button>
                     </label>
     	            <br>
                     <div class="form-group  <?php echo !empty($montantError)?'has-error':'';?>">

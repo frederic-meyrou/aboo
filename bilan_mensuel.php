@@ -109,6 +109,7 @@
                 </div>
                 <div class="panel-body">
                     <li>CA : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['CA'],2,',','.') . ' €'; ?></li>
+                    <li>CA non déclaré : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['NON_DECLARE'],2,',','.') . ' €'; ?></li>                    
                     <li>Dépenses : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['DEPENSE'],2,',','.') . ' €'; ?></li>
                     <li>Solde brut : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['SOLDE'],2,',','.') . ' €'; ?></li> 
                     <li>Ventilation : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['VENTIL'],2,',','.') . ' €'; ?></li>                   

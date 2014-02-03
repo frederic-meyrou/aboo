@@ -158,10 +158,14 @@
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Dernier report Salaire : </button></td>    
                     <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_SALAIRE'],2,',','.'); ?> €</button></td>    
+                    <td align="right"><button type="button" class="btn btn-info">CA non déclaré : </button></td>    
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['NON_DECLARE'],2,',','.'); ?> €</button></td>  
                 </tr>
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Trésorerie finale : </button></td>   
                     <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button></td>   
+                    <td align="right"><button type="button" class="btn btn-info">CA déclaré : </button></td>    
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['DECLARE'],2,',','.'); ?> €</button></td>  
                 </tr>
 
             </table></center>

@@ -178,6 +178,10 @@
 	            <button type="button" class="btn btn-info">CA :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
 	        </div>    
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info">Non déclaré :</button>
+                <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['NON_DECLARE']; ?> €</button>
+            </div> 
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Dépenses :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>

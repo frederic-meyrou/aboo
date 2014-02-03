@@ -16,6 +16,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     //SALAIRE
     //REPORT_SALAIRE
     //REPORT_TRESO
+    //NON_DECLARE
 
 // Initialisation de la base
     $pdo = Database::connect();
@@ -27,7 +28,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             UNION
             (SELECT SUM(montant * -1) FROM depense WHERE
             user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
-            "; 
+            ";             
 // requette pour calcul des ventilations abo
     $sql2 = "SELECT SUM(mois_1),SUM(mois_2),SUM(mois_3),SUM(mois_4),SUM(mois_5),SUM(mois_6),SUM(mois_7),SUM(mois_8),SUM(mois_9),SUM(mois_10),SUM(mois_11),SUM(mois_12) FROM recette WHERE
             (user_id = :userid AND exercice_id = :exerciceid)
@@ -37,6 +38,11 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             (user_id = :userid AND exercice_id = :exerciceid AND mois = :mois) AND
             paye = 1
             ";
+// Requette pour calcul de la somme mensuelle des recettes non declarees     
+    $sql6 = "SELECT SUM(montant) FROM recette WHERE
+            (user_id = :userid AND exercice_id = :exerciceid AND mois = :mois) AND 
+            declaration = 0
+            ";             
 // Association des variables                            
     $q2 = array('userid' => $userid, 'exerciceid' => $exerciceid);     
     
@@ -55,11 +61,15 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
         $data1 = $req1->fetchAll(PDO::FETCH_ASSOC);     
         $req3 = $pdo->prepare($sql3);
         $req3->execute($q); 
-        $data3 = $req3->fetch(PDO::FETCH_ASSOC);                     
+        $data3 = $req3->fetch(PDO::FETCH_ASSOC);
+        $req6 = $pdo->prepare($sql6);
+        $req6->execute($q); 
+        $data6 = $req6->fetch(PDO::FETCH_ASSOC);                                
         // Calcul CA, Depenses et Solde Brut    
         $CA_{$m}= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0; 
         $DEPENSE_{$m}= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
-        $SOLDE_{$m}= $CA_{$m} + $DEPENSE_{$m};               
+        $SOLDE_{$m}= $CA_{$m} + $DEPENSE_{$m};
+        $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;           
         // Calcul des sommes ventillées (grille annuelle)
         $VENTIL_{$m}= !empty($data2["SUM(mois_$m)"]) ? $data2["SUM(mois_$m)"] : 0;
         // Calcul des encaissements
@@ -125,6 +135,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             'SALAIRE' => $SALAIRE_{$m},        
             'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                   
             'REPORT_TRESO' => $REPORT_TRESO_{$m},
+            'NON_DECLARE' => $NON_DECLARE_{$m}
         ); 
    } // End for       
 
@@ -179,7 +190,9 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //BENEFICE
     //CHARGE
     //LOCATION
-    //IMPOT        
+    //IMPOT
+    //NON_DECLARE
+    //DECLARE        
     
     
 // Initialisation de la base
@@ -264,6 +277,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     $ENCAISSEMENT = 0;
     $TRESO = 0;
     $SALAIRE = 0;
+    $NON_DECLARE = 0;
     
     // Calcul des sommes (boucle sur les mois relatifs)
     for ($m = 1; $m <= 12; $m++) {
@@ -272,6 +286,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         $ECHUS = $ECHUS + $BilanMensuel[$m]['ECHUS'];
         $ENCAISSEMENT = $ENCAISSEMENT + $BilanMensuel[$m]['ENCAISSEMENT'];
         $SALAIRE = $SALAIRE + $BilanMensuel[$m]['SALAIRE'];
+        $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];
     }
     
     // On garde que les derniers reports
@@ -297,7 +312,9 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         'BENEFICE' => $BENEFICE,
         'LOCATION' => $LOCATION,         
         'CHARGE' => $CHARGE,
-        'IMPOT' => $IMPOT
+        'IMPOT' => $IMPOT,
+        'NON_DECLARE' => $NON_DECLARE,
+        'DECLARE' => ($CA - $NON_DECLARE)
     ); 
 
     Database::disconnect();    
