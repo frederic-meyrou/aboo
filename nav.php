@@ -30,6 +30,7 @@
               <li<?php echo ($page_courante == "bilan_mensuel.php")?' class="active"':'';?>><a href="bilan_mensuel.php"><span class="glyphicon glyphicon-calendar"></span> Tableau de bord mensuel</a></li>
               <li<?php echo ($page_courante == "bilan_annuel.php")?' class="active"':'';?>><a href="bilan_annuel.php"><span class="glyphicon glyphicon-calendar"></span> Bilan annuel</a></li>
               <li<?php echo ($page_courante == "bilan_analyse.php")?' class="active"':'';?>><a href="bilan_analyse.php"><span class="glyphicon glyphicon-calendar"></span> Analyse</a></li>
+              <li<?php echo ($page_courante == "fond_de_roulement.php")?' class="active"':'';?>><a href="fond_de_roulement.php"><span class="glyphicon glyphicon-calendar"></span> Fond de roulement</a></li>
         </ul> 
       </li>
       <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
