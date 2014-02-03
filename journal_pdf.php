@@ -91,18 +91,12 @@
 	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
 	
 	if ($count==0) { // Il n'y a rien à afficher
-        $affiche = false;       
-    	$_SESSION['abodep']['total_recettes'] = 0;
-		$_SESSION['abodep']['total_depenses'] = 0;
-		$_SESSION['abodep']['solde'] = 0;       
+        $affiche = false;           
     } else {
     		// Calcul des sommes
 	        $total_recettes= !empty($data2[0]["SUM(montant)"]) ? $data2[0]["SUM(montant)"] : 0;  
     		$total_depenses= !empty($data2[1]["SUM(montant)"]) ? $data2[1]["SUM(montant)"] : 0;
 	        $solde = $total_recettes + $total_depenses;
-			$_SESSION['abodep']['total_recettes'] = $total_recettes;
-			$_SESSION['abodep']['total_depenses'] = $total_depenses;
-			$_SESSION['abodep']['solde'] = $solde;
 			// Calcul des sommes ventillées
 	        for ($i = 1; $i <= 12; $i++) { 
 	        	$total_mois_{$i}= !empty($data3["SUM(mois_$i)"]) ? $data3["SUM(mois_$i)"] : 0;

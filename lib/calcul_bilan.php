@@ -174,6 +174,13 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //SALAIRE
     //REPORT_SALAIRE
     //REPORT_TRESO
+    //ACHAT
+    //VENTE
+    //BENEFICE
+    //CHARGE
+    //LOCATION
+    //IMPOT        
+    
     
 // Initialisation de la base
     $pdo = Database::connect();
@@ -186,16 +193,56 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
             (SELECT SUM(montant * -1) FROM depense WHERE
             user_id = :userid AND exercice_id = :exerciceid )
             ";
- 
+
+// Requette pour calcul de la somme Annuelle des achats/ventes           
+    $sql2 = "SELECT SUM(montant) FROM recette WHERE
+            user_id = :userid AND exercice_id = :exerciceid AND type = 2
+            ";	
+			
+    $sql3 = "SELECT SUM(montant) FROM depense WHERE
+            user_id = :userid AND exercice_id = :exerciceid AND type = 2 
+            ";		
+
+// Requette pour calcul de la somme Annuelle des location           
+    $sql4 = "SELECT SUM(montant) FROM recette WHERE
+            user_id = :userid AND exercice_id = :exerciceid AND type = 3
+            ";	
+
+// Requette pour calcul de la somme Annuelle des charges 			
+    $sql5 = "SELECT SUM(montant) FROM depense WHERE
+            user_id = :userid AND exercice_id = :exerciceid AND type = 3 
+            ";	
+
+// Requette pour calcul de la somme Annuelle des impots 			
+    $sql6 = "SELECT SUM(montant) FROM depense WHERE
+            user_id = :userid AND exercice_id = :exerciceid AND type = 4 
+            ";	            
+             
 // Association des variables                            
-    $q = array('userid' => $userid, 'exerciceid' => $exerciceid);             
+    $q = array('userid' => $userid, 'exerciceid' => $exerciceid);                    
     
 // Envoi des requettes    
     $req = $pdo->prepare($sql1);
     $req->execute($q);
     $data1 = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql1);
-    
+	
+    $req2 = $pdo->prepare($sql2);
+    $req2->execute($q);
+    $data2 = $req2->fetch(PDO::FETCH_ASSOC);	
+    $req3 = $pdo->prepare($sql3);
+    $req3->execute($q);
+    $data3 = $req3->fetch(PDO::FETCH_ASSOC);
+    $req4 = $pdo->prepare($sql4);
+    $req4->execute($q);
+    $data4 = $req4->fetch(PDO::FETCH_ASSOC);			
+    $req5 = $pdo->prepare($sql5);
+    $req5->execute($q);
+    $data5 = $req5->fetch(PDO::FETCH_ASSOC);	        
+    $req6 = $pdo->prepare($sql6);
+    $req6->execute($q);
+    $data6 = $req6->fetch(PDO::FETCH_ASSOC);	
+
     if ($count==0) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
         return null;         
     } else {
@@ -203,6 +250,12 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
             $CA= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0;  
             $DEPENSE= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
             $SOLDE= $CA + $DEPENSE;
+            $ACHAT= !empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0;  
+            $VENTE= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
+            $BENEFICE= $VENTE - $ACHAT;
+			$LOCATION= !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
+			$CHARGE= !empty($data5["SUM(montant)"]) ? $data5["SUM(montant)"] : 0;
+			$IMPOT= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;
     }
    
     $VENTIL = 0;
@@ -239,7 +292,13 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         'SALAIRE' => $SALAIRE,        
         'REPORT_SALAIRE' => $REPORT_SALAIRE,                                                                   
         'REPORT_TRESO' => $REPORT_TRESO,
-    );     
+        'ACHAT' => $ACHAT,
+        'VENTE' => $VENTE,
+        'BENEFICE' => $BENEFICE,
+        'LOCATION' => $LOCATION,         
+        'CHARGE' => $CHARGE,
+        'IMPOT' => $IMPOT
+    ); 
 
     Database::disconnect();    
     return $TableauBilan;

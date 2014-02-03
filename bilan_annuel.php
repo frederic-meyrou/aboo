@@ -110,51 +110,60 @@
             ?>
             <!-- Affiche les sommmes -->
             <center>
-            <table>   
+            <table width="80%"> 
                 <tr>                
                     <td align="right"><button type="button" class="btn btn-info">CA : </button></td>
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CA'],2,',','.'); ?> €</button></td>
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CA'],2,',','.'); ?> €</button></td>
+	                <td align="right"><button type="button" class="btn btn-info">Achats : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['ACHAT'],2,',','.'); ?> €</button></td>   
                 </tr>
                 <tr>                                    
                     <td align="right"><button type="button" class="btn btn-info">Total dépenses : </button></td>
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['DEPENSE'],2,',','.'); ?> €</button></td>
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['DEPENSE'],2,',','.'); ?> €</button></td>
+	                <td align="right"><button type="button" class="btn btn-info">Ventes : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['VENTE'],2,',','.'); ?> €</button></td>   
                 </tr>
                 <tr>                                                           
                     <td align="right"><button type="button" class="btn btn-info">Solde brut : </button></td>    
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SOLDE'],2,',','.'); ?> €</button></td>    
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SOLDE'],2,',','.'); ?> €</button></td> 
+	                <td align="right"><button type="button" class="btn btn-info">Bénéfice : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['BENEFICE'],2,',','.'); ?> €</button></td>                          
                 </tr>
                 <tr>                                                         
                     <td align="right"><button type="button" class="btn btn-info">Total encaissements : </button></td>
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['ENCAISSEMENT'],2,',','.'); ?> €</button></td>
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['ENCAISSEMENT'],2,',','.'); ?> €</button></td>
+	                <td align="right"><button type="button" class="btn btn-info">Sous location : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['LOCATION'],2,',','.'); ?> €</button></td>                      
                 </tr>
                 <tr>                                                          
                     <td align="right"><button type="button" class="btn btn-info">Total echus : </button></td>   
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['ECHUS'],2,',','.'); ?> €</button></td>   
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['ECHUS'],2,',','.'); ?> €</button></td>
+	                <td align="right"><button type="button" class="btn btn-info">Charges sociales : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CHARGE'],2,',','.'); ?> €</button></td>                          
                 </tr>
                 <tr>                                                        
                     <td align="right"><button type="button" class="btn btn-info">Total paiements : </button></td>                                                  
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PAIEMENT'],2,',','.'); ?> €</button></td>                                                  
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PAIEMENT'],2,',','.'); ?> €</button></td> 
+	                <td align="right"><button type="button" class="btn btn-info">Impôts & Taxes : </button></td>   
+	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['IMPOT'],2,',','.'); ?> €</button></td>                                                                        
                 </tr>
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Salaire : </button></td> 
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE'],2,',','.'); ?> €</button></td> 
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE'],2,',','.'); ?> €</button></td> 
                 </tr>
                 <tr>                                                             
                     <td align="right"><button type="button" class="btn btn-info">Salaire mensuel moyen : </button></td>                     
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE']/12,2,',','.'); ?> €</button></td>                     
-                </tr>
-                <tr>                                                          
-                    <td align="right"><button type="button" class="btn btn-info">Ventillation : </button></td>   
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['VENTIL'],2,',','.'); ?> €</button></td>   
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE']/12,2,',','.'); ?> €</button></td>                     
                 </tr>
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Dernier report Salaire : </button></td>    
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_SALAIRE'],2,',','.'); ?> €</button></td>    
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_SALAIRE'],2,',','.'); ?> €</button></td>    
                 </tr>
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Trésorerie finale : </button></td>   
-                    <td><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button></td>   
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button></td>   
                 </tr>
+
             </table></center>
             <br> 
                                   

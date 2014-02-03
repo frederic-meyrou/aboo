@@ -82,7 +82,10 @@
         if ( ($TableauBilanMensuel[$mois]['REPORT_TRESO'] + $TableauBilanMensuel[$mois]['ENCAISSEMENT'] ) < ( $TableauBilanMensuel[$mois]['VENTIL'] + $TableauBilanMensuel[$mois]['DEPENSE']) ) {
             $danger[$indice_danger]="Il n'y a pas assez de trésorerie disponible ou d'encaissement pour vous verser entièrement votre salaire en " . NumToMois($num_mois) . "."; $indice_danger++;
         }
-        
+        // On check la dispo depense
+        if ( ($TableauBilanMensuel[$mois]['REPORT_TRESO'] + $TableauBilanMensuel[$mois]['ENCAISSEMENT'] ) < ( $TableauBilanMensuel[$mois]['DEPENSE'] ) * -1 ) {
+            $danger[$indice_danger]="Il n'y a pas assez de trésorerie disponible ou d'encaissement pour régler vos dépenses en " . NumToMois($num_mois) . "."; $indice_danger++;
+        }        
         // On check le Solde
         if ($TableauBilanMensuel[$mois]['SOLDE'] < 0) {
             $warning[$indice_warning]="Vos dépenses de " . NumToMois($num_mois) . " sont supérieures aux recettes."; $indice_warning++;
