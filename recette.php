@@ -239,10 +239,21 @@
    	        
     if ($count==0) { // Il n'y a aucunes recettes à afficher
         $affiche = false;              
-    } else { // On affiche le tableau			
+    } else { // On affiche le tableau              			
 	    $affiche = true;
     }
-	
+
+    // Liste des clients à afficher dans le select
+    $Liste_Client = array();        
+    if ($count3!=0) {
+        $i=0;
+        foreach ($data3 as $row3) {
+            $Liste_Client[$i]['id']=$row3['id'];
+            $Liste_Client[$i]['prenometnom']=ucfirst($row3['prenom']) . ' ' . ucfirst($row3['nom']);
+            $i++;
+        }       
+    }     	
+
 	Database::disconnect();
 	$infos = true;
     
