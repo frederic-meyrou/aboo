@@ -221,7 +221,7 @@
           <div class="panel-body">                     
 	            <form class="form-inline" role="form" action="paiements.php" method="post">
                     <div class="table-responsive">  	                            			
-					<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+					<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-bordered table-hover success">
 						<thead>
 							<tr>
 							  <th><span class="glyphicon glyphicon-ok-sign"></span></th>
@@ -237,7 +237,7 @@
 							$i=1;	 
 							foreach ($data as $row) {
 						?>		
-								<tr>
+								<tr <?php echo ($row["paye_$mois_choisi_relatif"]==1)?'class="active"':'';?>>
 								<td width=30>			
 									<label class="checkbox-inline">
 								    	<input name="<?php echo $i; ?>" type="checkbox" value="<?php echo $row['id']; ?>" <?php echo ($row["paye_$mois_choisi_relatif"]==1)?'checked':'';?>>

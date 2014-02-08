@@ -101,7 +101,7 @@
           </div>            
           <div class="panel-body">		
             <div class="table-responsive">       
-			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-bordered table-hover success">
 				<thead>
 					<tr>
 					  <th>Mois</th>
@@ -168,10 +168,16 @@
 						<?php
 							$i=1;	 
 							foreach ($data as $row) {
+								echo '<tr>';
 								echo '<td>' . NumToMois(MoisAnnee($num_mois,$exercice_mois)) . '</td>';
 								echo '<td>' . number_format($row["mois_$num_mois"],2,',','.') . ' €</td>';
-								echo '<td>';
-								echo ($row["paye_$num_mois"] == 1 ) ? 'Oui' : 'Non';
+								if ($row["paye_$num_mois"] == 1 ) { //Encaissé
+									echo '<td class="success">';
+									echo 'Oui';
+								} else { // Non encaissé
+									echo '<td class="danger">';
+									echo 'non';
+								}
 								echo '</td>';
 								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
 								echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
