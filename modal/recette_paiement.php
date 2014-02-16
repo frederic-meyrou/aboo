@@ -16,7 +16,11 @@
                                         echo '<dt>';
                                         echo '<dt>' . NumToMois(MoisAnnee($m,$exercice_mois)) . ' : </dt>';
                                         echo '<dd>';
-                                        Affiche_Champ($paiement_mois_{$m}, $paiement_mois_Error, 'paiement_mois_' . $m, NumToMois(MoisAnnee($m,$exercice_mois)) . ' €', 'text' );
+                                        ?>
+                                        <div class="form-group  <?php echo !empty($paiement_mois_Error)?'has-error':'';?>">
+                                            <input name="paiement_mois_" id="paiement_mois_" type="text" class="form-control" value="<?php echo !empty($paiement_mois_{$m})?$paiement_mois_{$m}:'';?>" placeholder="<?php echo NumToMois(MoisAnnee($m,$exercice_mois));?> €" >                              
+                                        </div>
+                                        <?php                                         
                                         echo '</dd>';
                                     } // endfor
                                     echo '</dl>';
