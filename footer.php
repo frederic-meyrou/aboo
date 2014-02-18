@@ -2,3 +2,4 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="bootstrap/js/jquery.dataTables.min.js"></script>
 <script src="bootstrap/js/datatables.js"></script>
+<script src="bootstrap/js/Chart.min.js"></script>

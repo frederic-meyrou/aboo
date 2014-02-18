@@ -5,7 +5,8 @@
 // Dépendances
 	require_once('lib/fonctions.php');
     include_once('lib/database.php');
-	
+    include_once('lib/calcul_bilan.php');  
+    	
 // Vérification de l'Authent
     session_start();
     require('lib/authent.php');
@@ -102,7 +103,19 @@ function ChargeSessionExerciceBDD($data) {
             $exercice_treso = $data['montant_treso_initial'];                    
         }    
     } // EndIf
-    
+
+// Charge le Bilan    
+    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
+
+    for ($mois = 1; $mois <= 12; $mois++) {
+        $num_mois = MoisAnnee($mois, $exercice_mois); 
+        $MOIS[$mois-1]= NumToMois($num_mois);
+        $CA[$mois-1]=$TableauBilanMensuel[$mois]['CA'];
+        $DEPENSE[$mois-1]=$TableauBilanMensuel[$mois]['DEPENSE'];
+        $SALAIRE[$mois-1]=$TableauBilanMensuel[$mois]['SALAIRE'];
+        $TRESO[$mois-1]=$TableauBilanMensuel[$mois]['REPORT_TRESO'];        
+    } // For
+                  
 // Lecture tableau de bord
 	$infos = true;			
 ?>
@@ -167,14 +180,56 @@ function ChargeSessionExerciceBDD($data) {
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
+            Tab:<br>
+            <pre><?php var_dump($TableauBilanMensuel); ?></pre>    
+            JSON:<br>
+            <pre><?php var_dump(json_encode($CA,JSON_NUMERIC_CHECK  )); ?></pre>             
+                   
         </div>
         <?php       
         }   
         ?> 
+        
+        <!-- Affiche un chart -->        
+        <canvas id="canvas" height="450" width="600"></canvas>
+
 
     </div> <!-- /container -->
     
     <?php require 'footer.php'; ?>
+
+    <!-- Description et donnees du chart -->
+    <script>
+
+        var barChartData = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    data : <?php echo json_encode($CA, JSON_NUMERIC_CHECK ); ?>
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    data : <?php echo json_encode($DEPENSE, JSON_NUMERIC_CHECK ); ?>
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    data : <?php echo json_encode($SALAIRE, JSON_NUMERIC_CHECK ); ?>
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    data : <?php echo json_encode($TRESO, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }
+
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+    </script>    
         
   </body>
 </html>
