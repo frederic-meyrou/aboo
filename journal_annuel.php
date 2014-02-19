@@ -54,52 +54,16 @@
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-// Lecture du POST (Choix du mois)
-    if (isset($sPOST['mois']) ) { // J'ai un POST
-            $mois_choisi = $sPOST['mois'];
-    } else { // Je n'ai pas de POST
-            $mois_choisi = null;
-    }
-	
-// Selection du mois par défaut
-	// On va lire le mois en cours en BDD si il exite
-	if ($mois_choisi == null) {
-	    $sql = "SELECT mois_encours FROM user WHERE id = ?";
-	    $q = $pdo->prepare($sql);
-	    $q->execute(array($user_id));
-	    $data = $q->fetch(PDO::FETCH_ASSOC);	
-	    $count = $q->rowCount($sql);
-		if ($count==1) { // On a bien un mois en cours
-			$mois_choisi = $data['mois_encours'];
-		}
-	}		
-	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
-		// On a pas de POST ni de SESSION mais on a un mois de debut d'exercice
-		$mois_choisi = $exercice_mois;
-	} elseif ($mois_choisi == null && $abodep_mois != null) {
-		// On a dejà une session mais pas de POST
-		$mois_choisi = $abodep_mois;
-	} elseif ($mois_choisi == null) {
-		// On a vraiment rien on prend le mois courant
-		$mois_choisi = date('n');
-	}
-	$_SESSION['abodep']['mois'] = $mois_choisi;
-    $abodep_mois = $mois_choisi;
-	// On met à jour la BDD pour les champs encours
-    $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($mois_choisi, $user_id));	
-
-// Lecture dans la base des recettes et des dépenses (join sur user_id et exercice_id et mois) 
-    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee FROM recette WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois)
+// Lecture dans la base des recettes et des dépenses (join sur user_id et exercice_id ) 
+    $sql = "(SELECT date_creation, type, montant, commentaire, periodicitee,mois FROM recette WHERE
+    		user_id = :userid AND exercice_id = :exerciceid)
     		UNION
-    		(SELECT date_creation, type, montant * -1, commentaire, periodicitee FROM depense WHERE
-    		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
+    		(SELECT date_creation, type, montant * -1, commentaire, periodicitee,mois FROM depense WHERE
+    		user_id = :userid AND exercice_id = :exerciceid)
     		ORDER BY date_creation
     		";
 				
-    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($mois_choisi,$exercice_mois));
+    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
     
     $req = $pdo->prepare($sql);
     $req->execute($q);
@@ -117,6 +81,14 @@
 
 // Charge le Bilan    
     $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);    
+    $TableauBilanAnnuel = CalculBilanAnnuel($user_id, $exercice_id, $TableauBilanMensuel);        
+    
+    if ($TableauBilanAnnuel==null) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
+        $bilan = false;         
+    } else {
+            // On affiche le tableau
+            $bilan = true;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -132,27 +104,15 @@
             <h2>Journal des Recettes & Dépenses</h2>
         </div>
         
-        <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-inline" role="form" action="journal.php" method="post">      
-            <select name="mois" class="form-control">
-            <?php
-                foreach ($Liste_Mois as $m) {
-            ?>
-                <option value="<?php echo MoisToNum($m);?>"<?php echo ($m==NumToMois($mois_choisi))?'selected':'';?>><?php echo "$m";?></option>    
-            <?php       
-                }   
-            ?>    
-            </select>
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
-            <div class="btn-group">
-                <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-                <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
-            </div>
-                <a href="journal_annuel.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>            
-        </form>
         <!-- Affiche les boutons de créations -->      
+        <div class="btn-group">
+            <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
+            <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+        </div>
+        <!-- Affiche le bouton retour -->
+        <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>   
 
-        <br>       
+        <br><br>        
         
         <!-- Affiche les informations de debug -->
         <?php 
@@ -177,27 +137,27 @@
         <div>      
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">CA :</button>
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['CA']; ?> €</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['CA']; ?> €</button>
 	        </div>    
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-info">Non déclaré :</button>
-                <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['NON_DECLARE']; ?> €</button>
+                <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['NON_DECLARE']; ?> €</button>
             </div> 
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Dépenses :</button>
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['DEPENSE']; ?> €</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['DEPENSE']; ?> €</button>
 	        </div>    
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Solde brut :</button>
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SOLDE']; ?> €</button>
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['SOLDE']; ?> €</button>
 	        </div>    
 	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Salaire :</button>                             
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SALAIRE']; ?> €</button>                            
+	            <button type="button" class="btn btn-info">Salaire Moyen :</button>                             
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['SALAIRE'] / 12; ?> €</button>                            
 	        </div>    
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie :</button>               
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
+	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['REPORT_TRESO']; ?> €</button>             
 	        </div>
 		</div>
         <br>
@@ -205,10 +165,10 @@
 		<!-- Affiche la table -->
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button>
+	        <h3 class="panel-title">Journal Annuel : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?> : <span class="badge "><?php echo $count; ?></span></button>
 			<div class="btn-group btn-group-sm pull-right">
-	            <a href="journal_excel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
-	            <a href="journal_pdf.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
+	            <a href="journal_annuel_excel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+	            <a href="journal_annuel_pdf.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
 	        </div>	        
 	        </h3>
 		  </div>			
@@ -218,6 +178,7 @@
 				<thead>
 					<tr>
 					  <th>Date</th>
+                      <th>Mois</th>                   
 					  <th>Type</th>					  
 					  <th>Montant</th>
 					  <th>Commentaire</th>			  
@@ -228,8 +189,8 @@
 				<?php 			 
 					foreach ($data as $row) {
 						echo '<tr>';
-						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
 					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
+                        echo '<td>' . NumtoMois(MoisAnnee($row['mois'],$exercice_mois)) . '</td>';
 						if (!empty($row['periodicitee'])) {
 					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
 						} else {
