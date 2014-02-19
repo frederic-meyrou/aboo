@@ -1,6 +1,3 @@
-<!-- 
-© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
--->
 <?php
 
 define('DB_HOST', 'localhost');
@@ -45,9 +42,7 @@ class Database
         self::$cont = null;
     }
 }
-?>
 
-<?php
 /**
 $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_SCHEMA;
 $options = array(
@@ -69,4 +64,4 @@ if( version_compare(PHP_VERSION, '5.3.6', '<') && !defined('PDO::MYSQL_ATTR_INIT
     $conn->exec($sql);
 }
 **/
-?>
+

@@ -86,6 +86,11 @@
         <?php       
         }   
         ?>  
+
+        <!-- Affiche les sommmes -->        
+		<p>
+		    <a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>						
+		</p>   
                 
 		<!-- Affiche la table en base -->
         <div class="panel panel-default">
@@ -197,14 +202,17 @@
                 		</tbody>
             </table>
             </div> <!-- /table-responsive -->
-          </div>
-        </div> <!-- /panel -->                
-            <!-- Affiche les sommmes -->        
-			<p><br>
-			    <a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+            
+	        <!-- Affiche les sommmes -->        
+			<p>
 				<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total; ?> €</button>
 				<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer; ?> €</button>							
-			</p>   			
+			</p>   
+
+          </div>
+        </div> <!-- /panel -->                		
+
+
     
     </div> <!-- /container -->
 

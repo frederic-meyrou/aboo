@@ -1,6 +1,3 @@
-<!-- 
-© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
--->
 <?php
 class Authent{
 
@@ -26,4 +23,3 @@ class Authent{
         }
     }
 }
-?>

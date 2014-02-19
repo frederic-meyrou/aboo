@@ -111,7 +111,7 @@ function ChargeSessionExerciceBDD($data) {
         $num_mois = MoisAnnee($mois, $exercice_mois); 
         $MOIS[$mois-1]= NumToMois($num_mois);
         $CA[$mois-1]=$TableauBilanMensuel[$mois]['CA'];
-        $DEPENSE[$mois-1]=$TableauBilanMensuel[$mois]['DEPENSE'];
+        $DEPENSE[$mois-1]=$TableauBilanMensuel[$mois]['DEPENSE'] * -1;
         $SALAIRE[$mois-1]=$TableauBilanMensuel[$mois]['SALAIRE'];
         $TRESO[$mois-1]=$TableauBilanMensuel[$mois]['REPORT_TRESO'];        
     } // For
@@ -191,7 +191,7 @@ function ChargeSessionExerciceBDD($data) {
         ?> 
         
         <!-- Affiche un chart -->        
-        <canvas id="canvas" height="450" width="600"></canvas>
+        <canvas id="canvas" height="450" width="800"></canvas>
 
 
     </div> <!-- /container -->

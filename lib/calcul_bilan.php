@@ -1,6 +1,3 @@
-<!-- 
-© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
--->
 <?php
 
 function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {   
@@ -320,5 +317,3 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     Database::disconnect();    
     return $TableauBilan;
 }             
-
-?>

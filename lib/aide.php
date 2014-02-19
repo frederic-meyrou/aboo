@@ -1,7 +1,3 @@
-<!-- 
-© Copyright : Aboo / www.aboo.fr : Frédéric MEYROU : tous droits réservés
--->
-
 <!-- Variable PHP à définir avant incude : $IDModale -->
 <?php 
     if (!isset($IDModale)) {
