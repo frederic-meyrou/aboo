@@ -190,15 +190,100 @@ function ChargeSessionExerciceBDD($data) {
         }   
         ?> 
         
-        <!-- Affiche un chart -->        
-        <canvas id="canvas" height="450" width="800"></canvas>
+        <!-- Affiche un chart Bar -->
+        <div align="center">        
+            <canvas id="canvasBar" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+              <td width="18" bgcolor="#DCDCDC">&nbsp;</td><td>&nbsp;CA</td><td width="20">&nbsp;</td>
+              <td width="18" bgcolor="#8B008B">&nbsp;</td><td>&nbsp;Dépenses</td><td width="20">&nbsp;</td>
+              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire</td><td width="20">&nbsp;</td>              
+              <td width="18" bgcolor="#97BBCD">&nbsp;</td><td>&nbsp;Tréso</td>              
+            </tr>
+        </table>    
+
+        <!-- Affiche un chart Line -->
+        <div align="center">        
+            <canvas id="canvasLine1" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+              <td width="18" bgcolor="#DCDCDC">&nbsp;</td><td>&nbsp;CA</td><td width="20">&nbsp;</td>
+            
+            </tr>
+        </table>  
+
+        <!-- Affiche un chart Line -->
+        <div align="center">        
+            <canvas id="canvasLine2" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+
+              <td width="18" bgcolor="#8B008B">&nbsp;</td><td>&nbsp;Dépenses</td><td width="20">&nbsp;</td>
+             
+            </tr>
+        </table>          
 
 
+        <!-- Affiche un chart Line -->
+        <div align="center">        
+            <canvas id="canvasLine3" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+ 
+              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire</td><td width="20">&nbsp;</td>              
+             
+            </tr>
+        </table>  
+        
+        <!-- Affiche un chart Line -->
+        <div align="center">        
+            <canvas id="canvasLine4" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+           
+              <td width="18" bgcolor="#97BBCD">&nbsp;</td><td>&nbsp;Tréso</td>              
+            </tr>
+        </table>  
     </div> <!-- /container -->
     
     <?php require 'footer.php'; ?>
 
-    <!-- Description et donnees du chart -->
+    <!-- Description et donnees des charts -->
     <script>
 
         var barChartData = {
@@ -210,13 +295,13 @@ function ChargeSessionExerciceBDD($data) {
                     data : <?php echo json_encode($CA, JSON_NUMERIC_CHECK ); ?>
                 },
                 {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,1)",
+                    fillColor : "rgba(139,0,139,0.5)",
+                    strokeColor : "rgba(139,0,139,1)",
                     data : <?php echo json_encode($DEPENSE, JSON_NUMERIC_CHECK ); ?>
                 },
                 {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,1)",
+                    fillColor : "rgba(50,205,50,0.5)",
+                    strokeColor : "rgba(50,205,50,1)",
                     data : <?php echo json_encode($SALAIRE, JSON_NUMERIC_CHECK ); ?>
                 },
                 {
@@ -228,7 +313,65 @@ function ChargeSessionExerciceBDD($data) {
             
         }
 
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+        var lineChartData1 = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    data : <?php echo json_encode($CA, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }
+        var lineChartData2 = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(139,0,139,0.5)",
+                    strokeColor : "rgba(139,0,139,1)",
+                    pointColor : "rgba(139,0,139,1)",
+                    pointStrokeColor : "#fff",                    
+                    data : <?php echo json_encode($DEPENSE, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }
+        var lineChartData3 = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(50,205,50,0.5)",
+                    strokeColor : "rgba(50,205,50,1)",
+                    pointColor : "rgba(50,205,50,1)",
+                    pointStrokeColor : "#fff",
+                    data : <?php echo json_encode($SALAIRE, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }
+        var lineChartData4 = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    data : <?php echo json_encode($TRESO, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }
+        
+    var myBarChart = new Chart(document.getElementById("canvasBar").getContext("2d")).Bar(barChartData);
+    var myLineChart1 = new Chart(document.getElementById("canvasLine1").getContext("2d")).Line(lineChartData1);
+    var myLineChart2 = new Chart(document.getElementById("canvasLine2").getContext("2d")).Line(lineChartData2);    
+    var myLineChart3 = new Chart(document.getElementById("canvasLine3").getContext("2d")).Line(lineChartData3);    
+    var myLineChart4 = new Chart(document.getElementById("canvasLine4").getContext("2d")).Line(lineChartData4);                    
+   
     </script>    
         
   </body>
