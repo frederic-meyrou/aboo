@@ -96,7 +96,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <p>         
-            <h3 class="panel-title">Journal annuel :
+            <h3 class="panel-title">Journal annuel : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
                 <div class="btn-group pull-right">                
                     <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
                     <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>

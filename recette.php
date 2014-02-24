@@ -357,7 +357,7 @@
 		<!-- Affiche la table -->
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-	        <h3 class="panel-title">Liste des recettes du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
+	        <h3 class="panel-title">Liste des recettes du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois) . " $exercice_annee - " . ($exercice_annee +1); ?> : <span class="badge "><?php echo $count; ?></span></button></h3>
 		  </div>			
 		  <div class="panel-body">
 			<?php 

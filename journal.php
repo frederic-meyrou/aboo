@@ -205,7 +205,7 @@
 		<!-- Affiche la table -->
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois); ?> : <span class="badge "><?php echo $count; ?></span></button>
+	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois) . " $exercice_annee - " . ($exercice_annee +1); ?> : <span class="badge "><?php echo $count; ?></span></button>
 			<div class="btn-group btn-group-sm pull-right">
 	            <a href="journal_excel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
 	            <a href="journal_pdf.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
@@ -228,7 +228,6 @@
 				<?php 			 
 					foreach ($data as $row) {
 						echo '<tr>';
-						//if () {} test si abo ou dep, on gere seulement 3 colonne en fonction du resultat ds $data?
 					    echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
 						if (!empty($row['periodicitee'])) {
 					    	echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
