@@ -140,12 +140,14 @@ function ChargeSessionExerciceBDD($data) {
         <!-- Affiche les boutons principaux -->
         <center>
         <a href="recette.php" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout-Edition de vos Recettes</a>
-        <a href="depense.php" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-minus-sign"></span> Ajout-Edition de vos Dépenses</a>
+        <a href="depense.php" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-minus-sign"></span> Ajout-Edition de vos Dépenses</a>
         <br><br>
         <a href="journal_annuel.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>                            
         <a href="tableau de bord.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-signal"></span> Tableau de bord</a>                            
         </center>
         <br> <br>         
+    
+    </div>
     
     <?php require 'footer.php'; ?>
      
