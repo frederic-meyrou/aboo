@@ -129,40 +129,18 @@ function ChargeSessionExerciceBDD($data) {
     <?php require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Tableau de bord</h2>       
-        <br>
-       
+        <div class="page-header">          
+            <h2>Bienvenue sur Aboo!</h2>
+        </div>
+               
 		<!-- Affiche les informations de session -->      		
 		<?php 
  		if ($infos) {
 		?>
-        <div class="alert alert alert-info alert-dismissable fade in">
+        <div class="alert alert-info">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", tréso de $exercice_treso €"; ?></strong><br> 
-        </div>
-
-        <div class="alert alert-success alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>                
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Spécifications : </h3>
-              </div>
-              <div class="panel-body">
-                    <strong>- CA(M) = Recettes(M) : Chiffre d'affaire</strong><br>
-                    <strong>- Dépenses(M) = Dépenses</strong><br>
-                    <strong>- Solde Brut (M) = CA (M) - Dépenses (M)</strong><br>
-                    <strong>- Ventillation (M) = Recettes de l'exercice ventillées sur le mois courant</strong><br>
-                    <strong>- Paiement (M) = Total des echéances des abonements étalés sur le mois courant + Recettes à régler</strong><br>
-                    <strong>- Paiement echus (M) = Total des paiements à encaisser sur le mois courant</strong><br>
-                    <strong>- Encaissement (M) = Total des paiements encaissés + recettes du mois courant payées</strong><br>
-                    <strong>- Salaire (M) = Montant affecté au salaire = [Trésorerie (M-1) + Encaissement (M)] - [Ventilation (M) - Dépenses (M)]</strong><br>
-                    <strong>- Trésorerie (M) = Montant de la trésorerie = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </strong><br>
-                    <strong>- Report Tréso (M) = Montant à mettre de côté</strong><br> 
-                    <strong>- Report Salaire (M) = Salaire non versé reporté au mois suivant</strong><br> 
-              </div>
-            </div>        
-        </div>
-        <br>        
+            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", trésorerie de départ de $exercice_treso €"; ?></strong><br> 
+        </div>   
 	    <?php       
         }   
         ?>          

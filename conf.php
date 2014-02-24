@@ -177,7 +177,7 @@ function ChargeSessionExerciceBDD($data) {
     <div class="container">
 
         <div class="page-header">           
-            <h2>Configuration de l'exercice</h2>
+            <h2>Gestion des exercices</h2>
         </div>
         
         <!-- Affiche le dropdown formulaire année avec selection automatique de l'année en cours de la session -->

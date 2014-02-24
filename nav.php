@@ -39,8 +39,9 @@
         <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li<?php echo ($page_courante == "conf.php")?' class="active"':'';?>><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
-          <li<?php echo ($page_courante == "debug.php")?' class="active"':'';?>><a href="debug.php"><span class="glyphicon glyphicon-info-sign"></span> Debug</a></li>  
+          <li<?php echo ($page_courante == "conf.php")?' class="active"':'';?>><a href="conf.php"><span class="glyphicon glyphicon-wrench"></span> Exercice</a></li>
+          <li<?php echo ($page_courante == "debug.php")?' class="active"':'';?>><a href="debug.php"><span class="glyphicon glyphicon-eye-open"></span> Debug</a></li>  
+          <li<?php echo ($page_courante == "infos.php")?' class="active"':'';?>><a href="infos.php"><span class="glyphicon glyphicon-info-sign"></span> Informations</a></li>  
           <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>
         </ul> 
       </li>
