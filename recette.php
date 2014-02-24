@@ -39,7 +39,7 @@
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];	
     } else { // On a pas de session on retourne vers la gestion d'exercice
-    	header("Location: conf.php");    	
+    	header("Location: exercice.php");    	
     }
 
 // Récupération des variables de session abodep

@@ -19,7 +19,7 @@
 		$annee = $_REQUEST['annee'];
 	} else {
 		// Redirection vers conf puisque on a rien � afficher
-		header('Location:conf.php');
+		header('Location:exercice.php');
 	}
 	
 // Récupération des variables de session d'Authent
@@ -39,7 +39,7 @@
     if ($count==0) { // Pas d'exercice ds la BDD
         Database::disconnect();
         // Redirection
-        header('Location:conf.php');                
+        header('Location:exercice.php');                
     } else {
 		$id = $data['id'];
 		$mois = $data['mois_debut'];
@@ -53,7 +53,7 @@
 
 <body>
 
-    <?php $page_courante = "conf.php"; require 'nav.php'; ?>
+    <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
         
     <div class="container">
 
@@ -83,7 +83,7 @@
                       </tbody>
                 </table>
             </div> 	<!-- /row -->
- 		  	<a class="btn btn-success" href="conf.php">Retour</a>
+ 		  	<a class="btn btn-success" href="exercice.php">Retour</a>
         </div>  <!-- /span -->        			
 
     </div> <!-- /container -->

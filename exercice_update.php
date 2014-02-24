@@ -92,7 +92,7 @@
                 'treso' => $data['montant_treso_initial']
                 );
             }            
-            header("Location: conf.php");
+            header("Location: exercice.php");
         }       
     } else {
         // Lecture des infos ds la base
@@ -116,7 +116,7 @@
 
 <body>
 
-    <?php $page_courante = "conf.php"; require 'nav.php'; ?>
+    <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
         
     <div class="container">
         <h2>Modification d'un exercice</h2>
@@ -143,7 +143,7 @@
 		<div class="row">
  			 <div class="col-md-5 col-md-offset-1">
 		        <!-- Formulaire -->                	
-		        <form class="form-horizontal" action="conf_update.php" method="post">
+		        <form class="form-horizontal" action="exercice_update.php" method="post">
 		        
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            <div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
@@ -194,7 +194,7 @@
 		            <br>                                    
 		            <div class="form-actions">
 		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
-		              <a class="btn btn-primary" href="conf.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+		              <a class="btn btn-primary" href="exercice.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 		            </div>
 		        </form>
 

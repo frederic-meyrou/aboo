@@ -2,7 +2,7 @@
             <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
-                    <form class="form-horizontal" action="conf_delete.php" method="post">
+                    <form class="form-horizontal" action="exercice_delete.php" method="post">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h3 class="modal-title" id="DeleteModalLabel">Suppression d'une exercice :</h3>

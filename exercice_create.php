@@ -100,7 +100,7 @@
             'mois' => $data['mois_debut'],
             'treso' => $data['montant_treso_initial']
             );            
-			header("Location: conf.php");
+			header("Location: exercice.php");
 		}       
 	} else {
 	    // Valeures par défaut
@@ -118,7 +118,7 @@
 
 <body>
 
-    <?php $page_courante = "conf.php"; require 'nav.php'; ?>
+    <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
         
     <div class="container">
         <h2>Création d'un exercice</h2>
@@ -145,7 +145,7 @@
 		<div class="row">
  			 <div class="col-md-5 col-md-offset-1">
 		        <!-- Formulaire -->                	
-				<form class="form-horizontal" action="conf_create.php" method="post">
+				<form class="form-horizontal" action="exercice_create.php" method="post">
 				
 				<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 				<div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
@@ -199,7 +199,7 @@
 			    <div class="form-actions">
 			      <br>  
 		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Création</button>
-		              <a class="btn btn-primary" href="conf.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+		              <a class="btn btn-primary" href="exercice.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 				</div>
 			    </form>
 			    

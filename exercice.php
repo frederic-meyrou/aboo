@@ -93,7 +93,7 @@ function ChargeSessionExerciceBDD($data) {
     if ($count==0) { // Pas d'exercice ds la BDD c'est le premier passage sur le formulaire
         Database::disconnect();
         // Redirection pour creation d'exercice
-        header('Location:conf_create.php');                
+        header('Location:exercice_create.php');                
     } elseif (!empty($annee_exercice_choisie)) { // L'année est choisie
         // On va vérifier que l'année est dans la base et remplir la session, sauf si l'annee session est l'annee choisie
         if ($exercice_annee != $annee_exercice_choisie) {
@@ -172,7 +172,7 @@ function ChargeSessionExerciceBDD($data) {
 
 <body>
 
-    <?php $page_courante = "conf.php"; require 'nav.php'; ?>
+    <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
     
     <div class="container">
 
@@ -181,7 +181,7 @@ function ChargeSessionExerciceBDD($data) {
         </div>
         
         <!-- Affiche le dropdown formulaire année avec selection automatique de l'année en cours de la session -->
-        <form class="form-inline" role="form" action="conf.php" method="post">      
+        <form class="form-inline" role="form" action="exercice.php" method="post">      
             <select name="annee" class="form-control">
             <?php
                 foreach ($liste_annee as $a) {
@@ -192,7 +192,7 @@ function ChargeSessionExerciceBDD($data) {
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer d'année</button>
-			<a class="btn btn-primary" href="conf_create.php"><span class="glyphicon glyphicon-plus-sign"></span> Créer un nouvel exercice</a>
+			<a class="btn btn-primary" href="exercice_create.php"><span class="glyphicon glyphicon-plus-sign"></span> Créer un nouvel exercice</a>
         </form>
         <br>
          
@@ -260,7 +260,7 @@ function ChargeSessionExerciceBDD($data) {
 						echo '<td width=90>';
 			?>
 						<div class="btn-group btn-group-sm">
-							  	<a href="conf_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+							  	<a href="exercice_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
 							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
 							  	<a href="#" id="<?php echo $row['id']; ?>"
 							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#AnneeInput').val('<?php echo $row['annee_debut']; ?>'); $('<?php echo ($row['annee_debut']==$exercice_annee) ? '#modalImpossible' : '#modalDelete'; ?>').modal('show'); "
@@ -279,10 +279,10 @@ function ChargeSessionExerciceBDD($data) {
             <br>          
 				
             <!-- Modal delete-->                
-            <?php include('modal/conf_delete.php'); ?>   
+            <?php include('modal/exercice_delete.php'); ?>   
             
             <!-- Modal Impossible -->              
-            <?php include('modal/conf_impossible.php'); ?>   
+            <?php include('modal/exercice_impossible.php'); ?>   
     
     </div> <!-- /container -->
 

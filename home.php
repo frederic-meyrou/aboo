@@ -77,7 +77,7 @@ function ChargeSessionExerciceBDD($data) {
         if ($count==0) { // Pas d'exercice ds la BDD
             Database::disconnect();
             // Redirection pour creation d'exercice
-            header('Location:conf_create.php');                
+            header('Location:exercice_create.php');                
         }    
     
         // On cherche si on a l'exercice en cours d'utilisation dans la table user 
@@ -90,7 +90,7 @@ function ChargeSessionExerciceBDD($data) {
         if ($exercice_id==NULL) { // Pas d'exercice en cours
             Database::disconnect();
             // Redirection pour creation d'exercice
-            header('Location:conf.php');                
+            header('Location:exercice.php');                
         } else {
             $sql = "SELECT * FROM exercice WHERE user_id = ? AND id = ?";
             $q = $pdo->prepare($sql);

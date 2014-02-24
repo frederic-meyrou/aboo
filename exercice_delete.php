@@ -93,5 +93,5 @@
 
 // On retourne d'ou on vient
     Database::disconnect();                    
-	header("Location: conf.php");
+	header("Location: exercice.php");
 ?>
