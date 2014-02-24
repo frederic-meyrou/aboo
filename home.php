@@ -103,19 +103,7 @@ function ChargeSessionExerciceBDD($data) {
             $exercice_treso = $data['montant_treso_initial'];                    
         }    
     } // EndIf
-
-// Charge le Bilan    
-    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
-
-    for ($mois = 1; $mois <= 12; $mois++) {
-        $num_mois = MoisAnnee($mois, $exercice_mois); 
-        $MOIS[$mois-1]= NumToMois($num_mois);
-        $CA[$mois-1]=$TableauBilanMensuel[$mois]['CA'];
-        $DEPENSE[$mois-1]=$TableauBilanMensuel[$mois]['DEPENSE'] * -1;
-        $SALAIRE[$mois-1]=$TableauBilanMensuel[$mois]['SALAIRE'];
-        $TRESO[$mois-1]=$TableauBilanMensuel[$mois]['REPORT_TRESO'];        
-    } // For
-                  
+                 
 // Lecture tableau de bord
 	$infos = true;			
 ?>
@@ -137,220 +125,29 @@ function ChargeSessionExerciceBDD($data) {
 		<?php 
  		if ($infos) {
 		?>
-        <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong><?php echo "Exercice Courant : $exercice_annee démarrant en " . NumToMois($exercice_mois) . ", trésorerie de départ de $exercice_treso €"; ?></strong><br> 
-        </div>   
+		<div class="panel panel-info">
+		  <div class="panel-heading">
+		  	<h4>
+            <?php echo "Exercice Courant : <strong>$exercice_annee</strong> démarrant en <strong>" . NumToMois($exercice_mois) . "</strong>, trésorerie de départ de <strong>$exercice_treso €</strong>."; ?>
+            <br><br>
+            <?php echo "Mois de travail en cours : <strong>" . NumToMois($abodep_mois) . "</strong>."; ?>
+            </h4>             
+		  </div>
+		</div> 
 	    <?php       
         }   
-        ?>          
-        
-        <!-- Affiche les informations de debug -->
-        <?php 
- 		if ($debug) {
-		?>
-        <div class="alert alert alert-danger alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Informations de Debug : </strong><br>
-            SESSION:<br>
-            <pre><?php var_dump($_SESSION); ?></pre>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-            Tab:<br>
-            <pre><?php var_dump($TableauBilanMensuel); ?></pre>    
-            JSON:<br>
-            <pre><?php var_dump(json_encode($CA,JSON_NUMERIC_CHECK  )); ?></pre>             
-                   
-        </div>
-        <?php       
-        }   
-        ?> 
-        
-        <!-- Affiche un chart Bar -->
-        <div align="center">        
-            <canvas id="canvasBar" height="300" width="800">
-                <div class="alert alert alert-info alert-dismissable fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
-                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
-                 </div>
-            </canvas>
-        </div>
-        <table align="center" style="margin-top:20px;">
-            <tr>
-              <td width="18" bgcolor="#DCDCDC">&nbsp;</td><td>&nbsp;CA</td><td width="20">&nbsp;</td>
-              <td width="18" bgcolor="#8B008B">&nbsp;</td><td>&nbsp;Dépenses</td><td width="20">&nbsp;</td>
-              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire</td><td width="20">&nbsp;</td>              
-              <td width="18" bgcolor="#97BBCD">&nbsp;</td><td>&nbsp;Tréso</td>              
-            </tr>
-        </table>    
-
-        <!-- Affiche un chart Line -->
-        <div align="center">        
-            <canvas id="canvasLine1" height="300" width="800">
-                <div class="alert alert alert-info alert-dismissable fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
-                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
-                 </div>
-            </canvas>
-        </div>
-        <table align="center" style="margin-top:20px;">
-            <tr>
-              <td width="18" bgcolor="#DCDCDC">&nbsp;</td><td>&nbsp;CA</td><td width="20">&nbsp;</td>
-            
-            </tr>
-        </table>  
-
-        <!-- Affiche un chart Line -->
-        <div align="center">        
-            <canvas id="canvasLine2" height="300" width="800">
-                <div class="alert alert alert-info alert-dismissable fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
-                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
-                 </div>
-            </canvas>
-        </div>
-        <table align="center" style="margin-top:20px;">
-            <tr>
-
-              <td width="18" bgcolor="#8B008B">&nbsp;</td><td>&nbsp;Dépenses</td><td width="20">&nbsp;</td>
-             
-            </tr>
-        </table>          
-
-
-        <!-- Affiche un chart Line -->
-        <div align="center">        
-            <canvas id="canvasLine3" height="300" width="800">
-                <div class="alert alert alert-info alert-dismissable fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
-                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
-                 </div>
-            </canvas>
-        </div>
-        <table align="center" style="margin-top:20px;">
-            <tr>
- 
-              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire</td><td width="20">&nbsp;</td>              
-             
-            </tr>
-        </table>  
-        
-        <!-- Affiche un chart Line -->
-        <div align="center">        
-            <canvas id="canvasLine4" height="300" width="800">
-                <div class="alert alert alert-info alert-dismissable fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
-                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
-                 </div>
-            </canvas>
-        </div>
-        <table align="center" style="margin-top:20px;">
-            <tr>
-           
-              <td width="18" bgcolor="#97BBCD">&nbsp;</td><td>&nbsp;Tréso</td>              
-            </tr>
-        </table>  
-    </div> <!-- /container -->
+        ?>      
+        <!-- Affiche les boutons principaux -->
+        <center>
+        <a href="recette.php" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajout-Edition de vos Recettes</a>
+        <a href="depense.php" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-minus-sign"></span> Ajout-Edition de vos Dépenses</a>
+        <br><br>
+        <a href="journal_annuel.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>                            
+        <a href="tableau de bord.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-signal"></span> Tableau de bord</a>                            
+        </center>
+        <br> <br>         
     
     <?php require 'footer.php'; ?>
-
-    <!-- Description et donnees des charts -->
-    <script>
-
-        var barChartData = {
-            labels : <?php echo json_encode($MOIS); ?>,      
-            datasets : [
-                {
-                    fillColor : "rgba(220,220,220,0.5)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    data : <?php echo json_encode($CA, JSON_NUMERIC_CHECK ); ?>
-                },
-                {
-                    fillColor : "rgba(139,0,139,0.5)",
-                    strokeColor : "rgba(139,0,139,1)",
-                    data : <?php echo json_encode($DEPENSE, JSON_NUMERIC_CHECK ); ?>
-                },
-                {
-                    fillColor : "rgba(50,205,50,0.5)",
-                    strokeColor : "rgba(50,205,50,1)",
-                    data : <?php echo json_encode($SALAIRE, JSON_NUMERIC_CHECK ); ?>
-                },
-                {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,1)",
-                    data : <?php echo json_encode($TRESO, JSON_NUMERIC_CHECK ); ?>
-                }
-            ]
-            
-        }
-
-        var lineChartData1 = {
-            labels : <?php echo json_encode($MOIS); ?>,      
-            datasets : [
-                {
-                    fillColor : "rgba(220,220,220,0.5)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
-                    pointStrokeColor : "#fff",
-                    data : <?php echo json_encode($CA, JSON_NUMERIC_CHECK ); ?>
-                }
-            ]
-            
-        }
-        var lineChartData2 = {
-            labels : <?php echo json_encode($MOIS); ?>,      
-            datasets : [
-                {
-                    fillColor : "rgba(139,0,139,0.5)",
-                    strokeColor : "rgba(139,0,139,1)",
-                    pointColor : "rgba(139,0,139,1)",
-                    pointStrokeColor : "#fff",                    
-                    data : <?php echo json_encode($DEPENSE, JSON_NUMERIC_CHECK ); ?>
-                }
-            ]
-            
-        }
-        var lineChartData3 = {
-            labels : <?php echo json_encode($MOIS); ?>,      
-            datasets : [
-                {
-                    fillColor : "rgba(50,205,50,0.5)",
-                    strokeColor : "rgba(50,205,50,1)",
-                    pointColor : "rgba(50,205,50,1)",
-                    pointStrokeColor : "#fff",
-                    data : <?php echo json_encode($SALAIRE, JSON_NUMERIC_CHECK ); ?>
-                }
-            ]
-            
-        }
-        var lineChartData4 = {
-            labels : <?php echo json_encode($MOIS); ?>,      
-            datasets : [
-                {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,1)",
-                    pointColor : "rgba(151,187,205,1)",
-                    pointStrokeColor : "#fff",
-                    data : <?php echo json_encode($TRESO, JSON_NUMERIC_CHECK ); ?>
-                }
-            ]
-            
-        }
-        
-    var myBarChart = new Chart(document.getElementById("canvasBar").getContext("2d")).Bar(barChartData);
-    var myLineChart1 = new Chart(document.getElementById("canvasLine1").getContext("2d")).Line(lineChartData1);
-    var myLineChart2 = new Chart(document.getElementById("canvasLine2").getContext("2d")).Line(lineChartData2);    
-    var myLineChart3 = new Chart(document.getElementById("canvasLine3").getContext("2d")).Line(lineChartData3);    
-    var myLineChart4 = new Chart(document.getElementById("canvasLine4").getContext("2d")).Line(lineChartData4);                    
-   
-    </script>    
-        
+     
   </body>
 </html>
