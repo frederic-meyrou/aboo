@@ -24,6 +24,8 @@
   <div class="collapse navbar-collapse" id="TOP">
     <ul class="nav navbar-nav">
       <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
+      <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
+      <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span> Bilan<b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -34,7 +36,6 @@
               <li<?php echo ($page_courante == "fond_de_roulement.php")?' class="active"':'';?>><a href="fond_de_roulement.php"><span class="glyphicon glyphicon-repeat"></span> Fond de roulement</a></li>
         </ul> 
       </li>
-      <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
       <li<?php echo ($page_courante == "mesclients.php")?' class="active"':'';?>><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
       <li class="dropdown">
         <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
