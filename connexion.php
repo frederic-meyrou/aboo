@@ -98,23 +98,26 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Affiche la navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Marque -->
-          <a class="navbar-brand" href="connexion.php">Aboo</a>
-      </div>     
-      <!-- Liens -->
-      <div class="collapse navbar-collapse" id="TOP">
-        <ul class="nav navbar-nav">                              
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </nav>    
+  
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+           <div class="container">      
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <!-- Marque -->
+                  <a class="navbar-brand" href="connexion.php">Aboo</a>
+              </div>
+           </div>                   
+          <!-- Liens -->
+          <div class="collapse navbar-collapse" id="TOP">
+            <ul class="nav navbar-nav">                              
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </nav>    
     
     <div class="container">
 

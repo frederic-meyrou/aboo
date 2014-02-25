@@ -2,6 +2,9 @@
     <title>Aboo</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aboo">
+    <meta name="author" content="Frédéric MEYROU">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="bootstrap/css/datatables.css" rel="stylesheet" type="text/css" media="screen">
     <link href="bootstrap/css/aboo.css" rel="stylesheet">

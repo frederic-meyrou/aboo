@@ -1,3 +1,6 @@
+/* NAVBAR
+-------------------------------------------------- */
+
 .navbar-inverse .navbar-brand {
     color: #9ABC00; 
     font-family: Lobster,cursive; 
@@ -17,6 +20,52 @@
     background-color: #BBBBBB;
     color: black;
 }
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+/* Divers
+-------------------------------------------------- */
+
+
+body { 
+    font-family: "Titillium", Arial, sans-serif;    
+    padding-top: 40px;
+    padding-bottom: 10px; 
+    background-color: #FFFFFF;    
+}
+
+html {
+    /*font-family: verdana;*/
+    background-color: #666666;
+}
+
+.test {
+    color: #9ABC00; 
+    font-family: Lobster,cursive; 
+    font-size: 90px;
+    margin: 200px;  
+}
+
+img {
+    box-shadow: 1px 1px 12px #555;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 1px 1px 12px #555;
+    -webkit-box-shadow: 1px 1px 12px #555;
+    -webkit-border-radius: 5px;
+}
+
+/* FONT
+-------------------------------------------------- */
 
 @font-face {
     font-family: "Titillium";
@@ -49,29 +98,3 @@
     src: url("../fonts/titillium-semibold-webfont.svg#titillium-semibold-webfont") format("svg"), url("../fonts/titillium-semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/titillium-semibold-webfont.woff") format("woff"), url("../fonts/titillium-semibold-webfont.ttf") format("truetype");
 }
 
-body { 
-	font-family: "Titillium", Arial, sans-serif;	
-    padding-top: 70px; 
-    background-color: #FFFFFF;    
-}
-
-html {
-    /*font-family: verdana;*/
-    background-color: #666666;
-}
-
-.test {
-    color: #9ABC00; 
-    font-family: Lobster,cursive; 
-    font-size: 90px;
-    margin: 200px; 	
-}
-
-img {
-	box-shadow: 1px 1px 12px #555;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-moz-box-shadow: 1px 1px 12px #555;
-	-webkit-box-shadow: 1px 1px 12px #555;
-	-webkit-border-radius: 5px;
-}

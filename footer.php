@@ -1,6 +1,6 @@
 <hr>
 <div class="footer">
-        <p class="text-center">©<em> Aboo 2014</em></p>
+        <p class="text-center"><span class="glyphicon glyphicon-copyright-mark"></span> Aboo 2014</p>
 </div>
 
 <script src="bootstrap/js/jquery-2.0.3.min.js"></script>
