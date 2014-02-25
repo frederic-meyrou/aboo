@@ -143,7 +143,7 @@ function ChargeSessionExerciceBDD($data) {
         <a href="depense.php" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-minus-sign"></span> Ajout-Edition de vos Dépenses</a>
         <br><br>
         <a href="journal_annuel.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>                            
-        <a href="tableau de bord.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-signal"></span> Tableau de bord</a>                            
+        <a href="tableau_de_bord.php" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-signal"></span> Tableau de bord</a>                            
         </center>
         <br> <br>         
     
