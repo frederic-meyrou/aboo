@@ -148,12 +148,16 @@
 	                <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['IMPOT'],2,',','.'); ?> €</button></td>                                                                        
                 </tr>
                 <tr>                                                            
-                    <td align="right"><button type="button" class="btn btn-info">Salaire : </button></td> 
+                    <td align="right"><button type="button" class="btn btn-info">Salaire calculé : </button></td> 
                     <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE'],2,',','.'); ?> €</button></td> 
+                    <td align="right"><button type="button" class="btn btn-info">Salaire réel : </button></td> 
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE_REEL'],2,',','.'); ?> €</button></td> 
                 </tr>
                 <tr>                                                             
-                    <td align="right"><button type="button" class="btn btn-info">Salaire mensuel moyen : </button></td>                     
+                    <td align="right"><button type="button" class="btn btn-info">Salaire calculé mensuel moyen : </button></td>                     
                     <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE']/12,2,',','.'); ?> €</button></td>                     
+                    <td align="right"><button type="button" class="btn btn-info">Salaire réel mensuel moyen : </button></td>                     
+                    <td align="left"><button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE_REEL']/12,2,',','.'); ?> €</button></td> 
                 </tr>
                 <tr>                                                            
                     <td align="right"><button type="button" class="btn btn-info">Dernier report Salaire : </button></td>    

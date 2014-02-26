@@ -113,7 +113,8 @@
                     <li>Dépenses : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['DEPENSE'],2,',','.') . ' €'; ?></li>
                     <li>Solde brut : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['SOLDE'],2,',','.') . ' €'; ?></li> 
                     <li>Ventilation : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['VENTIL'],2,',','.') . ' €'; ?></li>                   
-                    <li>Salaire : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['SALAIRE'],2,',','.') . ' €'; ?></li>                
+                    <li>Salaire calculé : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['SALAIRE'],2,',','.') . ' €'; ?></li>
+                    <li>Salaire réel : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['SALAIRE_REEL'],2,',','.') . ' €'; ?></li>                                     
                     <li>Report Salaire : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['REPORT_SALAIRE'],2,',','.') . ' €'; ?></li>
                     <li>Tréso avant salaire : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['TRESO'],2,',','.') . ' €'; ?></li>
                     <li>A trésoriser : <?php echo number_format($TableauBilanMensuel[$mois_relatif]['REPORT_TRESO'],2,',','.') . ' €'; ?></li>

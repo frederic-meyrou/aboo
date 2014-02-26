@@ -113,6 +113,7 @@ function ChargeSessionExerciceBDD($data) {
         $CA[$mois-1]=$TableauBilanMensuel[$mois]['CA'];
         $DEPENSE[$mois-1]=$TableauBilanMensuel[$mois]['DEPENSE'] * -1;
         $SALAIRE[$mois-1]=$TableauBilanMensuel[$mois]['SALAIRE'];
+        $SALAIRE_REEL[$mois-1]=$TableauBilanMensuel[$mois]['SALAIRE_REEL'];		
         $TRESO[$mois-1]=$TableauBilanMensuel[$mois]['REPORT_TRESO'];        
     } // For
                   
@@ -224,7 +225,25 @@ function ChargeSessionExerciceBDD($data) {
         <table align="center" style="margin-top:20px;">
             <tr>
  
-              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire</td><td width="20">&nbsp;</td>              
+              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire calculé</td><td width="20">&nbsp;</td>              
+             
+            </tr>
+        </table>  
+
+        <!-- Affiche un chart Line -->
+        <div align="center">        
+            <canvas id="canvasLine3bis" height="300" width="800">
+                <div class="alert alert alert-info alert-dismissable fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Votre navigateur est obsolète pour visualiser les graphiques, veuiller utiliser un navigateur plus réçent.</strong><br>
+                    <a href="http://browsehappy.com/" target="_blank" class="btn btn-primary" role="button">Choisir un nouveau Navigateur</a>  
+                 </div>
+            </canvas>
+        </div>
+        <table align="center" style="margin-top:20px;">
+            <tr>
+ 
+              <td width="18" bgcolor="#32CD32">&nbsp;</td><td>&nbsp;Salaire réel</td><td width="20">&nbsp;</td>              
              
             </tr>
         </table>  
@@ -318,6 +337,19 @@ function ChargeSessionExerciceBDD($data) {
             ]
             
         }
+        var lineChartData3bis = {
+            labels : <?php echo json_encode($MOIS); ?>,      
+            datasets : [
+                {
+                    fillColor : "rgba(50,205,50,0.5)",
+                    strokeColor : "rgba(50,205,50,1)",
+                    pointColor : "rgba(50,205,50,1)",
+                    pointStrokeColor : "#fff",
+                    data : <?php echo json_encode($SALAIRE_REEL, JSON_NUMERIC_CHECK ); ?>
+                }
+            ]
+            
+        }        
         var lineChartData4 = {
             labels : <?php echo json_encode($MOIS); ?>,      
             datasets : [
@@ -335,7 +367,8 @@ function ChargeSessionExerciceBDD($data) {
     var myBarChart = new Chart(document.getElementById("canvasBar").getContext("2d")).Bar(barChartData);
     var myLineChart1 = new Chart(document.getElementById("canvasLine1").getContext("2d")).Line(lineChartData1);
     var myLineChart2 = new Chart(document.getElementById("canvasLine2").getContext("2d")).Line(lineChartData2);    
-    var myLineChart3 = new Chart(document.getElementById("canvasLine3").getContext("2d")).Line(lineChartData3);    
+    var myLineChart3 = new Chart(document.getElementById("canvasLine3").getContext("2d")).Line(lineChartData3);
+    var myLineChart3bis = new Chart(document.getElementById("canvasLine3bis").getContext("2d")).Line(lineChartData3bis);         
     var myLineChart4 = new Chart(document.getElementById("canvasLine4").getContext("2d")).Line(lineChartData4);                    
    
     </script>    

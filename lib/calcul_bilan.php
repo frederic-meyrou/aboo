@@ -11,6 +11,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     //ENCAISSEMENT
     //TRESO
     //SALAIRE
+    //SALAIRE_REEL
     //REPORT_SALAIRE
     //REPORT_TRESO
     //NON_DECLARE
@@ -84,14 +85,18 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
                 A.user_id = :userid AND A.exercice_id = :exerciceid AND
                 P.mois_$m <> 0 AND
                 P.paye_$m = 0
-                ";                         
+                ";
+		$sql7 ="SELECT salaire from salaire WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";		                         
         // Envoi des requettes 
         $req4 = $pdo->prepare($sql4);
         $req4->execute($q2);
         $data4 = $req4->fetch(PDO::FETCH_ASSOC);
         $req5 = $pdo->prepare($sql5);
         $req5->execute($q2);
-        $data5 = $req5->fetch(PDO::FETCH_ASSOC);                            
+        $data5 = $req5->fetch(PDO::FETCH_ASSOC);
+        $req7 = $pdo->prepare($sql7);
+        $req7->execute($q);
+        $data7 = $req7->fetch(PDO::FETCH_ASSOC);                                     
         // Calcul des sommes 
         $PAIEMENT_{$m}= !empty($data4["SUM(P.mois_$m)"]) ? $data4["SUM(P.mois_$m)"] : 0;
         $ECHUS_{$m}= !empty($data5["SUM(P.mois_$m)"]) ? $data5["SUM(P.mois_$m)"] : 0; 
@@ -118,7 +123,9 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             }                      
         }
         if ($SALAIRE_{$m} <= 0) {$SALAIRE_{$m}=0;} // Pas de salaire négatif!
-        $REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_{$m};
+        $SALAIRE_REEL_{$m}= !empty($data7['salaire']) ? $data7['salaire'] : $SALAIRE_{$m};
+        //$REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_{$m};
+        $REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_REEL_{$m}; // Prise en compte du salaire réél
         // Génération du Tableau :
         $TableauBilan[$m] = array (
             'CA' => $CA_{$m},                                                                   
@@ -130,6 +137,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             'ENCAISSEMENT' => $ENCAISSEMENT_{$m},                                                                   
             'TRESO' => $TRESO_{$m},
             'SALAIRE' => $SALAIRE_{$m},        
+            'SALAIRE_REEL' => $SALAIRE_REEL_{$m},        
             'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                   
             'REPORT_TRESO' => $REPORT_TRESO_{$m},
             'NON_DECLARE' => $NON_DECLARE_{$m}
@@ -180,6 +188,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //ENCAISSEMENT
     //TRESO
     //SALAIRE
+    //SALAIRE_REEL
     //REPORT_SALAIRE
     //REPORT_TRESO
     //ACHAT
@@ -275,6 +284,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     $TRESO = 0;
     $SALAIRE = 0;
     $NON_DECLARE = 0;
+	$SALAIRE_REEL = 0;
     
     // Calcul des sommes (boucle sur les mois relatifs)
     for ($m = 1; $m <= 12; $m++) {
@@ -283,6 +293,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         $ECHUS = $ECHUS + $BilanMensuel[$m]['ECHUS'];
         $ENCAISSEMENT = $ENCAISSEMENT + $BilanMensuel[$m]['ENCAISSEMENT'];
         $SALAIRE = $SALAIRE + $BilanMensuel[$m]['SALAIRE'];
+		$SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];
         $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];
     }
     
@@ -302,6 +313,7 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         'ENCAISSEMENT' => $ENCAISSEMENT,                                                                   
         'TRESO' => $TRESO,
         'SALAIRE' => $SALAIRE,        
+        'SALAIRE_REEL' => $SALAIRE_REEL,
         'REPORT_SALAIRE' => $REPORT_SALAIRE,                                                                   
         'REPORT_TRESO' => $REPORT_TRESO,
         'ACHAT' => $ACHAT,
