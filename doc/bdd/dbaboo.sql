@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: 127.0.0.1
--- Généré le: Mer 26 Février 2014 à 12:04
+-- Généré le: Mer 26 Février 2014 à 16:18
 -- Version du serveur: 5.6.11
 -- Version de PHP: 5.5.3
 
@@ -391,11 +391,19 @@ CREATE TABLE IF NOT EXISTS `salaire` (
   `user_id` int(11) NOT NULL,
   `exercice_id` int(11) NOT NULL,
   `mois` tinyint(4) DEFAULT NULL,
-  `salaire` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `salaire` decimal(10,2) DEFAULT NULL,
   `commentaire` varchar(1024) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`exercice_id`),
-  KEY `mois` (`mois`)
+  KEY `mois` (`mois`),
+  KEY `user_id` (`user_id`),
+  KEY `exercice_id` (`exercice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `salaire`
+--
+
+INSERT INTO `salaire` (`user_id`, `exercice_id`, `mois`, `salaire`, `commentaire`) VALUES
+(6, 22, 5, '500.00', 'Moins que pr&eacute;vu! :)');
 
 -- --------------------------------------------------------
 
@@ -431,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `prenom`, `nom`, `email`, `telephone`, `password`, `inscription`, `actif`, `essai`, `montant`, `expiration`, `administrateur`, `token`, `mois_encours`, `exerciceid_encours`, `date_creation`) VALUES
 (4, 'fred', 'meyrou', 'frederic@meyrou.com', '0612345678', 'derf44', '2013-11-28', 1, 0, '1234.00', '0000-00-00', 1, NULL, 1, NULL, '2014-01-10 16:19:17'),
-(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', 1, 0, '100.00', NULL, 0, NULL, 1, 22, '2014-01-10 16:19:17'),
+(6, 'elise', 'meyrou', 'elise@meyrou.com', '0612456789', 'grenouille', '2013-01-12', 1, 0, '100.00', NULL, 0, NULL, 9, 22, '2014-01-10 16:19:17'),
 (10, 'Fr&eacute;d&eacute;ric', 'MEYROU', 'frederic.meyrou@gmail.com', '0672268111', 'h6S2Tlv7', '2013-12-12', 0, 0, NULL, NULL, 0, '432b5f36651f5bab7e96984650487bb51417dea8', NULL, NULL, '2014-01-10 16:19:17'),
 (11, 'Fr&eacute;d&eacute;ric', 'MEYROU', 'frederic_meyrou@yahoo.fr', '0672268111', 'derf44', '2014-01-01', 0, 0, '0.00', NULL, 0, NULL, NULL, NULL, '2014-01-13 18:23:49');
 

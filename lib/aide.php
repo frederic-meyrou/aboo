@@ -176,6 +176,21 @@ switch ($IDModale) {
             <p>Chaque dépense est horadatée au momment de sa création.</p>
         <?php
         break;
+    case "modalAideSalaire":
+        ?>
+            <h4>Le formulaire de saisie du salaire réellement versé : </h4>
+            <p>Cet écran vous permet de modifier le montant du salaire calculé par Aboo et de saisir le salaire que vous vous êtes réelement servi.</p> 
+            <p>Aboo calcul un salaire optimal pour vous, cependant, si vous souhaitez pour vous servir plus ou moins, il suffit de rentrer cette information
+            dans ce formulaire. Par défaut, Aboo considèrera que vous vous êtes versé le salaire qu'il calcule.</p>
+            <p><strong>ATTENTION : </strong>Vous ne pouvez pas vous servir plus que ce que dont vous disposez en trésorerie !</p>
+            <p>Si l'information de trésorerie ne correspondait pas à la réalité de votre compte il faudrait alors corriger votre trésorerie initiale... ou comprendre d'où vient cet écart</p>
+            <br>
+            <p>Le montant du salaire doit être POSITIF en Euros et centimes d'Euros, par exemple : 1500.50</p>
+            <br>
+            <p>Le commentaire vous permet de garder une trace de la raison qui à motivé la modification de votre salaire.</p>
+            
+        <?php
+        break;		
     default:
         echo "<center> Erreur : Il n'y a pas d'aide! </center>";        
 }

@@ -89,11 +89,26 @@
     $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($mois_choisi, $user_id));	
-    
+
+// Charge le Bilan    
+    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
+	$treso_dispo = $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['TRESO']; 
+
+// Lecture du salaire dans la base
+	$salaire="N/C";	
+    $sql = "SELECT * FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois)));
+    $data = $q->fetch(PDO::FETCH_ASSOC);
+    $count = $q->rowCount($sql);
+	if ($count==1) { // On a bien un enregistrement de salaire
+		$salaire = $data['salaire'];
+	}	
+			        
 // Lecture du POST Formulaire
     $montant = null;
 	$commentaire = null;
-	$montantError = null;	
+	$montantError = null;
     if (isset($sPOST['montant']) ) { // J'ai un POST
         $montant = $sPOST['montant'];
 		$commentaire = $sPOST['commentaire'];
@@ -101,24 +116,36 @@
 		// validate input
 		$valid = true;
 		
-		if (empty($montant) || $montant < 0 || $montant == null) {
-			$montantError= "Veuillez entrer un montant positif.";
+		if ( !is_numeric($montant) || $montant < 0  ) {
+			$montantError= "Veuillez entrer un montant de salaire positif.";
 			$valid = false;
+		} elseif ( $montant > $treso_dispo ) { // On vérifie que le montant est cohérent
+			$montantError= "Le montant de salaire que vous avez entré est supérieur à votre trésorerie disponible ($treso_dispo €).";
+			$valid = false;			
 		}
 
 		// insert data
-		if ($valid) {
-			//$sql = "INSERT INTO depense (user_id,exercice_id,type,montant,mois,commentaire) values(?, ?, ?, ?, ?, ?)";
-			//$q = $pdo->prepare($sql);		
-			//$q->execute(array($user_id, $exercice_id, $type, $montant, MoisRelatif($abodep_mois,$exercice_mois), $commentaire));
+		if ($valid && $salaire=="N/C") {
+			$sql = "INSERT INTO salaire (user_id,exercice_id,mois,salaire,commentaire) values(?, ?, ?, ?, ?)";
+			$q = $pdo->prepare($sql);		
+			$q->execute(array($user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois), $montant, $commentaire));
+		} elseif ($valid && $salaire!="N/C") {
+			$sql = "UPDATE salaire set salaire=?, commentaire=? WHERE user_id=? AND exercice_id=? AND mois=?";
+			$q = $pdo->prepare($sql);		
+			$q->execute(array($montant, $commentaire, $user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois)));
+		}
+		if ($valid) { // Réinitialise pour le formulaire		
+			header("Location: salaire.php");			
+		}		
+    } else { // J'affiche le formulaire sans POST
+    
+    	$montant = $salaire;
+		if ($count==1) { // On a bien un enregistrement de salaire
+			$commentaire = $data['commentaire'];
 		}
 		
-		// Réinitialise pour le formulaire		
-		header("Location: salaire.php");
     } // If POST
-	
-// Charge le Bilan    
-    $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);      	
+	   	
 ?>
 
 <!DOCTYPE html>
@@ -178,6 +205,10 @@
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SALAIRE']; ?> €</button>
 	        </div>
 	        <div class="btn-group btn-group-sm">
+	            <button type="button" class="btn btn-warning">Salaire versé :</button>
+	            <button type="button" class="btn btn-default"><?php echo $salaire; ?> €</button>
+	        </div>	        
+	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie avant salaire :</button>               
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['TRESO']; ?> €</button>             
 	        </div>	         
@@ -200,20 +231,16 @@
             <div class="panel-body">
         
 	            <form class="form-inline" role="form" action="salaire.php" method="post">
-		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-		            		<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
-		                    	<input name="<?php echo "$champinputname" ?>" id="<?php echo "$champinputname" ?>" type="<?php echo "$type" ?>" class="form-control" value="<?php echo !empty($champ)?$champ:'';?>" placeholder="<?php echo "$champplaceholder" ?>">		            
-		                    <?php if (!empty($champError)): ?>
-		                     		<span class="help-inline"><?php echo $champError;?></span>
-		                    <?php endif; ?>		            
-		       				</div>
-		            <?php } ?>
-                    <div class="form-group <?php echo !empty($montantError)?'has-error':'';?>">
-                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:'';?>" placeholder="Montant €" required autofocus>                              
+                    <div class="form-group <?php echo !empty($montantError)?'has-error':''; ?>">
+                        <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:''; ?>" placeholder="Montant €" required autofocus>                                                      
                     </div>                          	                  		            
-		       		<?php Affiche_Champ($commentaire, $commentaireError, 'commentaire','Commentaire', 'text' ); ?>
-
-	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button>
+                    <div class="form-group <?php echo !empty($commentaireError)?'has-error':''; ?>">
+                        <input name="commentaire" id="commentaire" type="text" class="form-control" value="<?php echo !empty($commentaire)?$commentaire:''; ?>" placeholder="Commentaire">                                                      
+                    </div>
+	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button><br>
+		            <?php if (!empty($montantError)) { ?>
+		           		<span class="help-inline text-danger"><?php echo $montantError; ?></span>
+		            <?php } ?>		              	
 	            </form>
             </div>  <!-- /panel-body -->                        
         </div>  <!-- /panel -->			
