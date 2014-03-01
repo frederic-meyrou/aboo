@@ -16,19 +16,16 @@ Easy Bootstrap Shortcode is bootstrap 3.0.3 compatible plugin which add icons to
 
 http://www.youtube.com/watch?v=8T0IC1PsdTw
 
->[DEMO](http://demo.oscitasthemes.com/ebs/) | [DOCUMENTATION](http://oscitasthemes.com/documentation/easy-bootstrap-shortcodes/) | [PRO VERSION](http://oscitasthemes.com/products/easy-bootstrap-shortcodes-pro/)
+>[DEMO](http://demo.oscitasthemes.com/ebs/) | [PRO VERSION](http://oscitasthemes.com/downloads/easy-bootstrap-shortcodes-pro/) | [DOCUMENTATION](http://oscitasthemes.com/documentation/easy-bootstrap-shortcodes/)
 
-Looking for parallax slider, check this [Easy Wordpress Parallax Slider](http://wordpress.org/plugins/easy-wp-parallax-slider/)
-
-Want to implement responsive tabs to your pages, check this [Easy Responsive Tabs](http://wordpress.org/plugins/easy-responsive-tabs/)
-
-= For best results use with bootstrap 3.0.3 responsive theme =
+= Just by one setting, you can use bootstrap styles in your themes, which are not bootstrap based themes using Bootstrap Shortcodes =
 
 = Features: =
 
 * simplest bootstrap style plugin ever.
 * IE 6+ compatible
 * Bootstrap 3.0.3 compatible.
+* 500+ Font-Awesome & Glyphicons Icon Fonts
 * No need to paste shortcode in editor.
 * Add icons to editor.
 * Shortcode added to editor by clicking on icon.
@@ -36,8 +33,6 @@ Want to implement responsive tabs to your pages, check this [Easy Responsive Tab
 * More control over the css, you can add your own custom class to shortcodes.
 * Now you can use js file from CDN or disable the plugin js.
 * You can use your own css file by disabling the plugin css, which gives you more flexibility over styling.
-
-
 
 Easy Bootstrap Shortcode provides following styles
 
@@ -71,6 +66,8 @@ Easy Bootstrap Shortcode provides following styles
 19. Button Group Toolbar
 20. Description List
 21. Service Box
+
+Many more shortcodes coming soon.....
 
 = How to embed this plugin to your theme =
 
@@ -158,9 +155,6 @@ And to give use the custom css for admin
 
 If you'd like to contribute to this plugin, you can find it [hosted on GitHub](https://github.com/oscitasthemes/Easy-Bootstrap-Shortcode).
 
-Follow us [@Twitter](https://twitter.com/oscitasthemes), [@facebook](https://www.facebook.com/oscitasthemes), [@google+](https://plus.google.com/109122908951553852347/posts)
-
-
 
 == Installation ==
 
@@ -193,11 +187,47 @@ It's that simple ... just what the name suggests
 
 == Changelog ==
 
+= 3.0.0 =
+
+* [Fixes] Allow Html tags in popover.
+* [Fixes] Changed Table button title in wysiwyg editor.
+
+
+= 2.7.3 =
+
+* [New] Icon Font support in Tabs, List Group and Toggle Shortcodes
+
+= 2.7.2 =
+
+* [Fixes] List Shortcode not working
+
+= 2.7.1 =
+
+* [New] Font Awesome Icons (400+ Icon Fonts : http://fortawesome.github.io/Font-Awesome/icons/ )
+* [New] Custom Button Option in "Button Shortcode"(Now can add choice Colours of Button/Link)
+
+= 2.7.0 =
+
+* [New] 11 New Shortcodes(Line Separator, Dropcaps, Youtube & Vimeo video, Boxesframes, Horizontal Rule, Testimonial, Section Heading, Social, Lead,Page Header, Highlights).
+
+= 2.6.1 =
+
+* [Fixes] Few missing icon issue resolved.
+* [Fixes] Icon Heading not working issue resolved.
+* [Fixes] Custom CSS Classes not working with images shorcode.
+
+
+
+= 2.6.0 =
+
+* [Update] Now you don't need bootstrap based theme to use Bootstrap Shortcodes Plugin. Just by one setting, you can use bootstrap styles in your themes, which are not bootstrap based themes.
+
+
 = 2.5.3 =
 
-* [Update] Now can add Top and Bottom Margin in Service Box Shortcode Icon Container.
-* [Update] Now can add different size of button in Service Box Shortcode.
-* [Update] Now can different style of Icon background in Service Box Shortcode like Circle, Square box,
+* [Update] Now you can add Top and Bottom Margin in Service Box Shortcode Icon Container.
+* [Update] Now you can add different size of button in Service Box Shortcode.
+* [Update] Now you can have different style of Icon background in Service Box Shortcode like Circle, Square box,
 Rounded Corner box.
 
 = 2.5.2 =
@@ -265,7 +295,7 @@ Rounded Corner box.
 
 * [update] Banner of Easy Bootstrap Shortcodes PRO Version in settings page.
 
-
+http://pawsbarkery.com/post.php
 = 2.3.4 =
 
 * [update] Implemented filter to add buttons to tinyMCE, Credit goes to Nikoya.

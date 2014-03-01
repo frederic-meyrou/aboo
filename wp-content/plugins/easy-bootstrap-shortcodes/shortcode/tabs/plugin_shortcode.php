@@ -38,7 +38,7 @@ function osc_theme_tab($params, $content = null) {
         $_oscitas_tabs[$index]['tabs'] = array();
     }
     $pane_id = 'pane-' . $index . '-' .  count($_oscitas_tabs[$index]['tabs']);
-    $_oscitas_tabs[$index]['tabs'][] = '<li class="' . $active .EBS_CONTAINER_CLASS. '"><a class="'.EBS_CONTAINER_CLASS.'" href="#' . $pane_id . '" data-toggle="tab">' . $title
+    $_oscitas_tabs[$index]['tabs'][] = '<li class="' . $active.EBS_CONTAINER_CLASS. '"><a class="'.EBS_CONTAINER_CLASS.'" href="#' . $pane_id . '" data-toggle="tab">' . $title
             . '</a></li>';
     $_oscitas_tabs[$index]['panes'][] = '<div class="tab-pane ' . $active .EBS_CONTAINER_CLASS. '" id="'
             . $pane_id . '">'

@@ -1,5 +1,5 @@
 var tables={
-    title:"Progressbar Shortcode",
+    title:"Table Shortcode",
     id :'oscitas-form-table',
     pluginName: 'tables'
 };

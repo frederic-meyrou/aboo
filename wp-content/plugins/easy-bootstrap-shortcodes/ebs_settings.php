@@ -30,8 +30,8 @@
             <p><input type="radio" name="b_css" id="b_css_plugin" value="1" <?php echo ($css == 1) ? 'checked=checked' : '' ?>>
                 <label for="b_css_plugin" >Use from EBS Plugin</label>
                 <input type="radio" name="b_css" id="b_css_theme" value="2" <?php echo ($css == 2) ? 'checked=checked' : '' ?>><label for="b_css_theme">Use from theme or any other plugin</label>
-                <!--<input type="radio" name="b_css" id="b_css_nobs" value="3" <?php //echo ($css == 3) ? 'checked=checked' : '' ?>><label for="b_css_nobs">No bootstrap theme</label>-->
-            </p>
+                <input type="radio" name="b_css" id="b_css_nobs" value="3" <?php echo ($css == 3) ? 'checked=checked' : '' ?>><label for="b_css_nobs">No bootstrap theme<span class="notered">*</span></label>
+            <br/><small class="notered">* Choose this option if you don't have a bootstrap theme</small></p>
         </div>
         <?php } ?>
         <div class="ebs_details">

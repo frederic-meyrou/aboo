@@ -61,13 +61,14 @@ function osc_theme_dropdown_items($params, $content = null) {
                 'link' => '',
                 'disabled' => ''), $params));
     $out = '';
+    $out = '';
     if ($type == "divider") {
-        $out = '<li class="divider"></li>';
+        $out = '<li class="divider'.EBS_CONTAINER_CLASS.'"></li>';
     } elseif ($type == "menuitem") {
         if ($disabled == 'disabled') {
-            $out = '<li class="disabled"><a href="' . $link . '">' . do_shortcode($content) . '</a></li>';
+            $out = '<li class="disabled'.EBS_CONTAINER_CLASS.'"><a class="'.EBS_CONTAINER_CLASS.'" href="' . $link . '">' . do_shortcode($content) . '</a></li>';
         } else {
-            $out = '<li><a href="' . $link . '">' . do_shortcode($content) . '</a></li>';
+            $out = '<li><a class="'.EBS_CONTAINER_CLASS.'" href="' . $link . '">' . do_shortcode($content) . '</a></li>';
         }
     }
     return $out;
