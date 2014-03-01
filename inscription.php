@@ -85,7 +85,6 @@
 	    $sql = 'INSERT INTO user (prenom, nom, email, telephone, password, inscription, token, essai) VALUES (:prenom, :nom, :email, :telephone, :password, :inscription, :token, 1)';
 	    $req = $pdo->prepare($sql);
 	    $req->execute($q);
-	    Database::disconnect(); 
 	
 	    //Envoyer un mail pour la validation du compte
 	    $to = $email;
@@ -129,6 +128,7 @@
 			
 		}
 	}
+    Database::disconnect(); 
 
 ?>
 
