@@ -15,6 +15,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     //REPORT_SALAIRE
     //REPORT_TRESO
     //NON_DECLARE
+    //SALAIRE_COMMENTAIRE
 
 // Initialisation de la base
     $pdo = Database::connect();
@@ -86,7 +87,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
                 P.mois_$m <> 0 AND
                 P.paye_$m = 0
                 ";
-		$sql7 ="SELECT salaire from salaire WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";		                         
+		$sql7 ="SELECT salaire,commentaire from salaire WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";		                         
         // Envoi des requettes 
         $req4 = $pdo->prepare($sql4);
         $req4->execute($q2);
@@ -124,6 +125,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
         }
         if ($SALAIRE_{$m} <= 0) {$SALAIRE_{$m}=0;} // Pas de salaire négatif!
         $SALAIRE_REEL_{$m}= !empty($data7['salaire']) ? $data7['salaire'] : $SALAIRE_{$m};
+        $SALAIRE_COMMENTAIRE_{$m}= !empty($data7['commentaire']) ? $data7['commentaire'] : '';        
         //$REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_{$m};
         $REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_REEL_{$m}; // Prise en compte du salaire réél
         // Génération du Tableau :
@@ -137,8 +139,9 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             'ENCAISSEMENT' => $ENCAISSEMENT_{$m},                                                                   
             'TRESO' => $TRESO_{$m},
             'SALAIRE' => $SALAIRE_{$m},        
-            'SALAIRE_REEL' => $SALAIRE_REEL_{$m},        
-            'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                   
+            'SALAIRE_REEL' => $SALAIRE_REEL_{$m},    
+            'SALAIRE_COMMENTAIRE' => $SALAIRE_COMMENTAIRE_{$m},                 
+            'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                               
             'REPORT_TRESO' => $REPORT_TRESO_{$m},
             'NON_DECLARE' => $NON_DECLARE_{$m}
         ); 

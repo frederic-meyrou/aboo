@@ -53,69 +53,75 @@
 // Initialisation de la base
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+// Initialisation
+    $affiche_formulaire = false;   
+    $mois_choisi = null; 
 
-// Lecture du POST (Choix du mois)
-    if (isset($sPOST['mois']) ) { // J'ai un POST
-            $mois_choisi = $sPOST['mois'];
-    } else { // Je n'ai pas de POST
-            $mois_choisi = null;
+// Lecture et validation du GET (J'ai une demande de modification)
+    if ( !empty($sGET)) {
+        $mois_choisi = $sGET['mois'];
+        $affiche_formulaire = true;
+        // On vérifie que le salaire peux être modifié
+        $sql = "SELECT * FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($user_id, $exercice_id, $mois_choisi));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $count = $q->rowCount($sql);
+        if ($count==1) { // On a un enregistrement de salaire
+            $montant = $data['salaire'];
+            $commentaire = $data['commentaire'];
+        } else {
+            $montant = 'Idem';
+            $commentaire = '';            
+        }
+        $salaire = $montant;               
+    }     
+
+// Lecture du POST (J'ai une demande de suppression)
+    if (isset($sPOST['id']) ) { // J'ai un POST
+        $mois_choisi = $sPOST['id'];
+        // On vérifie que le salaire peux être supprimé
+        $sql = "SELECT * FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($user_id, $exercice_id, $mois_choisi));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $count = $q->rowCount($sql);
+        if ($count==1) { // On a bien un enregistrement de salaire
+            // suppression du salaire
+            $sql2 = "DELETE FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+            $q = $pdo->prepare($sql2);
+            $q->execute(array($user_id, $exercice_id, $mois_choisi));
+        }   
     }
-	
-// Selection du mois par défaut
-	// On va lire le mois en cours en BDD si il exite
-	if ($mois_choisi == null) {
-	    $sql = "SELECT mois_encours FROM user WHERE id = ?";
-	    $q = $pdo->prepare($sql);
-	    $q->execute(array($user_id));
-	    $data = $q->fetch(PDO::FETCH_ASSOC);	
-	    $count = $q->rowCount($sql);
-		if ($count==1) { // On a bien un mois en cours
-			$mois_choisi = $data['mois_encours'];
-		}
-	}		
-	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
-		// On a pas de POST ni de SESSION mais on a un mois de debut d'exercice
-		$mois_choisi = $exercice_mois;
-	} elseif ($mois_choisi == null && $abodep_mois != null) {
-		// On a dejà une session mais pas de POST
-		$mois_choisi = $abodep_mois;
-	} elseif ($mois_choisi == null) {
-		// On a vraiment rien on prend le mois courant
-		$mois_choisi = date('n');
-	}
-	$_SESSION['abodep']['mois'] = $mois_choisi;
-    $abodep_mois = $mois_choisi;
-	// On met à jour la BDD pour les champs encours
-    $sql = "UPDATE user SET mois_encours=? WHERE id = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($mois_choisi, $user_id));	
 
 // Charge le Bilan    
     $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
-	$treso_dispo = $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['TRESO']; 
-
-// Lecture du salaire dans la base
-	$salaire="N/C";	
-    $sql = "SELECT * FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois)));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-    $count = $q->rowCount($sql);
-	if ($count==1) { // On a bien un enregistrement de salaire
-		$salaire = $data['salaire'];
-	}	
 			        
 // Lecture du POST Formulaire
     $montant = null;
 	$commentaire = null;
 	$montantError = null;
-    if (isset($sPOST['montant']) ) { // J'ai un POST
+    if (isset($sPOST['montant']) ) { // J'ai un POST de formulaire
         $montant = $sPOST['montant'];
 		$commentaire = $sPOST['commentaire'];
-		
+        $mois_choisi = $sPOST['mois']; //Hidden
+        $treso_dispo = $TableauBilanMensuel[$mois_choisi]['TRESO'];         
+
+        // Lecture du salaire dans la base
+        $sql2="SELECT * FROM salaire WHERE user_id = ? AND exercice_id = ? AND mois = ?";
+        $q2=$pdo->prepare($sql2);
+        $q2->execute(array($user_id, $exercice_id, $mois_choisi));
+        $data2=$q2->fetch(PDO::FETCH_ASSOC);
+        $count2 = $q2->rowCount($sql2);        
+        if ($count2==0) { // Pas de salaire enregistré
+            $salaire="Idem";
+        } else {
+            $salaire=$data2['salaire'];
+        }		
 		// validate input
+        $affiche_formulaire = true;
 		$valid = true;
-		
 		if ( !is_numeric($montant) || $montant < 0  ) {
 			$montantError= "Veuillez entrer un montant de salaire positif.";
 			$valid = false;
@@ -125,27 +131,24 @@
 		}
 
 		// insert data
-		if ($valid && $salaire=="N/C") {
-			$sql = "INSERT INTO salaire (user_id,exercice_id,mois,salaire,commentaire) values(?, ?, ?, ?, ?)";
-			$q = $pdo->prepare($sql);		
-			$q->execute(array($user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois), $montant, $commentaire));
-		} elseif ($valid && $salaire!="N/C") {
-			$sql = "UPDATE salaire set salaire=?, commentaire=? WHERE user_id=? AND exercice_id=? AND mois=?";
-			$q = $pdo->prepare($sql);		
-			$q->execute(array($montant, $commentaire, $user_id, $exercice_id, MoisRelatif($abodep_mois,$exercice_mois)));
+		if ($valid && $salaire=="Idem") {
+			$sql4 = "INSERT INTO salaire (user_id,exercice_id,mois,salaire,commentaire) values(?, ?, ?, ?, ?)";
+			$q4 = $pdo->prepare($sql4);		
+			$q4->execute(array($user_id, $exercice_id, $mois_choisi, $montant, $commentaire));
+		} elseif ($valid && $salaire!="Idem") {
+			$sql4 = "UPDATE salaire set salaire=?, commentaire=? WHERE user_id=? AND exercice_id=? AND mois=?";
+			$q4 = $pdo->prepare($sql4);		
+			$q4->execute(array($montant, $commentaire, $user_id, $exercice_id, $mois_choisi));
 		}
-		if ($valid) { // Réinitialise pour le formulaire		
-			header("Location: salaire.php");			
+		if ($valid) { // Réinitialise la page formulaire
+            // Charge le Bilan    
+            $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);						
+            //Database::disconnect();
+			//header("Location: salaire.php");			
 		}		
-    } else { // J'affiche le formulaire sans POST
+    } // If POST Formualire
     
-    	$montant = $salaire;
-		if ($count==1) { // On a bien un enregistrement de salaire
-			$commentaire = $data['commentaire'];
-		}
-		
-    } // If POST
-	   	
+    Database::disconnect();
 ?>
 
 <!DOCTYPE html>
@@ -158,26 +161,69 @@
     
     <div class="container">
         <div class="page-header">           
-            <h2>Gestion du salaire</h2>
+            <h2>Gestion du salaire : <button type="button" class="btn btn-lg btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?></h2>
         </div>
 
-        <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
-        <form class="form-inline" role="form" action="salaire.php" method="post">      
-            <select name="mois" class="form-control">
-            <?php
-                foreach ($Liste_Mois as $m) {
-            ?>
-                <option value="<?php echo MoisToNum($m);?>"<?php echo ($m==NumToMois($mois_choisi))?'selected':'';?>><?php echo "$m";?></option>    
-            <?php       
-                }   
-            ?>    
-            </select>
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
-            <!-- Affiche le bouton retour -->
-            <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>            
-        </form>
-        <br>
-                                 
+        <!-- Affiche la table des exercices en base sous condition -->
+        <?php 
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideActions";
+            include('lib/aide.php');                
+        ?>
+                    
+        <div class="table-responsive">  
+        <table class="table table-striped table-bordered table-hover success">
+            <thead>
+                <tr>
+                  <th>Mois</th>
+                  <th>Trésorerie disponible</th>
+                  <th>Salaire calculé</th>
+                  <th>Salaire réel</th>
+                  <th>Commentaire</th>                  
+                  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>                  
+                </tr>
+            </thead>
+            
+            <tbody>
+        <?php 
+         // Calcul des sommes (boucle sur les mois relatifs)
+         for ($m = 1; $m <= 12; $m++) {
+            echo '<tr>';
+            echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . '</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['SALAIRE'],2,',','.') . '</td>';                         
+            echo '<td>'; 
+            echo ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL'])?number_format($TableauBilanMensuel[$m]['SALAIRE_REEL'],2,',','.'):'Idem';
+            echo '</td>';
+            echo '<td>'. $TableauBilanMensuel[$m]['SALAIRE_COMMENTAIRE'] . '</td>';               
+            echo '<td width=90>';
+        ?>
+                        <div class="btn-group btn-group-sm">
+                                <a href="salaire.php?mois=<?php echo $m ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>                                                                
+                                <!-- Le bouton Delete active la modal et modifie le champ value à la volée pour passer le mois a supprimer en POST -->
+                                <a href="#" id="<?php echo $m; ?>"
+                                   <?php if ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL']) { ?>
+                                   onclick="$('#DeleteInput').val('<?php echo $m; ?>'); $('<?php echo '#modalDelete'; ?>').modal('show'); "
+                                   <?php } else { ?>
+                                   onclick="$('#DeleteInput').val('<?php echo $m; ?>'); $('<?php echo '#modalImpossible'; ?>').modal('show'); "
+                                   <?php } ?>
+                                   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+                        </div>                                                      
+                    </td>
+                </tr>
+        <?php
+        }
+        ?>
+            </tbody>
+        </table>
+        </div> <!-- /table-responsive -->  
+        <br>  
+
+        <!-- Modal delete-->                
+        <?php include('modal/salaire_delete.php'); ?>
+        <!-- Modal impossible-->                
+        <?php include('modal/salaire_impossible.php'); ?>            
+                                
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -192,62 +238,72 @@
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
             <pre><?php var_dump($_GET); ?></pre>
+            DATA:<br>
+            <pre><?php var_dump($data); ?></pre>
+            DATA3:<br>
+            <pre><?php var_dump($data2); ?></pre>                         
         </div>
         </div>
         <?php       
         }   
-        ?>  
+        ?>
 
-        <!-- Affiche les sommmes -->       
-        <div> 
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Salaire calculé :</button>
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['SALAIRE']; ?> €</button>
-	        </div>
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-warning">Salaire versé :</button>
-	            <button type="button" class="btn btn-default"><?php echo $salaire; ?> €</button>
-	        </div>	        
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Trésorerie avant salaire :</button>               
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['TRESO']; ?> €</button>             
-	        </div>	         
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Trésorerie de fin de mois :</button>               
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanMensuel[MoisRelatif($abodep_mois, $exercice_mois)]['REPORT_TRESO']; ?> €</button>             
-	        </div>
-        </div>
-        <br>
-                        
-		<!-- Affiche le formulaire inline ajout depense -->			               
+       <!-- Formulaire de modif salaire-->  
         <?php 
+        if ($affiche_formulaire) {
             // Insère l'aide en ligne pour les actions
             $IDModale = "modalAideSalaire";
             include('lib/aide.php'); 
-        ?>                
-        
+        ?>
+  
         <div class="panel panel-default">
-            <div class="panel-heading"><strong>Saisie du salaire réellement versé pour <?php echo NumToMois($abodep_mois) . " $exercice_annee - " . ($exercice_annee +1); ?> :</strong><a href="#" class="pull-right" onclick="$('#modalAideSalaire').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
+            <div class="panel-heading"><strong>Saisie du salaire réellement versé pour <?php echo NumToMois(MoisAnnee($mois_choisi, $exercice_mois)) . " $exercice_annee - " . ($exercice_annee +1); ?> :</strong><a href="#" class="pull-right" onclick="$('#modalAideSalaire').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
             <div class="panel-body">
-        
-	            <form class="form-inline" role="form" action="salaire.php" method="post">
+
+                <!-- Affiche les sommmes -->       
+                <div> 
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-info">Salaire calculé :</button>
+                        <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanMensuel[$mois_choisi]['SALAIRE'],2,',','.'); ?> €</button>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-warning">Salaire versé :</button>
+                        <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanMensuel[$mois_choisi]['SALAIRE_REEL'],2,',','.'); ?> €</button>
+                    </div>     
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-info">Trésorerie avant salaire :</button>               
+                        <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanMensuel[$mois_choisi]['TRESO'],2,',','.'); ?> €</button>             
+                    </div>           
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-info">Trésorerie de fin de mois :</button>               
+                        <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanMensuel[$mois_choisi]['REPORT_TRESO'],2,',','.'); ?> €</button>             
+                    </div>
+                </div>
+                <br>
+
+                <form class="form-inline" role="form" action="salaire.php" method="post">
+                    <input name="mois" type="hidden" value="<?php echo $mois_choisi; ?>"/>
                     <div class="form-group <?php echo !empty($montantError)?'has-error':''; ?>">
                         <input name="montant" id="montant" type="text" class="form-control" value="<?php echo !empty($montant)?$montant:''; ?>" placeholder="Montant €" required autofocus>                                                      
-                    </div>                          	                  		            
+                    </div>                                                                  
                     <div class="form-group <?php echo !empty($commentaireError)?'has-error':''; ?>">
                         <input name="commentaire" id="commentaire" type="text" class="form-control" value="<?php echo !empty($commentaire)?$commentaire:''; ?>" placeholder="Commentaire">                                                      
                     </div>
-	              	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button><br>
-		            <?php if (!empty($montantError)) { ?>
-		           		<span class="help-inline text-danger"><?php echo $montantError; ?></span>
-		            <?php } ?>		              	
-	            </form>
-            </div>  <!-- /panel-body -->                        
-        </div>  <!-- /panel -->			
-    
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button><br>
+                    <?php if (!empty($montantError)) { ?>
+                        <span class="help-inline text-danger"><?php echo $montantError; ?></span>
+                    <?php } ?>                      
+                </form>
+
+            </div> <!-- /Panel-body -->
+        </div> <!-- /Panel -->
+        <?php       
+        }   
+        ?>
+
     </div> <!-- /container -->
 
-    <?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>   
         
   </body>
 </html>
