@@ -50,16 +50,28 @@ Go to your plugin list and scroll down until you see 'Quick Paypal Payments' and
 = What's the shortcode? =
 [qpp]
 
-= How do I change the colours? =
-Edit the 'quick-paypal-payment.css' or use the custom styles option.
+= How do I change the styles and colours? =
+Use the plugin settings style page.
 
 = Can I have more than one payment form on a page? =
 Yes. But they have to have different names. Create the forms on the setup page.
 
+= Where can I see all the payments? =
+At the bottom of the dashboard is a link called 'Payments'.
+
 = It's all gone wrong! =
-If it all goes wrong, just reinstall the plugin and start again. If you need help then [contact me](http://aerin.co.uk/contact-me/).
+If it all goes wrong, just reinstall the plugin and start again. If you need help then [contact me](http://quick-plugins.com/quick-paypal-payments/).
 
 == Changelog ==
+
+= 3.5.1 =
+*	Bug fix to clear illegal offset warning
+
+= 3.5 =
+*	Added captcha option
+*   More forms fields
+*   Drag and drop ordering
+*   Loads of new styling options
 
 = 3.4 =
 *	Options to add postage and admin charges

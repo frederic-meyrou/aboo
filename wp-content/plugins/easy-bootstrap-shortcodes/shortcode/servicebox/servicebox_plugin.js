@@ -76,7 +76,7 @@ function create_oscitas_servicebox(pluginObj){
 				<th><label>Margin Top:</label></th>\
 				<td><input type="text" name="label" id="oscitas-servicebox-margin_top" value="30"/> <small>px</small>\
 				</td>\
-			</tr>\<tr>\
+			</tr><tr>\
 				<th><label>Margin Bottom:</label></th>\
 				<td><input type="text" name="label" id="oscitas-servicebox-margin_bottom" value="30"/> <small>px</small>\
 				</td>\

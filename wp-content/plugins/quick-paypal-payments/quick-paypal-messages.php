@@ -71,6 +71,6 @@ function qpp_show_messages($id) {
 		}	
 	if ($report) $dashboard .= $content.'</table>';
 	else $dashboard .= '</table><p>No messages found</p>';
-	$dashboard .='<form method="post" id="download_form" action=""><input type="hidden" name="formname" value = "'.$id.'" /><input type="submit" name="download_qpp_csv" class="submit" value="Export to CSV" /> <input type="submit" name="qpp_reset_message'.$id.'" class="submit" style="color: #FFF;" value="Delete Messages" onclick="return window.confirm( \'Are you sure you want to delete the messages for '.$title.'?\' );"/></form></div></div>';		
+	$dashboard .='<form method="post" id="download_form" action=""><input type="hidden" name="formname" value = "'.$id.'" /><input type="submit" name="download_qpp_csv" class="button-primary" value="Export to CSV" /> <input type="submit" name="qpp_reset_message'.$id.'" class="button-primary" value="Delete Messages" onclick="return window.confirm( \'Are you sure you want to delete the messages for '.$title.'?\' );"/></form></div></div>';		
 	echo $dashboard;
 	}

@@ -58,7 +58,7 @@ if(!empty($_POST) && strlen($_POST['prenom'])>4 && filter_var($_POST['email'], F
                 <h2>Formulaire d'inscription :</h2>
                 <form action="register.php" method="POST">
 
-                    <label for="prenom">Prenom : </label><br/>
+                    <label for="prenom">Prènom : </label><br/>
                     <input type="text" name="prenom"/><br/>
                     <div class="error"><?php if(isset($error_prenom)){ echo $error_prenom; } ?></div>
 

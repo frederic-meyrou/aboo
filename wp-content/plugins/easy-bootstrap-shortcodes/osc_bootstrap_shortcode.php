@@ -4,7 +4,7 @@
   Plugin Name: Easy Bootstrap Shortcode
   Plugin URI: http://www.oscitasthemes.com
   Description: Add bootstrap 3.0 styles to your theme by wordpress editor shortcode buttons.
-  Version: 2.5.3
+  Version: 3.0.0
   Author: oscitas
   Author URI: http://www.oscitasthemes.com
   License: Under the GPL v2 or later
@@ -37,17 +37,16 @@ else:
     define('EBS_JS_CDN','http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js');
     define('EBS_RESPOND_CDN','http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.min.js');
 
-    add_action('init','is_oscitas_theme_exists');
-    function is_oscitas_theme_exists(){
-        global $oscitaschecktheme;
-        add_action('admin_enqueue_scripts', 'osc_add_admin_ebs_scripts');
-        add_action('admin_menu', 'osc_ebs_add_admin_menu');
-        add_action('wp_enqueue_scripts', 'osc_add_dynamic_css',100);
-        add_filter('mce_external_plugins', 'osc_editor_enable_mce');
-        if(!apply_filters('plugin_oscitas_theme_check',false)){
-            add_action('wp_enqueue_scripts', 'osc_add_frontend_ebs_scripts',-100);
-        }
+
+    add_action('admin_enqueue_scripts', 'osc_add_admin_ebs_scripts');
+    add_action('admin_menu', 'osc_ebs_add_admin_menu');
+    add_action('wp_enqueue_scripts', 'osc_add_dynamic_css',100);
+    add_filter('mce_external_plugins', 'osc_editor_enable_mce');
+    if(!apply_filters('plugin_oscitas_theme_check',false)){
+        add_action('wp_enqueue_scripts', 'osc_add_frontend_ebs_scripts',-100);
     }
+
+
 
     register_activation_hook(__FILE__, 'osc_ebs_activate_plugin');
     register_deactivation_hook(__FILE__, 'osc_ebs_deactivate_plugin');
@@ -125,8 +124,7 @@ else:
             $ebsp_editor_opt=isset($_POST['ebsp_editor_opt'])?$_POST['ebsp_editor_opt']:'icon' ;
             $ebs_custom_css=isset($_POST['ebs_custom_css'])?$_POST['ebs_custom_css']:'' ;
 
-        }
-        else {
+        } else {
             $js = get_option( 'EBS_BOOTSTRAP_JS_LOCATION', 1 );
             $cdn = get_option( 'EBS_BOOTSTRAP_JS_CDN_PATH', EBS_JS_CDN );
             $css = get_option( 'EBS_BOOTSTRAP_CSS_LOCATION', 1 );
@@ -238,14 +236,14 @@ else:
                     wp_enqueue_style('bootstrap', apply_filters('ebs_bootstrap_css_url',false));
                 }
             }
-//            elseif($css==3){
-//                if (!apply_filters('ebs_no_bootstrap_theme_css_url',false)) {
-//                    wp_enqueue_style('bootstrap', plugins_url('/styles/bootstrap-oscitas.css', __FILE__));
-//                } else {
-//                    wp_enqueue_style('bootstrap', apply_filters('ebs_no_bootstrap_theme_css_url',false));
-//                }
-//
-//            }
+            elseif($css==3){
+                if (!apply_filters('ebs_no_bootstrap_theme_css_url',false)) {
+                    wp_enqueue_style('bootstrap', plugins_url('/styles/bootstrap-oscitas.css', __FILE__));
+                } else {
+                    wp_enqueue_style('bootstrap', apply_filters('ebs_no_bootstrap_theme_css_url',false));
+                }
+
+            }
             else {
                 if (!apply_filters('ebs_bootstrap_icon_css_url',false)) {
                     //wp_enqueue_style('bootstrap-icon', plugins_url('/styles/bootstrap-icon.min.css', __FILE__));

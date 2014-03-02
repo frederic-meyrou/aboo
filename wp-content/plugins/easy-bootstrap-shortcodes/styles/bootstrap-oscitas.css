@@ -1683,7 +1683,7 @@ table.oscitas-bootstrap-container th {
 }
 
 .table-bordered.oscitas-bootstrap-container,
-.table-bordered.oscitas-bootstrap-container > tbody > tr > th,
+.table-bordered.oscitas-bootstrap-container > thead > tr > th, .table-bordered.oscitas-bootstrap-container > tbody > tr > th,
 .table-bordered.oscitas-bootstrap-container > tfoot > tr > th,
 .table-bordered.oscitas-bootstrap-container > thead > tr > td,
 .table-bordered.oscitas-bootstrap-container > tbody > tr > td,
@@ -2667,7 +2667,7 @@ input[type="button"].btn-block.oscitas-bootstrap-container {
           transition: height 0.35s ease;
 }
 
-@font-face.oscitas-bootstrap-container {
+@font-face{
   font-family: 'Glyphicons Halflings';
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
@@ -3534,13 +3534,15 @@ input[type="button"].btn-block.oscitas-bootstrap-container {
   left: auto;
 }
 
-.dropdown-menu.oscitas-bootstrap-container .divider {
+.dropdown-menu.oscitas-bootstrap-container .divider.oscitas-bootstrap-container {
   height: 1px;
   margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
-
+.dropdown-menu.oscitas-bootstrap-container > li{
+    margin: 0;
+}
 .dropdown-menu.oscitas-bootstrap-container > li > a {
   display: block;
   padding: 3px 20px;
@@ -3549,6 +3551,7 @@ input[type="button"].btn-block.oscitas-bootstrap-container {
   line-height: 1.428571429;
   color: #333333;
   white-space: nowrap;
+    text-decoration: none;
 }
 
 .dropdown-menu.oscitas-bootstrap-container > li > a:hover,
