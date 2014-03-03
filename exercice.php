@@ -256,7 +256,7 @@ function ChargeSessionExerciceBDD($data) {
 						echo '<tr>';
 						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
 						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
-						echo '<td>'. $row['montant_treso_initial'] . '</td>';
+						echo '<td>'. number_format($row['montant_treso_initial'],2,',','.') . ' €</td>';
 						echo '<td width=90>';
 			?>
 						<div class="btn-group btn-group-sm">

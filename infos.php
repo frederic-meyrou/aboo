@@ -69,6 +69,38 @@
         
 		<!-- Infos de version -->
 		<div class="panel-group" id="accordion">
+
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+		          <strong>Aboo</strong> <span class="badge ">V0.4</span>
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapse4" class="panel-collapse collapse in">
+		      <div class="panel-body">
+		        <li> MàJ Schema BDD pour gestion salaire et la double gestion du CA</li>
+		        <li> Ajout de la page de gestion du salaire</li>
+		        <li> Ajout de la page calcul fond de roulement</li>
+		        <li> Ajout de la page journal annuel</li>
+		        <li> Ajout de la page information</li>
+		        <li> Ajout des pages de création de compte, Activation de compte et oubli de mot de passe</li>			        			        		        
+		        <li> Ajout de la double gestion du CA (déclaré / non déclaré)</li>
+		        <li> Ajout de l'affichage des charts (page tableau de bord)</li>
+		        <li> Ajout test d'export CSV</li>		        		        
+		        <li> Externalisation des modales</li>
+		        <li> Corrections bug d'affichage clients dans formulaire recette</li>
+		        <li> Correction bug modale formulaire recette</li>
+		        <li> Renommage des pages Exercice</li>
+		        <li> Ajout du footer</li>
+		        <li> Ajout des FavIcon tout supports</li>		        
+		        <li> Upgrade BootStrap</li>
+		        <li> MàJ plugIn WP</li>
+		      </div>
+		    </div>
+		  </div>
+			
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
@@ -77,7 +109,7 @@
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapse3" class="panel-collapse collapse in">
+		    <div id="collapse3" class="panel-collapse collapse">
 		      <div class="panel-body">
 		        <li> MàJ Schema BDD</li>
 		        <li> Ajout de l'aide contextuelle</li>
@@ -88,6 +120,7 @@
 		      </div>
 		    </div>
 		  </div>
+		  
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
@@ -107,6 +140,7 @@
 		      </div>
 		    </div>
 		  </div>
+		  
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
@@ -136,6 +170,7 @@
 		      </div>
 		    </div>
 		  </div>
+		  
 		</div>     
         <br>   
 
@@ -151,8 +186,8 @@
 	                    <li> Paiement echus (M) = Total des paiements à encaisser sur le mois courant</li>
 	                    <li> Encaissement (M) = Total des paiements encaissés + recettes du mois courant payées</li>
 	                    <li> Salaire (M) = Montant affecté au salaire = [Trésorerie (M-1) + Encaissement (M)] - [Ventilation (M) - Dépenses (M)]</li>
-	                    <li> Trésorerie (M) = Montant de la trésorerie = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </li>
-	                    <li> Report Tréso (M) = Montant à mettre de côté</li>
+	                    <li> Trésorerie (M) = Montant de la trésorerie avant salaire = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </li>
+	                    <li> Report Tréso (M) = Montant de la trésorerie de fin de mois = Trésorerie (M) - Salaire (M)</li>
 	                    <li> Report Salaire (M) = Salaire non versé reporté au mois suivant</li>
 	              </div>
 	          </div>        

@@ -190,6 +190,10 @@
 	            <button type="button" class="btn btn-info">Trésorerie en fin d'année :</button>               
 	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button>             
 	        </div>
+	        <div class="btn-group btn-group-sm pull-right">
+            	<button type="button" class="btn btn-sm btn-default" onclick="$('#modalAideSalaire').modal('show'); ">Aide <span class="glyphicon glyphicon-info-sign"></span></a></button>             
+			</div>
+	        
 		</div>
         <br>
 
@@ -197,13 +201,16 @@
         <?php 
             // Insère l'aide en ligne pour les actions
             $IDModale = "modalAideActions";
-            include('lib/aide.php');                
+            include('lib/aide.php');
+            // Insère l'aide en ligne pour les actions
+            $IDModale = "modalAideSalaire";
+            include('lib/aide.php');                             
         ?>
                     
         <div class="table-responsive">  
-        <table class="table table-striped table-bordered table-hover success">
+        <table class="table table-striped table-bordered table-condensed table-hover success">
             <thead>
-                <tr>
+                <tr class="active">
                   <th>Mois</th>
                   <th>Trésorerie disponible</th>
                   <th>Salaire calculé</th>
@@ -226,20 +233,24 @@
 			} else { // TReso indispo
 				echo '<td class="warning">';
 			}				
-            echo number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . '</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['SALAIRE'],2,',','.') . '</td>';
+            echo number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . ' €</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['SALAIRE'],2,',','.') . ' €</td>';
 			if ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL']) { // Salaire modifié
 				echo '<td class="info">';
 			} else { // Salaire non modifié
 				echo '<td>';
 			}			                         
             echo ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL'])?number_format($TableauBilanMensuel[$m]['SALAIRE_REEL'],2,',','.'):'Idem';
-            echo '</td>';
-            echo '<td>'. $TableauBilanMensuel[$m]['SALAIRE_COMMENTAIRE'] . '</td>';               
-            echo '<td width=90>';
+			if ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL']) { // Salaire modifié
+				echo ' €</td>';
+			} else { // Salaire non modifié
+				echo '</td>';
+			}			            
+            echo '<td>'. $TableauBilanMensuel[$m]['SALAIRE_COMMENTAIRE'] . '</td>';
+            echo '<td width=70>';
         ?>
-                        <div class="btn-group btn-group-sm">
-                                <a href="salaire.php?mois=<?php echo $m ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>                                                                
+                        <div class="btn-group btn-group-xs">
+                                <a href="salaire.php?mois=<?php echo $m ?>" class="btn btn-default btn-xs btn-warning glyphicon glyphicon-edit" role="button"> </a>                                                                
                                 <!-- Le bouton Delete active la modal et modifie le champ value à la volée pour passer le mois a supprimer en POST -->
                                 <a href="#" id="<?php echo $m; ?>"
                                    <?php if ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL']) { ?>
@@ -257,7 +268,6 @@
             </tbody>
         </table>
         </div> <!-- /table-responsive -->  
-        <br>  
 
         <!-- Modal delete-->                
         <?php include('modal/salaire_delete.php'); ?>
@@ -268,6 +278,7 @@
         <?php 
  		if ($debug) {
 		?>
+        <br>
 		<div class="span10 offset1">
         <div class="alert alert alert-danger alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -277,11 +288,7 @@
             POST:<br>
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
-            DATA:<br>
-            <pre><?php var_dump($data); ?></pre>
-            DATA3:<br>
-            <pre><?php var_dump($data2); ?></pre>                         
+            <pre><?php var_dump($_GET); ?></pre>                       
         </div>
         </div>
         <?php       
@@ -291,11 +298,8 @@
        <!-- Formulaire de modif salaire-->  
         <?php 
         if ($affiche_formulaire) {
-            // Insère l'aide en ligne pour les actions
-            $IDModale = "modalAideSalaire";
-            include('lib/aide.php'); 
         ?>
-  
+        <br>  
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Saisie du salaire réellement versé pour <?php echo NumToMois(MoisAnnee($mois_choisi, $exercice_mois)) . " $exercice_annee - " . ($exercice_annee +1); ?> :</strong><a href="#" class="pull-right" onclick="$('#modalAideSalaire').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></div>
             <div class="panel-body">
