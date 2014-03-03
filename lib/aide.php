@@ -18,11 +18,11 @@
 
 switch ($IDModale) {
     case "modalAideActions":
-        echo '<a href="#" class="btn btn-default btn-info glyphicon glyphicon-star" role="button"> </a> : ' . "Cette icône permet d'afficher le détail. <br>";
+        echo '<a href="#" class="btn btn-default btn-info glyphicon glyphicon-star" role="button"> </a>  ' . "Cette icône permet d'afficher le détail. <br>";
         echo '<br>';
-        echo '<a href="#" class="btn btn-default btn-warning glyphicon glyphicon-edit" role="button"> </a> : ' . "Cette icône permet de modifier. <br>";
+        echo '<a href="#" class="btn btn-default btn-warning glyphicon glyphicon-edit" role="button"> </a>  ' . "Cette icône permet de modifier. <br>";
         echo '<br>';
-        echo '<a href="#" class="btn btn-default btn-danger glyphicon glyphicon-trash" role="button"> </a> : ' . "Cette icône permet de supprimer.";
+        echo '<a href="#" class="btn btn-default btn-danger glyphicon glyphicon-trash" role="button"> </a>  ' . "Cette icône permet de supprimer.";
         break;
     case "modalAideFormRecette":
         ?>

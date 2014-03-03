@@ -97,7 +97,15 @@
 
 // Charge le Bilan    
     $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
-			        
+    $TableauBilanAnnuel = CalculBilanAnnuel($user_id, $exercice_id, $TableauBilanMensuel);        
+    
+    if ($TableauBilanAnnuel==null) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
+        $bilan = false;         
+    } else {
+            // On affiche le tableau
+            $bilan = true;
+    }
+    			        
 // Lecture du POST Formulaire
     $montant = null;
 	$commentaire = null;
@@ -164,6 +172,27 @@
             <h2>Gestion du salaire : <button type="button" class="btn btn-lg btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?></h2>
         </div>
 
+        <!-- Affiche les sommmes -->
+        <div>      
+	        <div class="btn-group btn-group-sm">
+	            <button type="button" class="btn btn-info">Salaire Annuel :</button>                             
+	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE'],2,',','.'); ?> €</button>                            
+	        </div>
+	        <div class="btn-group btn-group-sm">
+	            <button type="button" class="btn btn-warning">Salaire Moyen :</button>                             
+	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['SALAIRE'] / 12,2,',','.'); ?> €</button>                            
+	        </div>
+	        <div class="btn-group btn-group-sm">
+	            <button type="button" class="btn btn-info">Trésorerie en début d'année :</button>               
+	            <button type="button" class="btn btn-default"><?php echo number_format($exercice_treso,2,',','.'); ?> €</button>             
+	        </div>	            
+	        <div class="btn-group btn-group-sm">
+	            <button type="button" class="btn btn-info">Trésorerie en fin d'année :</button>               
+	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button>             
+	        </div>
+		</div>
+        <br>
+
         <!-- Affiche la table des exercices en base sous condition -->
         <?php 
             // Insère l'aide en ligne pour les actions
@@ -190,9 +219,20 @@
          for ($m = 1; $m <= 12; $m++) {
             echo '<tr>';
             echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . '</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['SALAIRE'],2,',','.') . '</td>';                         
-            echo '<td>'; 
+			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
+				echo '<td class="danger">';
+			} elseif ($TableauBilanMensuel[$m]['TRESO'] > $TableauBilanMensuel[$m]['SALAIRE']) { // Treso dispo
+				echo '<td class="success">';
+			} else { // TReso indispo
+				echo '<td class="warning">';
+			}				
+            echo number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . '</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['SALAIRE'],2,',','.') . '</td>';
+			if ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL']) { // Salaire modifié
+				echo '<td class="info">';
+			} else { // Salaire non modifié
+				echo '<td>';
+			}			                         
             echo ($TableauBilanMensuel[$m]['SALAIRE']!=$TableauBilanMensuel[$m]['SALAIRE_REEL'])?number_format($TableauBilanMensuel[$m]['SALAIRE_REEL'],2,',','.'):'Idem';
             echo '</td>';
             echo '<td>'. $TableauBilanMensuel[$m]['SALAIRE_COMMENTAIRE'] . '</td>';               
