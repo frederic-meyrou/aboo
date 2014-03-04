@@ -181,6 +181,12 @@ function MoisAnnee($num_mois_relatif, $exercice_mois) {
 	return $num_mois;
 }
 
+// MyURL
+function MyURL() {
+	return dirname($_SERVER['SERVER_PROTOCOL']) . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+}
+
+
 // Export Excel
 class FichierExcel {
  

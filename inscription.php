@@ -87,9 +87,31 @@
 	    $req->execute($q);
 	
 	    //Envoyer un mail pour la validation du compte
-	    $to = $email;
-	    $sujet = '[Aboo] Activation de votre compte';
-	    $body = '
+	    $TO = $email;
+	    $SUBJECT = 'Activation de votre compte';
+	    
+	   	$EOL="\r\n";
+		$FROM="contact@aboo.fr";
+		$BCC="frederic@meyrou.com";
+		
+		//=====Création de la boundary
+		$boundary = "-----=".md5(rand());
+		
+		//Création du Header eMail
+		$header= "From: [Aboo] <$FROM>".$EOL;
+		$header.= "Reply-to: [Aboo] <$FROM>".$EOL;
+		$header.= "Bcc: Frédéric Meyrou <$BCC>".$EOL;
+		$header.= "Return-path:<$FROM>".$EOL;		
+		$header.= "MIME-Version: 1.0".$EOL;
+		$header.= "Content-Type: multipart/alternative;".$EOL." boundary=\"$boundary\"".$EOL;
+		$header.= "Subject: {$SUBJECT}".$EOL;
+		$header.= "X-Mailer: PHP/".phpversion().$EOL;
+		$header.= "X-Originating-IP: ".$_SERVER['SERVER_ADDR'];
+
+	    $body=$EOL."--".$boundary.$EOL;
+		$body.="Content-Type: text/html; charset=\"UTF-8\"".$EOL;
+		$body.="Content-Transfer-Encoding: 8bit".$EOL;
+	    $body.=$EOL.'
 	    <html>
 	    <head>
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -104,19 +126,11 @@
 	    <p>L\'équipe Aboo vous remerçie.</p>
 	    </body>
      	</html>
-	    ';
-		$headers   = array();
-		$headers[] = "MIME-Version: 1.0";
-		$headers[] = "Content-type: text/plain; charset=UTF-8";
-		$headers[] = "From: [Aboo] <contact@aboo.fr>";
-		$headers[] = "Bcc: Frédéric Meyrou <frederic@meyrou.com>";
-		$headers[] = "Reply-To: [Aboo] <contact@aboo.fr>";
-		$headers[] = "Return-Path:<contact@aboo.fr>";
-		$headers[] = "Subject: {$sujet}";
-		$headers[] = "X-Mailer: PHP/".phpversion();
+	    '.$EOL;
+		$body.=$EOL."--".$boundary.$EOL;
 	
 		// Envoi eMail
-	    $statut = mail($to,$sujet,$body,implode("\r\n", $headers));
+	    $statut = mail($TO,$SUBJECT,$body,$header);
 		
 		// On affiche un retour à l'utilisateur
 		if ($statut) {

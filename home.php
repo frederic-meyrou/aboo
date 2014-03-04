@@ -130,7 +130,7 @@ function ChargeSessionExerciceBDD($data) {
 		  	<h4>
             <?php echo "Exercice Courant : <strong>$exercice_annee</strong> démarrant en <strong>" . NumToMois($exercice_mois) . "</strong>, trésorerie de départ de <strong>$exercice_treso €</strong>."; ?>
             <br><br>
-            <?php echo "Mois de travail en cours : <strong>" . NumToMois($abodep_mois) . "</strong>."; ?>
+            <?php echo "Mois de travail en cours : <strong> " . NumToMois($abodep_mois) . "</strong>."; ?>
             </h4>             
 		  </div>
 		</div> 
