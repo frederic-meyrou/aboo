@@ -79,6 +79,8 @@
 	                  <th>Date inscription</th>
 	                  <th>Date expiration</th>
 	                  <th>Montant</th>
+                      <th>Actif</th> 	                  
+                      <th>Essai</th> 	                  
                       <th>Admin</th>  		                  
 	                  <th>Action</th>
 	                </tr>
@@ -91,13 +93,35 @@
 					   		echo '<tr>';
                             echo '<td>'. $row['email'] . '</td>';
 						   	echo '<td>'. $row['password'] . '</td>';
-						   	echo '<td>'. $row['nom'] . '</td>';
-							echo '<td>'. $row['prenom'] . '</td>';
+						   	echo '<td>'. ucfirst($row['nom']) . '</td>';
+							echo '<td>'. ucfirst($row['prenom']) . '</td>';
 							echo '<td>'. $row['telephone'] . '</td>';
-						   	echo '<td>'. $row['inscription'] . '</td>';
-							echo '<td>'. $row['expiration'] . '</td>';
-						   	echo '<td>'. number_format($row['montant'],2,',','.') . '</td>';
-                            echo '<td>'; echo ($row['administrateur']==1)?'Oui':'Non' . '</td>';                                
+						   	echo '<td>'. DateFr($row['inscription']) . '</td>';
+							if ((!$row['expiration']==null ) && strtotime($row['expiration']) < strtotime(date("Y-m-d")) ) { // Expiré
+								echo '<td class="danger">';
+							} else { 
+								echo '<td>';
+							}							
+							echo DateFr($row['expiration']) . '</td>';
+						   	echo '<td class="text-right">'. number_format($row['montant'],2,',','.') . ' €</td>';
+							if ($row['actif']==0 ) { // Actif
+								echo '<td class="danger">';
+							} else { 
+								echo '<td>';
+							}								
+                            echo ($row['actif']==1)?'Oui':'Non' . '</td>';
+							if ($row['essai']==1 ) { // Essai
+								echo '<td class="danger">';
+							} else { 
+								echo '<td>';
+							}							   
+                            echo ($row['essai']==1)?'Oui':'Non' . '</td>';   														
+							if ($row['administrateur']==1 ) { // Admin
+								echo '<td class="info">';
+							} else { 
+								echo '<td>';
+							}
+							echo ($row['administrateur']==1)?'Oui':'Non' . '</td>';                                
 						   	echo '<td width=90>';
 				  ?>	
 							<div class="btn-group btn-group-sm">

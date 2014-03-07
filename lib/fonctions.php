@@ -181,9 +181,52 @@ function MoisAnnee($num_mois_relatif, $exercice_mois) {
 	return $num_mois;
 }
 
-// MyURL
-function MyURL() {
-	return dirname($_SERVER['SERVER_PROTOCOL']) . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+// Formate l'affichage d'une date issue de la BDD au format Français
+function DateFr($date) {
+	if (!empty($date)) {
+		$localdate = date_create($date);
+		return date_format($localdate, 'd/m/Y');
+	} else {
+		return '';
+	}	
+}
+
+// MyBaseURL
+function MyBaseURL()
+{
+    /* First we need to get the protocol the website is using */
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https://' : 'http://';
+
+    /* returns /myproject/index.php */
+    $path = $_SERVER['PHP_SELF'];
+
+    /*
+     * returns an array with:
+     * Array (
+     *  [dirname] => /myproject/
+     *  [basename] => index.php
+     *  [extension] => php
+     *  [filename] => index
+     * )
+     */
+    $path_parts = pathinfo($path);
+    $directory = $path_parts['dirname'];
+    /*
+     * If we are visiting a page off the base URL, the dirname would just be a "/",
+     * If it is, we would want to remove this
+     */
+    $directory = ($directory == "/") ? "" : $directory;
+
+    /* Returns localhost OR mysite.com */
+    $host = $_SERVER['HTTP_HOST'];
+
+    /*
+     * Returns:
+     * http://localhost/mysite
+     * OR
+     * https://mysite.com
+     */
+    return $protocol . $host . $directory;
 }
 
 

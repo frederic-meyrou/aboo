@@ -5,6 +5,7 @@
 
 // Dépendances
     include_once('lib/database.php');
+    include_once('lib/fonctions.php');	
 
 // Mode Debug
 	$debug = false;
@@ -121,7 +122,7 @@
         <p>Bonjour et bienvenue sur Aboo!</p>
         <br>
         <p>Veuillez activer votre compte en cliquant ici ->         
-	    <a href="http://localhost/aboo/activate.php?token='.$token.'&email='.$to.'">Activation du compte</a></p>
+	    <a href="'. MyBaseURL() . '/activate.php?token='.$token.'&email='.$TO.'">Activation du compte</a></p>
 	    <br>
 	    <p>L\'équipe Aboo vous remerçie.</p>
 	    </body>
