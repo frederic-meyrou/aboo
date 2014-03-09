@@ -60,7 +60,7 @@
 		$email = $sPOST['email'];
 		if ($password == $password2) {
 		    $q = array('password'=>$password,'email'=>$email,'token'=>$token);
-		    $sql2 = "UPDATE user SET password = :password WHERE email = :email AND token = :token";
+		    $sql2 = "UPDATE user SET password = :password, token = NULL WHERE email = :email AND token = :token";
 		    $req = $pdo->prepare($sql2);
 		    $req->execute($q);
 		    $affiche_ok = true;
@@ -188,18 +188,28 @@
         </strong>	
     </div>
     <?php       
-    } elseif ($affiche_mauvais_token || $affiche_mauvais_lien) {   
+    } elseif ($affiche_mauvais_token) {   
+    ?>  
+    <!-- Alert informant que le compte est déjà actif -->
+    <div class="alert alert-danger alert-dismissable fade in">
+        <strong>
+        <p>Votre demande de modification de mot de passe est invalide ou corrompu, veuillez re-essayer.</p>
+        <p>En cas de problème, veuillez contacter le support Aboo : <a href="mailto:contact@aboo.fr">contact@aboo.fr</a></p>
+        </strong>	
+    </div>
+    <?php       
+    } elseif ($affiche_mauvais_lien) {   
     ?>  
     <!-- Alert informant que le compte est déjà actif -->
     <div class="alert alert-danger alert-dismissable fade in">
         <strong>
         <p>Impossible d'utiliser ce formulaire sans être utilisateur du site.</p>
         <p>En cas de problème, veuillez contacter le support Aboo : <a href="mailto:contact@aboo.fr">contact@aboo.fr</a></p>
-        </strong>	
+        </strong>   
     </div>
     <?php       
     }   
-    ?>
+    ?>  
 
    </div> <!-- /container -->
 

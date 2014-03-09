@@ -43,7 +43,7 @@
 	        if ($data['actif']==1) {        	
 	            $affiche_deja_actif = true;
 	        } else { //Sinon on active l'utilisateur        	 
-	            $sql2 = "UPDATE user SET actif = 1 WHERE email = :email AND token = :token";
+	            $sql2 = "UPDATE user SET actif = 1, token = NULL WHERE email = :email AND token = :token";
 			    $req = $pdo->prepare($sql2);
 	            $req->execute($q);
 	            $affiche_ok = true;
