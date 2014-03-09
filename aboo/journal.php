@@ -150,8 +150,6 @@
             </div>
                 <a href="journal_annuel.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>            
         </form>
-        <!-- Affiche les boutons de créations -->      
-
         <br>       
         
         <!-- Affiche les informations de debug -->

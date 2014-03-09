@@ -60,8 +60,6 @@
 		// Statut utilisateur Radio
 		empty($sPOST['utilisateur']) ? $utilisateur=0 : $utilisateur=1;
 		empty($sPOST['administrateur']) ? $administrateur=0 : $administrateur=1;
-		echo $sPOST['utilisateur'];
-		echo $sPOST['administrateur'];
 
 		// validate input
 		$valid = true;

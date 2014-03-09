@@ -34,7 +34,42 @@
     if (!IsAdmin()) {
         header('Location:home.php');
     }
+
+// Initialisation de la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+
+// Lecture du POST Formulaire
+    $utilisateur = null;     
+    if (isset($_POST['utilisateur']) ) { // J'ai un POST
+        $utilisateur = $_POST['utilisateur'];
+        $sql = "SELECT * FROM user where id = ?";    
+        $req = $pdo->prepare($sql);
+        $req->execute(array($utilisateur));
+        $data = $req->fetch(PDO::FETCH_ASSOC);    
+        $_SESSION['authent']['id']=$utilisateur;
+        $_SESSION['authent']['nom']=$data['nom'];
+        $_SESSION['authent']['prenom']=$data['prenom'];
+    }    
     
+// Lectures données dans la BDD
+    $sql = 'SELECT * FROM user ORDER BY id DESC';    
+    $req = $pdo->prepare($sql);
+    $req->execute();
+    $data = $req->fetchAll(PDO::FETCH_ASSOC);    
+    $count = $req->rowCount($sql);
+    Database::disconnect();
+    
+ // Liste des utilisateurs à afficher dans le select
+    $Liste_Utilisateur = array();        
+    if ($count!=0) {
+        $i=0;
+        foreach ($data as $row) {
+            $Liste_Utilisateur[$i]['id']=$row['id'];
+            $Liste_Utilisateur[$i]['prenometnom']=ucfirst($row['prenom']) . ' ' . ucfirst($row['nom']);
+            $i++;
+        }       
+    }             
 ?>
 
 <!DOCTYPE html>
@@ -51,32 +86,49 @@
             <h2>Gestion des comptes utilisateur</h2>          
         </div>
 
-		<div class="row">
-			<p>
-				<a href="user_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un compte Utilisateur</a>
-			</p>
-			
-	        <!-- Affiche les informations de debug -->
-	        <?php 
-	 		if ($debug) {
-			?>
-			<div class="span10 offset1">
-	        <div class="alert alert alert-danger alert-dismissable fade in">
-	            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	            <strong>Informations de Debug : </strong><br>
-	            SESSION:<br>
-	            <pre><?php var_dump($_SESSION); ?></pre>
-	            POST:<br>
-	            <pre><?php var_dump($_POST); ?></pre>
-	            GET:<br>
-	            <pre><?php var_dump($_GET); ?></pre>
-	        </div>
-	       </div>
-	        <?php       
-	        }   
-	        ?>  
-	       				
-	        <div class="table-responsive">  		
+        <!-- Affiche le dropdown formulaire utilisateur -->
+        <form class="form-inline" role="form" action="user.php" method="post">      
+            <select name="utilisateur" class="form-control">
+            <?php
+                foreach ($Liste_Utilisateur as $u) {
+            ?>  
+                <option value="<?php echo $u['id'];?>" <?php echo ($u['id']==$user_id)?'selected':'';?>><?php echo $u['prenometnom'];?></option>                  
+            <?php       
+                }   
+            ?>    
+            </select>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Simuler un utilisateur</button>
+
+                <a href="user_create.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Création d'un compte Utilisateur</a>
+                <a href="user_excel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>                         
+        </form>
+        <br>  			
+		
+        <!-- Affiche les informations de debug -->
+        <?php 
+ 		if ($debug) {
+		?>
+		<div class="span10 offset1">
+        <div class="alert alert alert-danger alert-dismissable fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Informations de Debug : </strong><br>
+            SESSION:<br>
+            <pre><?php var_dump($_SESSION); ?></pre>
+            DATA:<br>
+            <pre><?php var_dump($data); ?></pre>
+        </div>
+       </div>
+        <?php       
+        }   
+        ?>  
+       				
+        <!-- Affiche la table -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Liste des utilisateurs de Aboo : <span class="badge "><?php echo $count; ?></span></h3>
+          </div>            
+          <div class="panel-body">
+            <div class="table-responsive">   		
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 	              <thead>
 	                <tr>
@@ -96,9 +148,7 @@
 	              </thead>
 	              <tbody>
 	              <?php 
-				   $pdo = Database::connect();
-				   $sql = 'SELECT * FROM user ORDER BY id DESC';
- 				   foreach ($pdo->query($sql) as $row) {
+ 				   foreach ($data as $row) {
 					   		echo '<tr>';
                             echo '<td>'. $row['email'] . '</td>';
 						   	echo '<td>'. $row['password'] . '</td>';
@@ -145,13 +195,13 @@
 							</tr>
 				  <?php								                             
 				   }
-				   Database::disconnect();
 				  ?>
 			      </tbody>
             </table>
-            </div> <!-- /table-responsive -->              
-	   	</div> <!-- /row -->
-	   
+          </div> <!-- /table-responsive -->         
+          </div>
+        </div> <!-- /panel -->
+                        
         <!-- Modal delete-->                
         <?php include('modal/admin_delete.php'); ?>      
 	
