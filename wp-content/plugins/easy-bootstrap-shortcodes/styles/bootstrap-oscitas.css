@@ -4339,12 +4339,12 @@ textarea.input-group-sm.oscitas-bootstrap-container > .input-group-btn > .btn.os
   border-radius: 4px;
 }
 
-.pagination > li.oscitas-bootstrap-container {
+.pagination.oscitas-bootstrap-container > li {
   display: inline;
 }
 
-.pagination > li.oscitas-bootstrap-container > a.oscitas-bootstrap-container,
-.pagination > li.oscitas-bootstrap-container > span.oscitas-bootstrap-container {
+.pagination.oscitas-bootstrap-container > li > a,
+.pagination.oscitas-bootstrap-container > li > span {
   position: relative;
   float: left;
   padding: 6px 12px;
@@ -4355,32 +4355,32 @@ textarea.input-group-sm.oscitas-bootstrap-container > .input-group-btn > .btn.os
   border: 1px solid #dddddd;
 }
 
-.pagination > li:first-child > a.oscitas-bootstrap-container,
-.pagination > li:first-child > span.oscitas-bootstrap-container {
+.pagination.oscitas-bootstrap-container > li:first-child > a,
+.pagination.oscitas-bootstrap-container > li:first-child > span {
   margin-left: 0;
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
 }
 
-.pagination > li:last-child > a.oscitas-bootstrap-container,
-.pagination > li:last-child > span.oscitas-bootstrap-container {
+.pagination.oscitas-bootstrap-container > li:last-child > a,
+.pagination.oscitas-bootstrap-container > li:last-child > span {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
-.pagination > li.oscitas-bootstrap-container > a.oscitas-bootstrap-container:hover,
-.pagination > li.oscitas-bootstrap-container > span.oscitas-bootstrap-container:hover,
-.pagination > li.oscitas-bootstrap-container > a:focus,
-.pagination > li.oscitas-bootstrap-container > span:focus {
+.pagination.oscitas-bootstrap-container > li.oscitas-bootstrap-container > a:hover,
+.pagination.oscitas-bootstrap-container > li.oscitas-bootstrap-container > span:hover,
+.pagination.oscitas-bootstrap-container > li.oscitas-bootstrap-container > a:focus,
+.pagination.oscitas-bootstrap-container > li.oscitas-bootstrap-container > span:focus {
   background-color: #eeeeee;
 }
 
-.pagination > .active.oscitas-bootstrap-container > a.oscitas-bootstrap-container,
-.pagination > .active.oscitas-bootstrap-container > span.oscitas-bootstrap-container,
-.pagination > .active.oscitas-bootstrap-container > a.oscitas-bootstrap-container:hover,
-.pagination > .active.oscitas-bootstrap-container > span.oscitas-bootstrap-container:hover,
-.pagination > .active.oscitas-bootstrap-container > a:focus,
-.pagination > .active.oscitas-bootstrap-container > span:focus {
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > a,
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > span,
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > a:hover,
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > span:hover,
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > a:focus,
+.pagination.oscitas-bootstrap-container > .active.oscitas-bootstrap-container > span:focus {
   z-index: 2;
   color: #ffffff;
   cursor: default;
@@ -4388,50 +4388,50 @@ textarea.input-group-sm.oscitas-bootstrap-container > .input-group-btn > .btn.os
   border-color: #428bca;
 }
 
-.pagination > .disabled > span.oscitas-bootstrap-container,
-.pagination > .disabled > span.oscitas-bootstrap-container:hover,
-.pagination > .disabled > span:focus,
-.pagination > .disabled > a.oscitas-bootstrap-container,
-.pagination > .disabled > a.oscitas-bootstrap-container:hover,
-.pagination > .disabled > a:focus {
+.pagination.oscitas-bootstrap-container > .disabled > span,
+.pagination.oscitas-bootstrap-container > .disabled > span:hover,
+.pagination.oscitas-bootstrap-container > .disabled > span:focus,
+.pagination.oscitas-bootstrap-container > .disabled > a,
+.pagination.oscitas-bootstrap-container > .disabled > a:hover,
+.pagination.oscitas-bootstrap-container > .disabled > a:focus {
   color: #999999;
   cursor: not-allowed;
   background-color: #ffffff;
   border-color: #dddddd;
 }
 
-.pagination-lg > li.oscitas-bootstrap-container > a.oscitas-bootstrap-container,
-.pagination-lg > li.oscitas-bootstrap-container > span.oscitas-bootstrap-container {
+.pagination-lg > li.oscitas-bootstrap-container > a,
+.pagination-lg > li.oscitas-bootstrap-container > span {
   padding: 10px 16px;
   font-size: 18px;
 }
 
-.pagination-lg > li:first-child > a.oscitas-bootstrap-container,
-.pagination-lg > li:first-child > span.oscitas-bootstrap-container {
+.pagination-lg > li:first-child > a,
+.pagination-lg > li:first-child > span {
   border-bottom-left-radius: 6px;
   border-top-left-radius: 6px;
 }
 
-.pagination-lg > li:last-child > a.oscitas-bootstrap-container,
-.pagination-lg > li:last-child > span.oscitas-bootstrap-container {
+.pagination-lg > li:last-child > a,
+.pagination-lg > li:last-child > span {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
 
-.pagination-sm > li.oscitas-bootstrap-container > a.oscitas-bootstrap-container,
-pagination-sm > li.oscitas-bootstrap-container > span.oscitas-bootstrap-container {
+.pagination-sm > li.oscitas-bootstrap-container > a,
+pagination-sm > li.oscitas-bootstrap-container > span {
   padding: 5px 10px;
   font-size: 12px;
 }
 
-.pagination-sm > li:first-child > a.oscitas-bootstrap-container,
-.pagination-sm > li:first-child > span.oscitas-bootstrap-container {
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
 
-.pagination-sm > li:last-child > a.oscitas-bootstrap-container,
-.pagination-sm > li:last-child > span.oscitas-bootstrap-container {
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
@@ -5783,6 +5783,196 @@ button.close.oscitas-bootstrap-container {
 .affix.oscitas-bootstrap-container {
   position: fixed;
 }
+
+
+/*
+* Slider CSS
+*/
+.oscitas-bootstrap-container .carousel-inner > .item > img,
+.oscitas-bootstrap-container .carousel-inner > .item > a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.oscitas-bootstrap-container.carousel {
+    position: relative;
+}
+.oscitas-bootstrap-container .carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.oscitas-bootstrap-container .carousel-inner > .item {
+    position: relative;
+    display: none;
+    -webkit-transition: .6s ease-in-out left;
+    transition: .6s ease-in-out left;
+}
+.oscitas-bootstrap-container .carousel-inner > .item > img,
+.oscitas-bootstrap-container .carousel-inner > .item > a > img {
+    line-height: 1;
+}
+.oscitas-bootstrap-container .carousel-inner > .active,
+.oscitas-bootstrap-container .carousel-inner > .next,
+.oscitas-bootstrap-container .carousel-inner > .prev {
+    display: block;
+}
+.oscitas-bootstrap-container .carousel-inner > .active {
+    left: 0;
+}
+.oscitas-bootstrap-container .carousel-inner > .next,
+.oscitas-bootstrap-container .carousel-inner > .prev {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.oscitas-bootstrap-container .carousel-inner > .next {
+    left: 100%;
+}
+.oscitas-bootstrap-container .carousel-inner > .prev {
+    left: -100%;
+}
+.oscitas-bootstrap-container .carousel-inner > .next.left,
+.oscitas-bootstrap-container .carousel-inner > .prev.right {
+    left: 0;
+}
+.oscitas-bootstrap-container .carousel-inner > .active.left {
+    left: -100%;
+}
+.oscitas-bootstrap-container .carousel-inner > .active.right {
+    left: 100%;
+}
+.oscitas-bootstrap-container .carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+.oscitas-bootstrap-container .carousel-control.left {
+    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, .5) 0%), color-stop(rgba(0, 0, 0, .0001) 100%));
+    background-image:         linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background-repeat: repeat-x;
+}
+.oscitas-bootstrap-container .carousel-control.right {
+    right: 0;
+    left: auto;
+    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, .0001) 0%), color-stop(rgba(0, 0, 0, .5) 100%));
+    background-image:         linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+    background-repeat: repeat-x;
+}
+.oscitas-bootstrap-container .carousel-control:hover,
+.oscitas-bootstrap-container .carousel-control:focus {
+    color: #fff;
+    text-decoration: none;
+    filter: alpha(opacity=90);
+    outline: none;
+    opacity: .9;
+}
+.oscitas-bootstrap-container .carousel-control .icon-prev,
+.oscitas-bootstrap-container .carousel-control .icon-next,
+.oscitas-bootstrap-container .carousel-control .glyphicon-chevron-left,
+.oscitas-bootstrap-container .carousel-control .glyphicon-chevron-right {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-block;
+}
+.oscitas-bootstrap-container .carousel-control .icon-prev,
+.oscitas-bootstrap-container .carousel-control .glyphicon-chevron-left {
+    left: 50%;
+}
+.oscitas-bootstrap-container .carousel-control .icon-next,
+.oscitas-bootstrap-container .carousel-control .glyphicon-chevron-right {
+    right: 50%;
+}
+.oscitas-bootstrap-container .carousel-control .icon-prev,
+.oscitas-bootstrap-container .carousel-control .icon-next {
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    font-family: serif;
+}
+.oscitas-bootstrap-container .carousel-control .icon-prev:before {
+    content: '\2039';
+}
+.oscitas-bootstrap-container .carousel-control .icon-next:before {
+    content: '\203a';
+}
+.oscitas-bootstrap-container .carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
+}
+.oscitas-bootstrap-container .carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000 \9;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+.oscitas-bootstrap-container .carousel-indicators .active {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    background-color: #fff;
+}
+.oscitas-bootstrap-container .carousel-caption {
+    position: absolute;
+    right: 15%;
+    bottom: 20px;
+    left: 15%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+.oscitas-bootstrap-container .carousel-caption .btn {
+    text-shadow: none;
+}
+@media screen and (min-width: 768px) {
+    .oscitas-bootstrap-container .carousel-control .glyphicon-chevron-left,
+    .oscitas-bootstrap-container .carousel-control .glyphicon-chevron-right,
+    .oscitas-bootstrap-container .carousel-control .icon-prev,
+    .oscitas-bootstrap-container .carousel-control .icon-next {
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+        margin-left: -15px;
+        font-size: 30px;
+    }
+    .oscitas-bootstrap-container .carousel-caption {
+        right: 20%;
+        left: 20%;
+        padding-bottom: 30px;
+    }
+    .oscitas-bootstrap-container .carousel-indicators {
+        bottom: 20px;
+    }
+}
+
 
 @-ms-viewport.oscitas-bootstrap-container {
   width: device-width;

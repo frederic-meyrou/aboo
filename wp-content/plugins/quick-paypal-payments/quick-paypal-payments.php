@@ -3,7 +3,7 @@
 Plugin Name: Quick Paypal Payments
 Plugin URI: http://quick-plugins.com/quick-paypal-payments/
 Description: Accept any amount or payment ID before submitting to paypal.
-Version: 3.5.1
+Version: 3.5.2
 Author: fisicx
 Author URI: http://quick-plugins.com/
 */
@@ -99,7 +99,14 @@ function qpp_display_form( $values, $errors, $id ) {
 					break;
 				case 'field4':
 					if (empty($values['pay'])) {$content .= '<p><input type="text" label="Amount" name="amount" value="' . $values['amount'] . '" onfocus="qppclear(this, \'' . $values['amount'] . '\')" onblur="qpprecall(this, \'' . $values['amount'] . '\')"/></p>';}
+					else {
+					if ($values['explodepay']) {
+						$checked = 'checked';$ref = explode(",",$values['amount']);
+						$content .= '<p class="payment" >'.$qpp['shortcodeamount'].'<br>';
+						foreach ($ref as $item) { $content .=  '<label><input type="radio" style="margin:0; padding: 0; border:none;width:auto;" name="amount" value="' .  $item . '" ' . $checked . '> ' .  $item . '</label><br>';$checked='';}
+						$content .= '</p>';}
 					else $content .= '<p class="input" >' . $values['amount'] . '</p>';
+					}
 					break;
 				case 'field5':
 					if ($qpp['use_options']) {
@@ -159,16 +166,16 @@ function qpp_process_form($values,$id) {
 	$sentdate = date_i18n('d M Y');
 	$qpp_messages[] = array('field0'=>$sentdate,'field1' => $values['reference'] , 'field2' => $values['quantity'],'field3' => $values['amount'],'field4' => $values['account'],'date' => $sentdate,);
 	update_option('qpp_messages'.$id,$qpp_messages);
-	$check = preg_replace ( '/[^.,0-9]/', '', $values['amount']);
-	if ($qpp['useprocess'] && $qpp['processtype'] == 'percent') {
+    $check = preg_replace ( '/[^.,0-9]/', '', $values['amount']);
+   	if ($qpp['useprocess'] && $qpp['processtype'] == 'processpercent') {
 		$percent = preg_replace ( '/[^.,0-9]/', '', $qpp['processpercent']) / 100;
-		$handling = $values['amount'] * $values['quantity'] * $percent;}
-	if ($qpp['useprocess'] && $qpp['processtype'] == 'fixed') {
+		$handling = $check * $values['quantity'] * $percent;}
+	if ($qpp['useprocess'] && $qpp['processtype'] == 'processfixed') {
 		$handling = preg_replace ( '/[^.,0-9]/', '', $qpp['processfixed']);}
-	if ($qpp['usepostage'] && $qpp['postagetype'] == 'percent') {
+	if ($qpp['usepostage'] && $qpp['postagetype'] == 'postagepercent') {
 		$percent = preg_replace ( '/[^.,0-9]/', '', $qpp['postagepercent']) / 100;
-		$packing = $values['amount'] * $values['quantity'] * $percent;}
-	if ($qpp['usepostage'] && $qpp['postagetype'] == 'fixed') {
+		$packing = $check * $values['quantity'] * $percent;}
+	if ($qpp['usepostage'] && $qpp['postagetype'] == 'postagefixed') {
 		$packing = preg_replace ( '/[^.,0-9]/', '', $qpp['postagefixed']);}	
 	$content = '<h2>'.$send['waiting'].'</h2>
 		<form action="'.$paypalurl.'" method="post" name="frmCart" id="frmCart" ' . $target . '>
@@ -207,19 +214,29 @@ function qpp_loop($atts) {
 	$qpp = qpp_get_stored_options($form);
 	$formvalues['quantity'] = 1;
 	$formvalues['stock'] = $qpp['stocklabel'].' ';
-	if (!$labels) $shortcodereference = $qpp['shortcodereference'].' ';
+	if (!$labels) {
+        $shortcodereference = $qpp['shortcodereference'].' ';
+        $shortcodeamount = $qpp['shortcodeamount'].' ';
+        }
 	if ($id) {
 		$formvalues['id'] = 'checked';
 		if (strrpos($id,',')) {$formvalues['reference'] = $id;$formvalues['explode'] = 'checked';}
 		else $formvalues['reference'] = $shortcodereference.$id;
 		}
 	else {$formvalues['reference'] = $qpp['inputreference'];$formvalues['id'] = '';}
-	if ($amount) {$formvalues['amount'] = $qpp['shortcodeamount'].' '.$amount;$formvalues['pay'] = 'checked';}
+	
+    if ($amount) {
+        $formvalues['pay'] = 'checked';
+        if (strrpos($amount,',')) {$formvalues['amount'] = $amount;$formvalues['explodepay'] = 'checked';}
+        else $formvalues['amount'] = $shortcodepayment.$amount;
+        }
 	else {$formvalues['amount'] = $qpp['inputamount'];$formvalues['pay'] = '';}
-	if (isset($_POST['qppsubmit'.$form]) || isset($_POST['qppsubmit'.$form.'_x'])) {
+	
+    if (isset($_POST['qppsubmit'.$form]) || isset($_POST['qppsubmit'.$form.'_x'])) {
 		$_POST = qpp_sanitize($_POST);
 		if (isset($_POST['reference'])) {$formvalues['reference'] = $_POST['reference'];$id = $_POST['reference'];}
-		$arr = array('amount','stock','quantity','option1','maths','thesum','answer');
+        if (isset($_POST['amount'])) {$formvalues['amount'] = $_POST['amount'];$amount = $_POST['amount'];}
+		$arr = array('stock','quantity','option1','maths','thesum','answer');
 		foreach($arr as $item) if (isset($_POST[$item])) $formvalues[$item] = $_POST[$item];
 		if (qpp_verify_form($formvalues,$form)) qpp_display_form($formvalues,'error',$form);
    		else {
@@ -305,7 +322,7 @@ function qpp_generate_css() {
 		$style = qpp_get_stored_style($item);
 		if ($item !='') $id = '.'.$item; else $id = '.default';
 		if ($style['font'] == 'plugin') {
-			$font = "font-family: ".$style['text-font-family']."; font-size: ".$style['text-font-size'].";color: ".$style['text-font-colour'].";line-height:100%;";
+            $font = "font-family: ".$style['text-font-family']."; font-size: ".$style['text-font-size'].";color: ".$style['text-font-colour'].";line-height:100%;";
 			$inputfont = "font-family: ".$style['font-family']."; font-size: ".$style['font-size']."; color: ".$style['font-colour'].";";
 			$submitfont = "font-family: ".$style['font-family'];
 			if ($style['header']) $header = ".qpp-style".$id." h2 {font-size: ".$style['header-size']."; color: ".$style['header-colour'].";}";
@@ -375,12 +392,18 @@ function qpp_get_default_msg () {
 	return $messageoptions;
 	}
 function qpp_get_stored_options ($id) {
-	$options = get_option('qpp_options'.$id);
-	if(!is_array($options)) $options = array();
+	$qpp = get_option('qpp_options'.$id);
+	if(!is_array($qpp)) $qpp = array();
 	$default = qpp_get_default_options();
-	$options = array_merge($default, $options);
-    if (!strpos($options['sort'],'field8')) $options['sort'] = $options['sort'].',field8';
-	return $options;
+	$qpp = array_merge($default, $qpp);
+    if (!strpos($qpp['sort'],'field6')) $qpp['sort'] = $qpp['sort'].',field6';
+    if (!strpos($qpp['sort'],'field7')) $qpp['sort'] = $qpp['sort'].',field7';
+    if (!strpos($qpp['sort'],'field8')) $qpp['sort'] = $qpp['sort'].',field8';
+    if ($qpp['processtype'] == 'fixed') $qpp['processtype'] = 'processfixed';
+    if ($qpp['processtype'] == 'percent') $qpp['processtype'] = 'processpercent';
+    if ($qpp['postagetype'] == 'fixed') $qpp['postagetype'] = 'postagefixed';
+    if ($qpp['postagetype'] == 'percent') $qpp['postagetype'] = 'postagepercent';
+	return $qpp;
 	}
 function qpp_get_default_options () {
 	$qpp = array();
@@ -405,31 +428,15 @@ function qpp_get_default_options () {
 	$qpp['useprocess'] = '';
 	$qpp['processblurb'] = 'A processing fee will be added before payment';
 	$qpp['processref'] = 'Processing Fee';
-	$qpp['processtype'] = 'percent';
+	$qpp['processtype'] = 'processpercent';
 	$qpp['processpercent'] = '5';
 	$qpp['processfixed'] = '2';
 	$qpp['usepostage'] = '';
 	$qpp['postageblurb'] = 'Post and Packing will be added before payment';
 	$qpp['postageref'] = 'Post and Packing';
-	$qpp['processtype'] = 'fixed';
+	$qpp['postagetype'] = 'postagefixed';
 	$qpp['postagepercent'] = '5';
 	$qpp['postagefixed'] = '5';
-	$process = get_option('qpp_process'.$id);
-	if(is_array($process)) {
-		$qpp['useprocess'] = $process['useprocess'];
-		$qpp['processblurb'] = 	$process['processblurb'];
-		$qpp['processref'] = $process['processref'];
-		$qpp['processtype'] = $process['processtype'];
-		$qpp['processpercent'] = $process['processpercent'];
-		$qpp['processfixed'] = $process['processfixed'];
-		$qpp['usepostage'] = $process['usepostage'];
-		$qpp['postageblurb'] = $process['postageblurb'];
-		$qpp['postageref'] = $process['postageref'];
-		$qpp['processtype'] = $process['processtype'];
-		$qpp['postagepercent'] = $process['postagepercent'];
-		$qpp['postagefixed'] = $process['postagefixed'];
-		delete_option('qpp_process'.$id);
-		}
 	return $qpp;
 	}
 function qpp_get_stored_send($id) {
@@ -496,26 +503,4 @@ function qpp_get_default_error () {
 	$error['errortitle'] = 'Oops, got a problem here';
 	$error['errorblurb'] = 'Please check the payment details';
 	return $error;
-	}
-function qpp_get_stored_process ($id) {
-	$process = get_option('qpp_process'.$id);
-	if(!is_array($process)) $process = array();
-	$default = qpp_get_default_process();
-	$process = array_merge($default, $process);
-	return $process;
-	}
-function qpp_get_default_process() {
-	$process['useprocess'] = '';
-	$process['processblurb'] = 'A processing fee will be added before payment';
-	$process['processref'] = 'Processing Fee';
-	$process['processtype'] = 'percent';
-	$process['processpercent'] = '5';
-	$process['processfixed'] = '2';
-	$process['usepostage'] = '';
-	$process['postageblurb'] = 'Post and Packing will be added before payment';
-	$process['postageref'] = 'Post and Packing';
-	$process['processtype'] = 'fixed';
-	$process['postagepercent'] = '5';
-	$process['postagefixed'] = '5';
-	return $process;
 	}

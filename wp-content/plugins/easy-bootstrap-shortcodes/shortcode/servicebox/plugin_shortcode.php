@@ -4,9 +4,6 @@
  * Servicebox
  * ********************************************************* */
 $_ebsp_servicebox=array();
-if(!session_id()){
-    session_start();
-}
 
 $_SESSION['ebs_servicebox_css']='';
 function osc_theme_servicebox($params, $content = null) {

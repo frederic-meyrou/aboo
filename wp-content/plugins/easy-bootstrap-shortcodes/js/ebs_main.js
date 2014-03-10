@@ -7,7 +7,7 @@ function open_dialogue(dialogueid,width,height){
     if(typeof(width)==='undefined') width = 'auto';
     if(typeof(height)==='undefined') height = 'auto';
     jQuery( dialogueid ).dialog({
-        dialogClass : 'wp-dialog osc-dialog',
+        dialogClass : 'wp-dialog osc-dialog oscitas-easy-bootstrap-shortcode',
         autoOpen: true,
         height: height,
         width: width,

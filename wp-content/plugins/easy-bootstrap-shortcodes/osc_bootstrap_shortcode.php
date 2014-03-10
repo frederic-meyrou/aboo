@@ -4,7 +4,7 @@
   Plugin Name: Easy Bootstrap Shortcode
   Plugin URI: http://www.oscitasthemes.com
   Description: Add bootstrap 3.0 styles to your theme by wordpress editor shortcode buttons.
-  Version: 3.0.0
+  Version: 3.2.0
   Author: oscitas
   Author URI: http://www.oscitasthemes.com
   License: Under the GPL v2 or later
@@ -14,6 +14,16 @@ function osc_ebs_plugin_exists( $prevent ) {
 }
 $checkplugin=apply_filters('osc_ebs_pro_plugin_exists',false);
 if(isset($checkplugin) && $checkplugin=='ebsp'):
+
+    function ebs_init_sessions()
+    {
+        if (!session_id()) {
+            session_start();
+        }
+    }
+
+    add_action('init', 'ebs_init_sessions', 1);
+
     add_action('admin_notices', 'ebs_showAdminMessages');
 
     function ebs_showMessage($message, $errormsg = false)
@@ -113,9 +123,7 @@ else:
             update_option( 'EBS_EDITOR_OPT', isset($_POST['ebsp_editor_opt'])?$_POST['ebsp_editor_opt']:'icon' );
             update_option( 'EBS_CUSTOM_CSS', isset($_POST['ebs_custom_css'])?$_POST['ebs_custom_css']:'' );
 
-            if(!session_id())
-                @session_start();
-            $_SESSION['ebs_dynamic_css'] =$_POST['ebs_custom_css'];
+            $_SESSION['ebs_dynamic_css'] = $_POST['ebs_custom_css'];
             $js =isset($_POST['b_js'])?$_POST['b_js']:1;
             $cdn = isset($_POST['cdn_path'])? $_POST['cdn_path']:EBS_JS_CDN;
             $css = isset($_POST['b_css'])?$_POST['b_css']:1;
@@ -168,7 +176,7 @@ else:
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
         wp_enqueue_script('jquery-ui-slider');
-        wp_enqueue_style('jquery-ui-slider-css', plugins_url('/styles/slider.css', __FILE__));
+        wp_enqueue_style('EBS_jquery-ui-slider-css', plugins_url('/styles/slider.css', __FILE__));
         if (!apply_filters('ebs_bootstrap_icon_css_url',false)) {
             wp_enqueue_style('bootstrap-icon', plugins_url('/styles/bootstrap-icon.min.css', __FILE__));
         } else{
@@ -181,12 +189,8 @@ else:
     }
 
     function osc_add_dynamic_css(){
-        if(!session_id());
-        @session_start();
-        if(isset($_SESSION['ebs_dynamic_css']) && trim($_SESSION['ebs_dynamic_css'])!=''){
+        wp_enqueue_style('ebs_dynamic_css', plugins_url('/styles/ebs_dynamic_css.php', __FILE__));
 
-            wp_enqueue_style('ebs_dynamic_css', plugins_url('/styles/ebs_dynamic_css.php', __FILE__));
-        }
     }
     function osc_add_frontend_ebs_scripts() {
         wp_enqueue_script('jquery');
@@ -256,4 +260,6 @@ else:
 
 // Shortcodes
     include('shortcode/functions.php');
+
+
 endif;

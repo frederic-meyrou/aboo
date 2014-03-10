@@ -35,6 +35,7 @@ if(ebs_editor_opt=='dropdown'){
                         current_object.osc_element_call(c, "Tabs", prefix+"tabs");
                         current_object.osc_element_call(c, "Tables", prefix+"tables");
                         current_object.osc_element_call(c, "Panel", prefix+"panel");
+                        current_object.osc_element_call(c, "Slider", prefix+"slider",1100);
                         //Content
                         c = b.addMenu({title:"Content", icon_src: ebs_url+'images/content.png'});
                         current_object.osc_element_call(c, "List", prefix+"lists");

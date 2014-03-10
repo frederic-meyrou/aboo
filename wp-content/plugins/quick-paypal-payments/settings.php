@@ -3,7 +3,6 @@ add_action('init', 'qpp_settings_init');
 add_action('admin_menu', 'qpp_page_init');
 add_action('admin_notices', 'qpp_admin_notice' );
 add_action( 'admin_menu', 'qpp_admin_pages' );
-register_uninstall_hook(__FILE__, 'delete_everything');
 
 function qpp_settings_init() {
 	qpp_generate_csv();
@@ -61,7 +60,7 @@ function qpp_tabbed_page() {
 	echo '</div>';
 	}
 function qpp_setup ($id) {
-	$qpp_setup = qpp_get_stored_setup();
+    $qpp_setup = qpp_get_stored_setup();
 	if( isset( $_POST['Submit'])) {
 		$qpp_setup['alternative'] = $_POST['alternative'];
 		$qpp_setup['email'] = $_POST['email'];
@@ -80,21 +79,28 @@ function qpp_setup ($id) {
 		$qpp_setup['sandbox'] = $_POST['sandbox'];
 		update_option( 'qpp_curr', $qpp_curr);
 		update_option( 'qpp_setup', $qpp_setup);
-		qpp_admin_notice("The forms have been updated.");	
+		qpp_admin_notice("The forms have been updated.");
+    }
+    if( isset( $_POST['Reset'])) {
+		qpp_delete_everything();
+        qpp_create_css_file ('');
+		qpp_admin_notice("Everything has been reset.");
+        $qpp_setup = qpp_get_stored_setup();
 		}
-	$arr = explode(",",$qpp_setup['alternative']);
-	foreach ($arr as $item) if ($_POST['deleteform'.$item] == $item && $_POST['delete'.$item] && $item != '') {
-		$forms = $qpp_setup['alternative'];
-		$qpp_setup['alternative'] = str_replace($id.',','',$forms); 
-		$qpp_setup['current'] = '';
-		$qpp_setup['email'] = $_POST['email'];
-		update_option('qpp_setup', $qpp_setup);
-		qpp_delete_things($id);
-		qpp_admin_notice("<b>The form named ".$id." has been deleted.</b>");
-		$id = '';
-		}
-		
-	$qpp_curr = qpp_get_stored_curr();
+    $arr = explode(",",$qpp_setup['alternative']);
+    foreach ($arr as $item) if ($_POST['deleteform'.$item] == $item && isset($_POST['delete'.$item]) && $item != '') {
+        $forms = $qpp_setup['alternative'];
+        qpp_delete_things($_POST['deleteform'.$item]);
+        $qpp_setup['alternative'] = str_replace($_POST['deleteform'.$item].',','',$forms); 
+        $qpp_setup['current'] = '';
+        $qpp_setup['email'] = $_POST['email'];
+        update_option('qpp_setup', $qpp_setup);
+        qpp_create_css_file ('update');
+        qpp_admin_notice("<b>The form named ".$item." has been deleted.</b>");
+        $id = '';
+        break;
+    }
+    $qpp_curr = qpp_get_stored_curr();
 	if (!$new_curr) $new_curr = $qpp_curr[''];
 	$content ='<div class="qpp-settings"><div class="qpp-options">
 		<form method="post" action="">
@@ -123,7 +129,7 @@ function qpp_setup ($id) {
 		<p>Allowed Paypal Currency codes are given <a href="https://developer.paypal.com/webapps/developer/docs/classic/api/currency_codes/" target="blank">here</a>.</p>
 		<p><span style="color:red; font-weight: bold; margin-right: 3px">Important!</span> If your currency is not listed the plugin will work but paypal will not accept the payment.</p>
 		<input type="hidden" name="alternative" value="' . $qpp_setup['alternative'] . '" />
-		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Update Settings" /></p>
+		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Update Settings" /> <input type="submit" name="Reset" class="button-secondary" value="Reset Everything" onclick="return window.confirm( \'This will delete all your forms and settings<br>Are you sure you want to reset everything?\' );"/></p>
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="sandbox" ' . $qpp_setup['sandbox'] . ' value="checked" /> Use Paypal sandbox (developer use only)</p>
 		</form>
 		</div>
@@ -219,8 +225,8 @@ function qpp_form_options($id) {
 					$type = ' Add postal charge';
 					$input = 'postageblurb';$checked = $qpp['usepostage'];
 					$options = '<span class="description">Post and Packing charge type:</span><br>
-				<input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="percent" ' . $percent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="postagepercent" name="postagepercent" value="' . $qpp['postagepercent'] . '" /> %<br>
-						<input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="fixed" ' . $fixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="postagefixed" name="postagefixed" value="' . $qpp['postagefixed'] . '" /> '.$currency[$id].'<br>
+				<input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="postagepercent" ' . $postagepercent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="postagepercent" name="postagepercent" value="' . $qpp['postagepercent'] . '" /> %<br>
+						<input style="margin:0; padding:0; border:none;" type="radio" name="postagetype" value="postagefixed" ' . $postagefixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="postagefixed" name="postagefixed" value="' . $qpp['postagefixed'] . '" /> '.$currency[$id].'<br>
 						<span class="description">Post and Packing reference (appears on the PayPal payment):</span><br>
 						<input type="text" name="postageref" value="' . $qpp['postageref'] . '" />'; 
 					break;
@@ -228,8 +234,8 @@ function qpp_form_options($id) {
 					$type = 'Processing Charge';
 					$input = 'processblurb';$checked = $qpp['useprocess'];
 					$options = '<span class="description">Payment charge type:</span><br>
-						<input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="percent" ' . $percent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="processpercent" name="processpercent" value="' . $qpp['processpercent'] . '" /> %<br>
-						<input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="fixed" ' . $fixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="processfixed" name="processfixed" value="' . $qpp['processfixed'] . '" /> '.$currency[$id].'<br>
+						<input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="processpercent" ' . $processpercent . ' /> Percentage of the total: <input type="text" style="width:4em;padding:2px" label="processpercent" name="processpercent" value="' . $qpp['processpercent'] . '" /> %<br>
+						<input style="margin:0; padding:0; border:none;" type="radio" name="processtype" value="processfixed" ' . $processfixed . ' /> Fixed amount: <input type="text" style="width:4em;padding:2px" label="processfixed" name="processfixed" value="' . $qpp['processfixed'] . '" /> '.$currency[$id].'<br>
 <span class="description">Processing reference (appears on the PayPal payment):</span><br>
 						<input type="text" name="processref" value="' . $qpp['processref'] . '" />'; 
 					break;
@@ -494,12 +500,13 @@ function qpp_delete_everything() {
 	$qpp_setup = qpp_get_stored_setup();
 	$arr = explode(",",$qpp_setup['alternative']);
 	foreach ($arr as $item) qpp_delete_things($item);
+    qpp_delete_things('');
 	delete_option('qpp_setup');
 	delete_option('qpp_curr');
 	delete_option('qpp_message');
 	}
 function qpp_delete_things($id) {
-	delete_option('qpp_settings'.$id);
+	delete_option('qpp_options'.$id);
 	delete_option('qpp_send'.$id);
 	delete_option('qpp_error'.$id);
 	delete_option('qpp_style'.$id);

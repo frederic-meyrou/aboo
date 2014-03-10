@@ -66,8 +66,11 @@ Easy Bootstrap Shortcode provides following styles
 19. Button Group Toolbar
 20. Description List
 21. Service Box
+22. Responsive slider
 
 Many more shortcodes coming soon.....
+
+>Note : we have removed the Line Separator, Dropcaps, Youtube & Vimeo video, Boxesframes, Horizontal Rule, Testimonial, Section Heading, Social, Lead,Page Header, Highlights shortcodes as these are PRO version features, which were committed to free version by mistake.
 
 = How to embed this plugin to your theme =
 
@@ -186,6 +189,21 @@ It's that simple ... just what the name suggests
 
 
 == Changelog ==
+
+>= Note : we have removed the Line Separator, Dropcaps, Youtube & Vimeo video, Boxesframes, Horizontal Rule, Testimonial, Section Heading, Social, Lead,Page Header, Highlights shortcodes as these are PRO version features, which were committed to free version by mistake. =
+
+
+
+
+= 3.2.0 =
+
+* [Fixes] Session issue in Service Box Shortcode is fixed.
+
+= 3.1.0 =
+
+* [update] Added new responsive slider shortcode.
+* [Update] Added fit text effect to make text responsive for slider.
+* [Fixes] Changed Toggle Shortcode caption to Toggl/Accordion Shortcode, as suggested by users
 
 = 3.0.0 =
 

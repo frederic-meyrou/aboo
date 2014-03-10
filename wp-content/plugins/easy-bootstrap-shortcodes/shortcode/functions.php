@@ -33,7 +33,8 @@ $elements = array(
     'icon',
     'image',
     'progressbar',
-    'servicebox'
+    'servicebox',
+    'slider'
 
 );
 
