@@ -110,7 +110,12 @@
     <?php $page_courante = "mesclients.php"; require 'nav.php'; ?>
         
     <div class="container">
-        <h2>Détails d'un client</h2>       
+
+        <div class="page-header">           
+            <h2>Gestion de mes clients</h2>       
+        </div>
+            	
+        <h3>Détails d'un client</h3>       
         <br>
 		<p>
 	 	    <a href="mesclients.php" class="btn btn-primary" ><span class="glyphicon glyphicon-eject"></span> Retour</a>			

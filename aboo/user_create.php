@@ -129,6 +129,10 @@
        
     <div class="container">
 
+       <div class="page-header">   
+            <h2>Gestion des comptes utilisateur</h2>          
+        </div>
+        
 		<h3>Création d'un utilisateur</h3>
 
         <!-- Affiche les informations de debug -->

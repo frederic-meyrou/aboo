@@ -148,7 +148,10 @@
     <?php $page_courante = "journal.php"; require 'nav.php'; ?>
         
     <div class="container">
-                
+         <div class="page-header">   
+            <h2>Recettes & Abonnements</h2>
+        </div>
+               
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {

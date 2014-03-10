@@ -134,6 +134,9 @@
         
     <div class="container">
 
+        <div class="page-header">           
+            <h2>Gestion de mes clients</h2>       
+        </div>
 		<h3>Modification d'un client</h3>
 
         <!-- Affiche les informations de debug -->

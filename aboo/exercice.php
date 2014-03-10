@@ -238,7 +238,7 @@ function ChargeSessionExerciceBDD($data) {
 	        <div class="table-responsive">  
 			<table class="table table-striped table-bordered table-hover success">
 				<thead>
-					<tr>
+					<tr class="active">
 					
 					  <th>Années exercice</th>
 					  <th>Mois de démarrage</th>

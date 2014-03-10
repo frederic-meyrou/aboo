@@ -221,7 +221,7 @@
             <div class="table-responsive">  
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 				<thead>
-					<tr>
+					<tr class="active">
 					  <th>Type</th>
 					  <th>Montant</th>
 					  <th>Commentaire</th>

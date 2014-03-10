@@ -30,7 +30,6 @@
     $user_id = $_SESSION['authent']['id']; 
     $nom = $_SESSION['authent']['nom'];
     $prenom = $_SESSION['authent']['prenom'];
-    $nom = $_SESSION['authent']['nom'];
 
 // Récupération des variables de session exercice
     $exercice_id = null;

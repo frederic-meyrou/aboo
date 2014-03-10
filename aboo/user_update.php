@@ -153,6 +153,11 @@
     <?php $page_courante = "user.php"; require 'nav.php'; ?>
         
     <div class="container">   
+
+       <div class="page-header">   
+            <h2>Gestion des comptes utilisateur</h2>          
+        </div>
+            	
 		<h3>Mise à jour utilisateur</h3>
         
         <!-- Affiche les informations de debug -->

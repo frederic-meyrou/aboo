@@ -50,6 +50,7 @@
         $_SESSION['authent']['id']=$utilisateur;
         $_SESSION['authent']['nom']=$data['nom'];
         $_SESSION['authent']['prenom']=$data['prenom'];
+        header('Location:home.php');		
     }    
     
 // Lectures données dans la BDD

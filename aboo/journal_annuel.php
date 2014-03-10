@@ -176,7 +176,7 @@
 		    <div class="table-responsive">    		
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
 				<thead>
-					<tr>
+					<tr class="active">
 					  <th>Date</th>
                       <th>Mois</th>                   
 					  <th>Type</th>					  

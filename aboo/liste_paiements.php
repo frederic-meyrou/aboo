@@ -108,7 +108,7 @@
             <div class="table-responsive">       
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-bordered table-hover success">
 				<thead>
-					<tr>
+					<tr class="active">
 					  <th>Mois</th>
 					  <th>Echéance</th>
 					  <th>Encaissé</th>						  						  
