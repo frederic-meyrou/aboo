@@ -33,10 +33,13 @@
       </div>	      
     </nav>    
 
+
         <div class="alert alert alert-success alert-dismissable fade in">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Bonjour!</strong> Bienvenue sur l'application Aboo!
         </div>
+        
+    <p class="test"> Aboo </p>    
 
     </div> <!-- /container -->
        
