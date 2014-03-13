@@ -1,0 +1,16 @@
+/*!
+Theme Name:Tonic child
+Theme URI: https://themes.bavotasan.com/2013/tonic/
+Author: 1pointdevueweb
+Author URI: http://bavotasan.com/
+Description: Un thème personnalisé
+Version: beta
+Tags: 
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+template: tonic
+Tonic WordPress Theme, Copyright 2013 c.bavota
+Tonic is distributed under the terms of the GNU GPL
+*/
+
+@import url("./themes/tonic/style.css");
