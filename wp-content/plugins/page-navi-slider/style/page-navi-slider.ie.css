@@ -1,0 +1,4 @@
+/* Page nav slide styles for IE that does not support inline-block*/
+.wpns_selector .page-numbers { display: inline; zoom: 1; height: 2em; line-height: 2em; text-align: center; min-width: 2em; margin: 0; padding: 0; }
+.wpns_selector .wpns_element { display: inline; zoom: 1; list-style-type: none; padding: 0.125em; }
+

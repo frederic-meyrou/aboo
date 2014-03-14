@@ -1,0 +1,196 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Page navi slider v1.0\n"
+"POT-Creation-Date: 2013-09-09 11:04+0100\n"
+"PO-Revision-Date: 2013-09-16 18:39+0900\n"
+"Last-Translator: \n"
+"Language-Team: stranger-jp\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+msgid "Page %%NUMBER%% of %%TOTAL%%"
+msgstr "Page %%NUMBER%% of %%TOTAL%%"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Reset to default"
+msgstr "デフォルトにリセット"
+
+msgid "Preview options"
+msgstr "プレビューオプション"
+
+msgid "General settings"
+msgstr "全般設定"
+
+msgid "Caption"
+msgstr "見出し"
+
+msgid "Fonts"
+msgstr "フォント"
+
+msgid "Colors"
+msgstr "色"
+
+msgid "Borders"
+msgstr "ボーダー"
+
+msgid "Auto display"
+msgstr "自動表示"
+
+msgid "CAUTION !"
+msgstr "注意!"
+
+msgid "Background color"
+msgstr "背景色"
+
+msgid "Number of pages"
+msgstr "ページ数"
+
+msgid "Current page"
+msgstr "現在のページ"
+
+msgid "Wrapper margin"
+msgstr "ラッパーマージン"
+
+msgid "Wrapper padding"
+msgstr "ラッパーパディング"
+
+msgid "Display even if there is only one page"
+msgstr "1ページだけでも表示"
+
+msgid "Alignment"
+msgstr "アラインメント"
+
+msgid "Spacing between page numbers"
+msgstr "ページ番号の間隔"
+
+msgid "Show total pages in the current one"
+msgstr "現在の総ページ数を表示"
+
+msgid "Page numbers"
+msgstr "ページ番号"
+
+msgid "On hover"
+msgstr "ホバー"
+
+msgid "Text<br><small>%%NUMBER%% : current page</small><br><small>%%TOTAL%% : total pages<small>"
+msgstr "テキスト<br><small>%%NUMBER%% : 現在のページ</small><br><small>%%TOTAL%% : 全ページ<small>"
+
+msgid "Position"
+msgstr "位置"
+
+msgid "Page numbers background"
+msgstr "ページ番号の背景"
+
+msgid "Current page background"
+msgstr "現在のページの背景"
+
+msgid "On hover background"
+msgstr "ホバーの背景"
+
+msgid "Slider"
+msgstr "スライダー"
+
+msgid "Handle"
+msgstr "ハンドル"
+
+msgid "Radius <small>(<b>em</b>/px)</small>"
+msgstr "半径(角丸)<small>(<b>em</b>/px)</small>"
+
+msgid "Cursor"
+msgstr "カーソル"
+
+msgid "Display in footer"
+msgstr "フッターに表示"
+
+msgid "Location"
+msgstr "表示場所"
+
+msgid "These settins only affect the preview on that page; "
+msgstr "これらの設定はページ上のプレビューに影響します;"
+
+msgid "they do not have any impact on the plugin itself."
+msgstr "プラグイン自体への影響はありません。"
+
+msgid "The dotted border is just for preview purpose and will not be displayed on your page."
+msgstr "点線の枠はプレビュー時だけで実際のページには表示されません。"
+
+msgid "CSS shorthand; Syntax : font-weight font-style font-variant font-size line-height font-family."
+msgstr "CSSの速記; 構文 : font-weight font-style font-variant font-size line-height font-family."
+
+msgid "can be used and mixed."
+msgstr " が混在しても構いません。"
+
+msgid "Use CSS shorthand for margin and padding; Syntax : top right bottom left."
+msgstr "マージン と パディングの速記を使用; 構文 : top right bottom left."
+
+msgid "The slider is shown only if the number of pages exceeds the plugin widht."
+msgstr "スライダーはページ数がプラグイン幅を超えた場合にのみ示されます。"
+
+msgid "Example : Set the margin to &laquo;1em 20% 0 20%&raquo;"
+msgstr "例 : &laquo;1em 20% 0 20&raquoでマージンを設定します"
+
+msgid "The plugin will use 60% of the available width and will apply a top margin of 1 em."
+msgstr "プラグインが使用可能な幅の60%を使用し、1emのマージンを適用します。"
+
+msgid "Let empty to use the parent element font."
+msgstr "親要素のフォントを使用する場合は空白にします。"
+
+msgid "Choosing a bigger size for <b>current</b> and/or <b>On hover</b> will occur a <b>zoom effect</b>."
+msgstr "<b>現在</b>または<b>ホバー</b>で大きいサイズを選択すると、<b>ズーム効果</b>を発生します。"
+
+msgid "Let empty to use the parent element color."
+msgstr "親要素の色を使用する場合は空白にします。"
+
+msgid "<b>transparent</b> allowed."
+msgstr "<b>透明 (transparent)</b>が使用可能です。"
+
+msgid "Use CSS shorthand; Syntax : thickness style color."
+msgstr "CSSの速記を使用; 構文: thickness style color."
+
+msgid "Let empty for no border."
+msgstr "境界線なし場合は空にします。"
+
+msgid "Choosing a color will generate a 1 px border; can be modified later."
+msgstr "色を選択すると、1ピクセルの境界線を生成します。これは後から変更できます。"
+
+msgid "<b>High radius</b> will occur in <b>surrounded</b> page nubers."
+msgstr "<b>角丸</b>はページ番号に適用します。"
+
+msgid "This feature depends on your theme and could return unexpected results."
+msgstr "この機能はテーマに依存しており予期しない結果を返す場合があります。"
+
+msgid "Prefer manual installation by adding the following code in your theme templates where you want the plugin to be displayed:"
+msgstr "任意の場所に表示させたい場所はテーマに次のコードを追加してください:"
+
+msgid "Nothing to display as there is only one page"
+msgstr "1ページだけがあるように表示するように何もない"
+
+msgid "You can change the &ldquo;Display even if there is only one page&rdquo; option in general settings"
+msgstr "一般的な設定で&ldquo;オプション1ページしかない場合でも表示&ldquo;変更することができます。"
+
+msgid "Your page"
+msgstr "あなたのページ"
+
+msgid "rest of your page..."
+msgstr "ページの残りの部分..."
+
+msgid "Page numbers width"
+msgstr "ページ番号の幅"
+
+msgid "Choosing a bigger size for <b>Current</b> and/or <b>On hover</b> will occur a <b>zoom effect</b>."
+msgstr "<b>現在</b>および/または<b>ホバー</b>で大きいサイズを選択すると、<b>ズーム効果</b>を発生します。"
+
+msgid "<b>Advanced styles allowed</b> - e.g. radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)"
+msgstr "<b>高度なスタイルが可能</b> - 例. radial-gradient(中央の楕円, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)"

@@ -1,0 +1,7 @@
+@charset "utf-8";
+/* CSS Document */
+
+.form-horizontal .alert{
+	margin-left:10px;
+	padding:8px;	
+}

@@ -1,0 +1,682 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Page navi slider v1.0\n"
+"POT-Creation-Date: 2013-09-18 19:01+0100\n"
+"PO-Revision-Date: 2013-09-18 19:01+0100\n"
+"Last-Translator: \n"
+"Language-Team: Denis Lugand <denis.lugand@free.fr>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../you_strings_to_translate.php:14
+#, php-format
+msgid "Page %%NUMBER%% of %%TOTAL%%"
+msgstr "Page %%NUMBER%% sur %%TOTAL%%"
+
+#: ../inc/options.php:46 ../inc/options.php:52
+msgid "Preview"
+msgstr "Pr&eacute;visualisation"
+
+#: ../inc/options.php:48
+msgid "Settings"
+msgstr "R&eacute;glages"
+
+#: ../inc/options.php:53
+msgid "Revert"
+msgstr "Annuler"
+
+#: ../inc/options.php:54
+msgid "Save changes"
+msgstr "Enregistrer"
+
+#: ../inc/options.php:56
+msgid "Reset to default"
+msgstr "Restaurer les valeurs par d&eacute;faut"
+
+#: ../inc/options.php:98
+msgid "Preview options"
+msgstr "Options de pr&eacute;visualisation"
+
+#: ../inc/options.php:99
+msgid "General settings"
+msgstr "R&eacute;glages g&eacute;n&eacute;raux"
+
+#: ../inc/options.php:100 ../inc/options.php:118 ../inc/options.php:127
+msgid "Caption"
+msgstr "L&eacute;gende"
+
+#: ../inc/options.php:101
+msgid "Fonts"
+msgstr "Polices"
+
+#: ../inc/options.php:102
+msgid "Colors"
+msgstr "Couleurs"
+
+#: ../inc/options.php:103
+msgid "Borders"
+msgstr "Bords"
+
+#: ../inc/options.php:104
+msgid "Auto display"
+msgstr "Affichage automatique"
+
+#: ../inc/options.php:104
+msgid "CAUTION !"
+msgstr "ATTENTION !"
+
+#: ../inc/options.php:106
+msgid "Background color"
+msgstr "Arri&egrave;re plan"
+
+#: ../inc/options.php:107
+msgid "Number of pages"
+msgstr "Nombre de pages"
+
+#: ../inc/options.php:108 ../inc/options.php:120 ../inc/options.php:130
+#: ../inc/options.php:139
+msgid "Current page"
+msgstr "Page courante"
+
+#: ../inc/options.php:110
+msgid "Wrapper margin"
+msgstr "Marge ext&eacute;rieure"
+
+#: ../inc/options.php:111
+msgid "Wrapper padding"
+msgstr "Marge int&eacute;rieure"
+
+#: ../inc/options.php:112
+msgid "Display even if there is only one page"
+msgstr "Afficher m&ecirc;me s'il n'y a qu'une seule page"
+
+#: ../inc/options.php:113 ../inc/options.php:125
+msgid "Alignment"
+msgstr "Alignement"
+
+#: ../inc/options.php:114
+msgid "Page numbers width"
+msgstr "Largeur des num&eacute;ros de page"
+
+#: ../inc/options.php:115
+msgid "Spacing between page numbers"
+msgstr "Espacement entre les num&eacute;ros de page"
+
+#: ../inc/options.php:116
+msgid "Show total pages in the current one"
+msgstr "Afficher le nombre de pages dans la page courante"
+
+#: ../inc/options.php:119 ../inc/options.php:128 ../inc/options.php:138
+msgid "Page numbers"
+msgstr "Pages"
+
+#: ../inc/options.php:121 ../inc/options.php:132 ../inc/options.php:140
+msgid "On hover"
+msgstr "Page survol&eacute;e"
+
+#: ../inc/options.php:123
+#, php-format
+msgid ""
+"Text<br><small>%%NUMBER%% : current page</small><br><small>%%TOTAL%% : total "
+"pages<small>"
+msgstr ""
+"Contenu<br><small>%%NUMBER%% : page courante</small><br><small>%%TOTAL%% : "
+"nombre de pages<small>"
+
+#: ../inc/options.php:124
+msgid "Position"
+msgstr "Position"
+
+#: ../inc/options.php:129
+msgid "Page numbers background"
+msgstr "Arri&egrave;re plan des pages"
+
+#: ../inc/options.php:131
+msgid "Current page background"
+msgstr "Arri&egrave;re plan de la page courante"
+
+#: ../inc/options.php:133
+msgid "On hover background"
+msgstr "Arri&egrave;re plan de la page survol&eacute;e"
+
+#: ../inc/options.php:134 ../inc/options.php:141
+msgid "Slider"
+msgstr "Slider"
+
+#: ../inc/options.php:135
+msgid "Handle"
+msgstr "Curseur"
+
+#: ../inc/options.php:137
+msgid "Radius <small>(<b>em</b>/px)</small>"
+msgstr "Rayon <small>(<b>em</b>/px)</small>"
+
+#: ../inc/options.php:142
+msgid "Cursor"
+msgstr "Curseur"
+
+#: ../inc/options.php:144
+msgid "Display in footer"
+msgstr "Afficher dans le &laquo;footer&raquo;"
+
+#: ../inc/options.php:145
+msgid "Location"
+msgstr "Emplacement"
+
+#: ../inc/options.php:175
+msgid "PREVIEW ONLY - Click on &laquo;Save changes&raquo; to apply settings."
+msgstr ""
+"PREVISUALISATION - Cliquer sur &laquo;Enregister&raquo; pour appliquer les "
+"r&eacute;glages."
+
+#: ../inc/options.php:179
+msgid "Former settings loaded."
+msgstr "R&eacute;glages pr&eacute;c&eacute;dants charg&eacute;s."
+
+#: ../inc/options.php:185
+msgid "Settings saved."
+msgstr "R&eacute;glages enregistr&eacute;s."
+
+#: ../inc/options.php:190
+msgid ""
+"Default settings loaded - PREVIEW ONLY - Click on &laquo;Save changes&raquo; "
+"to apply settings."
+msgstr ""
+"R&eacute;glages par d&eacute;faut charg&eacute;s - PREVISUALISATION - "
+"Cliquer sur &laquo;Enregister&raquo; pour appliquer les r&eacute;glages."
+
+#: ../inc/options.php:200
+msgid "These settins only affect the preview on that page; "
+msgstr "Ces r&eacute;glages n'affectent que la pr&eacute;visualisation ; "
+
+#: ../inc/options.php:201
+msgid "they do not have any impact on the plugin itself."
+msgstr "ils n'influent pas sur le plugin."
+
+#: ../inc/options.php:203
+msgid ""
+"The dotted border is just for preview purpose and will not be displayed on "
+"your page."
+msgstr ""
+"Le tour pointill&eacute; met le plugin en &eacute;vidence ; il n'est pas "
+"affich&eacute sur votre page."
+
+#: ../inc/options.php:209
+msgid ""
+"Use CSS shorthand for margin and padding; Syntax : top right bottom left."
+msgstr "CSS shorthand pour les marges ; Syntaxe : haut droite bas gauche."
+
+#: ../inc/options.php:211
+msgid "can be used and mixed."
+msgstr "peuvent &ecirc;tre utilis&eacute;s et m&eacute;lang&eacute;s."
+
+#: ../inc/options.php:213
+msgid ""
+"The slider is shown only if the number of pages exceeds the plugin widht."
+msgstr ""
+"Le slidder n'est affich&eacute; que si le nombre de pages d&eacute;passent "
+"la largeur du plugin."
+
+#: ../inc/options.php:215
+msgid "Example : Set the margin to &laquo;1em 20% 0 20%&raquo;"
+msgstr ""
+"Exemple : R&egrave;glez la marge ext&eacute;rieure &agrave; &laquo;1em 20% 0 "
+"20%&raquo;"
+
+#: ../inc/options.php:217
+#, php-format
+msgid ""
+"The plugin will use 60% of the available width and will apply a top margin "
+"of 1 em."
+msgstr ""
+"Le plugin utilisera 60% de la largeur disponible et appliquera une marge "
+"sup&eacute;rieure de 1em."
+
+#: ../inc/options.php:224
+msgid ""
+"CSS shorthand; Syntax : font-weight font-style font-variant font-size line-"
+"height font-family."
+msgstr ""
+"CSS shorthand ; Syntaxe : font-weight font-style font-variant font-size line-"
+"height font-family."
+
+#: ../inc/options.php:226
+msgid ""
+"Choosing a bigger size for <b>Current</b> and/or <b>On hover</b> will occur "
+"a <b>zoom effect</b>."
+msgstr ""
+"Choisir une police de taille sup&eacute;rieure pour la <b>page courante</b> "
+"ou la <b>page survol&eacute;e</b> cr&eacute;era <b>un effet de zoom</b>."
+
+#: ../inc/options.php:232
+msgid "Let empty to use the parent element color."
+msgstr ""
+"Laisser vide pour utiliser la couleur de l'&eacute;l&eacute;ment parent."
+
+#: ../inc/options.php:234
+msgid ""
+"<b>Advanced styles allowed</b> - e.g. radial-gradient(ellipse at center, rgba"
+"(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)"
+msgstr ""
+"<b>Styles avanc&eacute;s autoris&eacute;s</b> - Ex : radial-gradient(ellipse "
+"at center, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)"
+
+#: ../inc/options.php:236
+msgid "<b>transparent</b> allowed."
+msgstr "<b>transparent</b> est possible."
+
+#: ../inc/options.php:242
+msgid "Use CSS shorthand; Syntax : thickness style color."
+msgstr "CSS shorthand ; Syntaxe : &eacute;paisseur style couleur."
+
+#: ../inc/options.php:244
+msgid "Let empty for no border."
+msgstr "Vide pour aucun bord."
+
+#: ../inc/options.php:246
+msgid "Choosing a color will generate a 1 px border; can be modified later."
+msgstr ""
+"Choisir une couleur cr&eacute;e automatiquement un bord de 1 px ; Peut "
+"&ecirc;tre modifi&eacute; par la suite."
+
+#: ../inc/options.php:248
+msgid "<b>High radius</b> will occur in <b>surrounded</b> page nubers."
+msgstr ""
+"Utilisez un <b>fort rayon</b> pour obtenir un encadrement des pages en "
+"<b>cercle</b>. "
+
+#: ../inc/options.php:255
+msgid "This feature depends on your theme and could return unexpected results."
+msgstr ""
+"Cette fonction d&eacute;pend de votre th&egrave;me et peut produire des "
+"r&eacute;sultats inattendus."
+
+#: ../inc/options.php:257
+msgid ""
+"Prefer manual installation by adding the following code in your theme "
+"templates where you want the plugin to be displayed:"
+msgstr ""
+"Pr&eacute;f&eacute;rez une installation manuelle en ins&egrave;rant le code "
+"ci-dessous dans les fichiers de votre th&egrave;me &agrave; l'endroit "
+"o&ugrave; vous voulez afficher le plugin :"
+
+#: ../inc/preview.php:3
+msgid "Nothing to display as there is only one page"
+msgstr "Rien ne sera affich&eacute; car il n'y a qu'une page"
+
+#: ../inc/preview.php:4
+msgid ""
+"You can change the &ldquo;Display even if there is only one page&rdquo; "
+"option in general settings"
+msgstr ""
+"Vous pouvez forcer l'affichage en modifiant l'option &ldquo;Afficher m&ecirc;"
+"me s'il n'y a qu'une seule page&rdquo; dans les R&eacute;glages g&eacute;"
+"n&eacute;raux"
+
+#: ../inc/preview.php:7
+msgid "Your page"
+msgstr "Votre page"
+
+#: ../inc/preview.php:14
+msgid "rest of your page..."
+msgstr "suite de votre page ..."
+
+#~ msgid "Example: bold italic small-caps 1em/1.5em verdana,sans-serif"
+#~ msgstr "Exemple : bold italic small-caps 1em/1.5em verdana,sans-serif"
+
+#~ msgid ""
+#~ "Only work if you are specifying both the <b>font-size</b> and the <b>font-"
+#~ "family</b>."
+#~ msgstr ""
+#~ "<b>font-size</b> et <b>font-family</b> sont tous les deux "
+#~ "<b>obligatoires</b>."
+
+#~ msgid ""
+#~ "The <b>font-family</b> command must always be <b>at the very end</b> of "
+#~ "this shorthand command; <b>font-size</b> must come directly before this."
+#~ msgstr ""
+#~ "<b>font-family</b> doit toujours &ecirc;tre <b>&agrave; la fin</b> ; "
+#~ "<b>font-size</b> juste avant."
+
+#~ msgid ""
+#~ "If you do not specify the <b>font-weight, font-style or font-variant</b> "
+#~ "then these values will automatically default to a value of <b>normal</b>."
+#~ msgstr ""
+#~ "S'il n'y a aucune indication pour <b>font-weight, font-style ou font-"
+#~ "variant</b> la valeur <b>normal</b> sera appliqu&eacute;e."
+
+#~ msgid "Let empty to use the parent element font."
+#~ msgstr ""
+#~ "Laisser vide pour utiliser la police de l'&eacute;l&eacute;ment parent."
+
+#, fuzzy
+#~ msgid "Page numbers <small>(CSS shorthand)</small>"
+#~ msgstr "Pages <small>(syntaxe CSS)</small>"
+
+#, fuzzy
+#~ msgid "Current page <small>(CSS shorthand)</small>"
+#~ msgstr "Page courante <small>(syntaxe CSS)</small>"
+
+#, fuzzy
+#~ msgid "On hover <small>(CSS shorthand)</small>"
+#~ msgstr "Page survol&eacute;e <small>(syntaxe CSS)</small>"
+
+#, fuzzy
+#~ msgid "Slider <small>(CSS shorthand)</small>"
+#~ msgstr "Page survol&eacute;e <small>(syntaxe CSS)</small>"
+
+#, fuzzy
+#~ msgid "Cursor <small>(CSS shorthand)</small>"
+#~ msgstr "Police  <small>(syntaxe CSS)</small>"
+
+#~ msgid "Example : 1em 20% 0 20%"
+#~ msgstr "Exemple: 1em 20% 0 20%"
+
+#~ msgid "Effects"
+#~ msgstr "Effets"
+
+#~ msgid "Wrapper margin <small>(CSS syntax)</small>"
+#~ msgstr "Marge <small>(syntaxe CSS)</small>"
+
+#~ msgid "Wrapper padding <small>(CSS syntax)</small>"
+#~ msgstr "Padding <small>(syntaxe CSS)</small>"
+
+#~ msgid "Caption bold"
+#~ msgstr "L&eacute;gende en gras"
+
+#~ msgid "Caption italic"
+#~ msgstr "L&eacute;gende en italique"
+
+#~ msgid "Current page zoom"
+#~ msgstr "Zoom du num&eacute;ro courant"
+
+#~ msgid "Current page bold"
+#~ msgstr "Num&eacute;ro courant en gras"
+
+#~ msgid "On hover zoom"
+#~ msgstr "Zoom du num&eacutero survol&eacute;"
+
+#~ msgid "On hover bold"
+#~ msgstr "Num&eacutero survol&eacute; en gras"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "Title"
+#~ msgstr "Titre"
+
+#~ msgid "Colors <small>(transparent for no color)</small>"
+#~ msgstr "Couleurs <small>(transparent = aucune couleur)</small>"
+
+#~ msgid "Title bold"
+#~ msgstr "Titre gras"
+
+#~ msgid "Wrapper width <small>(<b>%</b>/em/px)</small>"
+#~ msgstr "Largeur de la zone <small>(<b>%</b>/em/px)</small>"
+
+#, fuzzy
+#~ msgid "Width <small>(%/em/px)</small><br><small>auto width if empty</small>"
+#~ msgstr ""
+#~ "Largeur <small>(%/em/px)</small><br><small>largeur auto si vide</small>"
+
+#~ msgid "Alignment <small>(left/<b>center</b>/right)</small>"
+#~ msgstr "Alignement  <small>(left/<b>center</b>/right)</small>"
+
+#~ msgid "Current page font"
+#~ msgstr "Page courante"
+
+#~ msgid "zzz"
+#~ msgstr "ddd"
+
+#, fuzzy
+#~ msgid "On hover font"
+#~ msgstr "Page survol&eacute;e"
+
+#~ msgid "Oops, this page does not exist..."
+#~ msgstr "Cette page n'existe pas (ou plus...)"
+
+#~ msgid "Sorry, this page does not exist"
+#~ msgstr "Cette page n'existe pas (ou plus...)"
+
+#~ msgid " post"
+#~ msgstr " article"
+
+#~ msgid " in "
+#~ msgstr " dans "
+
+#~ msgid "No result for "
+#~ msgstr "Aucun r&eacute;sultat pour "
+
+#~ msgid "Do not try to reach that page directly, Thanks!"
+#~ msgstr "Ne pas charger cette page directement,  merci !"
+
+#~ msgid "This article is password protected"
+#~ msgstr "Cet article est prot&eacue;g&eacue; par mot de passe"
+
+#~ msgid "Type your password to read it"
+#~ msgstr "Entrez le mot de passe pour voir les commentaires"
+
+#~ msgid "First name"
+#~ msgstr "Pr&eacute;nom"
+
+#~ msgid "(mandatory)"
+#~ msgstr "(obligatoire)"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "(mandatory; will not be published)"
+#~ msgstr "(obligatoire - ne sera pas publi&eacute;e)"
+
+#~ msgid "Website"
+#~ msgstr "Site web"
+
+#~ msgid "Submit"
+#~ msgstr "Soumettre"
+
+#~ msgid "All Rights reserved."
+#~ msgstr "Tous droits r&eacute;serv&eacute;s"
+
+#~ msgid "Theme "
+#~ msgstr "Th&egrave;me "
+
+#~ msgid "Main side bar"
+#~ msgstr "Sidebar principale"
+
+#~ msgid "Side bar displayed on large screens"
+#~ msgstr "Sidebar affich&eacute;e sur les grands &eacute;crans"
+
+#~ msgid "Second side bar"
+#~ msgstr "Sidebar secondaire"
+
+#~ msgid "Side bar displayed on small screens"
+#~ msgstr "Affich&eacute;e sur les petits &eacute;cran"
+
+#~ msgid "Menu for desktops"
+#~ msgstr "Menu pour les &eacute;crans larges"
+
+#~ msgid "Menu for mobile phones"
+#~ msgstr "Menu pour les petits &eacute;crans"
+
+#~ msgid "Your comment is awaiting moderation."
+#~ msgstr "Votre commentaire est en attente de mod&eacute;ration."
+
+#~ msgid ""
+#~ "This site can not be displayed with IE6 or older ; please choose another "
+#~ "browser"
+#~ msgstr ""
+#~ "Ce site ne peut pas être affich&eacute; sous IE6 ou moins ; choisissez un "
+#~ "navigateur plus r&eacute;cent"
+
+#~ msgid "Search..."
+#~ msgstr "Rechercher ..."
+
+#~ msgid " result"
+#~ msgstr " r&eacute;sultat"
+
+#~ msgid " for "
+#~ msgstr " pour "
+
+#~ msgid "Category: "
+#~ msgstr "Cat&eacute;gorie : "
+
+#~ msgid "No Comment"
+#~ msgstr "Pas de commentaire"
+
+#~ msgid "1 Comment"
+#~ msgstr "1 Commentaire"
+
+#~ msgid "% Comments"
+#~ msgstr "% Commentaires"
+
+#~ msgid "Comments deactivated"
+#~ msgstr "Commentaires ferm&eacute;s"
+
+#~ msgid "Edit"
+#~ msgstr "Editer"
+
+#~ msgid "No sidebar or wrong register_sidebar in functions.php"
+#~ msgstr ""
+#~ "Aucune sidebar d&eacute;finie ou erreur de register_sidebar dans "
+#~ "functions.php"
+
+#~ msgid "No main-sidebar or wrong register_sidebar in functions.php"
+#~ msgstr ""
+#~ "Aucune main-sidebar d&eacute;finie ou erreur de register_sidebar dans "
+#~ "functions.php"
+
+#~ msgid "No second-sidebar or wrong register_sidebar in functions.php"
+#~ msgstr ""
+#~ "Aucune second-sidebar d&eacute;finie ou erreur de register_sidebar dans "
+#~ "functions.php"
+
+#~ msgid "Use widgets to fill the sidebar"
+#~ msgstr "Utiliser les widgets pour remplir la sidebar"
+
+#~ msgid "Top 10 articles"
+#~ msgstr "Top 10 des articles"
+
+#~ msgid "Permanent Link to %s"
+#~ msgstr "Permalink sur %s"
+
+#~ msgid "Media"
+#~ msgstr "M&eacute;dia"
+
+#~ msgid "Revisions"
+#~ msgstr "Relectures"
+
+#~ msgid "Revision"
+#~ msgstr "Relecture"
+
+#~ msgid "Navigation Menu Items"
+#~ msgstr "Elements du menu"
+
+#~ msgid "Navigation Menu Item"
+#~ msgstr "El&eacute;ment du menu"
+
+#~ msgid "Draft"
+#~ msgstr "Brouillon"
+
+#~ msgid "Pending Review"
+#~ msgstr "Relecture en cours"
+
+#~ msgid "Private"
+#~ msgstr "Priv&eacute;"
+
+#~ msgid "Published"
+#~ msgstr "Publi&eacute;"
+
+#~ msgid "Add New Post"
+#~ msgstr "Nouvel article"
+
+#~ msgid "Add New Page"
+#~ msgstr "Nouvelle page"
+
+#~ msgid "Edit Post"
+#~ msgstr "Editer l'artcile"
+
+#~ msgid "Edit Page"
+#~ msgstr "Editer la page"
+
+#~ msgid "New Post"
+#~ msgstr "Nouvel article"
+
+#~ msgid "New Page"
+#~ msgstr "Nouvelle page"
+
+#~ msgid "View Post"
+#~ msgstr "Visualiser l'article"
+
+#~ msgid "View Page"
+#~ msgstr "Visualiser la page"
+
+#~ msgid "Search Posts"
+#~ msgstr "Recherche d'articles"
+
+#~ msgid "Search Pages"
+#~ msgstr "Recherche de pages"
+
+#~ msgid "No posts found"
+#~ msgstr "Aucun article trouv&eacute;"
+
+#~ msgid "No pages found"
+#~ msgstr "Aucune page trouv&eacute;e"
+
+#~ msgid "No posts found in Trash"
+#~ msgstr "Aucun post dans la corbeille"
+
+#~ msgid "No pages found in Trash"
+#~ msgstr "Aucune page dnas la corbeille"
+
+#~ msgid "Content, title, and excerpt are empty."
+#~ msgstr "Le contenu, le titre et le r&eacute;sum&eacute; sont vies."
+
+#~ msgid "Could not update post in the database"
+#~ msgstr "Impossible de mettre la base de donn&eacute;es &agrave; jour"
+
+#~ msgid "Could not insert post into the database"
+#~ msgstr ""
+#~ "Impossibke d'ins&eacute;rer un article dans la base de donn&eacute;es"
+
+#~ msgid "The page template is invalid."
+#~ msgstr "Le mod&egrave;le de page n'est pas valide."
+
+#~ msgid "Content"
+#~ msgstr "Contenu"
+
+#~ msgid "Excerpt"
+#~ msgstr "R&eacute;sum&eacute;"
+
+#~ msgid "Cannot create a revision of a revision"
+#~ msgstr ""
+#~ "Il n'est pas possible de r&eacute;viser un article en r&eacute;vision"
+
+#~ msgid "You do not have permission to preview drafts."
+#~ msgstr ""
+#~ "Vous n'&ecirc;tes pas autoris&eacute; &agrave; visualier les brouillons."
+
+#~ msgid "1 Comment "
+#~ msgstr "1 Commentaire "
+
+#~ msgid "% Comments "
+#~ msgstr "% Commentaires "
+
+#~ msgid "about"
+#~ msgstr "pour"
+
+#~ msgid " pour "
+#~ msgstr " for "
+
+#~ msgid "Rechercher..."
+#~ msgstr "Search..."
+
+#~ msgid "regarding"
+#~ msgstr "pour"
