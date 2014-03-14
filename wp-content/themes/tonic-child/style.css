@@ -1,16 +1,37 @@
-/*!
-Theme Name:Tonic child
-Theme URI: https://themes.bavotasan.com/2013/tonic/
-Author: 1pointdevueweb
-Author URI: http://bavotasan.com/
-Description: Un thème personnalisé
-Version: beta
-Tags: 
-License: GNU General Public License v3.0
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
-template: tonic
-Tonic WordPress Theme, Copyright 2013 c.bavota
-Tonic is distributed under the terms of the GNU GPL
-*/
+/*Theme name: Theme enfant de Tonic
+ Author: 1pointdevueWeb
+ Template: Tonic
+ */
+@import url("../tonic/style.css");
 
-@import url("./themes/tonic/style.css");
+/* =Main Navigation
+-------------------------------------------------------------- */
+.transparent,
+.navbar {
+  margin-top: 0px;
+}
+
+/* =header
+-------------------------------------------------------------- */
+#header-wrap{
+	padding: 0px;
+}
+.navbar-inner{
+	margin:0;
+}
+
+
+/* =footer
+--------------------------------------------------------- */
+.footer-img{	
+	width:auto;
+	height: 20px;
+	border-radius: none;
+	box-shadow: none;
+	margin:0 10px 0 0;
+}
+
+.footer-align{
+	color: #25608F;
+	margin-top:3px;
+}

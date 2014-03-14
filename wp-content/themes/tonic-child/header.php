@@ -40,16 +40,16 @@ $bavotasan_theme_options = bavotasan_theme_options();
 					</div>
 					<div id="drop-down-search"><?php get_search_form(); ?></div>
 				</div>
-				<?php
+				<!--<?php
 				$text_color = get_header_textcolor();
 				$header_class = ( 'blank' == $text_color ) ? ' class="remove"' : ' class="left-header fl"';
 				?>
 				<div<?php echo $header_class; ?>>
 					<h1 id="site-title"><a href="<?php echo esc_url( home_url() ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 					<?php if ( $bavotasan_theme_options['tagline'] ) { ?><h2 id="site-description"><?php bloginfo( 'description' ); ?></h2><?php } ?>
-				</div>
+				</div>-->
 
-				<div class="right-header fr">
+				<div class="right-header ">
 					<nav id="site-navigation" class="navbar navbar-inverse" role="navigation">
 						<h3 class="assistive-text"><?php _e( 'Main menu', 'tonic' ); ?></h3>
 						<a class="assistive-text" href="#primary" title="<?php esc_attr_e( 'Skip to content', 'tonic' ); ?>"><?php _e( 'Skip to content', 'tonic' ); ?></a>
