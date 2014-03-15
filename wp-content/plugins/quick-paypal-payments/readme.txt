@@ -64,8 +64,9 @@ If it all goes wrong, just reinstall the plugin and start again. If you need hel
 
 == Changelog ==
 
-= 3.5.2 =
-*	Bug fixes to sort options saving problem
+= 3.5.3 =
+*	Fixed error when using % postage or processing fees
+*	Fixed bug in image image uploader
 
 = 3.5.1 =
 *	Bug fix to clear illegal offset warning

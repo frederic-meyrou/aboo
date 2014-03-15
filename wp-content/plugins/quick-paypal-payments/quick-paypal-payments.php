@@ -3,7 +3,7 @@
 Plugin Name: Quick Paypal Payments
 Plugin URI: http://quick-plugins.com/quick-paypal-payments/
 Description: Accept any amount or payment ID before submitting to paypal.
-Version: 3.5.2
+Version: 3.5.3
 Author: fisicx
 Author URI: http://quick-plugins.com/
 */
@@ -167,30 +167,34 @@ function qpp_process_form($values,$id) {
 	$qpp_messages[] = array('field0'=>$sentdate,'field1' => $values['reference'] , 'field2' => $values['quantity'],'field3' => $values['amount'],'field4' => $values['account'],'date' => $sentdate,);
 	update_option('qpp_messages'.$id,$qpp_messages);
     $check = preg_replace ( '/[^.,0-9]/', '', $values['amount']);
+    $check = number_format($check, 2);
+    $quantity =($values['quantity'] < 1 ? '1' : strip_tags($values['quantity']));
    	if ($qpp['useprocess'] && $qpp['processtype'] == 'processpercent') {
 		$percent = preg_replace ( '/[^.,0-9]/', '', $qpp['processpercent']) / 100;
-		$handling = $check * $values['quantity'] * $percent;}
+		$handling = $check * $quantity * $percent;}
 	if ($qpp['useprocess'] && $qpp['processtype'] == 'processfixed') {
 		$handling = preg_replace ( '/[^.,0-9]/', '', $qpp['processfixed']);}
 	if ($qpp['usepostage'] && $qpp['postagetype'] == 'postagepercent') {
 		$percent = preg_replace ( '/[^.,0-9]/', '', $qpp['postagepercent']) / 100;
-		$packing = $check * $values['quantity'] * $percent;}
+		$packing = $check * $quantity * $percent;}
 	if ($qpp['usepostage'] && $qpp['postagetype'] == 'postagefixed') {
 		$packing = preg_replace ( '/[^.,0-9]/', '', $qpp['postagefixed']);}	
-	$content = '<h2>'.$send['waiting'].'</h2>
-		<form action="'.$paypalurl.'" method="post" name="frmCart" id="frmCart" ' . $target . '>
-		<input type="hidden" name="cmd" value="_cart">
-		<input type="hidden" name="upload" value="1">
-		<input type="hidden" name="business" value="' . $qpp_setup['email'] . '">
-		<input type="hidden" name="return" value="' .  $send['thanksurl'] . '">
-		<input type="hidden" name="cancel_return" value="' .  $send['cancelurl'] . '">
-		<input type="hidden" name="no_shipping" value="1">
-		<input type="hidden" name="currency_code" value="' .  $currency[$id] . '">
-		<input type="hidden" name="item_name_1" value="' .$qpp['inputreference'] . ': ' . strip_tags($values['reference']);
+    $handling = number_format($handling,2);
+    $packing = number_format($packing,2);
+    $content = '<h2>'.$send['waiting'].'</h2>
+        <form action="'.$paypalurl.'" method="post" name="frmCart" id="frmCart" ' . $target . '>
+        <input type="hidden" name="cmd" value="_cart">
+        <input type="hidden" name="upload" value="1">
+        <input type="hidden" name="business" value="' . $qpp_setup['email'] . '">
+        <input type="hidden" name="return" value="' .  $send['thanksurl'] . '">
+        <input type="hidden" name="cancel_return" value="' .  $send['cancelurl'] . '">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="currency_code" value="' .  $currency[$id] . '">
+        <input type="hidden" name="item_name_1" value="' .$qpp['inputreference'] . ': ' . strip_tags($values['reference']);
 	if ($qpp['use_options']) $content .= ' - '.strip_tags($values['option1']);
 	$content .='">';
 	if ($qpp['use_stock']) $content .= '<input type="hidden" name="item_number_1" value="' .$qpp['stocklabel'] . ': ' . strip_tags($values['stock']) . '">';
-	$content .= '<input type="hidden" name="quantity_1" value="' . strip_tags($values['quantity']) . '">
+	$content .= '<input type="hidden" name="quantity_1" value="' . $quantity . '">
 		<input type="hidden" name="amount_1" value="' . $check . '">';
 	if ($qpp['useprocess']) $content .='<input type="hidden" name="item_name_2" value="'.$qpp['processref'].'">
 		<input type="hidden" name="amount_2" value="' . $handling . '">';
@@ -228,7 +232,7 @@ function qpp_loop($atts) {
     if ($amount) {
         $formvalues['pay'] = 'checked';
         if (strrpos($amount,',')) {$formvalues['amount'] = $amount;$formvalues['explodepay'] = 'checked';}
-        else $formvalues['amount'] = $shortcodepayment.$amount;
+        else $formvalues['amount'] = $shortcodeamount.$amount;
         }
 	else {$formvalues['amount'] = $qpp['inputamount'];$formvalues['pay'] = '';}
 	
@@ -261,10 +265,9 @@ function qpp_loop($atts) {
 	return $output_string;
 	}
 function qpp_sanitize($input) {
-    if (is_array($input)) {
-        foreach($input as $var=>$val) $output[$var] = filter_var($val, FILTER_SANITIZE_STRING);}
+    if (is_array($input)) foreach($input as $var=>$val) $output[$var] = filter_var($val, FILTER_SANITIZE_STRING);
     return $output;
-}
+    }
 function register_qpp_widget() {register_widget( 'qpp_Widget' );}
 add_action( 'widgets_init', 'register_qpp_widget' );
 
@@ -287,28 +290,28 @@ class qpp_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['id'] = $new_instance['id'];
 		$instance['amount'] = $new_instance['amount'];
-        $instance['form'] = $new_instance['form'];
+        		$instance['form'] = $new_instance['form'];
 		return $instance;
 		}
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'amount' => '' , 'id' => '','form' => '' ) );
 		$id = $instance['id'];
 		$amount = $instance['amount'];
-        $form=$instance['form'];
-        $qpp_setup = qpp_get_stored_setup();
+		$form=$instance['form'];
+		$qpp_setup = qpp_get_stored_setup();
 		?>
-        <h3>Select Form:</h3>
-        <select class="widefat" name="<?php echo $this->get_field_name('form'); ?>">
-        <?php
+		<h3>Select Form:</h3>
+		<select class="widefat" name="<?php echo $this->get_field_name('form'); ?>">
+		<?php
 		$arr = explode(",",$qpp_setup['alternative']);
 		foreach ($arr as $item) {
 			if ($item == '') {$showname = 'default'; $item='';} else $showname = $item;
 			if ($showname == $form || $form == '') $selected = 'selected'; else $selected = '';
 			?><option value="<?php echo $item; ?>" id="<?php echo $this->get_field_id('form'); ?>" <?php echo $selected; ?>><?php echo $showname; ?></option><?php } ?>
-            </select>
-        <h3>Presets:</h3>
+		</select>
+		<h3>Presets:</h3>
 		<p><label for="<?php echo $this->get_field_id('id'); ?>">Payment Reference: <input class="widefat" id="<?php echo $this->get_field_id('id'); ?>" name="<?php echo $this->get_field_name('id'); ?>" type="text" value="<?php echo attribute_escape($id); ?>" /></label></p>
-        <p><label for="<?php echo $this->get_field_id('amount'); ?>">Amount: <input class="widefat" id="<?php echo $this->get_field_id('amount'); ?>" name="<?php echo $this->get_field_name('amount'); ?>" type="text" value="<?php echo attribute_escape($amount); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('amount'); ?>">Amount: <input class="widefat" id="<?php echo $this->get_field_id('amount'); ?>" name="<?php echo $this->get_field_name('amount'); ?>" type="text" value="<?php echo attribute_escape($amount); ?>" /></label></p>
 		<p>Leave blank to use the default settings.</p>
 		<p>To configure the payment form use the <a href="'.get_admin_url().'options-general.php?page=quick-paypal-payments/quick-paypal-payments.php">Settings</a> page</p>
 		<?php
