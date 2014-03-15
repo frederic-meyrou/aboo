@@ -12,7 +12,7 @@
 
 <hr>
 <div class="footer">
-        <p class="text-center"><span class="glyphicon glyphicon-copyright-mark"></span> Aboo 2014</p>
+        <a href="#"><p class="text-center"><span class="glyphicon glyphicon-copyright-mark"></span> Aboo 2014</p></a>
 </div>
 
 </div>
