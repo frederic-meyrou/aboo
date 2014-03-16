@@ -39,7 +39,7 @@
             <strong>Bonjour!</strong> Bienvenue sur l'application Aboo!
         </div>
         
-    <p class="test"> Aboo </p>    
+    <!--<p class="test"> Aboo </p>-->    
 
     </div> <!-- /container -->
        

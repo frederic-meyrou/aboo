@@ -1,0 +1,31 @@
+# On force le Charset sur tout le site pour Apache
+AddDefaultCharset utf-8
+
+# On renomme les extention de fichier .php en .htm
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^(.*)\.htm$ $1.php [nc]
+</IfModule>
+
+# On enlève l'affichage des fichiers et répertoires
+Options All -Indexes
+
+# Gestion des 40?
+ErrorDocument 403 /aboo/403.php 
+ErrorDocument 404 /aboo/404.php
+
+### Securisation :
+DirectoryIndex index.php index.html index.phtml /aboo/403.php
+
+<FilesMatch ^database.php$>
+ order allow,deny 
+ deny from all
+</FilesMatch>
+<FilesMatch ^authent.php$>
+ order allow,deny 
+ deny from all
+</FilesMatch>
+<Files .htaccess>
+   order allow,deny  
+   deny from all  
+</Files>

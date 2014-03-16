@@ -99,25 +99,26 @@
 <body>
     
     <!-- Affiche la navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">      
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Marque -->
-          <a class="navbar-brand" href="aboo.php">Aboo</a>
-      </div>     
-      <!-- Liens -->
-      <div class="collapse navbar-collapse" id="TOP">
-        <ul class="nav navbar-nav">
-          <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion</a></li>
-          <li class="active" data-toggle="modal" data-target="#myModal"><a href="connexion2.php"><span class="glyphicon glyphicon-off"></span> Connexion 2</a></li>   
-          <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> De-connexion</a></li>                                     
-        </ul>
-      </div><!-- /.navbar-collapse -->
+    <nav class="navbar navbar-inverse" role="navigation">   
+       <div class="container">             
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <!-- Marque -->
+              <a class="navbar-brand" href="http://www.aboo.fr">Aboo</a>
+          </div>     
+          <!-- Liens -->
+          <div class="collapse navbar-collapse" id="TOP">
+            <ul class="nav navbar-nav">
+              <li><a href="connexion.php"><span class="glyphicon glyphicon-off"></span> Connexion Classique</a></li>
+              <li><a href="connexion2.php"><span class="glyphicon glyphicon-off"></span> Connexion Modale</a></li>                                    
+            </ul>
+          </div><!-- /.navbar-collapse -->
+      </div>          
     </nav>    
     
     <div class="container">
