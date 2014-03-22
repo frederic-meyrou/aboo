@@ -16,6 +16,9 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     //REPORT_TRESO
     //NON_DECLARE
     //SALAIRE_COMMENTAIRE
+    //PROVISION_CHARGES
+    //PROVISION_CHARGES_REEL
+    //PROVISION_CHARGES_COMMENTAIRE
 
 // Initialisation de la base
     $pdo = Database::connect();
@@ -68,7 +71,14 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
         $CA_{$m}= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0; 
         $DEPENSE_{$m}= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
         $SOLDE_{$m}= $CA_{$m} + $DEPENSE_{$m};
-        $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;           
+        $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;       
+        // Calcul des charges (Cas EI Reel ~30%) 
+        // TODO : Calcul Provisoire, faire des cas par statut fiscal
+        if ($SOLDE_{$m} > 0) {
+            $PROVISION_CHARGES_{$m}= $SOLDE_{$m} * 0.3;
+        } else {
+            $PROVISION_CHARGES_{$m}=0;
+        }    
         // Calcul des sommes ventillées (grille annuelle)
         $VENTIL_{$m}= !empty($data2["SUM(mois_$m)"]) ? $data2["SUM(mois_$m)"] : 0;
         // Calcul des encaissements
@@ -87,7 +97,8 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
                 P.mois_$m <> 0 AND
                 P.paye_$m = 0
                 ";
-		$sql7 ="SELECT salaire,commentaire from salaire WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";		                         
+		$sql7 ="SELECT salaire,commentaire from salaire WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";
+        $sql8 ="SELECT charges,commentaire from charges WHERE user_id = :userid AND exercice_id = :exerciceid AND mois = :mois";            		                         
         // Envoi des requettes 
         $req4 = $pdo->prepare($sql4);
         $req4->execute($q2);
@@ -97,7 +108,10 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
         $data5 = $req5->fetch(PDO::FETCH_ASSOC);
         $req7 = $pdo->prepare($sql7);
         $req7->execute($q);
-        $data7 = $req7->fetch(PDO::FETCH_ASSOC);                                     
+        $data7 = $req7->fetch(PDO::FETCH_ASSOC);   
+        $req8 = $pdo->prepare($sql8);
+        $req8->execute($q);
+        $data8 = $req8->fetch(PDO::FETCH_ASSOC);                                           
         // Calcul des sommes 
         $PAIEMENT_{$m}= !empty($data4["SUM(P.mois_$m)"]) ? $data4["SUM(P.mois_$m)"] : 0;
         $ECHUS_{$m}= !empty($data5["SUM(P.mois_$m)"]) ? $data5["SUM(P.mois_$m)"] : 0; 
@@ -105,7 +119,7 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
         
         // Mois relatif précédent
         $mois_relatif_prec = $m - 1;
-    
+        
         if ($m == 1) { // Premier mois, cas particulier : on utilise la treso de début d'exercice
             $TRESO_{$m} = $exercicetreso + $ENCAISSEMENT_{$m} + $DEPENSE_{$m};
             $SALAIRE_{$m} = ($VENTIL_{$m} > $TRESO_{$m}) ? ($TRESO_{$m} + $DEPENSE_{$m} ) : ( $VENTIL_{$m} + $DEPENSE_{$m} );
@@ -124,10 +138,14 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             }                      
         }
         if ($SALAIRE_{$m} <= 0) {$SALAIRE_{$m}=0;} // Pas de salaire négatif!
+        // Lecture du Salaire réel en BDD
         $SALAIRE_REEL_{$m}= !empty($data7['salaire']) ? $data7['salaire'] : $SALAIRE_{$m};
-        $SALAIRE_COMMENTAIRE_{$m}= !empty($data7['commentaire']) ? $data7['commentaire'] : '';        
-        //$REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_{$m};
-        $REPORT_TRESO_{$m}= $TRESO_{$m} - $SALAIRE_REEL_{$m}; // Prise en compte du salaire réél
+        $SALAIRE_COMMENTAIRE_{$m}= !empty($data7['commentaire']) ? $data7['commentaire'] : '';
+        // Lecture des charges reeles en BDD
+        $PROVISION_CHARGES_REEL_{$m}= !empty($data8['charges']) ? $data8['charges'] : $PROVISION_CHARGES_{$m};
+        $PROVISION_CHARGES_COMMENTAIRE_{$m}= !empty($data8['commentaire']) ? $data8['commentaire'] : '';
+        // Calcul de la tréso finale
+        $REPORT_TRESO_{$m}= $TRESO_{$m} - $PROVISION_CHARGES_REEL_{$m} - $SALAIRE_REEL_{$m}; // Prise en compte du salaire réél et des cahrges
         // Génération du Tableau :
         $TableauBilan[$m] = array (
             'CA' => $CA_{$m},                                                                   
@@ -141,6 +159,9 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
             'SALAIRE' => $SALAIRE_{$m},        
             'SALAIRE_REEL' => $SALAIRE_REEL_{$m},    
             'SALAIRE_COMMENTAIRE' => $SALAIRE_COMMENTAIRE_{$m},                 
+            'PROVISION_CHARGES' => $PROVISION_CHARGES_{$m},        
+            'PROVISION_CHARGES_REEL' => $PROVISION_CHARGES_REEL_{$m},    
+            'PROVISION_CHARGES_COMMENTAIRE' => $PROVISION_CHARGES_COMMENTAIRE_{$m},                 
             'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                               
             'REPORT_TRESO' => $REPORT_TRESO_{$m},
             'NON_DECLARE' => $NON_DECLARE_{$m}
@@ -150,35 +171,6 @@ function CalculBilanMensuel($userid, $exerciceid, $exercicetreso) {
     Database::disconnect();       
     return $TableauBilan;
 }
-
-function SauveBilanMensuel($userid, $exerciceid, $BilanMensuel) {
-    
-// Initialisation de la base
-    $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    for ($mois = 1; $mois <= 12; $mois++) {
-        
-        // On test que l'enregistrement existe
-        $sql = "SELECT * FROM bilan WHERE user_id = ?, exercice_id = ?, mois = ?";
-        $q = $pdo->prepare($sql);
-        $data = $req->fetch(PDO::FETCH_ASSOC);
-        $count = $req->rowCount($sql);
-
-        if ($count==0) { // On crée l'enregistrement        
-            $sql2 = "INSERT INTO bilan (user_id,exercice_id,mois,ca,depenses,ventilation,paiements,encaissements,echus,salaire,treso,report_treso,report_salaire) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $q2 = array($userid, $exerciceid, $mois, $BilanMensuel[$mois]['CA'], $BilanMensuel[$mois]['DEPENSE'], $BilanMensuel[$mois]['VENTIL'], $BilanMensuel[$mois]['PAIEMENT'], $BilanMensuel[$mois]['ENCAISSEMENT'], $BilanMensuel[$mois]['ECHUS'], $BilanMensuel[$mois]['SALAIRE'], $BilanMensuel[$mois]['TRESO'], $BilanMensuel[$mois]['REPORT_TRESO'], $BilanMensuel[$mois]['REPORT_SALAIRE']);   
-        } else { // On met à jour l'enregistrement
-            $sql2 = "UPDATE bilan set ca=?,depenses=?,ventilation=?,paiements=?,encaissements=?,echus=?,salaire=?,treso=?,report_treso=?,report_salaire=? WHERE user_id = ? AND exercice_id = ? AND mois = ?";
-            $q2 = array($BilanMensuel[$mois]['CA'], $BilanMensuel[$mois]['DEPENSE'], $BilanMensuel[$mois]['VENTIL'], $BilanMensuel[$mois]['PAIEMENT'], $BilanMensuel[$mois]['ENCAISSEMENT'], $BilanMensuel[$mois]['ECHUS'], $BilanMensuel[$mois]['SALAIRE'], $BilanMensuel[$mois]['TRESO'], $BilanMensuel[$mois]['REPORT_TRESO'], $BilanMensuel[$mois]['REPORT_SALAIRE'],$userid, $exerciceid, $mois);               
-        }
-        // On execute la requette                  
-        $req2 = $pdo->prepare($sql2);
-        $req2->execute($q2);
-    }                 
-    Database::disconnect();      
-}
-
 
 function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //TableauBilan = array[assoc]
@@ -202,7 +194,8 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     //IMPOT
     //NON_DECLARE
     //DECLARE        
-    
+    //PROVISION_CHARGES
+    //PROVISION_CHARGES_REEL
     
 // Initialisation de la base
     $pdo = Database::connect();
@@ -288,7 +281,9 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
     $SALAIRE = 0;
     $NON_DECLARE = 0;
 	$SALAIRE_REEL = 0;
-    
+    $PROVISION_CHARGES = 0;    
+    $PROVISION_CHARGES_REEL = 0;    
+        
     // Calcul des sommes (boucle sur les mois relatifs)
     for ($m = 1; $m <= 12; $m++) {
         $VENTIL = $VENTIL + $BilanMensuel[$m]['VENTIL'];
@@ -297,7 +292,9 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         $ENCAISSEMENT = $ENCAISSEMENT + $BilanMensuel[$m]['ENCAISSEMENT'];
         $SALAIRE = $SALAIRE + $BilanMensuel[$m]['SALAIRE'];
 		$SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];
-        $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];
+        $PROVISION_CHARGES = $PROVISION_CHARGES + $BilanMensuel[$m]['PROVISION_CHARGES'];
+        $PROVISION_CHARGES_REEL = $PROVISION_CHARGES_REEL + $BilanMensuel[$m]['PROVISION_CHARGES_REEL'];
+                
     }
     
     // On garde que les derniers reports
@@ -315,6 +312,8 @@ function CalculBilanAnnuel($userid, $exerciceid, $BilanMensuel) {
         'ECHUS' => $ECHUS,                                                             
         'ENCAISSEMENT' => $ENCAISSEMENT,                                                                   
         'TRESO' => $TRESO,
+        'PROVISION_CHARGES' => $PROVISION_CHARGES,        
+        'PROVISION_CHARGES_REEL' => $PROVISION_CHARGES_REEL,        
         'SALAIRE' => $SALAIRE,        
         'SALAIRE_REEL' => $SALAIRE_REEL,
         'REPORT_SALAIRE' => $REPORT_SALAIRE,                                                                   
