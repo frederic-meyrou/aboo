@@ -160,6 +160,26 @@ function PeriodiciteeToNum($periode)
     }
 }
 
+
+// Tableau avec liste des statut fiscaux
+$Liste_Regime_Fiscal = array(0 => 'Non défini', 1 => 'Auto-Entrepreneur RSI', 2 => 'Auto-Entrepreneur CIPAV', 3 => 'Entreprise Individuelle (IE) BNC régime Micro', 
+                             4 => 'Entreprise Individuelle (IE) BNC Réel en franchine de TVA', 5 => 'Association en franchise de TVA' );
+
+// Transforme un numéro de regime fiscal en libelle 
+function NumToRegimeFiscal($num)
+{
+    if ($num == 0 || $num == '0') {
+        global $Liste_Regime_Fiscal;
+        return $Liste_Regime_Fiscal[0];        
+    } elseif (!$num == null) {
+        global $Liste_Regime_Fiscal;
+        return $Liste_Regime_Fiscal[$num];
+    } else {
+        error_log("Erreur NumToRegimeFiscal : variable invalide.", 3, "./erreur.log"); 
+        return null;
+    }       
+}
+
 // Ventille le montant d'un abonnement périodique depusi le mois courant sur le nombre de mois de la periodicitee 
 function Ventillation($mois, $montant, $periodicitee) {
     // Vérifications

@@ -29,8 +29,8 @@
                 <ul class="nav navbar-nav">
                   <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
                   <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
-                  <li<?php echo ($page_courante == "charges.php")?' class="active"':'';?>><a href="charges.php"><span class="glyphicon glyphicon-euro"></span> Social</a></li>
-                  <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-euro"></span> Paiements</a></li>
+                  <li<?php echo ($page_courante == "charges.php")?' class="active"':'';?>><a href="charges.php"><span class="glyphicon glyphicon-bookmark"></span> Social</a></li>
+                  <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-credit-card"></span> Paiements</a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span> Bilan<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -49,7 +49,8 @@
                     <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li<?php echo ($page_courante == "exercice.php")?' class="active"':'';?>><a href="exercice.php"><span class="glyphicon glyphicon-wrench"></span> Exercice</a></li>
+                      <li<?php echo ($page_courante == "exercice.php")?' class="active"':'';?>><a href="exercice.php"><span class="glyphicon glyphicon-calendar"></span> Exercice</a></li>
+                      <li<?php echo ($page_courante == "configuration.php")?' class="active"':'';?>><a href="configuration.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
                       <li<?php echo ($page_courante == "debug.php")?' class="active"':'';?>><a href="debug.php"><span class="glyphicon glyphicon-eye-open"></span> Debug</a></li>  
                       <li<?php echo ($page_courante == "infos.php")?' class="active"':'';?>><a href="infos.php"><span class="glyphicon glyphicon-info-sign"></span> Informations</a></li>  
                       <li><a href="deconnexion.php"><span class="glyphicon glyphicon-off"></span> Deconnexion</a></li>
