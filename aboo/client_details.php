@@ -77,26 +77,33 @@
 	$req2 = $pdo->prepare($sql2);
 	$req2->execute($q2);
 	$data2 = $req2->fetch(PDO::FETCH_ASSOC);
-	// Lecture des recettes
+	// Lecture du nombre d'abonnements
 	$sql3 = "SELECT * FROM recette WHERE
     		client_id = :id AND user_id = :user_id AND type = '1'
     		";
     $q3 = array('id' => $id, 'user_id' => $user_id);	
 	$req3 = $pdo->prepare($sql3);
 	$req3->execute($q3);
-	$data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
+	//$data3 = $req3->fetchAll(PDO::FETCH_ASSOC);
 	$count3 = $req3->rowCount($sql3);
-	// Lecture des reventes
+	// Lecture du nombre de reventes
 	$sql4 = "SELECT * FROM recette WHERE
     		client_id = :id AND user_id = :user_id AND type = '2'
     		";
     $q4 = array('id' => $id, 'user_id' => $user_id);	
 	$req4 = $pdo->prepare($sql4);
 	$req4->execute($q4);
-	$data4 = $req4->fetchAll(PDO::FETCH_ASSOC);
+	//$data4 = $req4->fetchAll(PDO::FETCH_ASSOC);
 	$count4 = $req4->rowCount($sql4);
-	
-	
+    // Lecture de toutes les ventes clients
+    $sql5 = "SELECT * FROM recette WHERE
+            client_id = :id AND user_id = :user_id
+            ";
+    $q5 = array('id' => $id, 'user_id' => $user_id);    
+    $req5 = $pdo->prepare($sql5);
+    $req5->execute($q5);
+    $data5 = $req5->fetchAll(PDO::FETCH_ASSOC);	
+    $count5 = $req5->rowCount($sql5);	
 	
 	Database::disconnect();		
 ?>
@@ -115,13 +122,11 @@
             <h2>Gestion de mes clients</h2>       
         </div>
             	
-        <h3>Détails d'un client</h3>       
-        <br>
 		<p>
-	 	    <a href="mesclients.php" class="btn btn-primary" ><span class="glyphicon glyphicon-eject"></span> Retour</a>			
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail</a>			
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Envoi d'un eMail de relance</a>			
-  			<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
+	 	    <a href="mesclients.php" class="btn btn-sm btn-primary" ><span class="glyphicon glyphicon-eject"></span> Retour</a>			
+  			<a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-send"></span> Envoi d'un eMail</a>			
+  			<a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-send"></span> Envoi d'un eMail de relance</a>			
+  			<a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
 		</p>
 				             
         <!-- Affiche les informations de debug -->
@@ -216,10 +221,69 @@
               
             </div> <!-- /col -->
 		</div> 	<!-- /row -->
+
+        <!-- Affiche la table -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Liste des ventes au clients : <span class="badge "><?php echo $count5; ?></span>
+            <div class="btn-group btn-group-xs pull-right">
+                <a href="csv/export_ventes_client.php" target="_blank" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                <a href="#" target="_blank" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
+            </div>          
+            </h3>
+          </div>            
+          <div class="panel-body">
+            <div class="table-responsive">          
+            <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover success">
+                <thead>
+                    <tr class="active">
+                      <th>Date</th>
+                      <th>Type</th>                   
+                      <th>Montant</th>
+                      <th>Périodicitée</th>                      
+                      <th>Commentaire</th>            
+                    </tr>
+                </thead>
+                
+                <tbody>
+                <?php            
+                    foreach ($data5 as $row) {
+                        echo '<tr>';
+                        echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
+                        echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
+                        echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
+                        echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';                        
+                        echo '<td>' . $row['commentaire'] . '</td>';
+                        echo '</tr>';
+                    }
+                ?>                       
+                </tbody>
+            </table>
+          </div> <!-- /table-responsive -->         
+          </div>
+        </div> <!-- /panel -->
+
              
     </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
+
+    <script>  
+        /* Table initialisation */
+        $(document).ready(function() {
+            $('.datatable').dataTable();
+            $('.datatable').each(function(){
+                var datatable = $(this);
+                // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+                var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+                search_input.attr('placeholder', 'Rechercher');
+                search_input.addClass('form-control input-sm');
+                // LENGTH - Inline-Form control
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-sm');
+            });             
+        });
+    </script>      
         
   </body>
 </html>
