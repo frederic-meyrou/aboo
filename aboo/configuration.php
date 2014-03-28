@@ -100,12 +100,16 @@
 
         <div class="row">
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 
             <!-- Mon compte -->                    
               <div class="panel panel-success">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Mon compte Aboo</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Mon compte Aboo
+                  <div class="btn-group btn-group-xs pull-right">
+                        <a href="#" class="btn btn-xs btn-primary" onclick="$('#modalConfigFormCompte').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Modifier</a>                         
+                  </div>
+                  </h3>
                 </div>
                 <div class="panel-body">
                       <?php                                
@@ -119,9 +123,9 @@
                                 echo $data['mobile'] . '<br>'; 
                                 
                                 echo '<span class="glyphicon glyphicon-calendar"></span> : ';                                                                                                 
-                                echo 'Inscription sur Aboo : ' . $data['inscription']. '<br>';
+                                echo 'Inscription sur Aboo : ' . date("d/m/Y", strtotime($data['inscription'])) . '<br>';
                                 echo '<span class="glyphicon glyphicon-calendar"></span> : ';                                
-                                echo 'Expiration de mon abonnement Aboo : ' . $data['expiration']. '<br>';
+                                echo 'Expiration de mon abonnement Aboo : ' . date("d/m/Y", strtotime($data['expiration'])). '<br>';
 
                                 echo '<span class="glyphicon glyphicon-copyright-mark"></span> : ';
                                 echo 'Abonnement Aboo : ';
@@ -139,7 +143,11 @@
               <!-- Adresse -->
               <div class="panel panel-success">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span> Coordonnées de ma société pour factures</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span> Coordonnées de ma société pour factures
+                  <div class="btn-group btn-group-xs pull-right">
+                        <a href="#" class="btn btn-xs btn-primary" onclick="$('#modalConfigFormCoordonnees').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Modifier</a>                         
+                  </div>
+                  </h3>               
                 </div>
                 <div class="panel-body">
                       <?php 
@@ -159,12 +167,16 @@
               
             </div> <!-- /col -->  
                             
-            <div class="col-sm-4 col-md-offset-0">
+            <div class="col-sm-5 col-md-offset-0">
 
               <!-- Entreprise -->
               <div class="panel panel-warning">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Entreprise</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-briefcase"></span> Entreprise
+                  <div class="btn-group btn-group-xs pull-right">
+                        <a href="#" class="btn btn-xs btn-primary" onclick="$('#modalConfigFormEntreprise').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Modifier</a>                         
+                  </div>
+                  </h3>                
                 </div>
                 <div class="panel-body">
                       <?php
@@ -179,10 +191,14 @@
                 </div>
               </div>
               
-              <!-- Information diverses -->
+              <!-- Options diverses -->
               <div class="panel panel-info">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-wrench"></span> Configuration options Aboo</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-wrench"></span> Configuration options Aboo
+                  <div class="btn-group btn-group-xs pull-right">
+                        <a href="#" class="btn btn-xs btn-primary" onclick="$('#modalConfigFormOptions').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Modifier</a>                         
+                  </div>
+                  </h3>                  
                 </div>
                 <div class="panel-body">
                       <?php 
@@ -196,7 +212,13 @@
               
             </div> <!-- /col -->
         </div>  <!-- /row -->
-                
+
+        <!-- Modal Formulaires -->
+        <?php include('modal/config_compte.php'); ?>
+        <?php include('modal/config_coordonnees.php'); ?>
+        <?php include('modal/config_entreprise.php'); ?>                        
+        <?php include('modal/config_options.php'); ?>
+                                    
 		<!-- Affiche sous condition -->
 			<?php 
  			if ($affiche) {

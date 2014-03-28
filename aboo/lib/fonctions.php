@@ -180,6 +180,18 @@ function NumToRegimeFiscal($num)
     }       
 }
 
+function RegimeFiscalToNum($regime)
+{
+    if (empty($regime) || $regime == null) {
+        error_log("Erreur RegimeFiscalToNum : variable invalide.", 3, "./erreur.log");    
+        return null;
+    } else {
+        global $Liste_Regime_Fiscal;
+        $array = array_keys($Liste_Regime_Fiscal,$regime);
+        return $array[0];     
+    }      
+}
+
 // Ventille le montant d'un abonnement périodique depusi le mois courant sur le nombre de mois de la periodicitee 
 function Ventillation($mois, $montant, $periodicitee) {
     // Vérifications
