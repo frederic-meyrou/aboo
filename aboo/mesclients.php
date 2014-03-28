@@ -148,7 +148,7 @@
             <p>  
             <h3 class="panel-title">Liste de mes clients :             
             <div class="btn-group pull-right">
-                <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                <a href="csv/export_mes_clients.php" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
                 <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>             
             </div>
             </h3>

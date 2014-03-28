@@ -205,7 +205,7 @@
 		  <div class="panel-heading">
 	        <h3 class="panel-title">Journal du mois courant : <button type="button" class="btn btn-sm btn-info"><?php echo NumToMois($abodep_mois) . " $exercice_annee - " . ($exercice_annee +1); ?> : <span class="badge "><?php echo $count; ?></span></button>
 			<div class="btn-group btn-group-sm pull-right">
-	            <a href="journal_excel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+	            <a href="csv/export_journal.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
 	            <a href="journal_pdf.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
 	        </div>	        
 	        </h3>

@@ -3,15 +3,15 @@
 -->
 <?php
 // Dépendances
-	require_once('lib/fonctions.php');
-    include_once('lib/database.php');
+	require_once('../lib/fonctions.php');
+    include_once('../lib/database.php');
 	
 // Vérification de l'Authent
     session_start();
-    require('lib/authent.php');
+    require('../lib/authent.php');
     if( !Authent::islogged()){
         // Non authentifié on repart sur la HP
-        header('Location:../index.php');
+        header('Location:../../index.php');
     }
 
 // Mode Debug
@@ -61,38 +61,48 @@
     		user_id = :userid AND exercice_id = :exerciceid AND mois = :mois )
     		ORDER BY date_creation
     		";
-
-				
+						
     $q = array('userid' => $user_id, 'exerciceid' => $exercice_id, 'mois' => MoisRelatif($abodep_mois,$exercice_mois));
     
     $req = $pdo->prepare($sql);
     $req->execute($q);
     $data = $req->fetchAll(PDO::FETCH_ASSOC);
     $count = $req->rowCount($sql);
+	Database::disconnect();
     	
 	if ($count==0) { // Il n'y a rien à afficher
-        $affiche = false;           
-    } else {
-            // On affiche le tableau
-	        $affiche = true;
+        exit;           
     }
-	Database::disconnect();
 	
-// --- DEBUT STRUCTURE EXCEL
+// --- DEBUT STRUCTURE CSV
 
-	$fichier = new FichierExcel();
-	$fichier->Colonne("Date;Type;Montant;Commentaire");
-	foreach ($data as $row) {
-		$fichier->Insertion(date("d/m/Y H:i", strtotime($row['date_creation'])) . ';' . NumToTypeRecette($row['type']) . ';' . $row['montant'] . ';' . $row['commentaire'] );
-	}
+$file = getcwd() . '/' . uniqid() . '.csv';
+$handle = fopen($file, 'w'); //fichier temp
 
-	$fichier->output("./Export-Journal-" . NumToMois($abodep_mois-aboo));										 
+$colonnes= array('Date','Type','Montant','Commentaire');
+fputcsv($handle, $colonnes, ';', '"'); // Ajout des colonnes
 
-// --- FIN STRUCTURE EXCELL
+foreach ($data as $row) { // Ajout des lignes, lecture BDD
+		$ligne= array(date("d/m/Y H:i", strtotime($row['date_creation'])), NumToTypeRecette($row['type']), number_format($row['montant'],2,',',''), $row['commentaire']);
+		fputcsv($handle, $ligne, ';', '"' );
+}
 
-//readfile("./Export-Journal-" . NumToMois($abodep_mois-aboo) . ".csv");
+ob_clean(); // On enlève tout ce qui traine du buffer écran!
 
-?>        
+header('Content-Description: File Transfer'); // Mode download
+header('Content-Encoding: UTF-8');
+header('Content-Type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename='."Export-Journal-Mensuel-" . NumToMois($abodep_mois) . "-" . $exercice_annee . "-aboo.csv"); // Nommage du fichier en sortie
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0'); // désactivation du cache
+header('Pragma: public');
+header('Content-Length: ' . filesize($file)); // Taille du fichier à télécharger
+echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
-                
-  
+readfile($file); // Envoi le fichier
+fclose($handle);
+unlink($file); // efface le fichier temporaire
+
+exit;
+// --- FIN STRUCTURE CSV
+?>
