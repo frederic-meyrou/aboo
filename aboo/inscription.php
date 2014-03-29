@@ -55,7 +55,7 @@
 	    if(empty($sPOST['telephone'])){
 	        $error_telephone = 'Veuillez renseigner votre téléphone';
 			$validate=false;
-	    }		
+	    }
 	    if(!filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)){
 	        $error_email = 'Votre Email n\'est pas valide !';
 			$validate=false;
@@ -82,8 +82,8 @@
 	    $token = sha1(uniqid(rand()));
 	
 		// MàJ de la BDD
-	    $q = array('prenom'=>$prenom, 'nom'=>$nom, 'email'=>$email, 'telephone'=>$telephone, 'password'=>$password, 'inscription'=>$inscription, 'token'=>$token);
-	    $sql = 'INSERT INTO user (prenom, nom, email, telephone, password, inscription, token, essai) VALUES (:prenom, :nom, :email, :telephone, :password, :inscription, :token, 1)';
+	    $q = array('prenom'=>$prenom, 'nom'=>$nom, 'email'=>$email, 'mobile'=>$telephone, 'password'=>$password, 'inscription'=>$inscription, 'token'=>$token);
+	    $sql = 'INSERT INTO user (prenom, nom, email, mobile, password, inscription, token, essai) VALUES (:prenom, :nom, :email, :mobile, :password, :inscription, :token, 1)';
 	    $req = $pdo->prepare($sql);
 	    $req->execute($q);
 	

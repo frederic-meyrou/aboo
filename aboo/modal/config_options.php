@@ -1,7 +1,7 @@
                     <!-- Modal -->
                     <div class="modal fade" id="modalConfigFormOptions" tabindex="-1" role="dialog" aria-labelledby="modalConfigFormOptionsLabel" aria-hidden="true">
                       <div class="modal-dialog">
-                        <form role="form" class="form-inline">  
+                        <form role="form" class="form-inline" action="configuration.php" method="post">  
                         <div class="modal-content">
                               <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -13,13 +13,13 @@
                                         <div class="radio">
                                           <label>
                                             <strong>Option Aboo Social : </strong>   
-                                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Non" <?php echo ($data['gestion_social'] == 0)?'checked':'';?>>
+                                            <input type="radio" name="social" id="socialnon" value="Non" <?php echo ($data['gestion_social'] == 0)?'checked':'';?>>
                                             Non
                                           </label>
                                         </div>
                                         <div class="radio">
                                           <label>
-                                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Oui" <?php echo ($data['gestion_social'] == 1)?'checked':'';?>>
+                                            <input type="radio" name="social" id="socialoui" value="Oui" <?php echo ($data['gestion_social'] == 1)?'checked':'';?>>
                                             Oui
                                           </label>
                                         </div>

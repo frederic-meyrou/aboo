@@ -1,25 +1,26 @@
                     <!-- Modal -->
                     <div class="modal fade" id="modalConfigFormEntreprise" tabindex="-1" role="dialog" aria-labelledby="modalConfigFormEntrepriseLabel" aria-hidden="true">
                       <div class="modal-dialog">
-                        <form role="form" class="form-horizontal">  
+                        <form role="form" class="form-horizontal" action="configuration.php" method="post">  
                         <div class="modal-content">
                               <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3 class="modal-title" id="modalConfigFormEntrepriseLabel">Modification des informations de mon entreprise :</h3>
                               </div><!-- /.modal-header -->
                               <div class="modal-body">
+                                  <div class="form-group <?php echo !empty($societeError)?'has-error':'';?>">
+                                    <label for="societe" class="col-sm-3 control-label">Raison Sociale</label>
+                                    <div class="col-sm-6">
+                                      <input name="societe" type="text" class="form-control" id="societe" placeholder="Raison Sociale" value="<?php echo !empty($data['raison_sociale'])?$data['raison_sociale']:'';?>">
+                                    </div>
+                                  </div>                                    
                                   <div class="form-group <?php echo !empty($siretError)?'has-error':'';?>">
                                     <label for="siret" class="col-sm-3 control-label">SIRET</label>
                                     <div class="col-sm-6">
                                       <input name="siret" type="text" class="form-control" id="siret" placeholder="SIRET" value="<?php echo !empty($data['siret'])?$data['siret']:'';?>">
                                     </div>
                                   </div>  
-                                  <div class="form-group <?php echo !empty($internetError)?'has-error':'';?>">
-                                    <label for="internet" class="col-sm-3 control-label">Site Internet</label>
-                                    <div class="col-sm-9">
-                                      <input name="internet" type="url" class="form-control" id="internet" placeholder="Site Internet" value="<?php echo !empty($data['site_internet'])?$data['site_internet']:'';?>">
-                                    </div>
-                                  </div>  
+ 
                                   <div class="form-group">
                                     <label for="fiscal" class="col-sm-3 control-label">Régime fiscal</label>
                                     <div class="col-sm-9">                                      
@@ -34,7 +35,7 @@
                                         </select>
                                     </div>                                  
                                   </div>
-                                  <input type="hidden" name="action" value="options">
+                                  <input type="hidden" name="action" value="entreprise">
                               </div><!-- /.modal-body -->                                         
                               <div class="modal-footer">
                                 <div class="form-actions pull-right">

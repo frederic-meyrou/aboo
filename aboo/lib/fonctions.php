@@ -188,7 +188,7 @@ function RegimeFiscalToNum($regime)
     } else {
         global $Liste_Regime_Fiscal;
         $array = array_keys($Liste_Regime_Fiscal,$regime);
-        return $array[0];     
+        return $array[0]; 
     }      
 }
 
@@ -284,4 +284,29 @@ function MyBaseURL()
      * https://mysite.com
      */
     return $protocol . $host . $directory;
+}
+
+// Vérification avec la méthode de Luhn (Vérif SIRET et CB)
+function checkLuhn($val) {
+    $len = strlen($val);
+    $total = 0;
+    for ($i = 1; $i <= $len; $i++) {
+        $chiffre = substr($val,-$i,1);
+        if($i % 2 == 0) {
+            $total += 2 * $chiffre;
+            if((2 * $chiffre) >= 10) $total -= 9;
+            }
+        else $total += $chiffre;
+        }
+        if($total % 10 == 0) return true; else return false;
+}
+
+// SIREN = 9 premiers chiffres du SIRET
+function nSIREN($siret) {
+    return substr($siret,0,9);
+}
+ 
+// N°TVA = FR + clé + SIREN
+function nTVA($siren) {
+    return "FR" . (( 12 + 3 * ( $siren % 97 ) ) % 97 ) . $siren;
 }

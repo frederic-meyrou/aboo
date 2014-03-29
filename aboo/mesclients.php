@@ -53,7 +53,7 @@
 	$affiche_modal_email = false;
     if (isset($_POST['selection']) ) { // J'ai un POST de selection
     	extract($_POST);
-        $_SESSION['selection'] = $selection;
+        //$_SESSION['selection'] = $selection;
 		$affiche_modal_email = true;
     } //else {
     	//$_SESSION['selection'] = null;
