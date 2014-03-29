@@ -29,7 +29,9 @@
                 <ul class="nav navbar-nav">
                   <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
                   <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
+                  <?php if ($_SESSION['options']['gestion_social']) { ?>    
                   <li<?php echo ($page_courante == "charges.php")?' class="active"':'';?>><a href="charges.php"><span class="glyphicon glyphicon-bookmark"></span> Social</a></li>
+                  <?php } ?>
                   <li<?php echo ($page_courante == "paiements.php")?' class="active"':'';?>><a href="paiements.php"><span class="glyphicon glyphicon-credit-card"></span> Paiements</a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span> Bilan<b class="caret"></b></a>

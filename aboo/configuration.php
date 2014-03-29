@@ -70,9 +70,9 @@
         $valid = true;               
         switch ($sPOST['action']) {
             case 'compte':
-                $mobile = trim($sPOST['mobile']);
-                $nom = trim($sPOST['nom']);   
-                $prenom = trim($sPOST['prenom']);
+                $mobile = preg_replace("/[^\d]+/", '', trim($sPOST['mobile'])); 
+                $nom = ucfirst(strtolower(trim($sPOST['nom'])));   
+                $prenom = ucfirst(strtolower(trim($sPOST['prenom'])));
                 //$email = $sPOST['email'];
                 if(empty($sPOST['nom'])){
                     $nomError = 'Veuillez renseigner votre nom';
@@ -85,23 +85,39 @@
                 if(empty($sPOST['mobile'])){
                     $mobileError = 'Veuillez renseigner votre numéro de téléphone portable';
                     $valid=false;
-                }       
+                }
+                if(!empty($mobile) && !preg_match('/^[0-9]{10,14}$/', $mobile)) {
+                    $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
+                    $valid=false;
+                }                         
                 //if(!filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)){
                 //    $emailError = 'Votre Email n\'est pas valide !';
                 //    $validate=false;
                 //}                             
                 break;
             case 'coordonnees':
-                $mobile = trim($sPOST['mobile']);                
-                $telephone = trim($sPOST['telephone']);
+                $mobile = preg_replace("/[^\d]+/", '', trim($sPOST['mobile']));                
+                $telephone = preg_replace("/[^\d]+/", '', trim($sPOST['telephone']));
                 $site_internet = trim($sPOST['internet']);
                 $adresse1 = trim($sPOST['adresse1']);
                 $adresse2 = trim($sPOST['adresse2']);
                 $cp = trim($sPOST['cp']);
-                $ville = trim($sPOST['ville']);
-                if (!filter_var($site_internet, FILTER_VALIDATE_URL)) {
+                $ville = ucfirst(strtolower(trim($sPOST['ville'])));
+                if(!empty($mobile) && !preg_match('/^[0-9]{10,14}$/', $mobile)) {
+                    $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
+                    $valid=false;
+                }                  
+                if(!empty($telephone) && !preg_match('/^[0-9]{10,14}$/', $telephone)) {
+                    $telephoneError = 'Le numéro de téléphone fixe n\'est pas valide.';
+                    $valid=false;
+                }  
+                if (!empty($site_internet) && !filter_var($site_internet, FILTER_VALIDATE_URL)) {
                     $internetError = 'Le format de votre adresse Internet n\'est pas valide';
                     $valid=false;                  
+                }
+                if (!empty($cp) && !preg_match('/^[0-9]{5}$/', $cp)) {
+                    $cpError = 'Le format du code postal n\'est pas valide';
+                    $valid=false;                      
                 }
                 break;
             case 'options':
@@ -134,7 +150,8 @@
                     break;
                 case 'options':
                     $sql = "UPDATE user set gestion_social=? WHERE id = ?";
-                    $q = array($option_gestion_social, $user_id);                                    
+                    $q = array($option_gestion_social, $user_id);
+                    $_SESSION['options']['gestion_social'] = $option_gestion_social;                                             
                     break;
                 case 'entreprise':
                     $sql = "UPDATE user set raison_sociale=?,siret=?,regime_fiscal=? WHERE id = ?";
@@ -146,7 +163,7 @@
             Database::disconnect();
             // On retourne d'ou on vient
             header("Location: configuration.php");
-        } else {
+        } else { // Re-affiche le formulaire de saisie en erreur
             $affiche_erreur=true;
         }
     }    
@@ -194,19 +211,7 @@
         </div>
         <?php       
         }   
-        ?>  
-
-        <!-- Affiche les informations de debug -->
-        <?php 
-        if ($affiche_erreur) {
         ?>
-        <div class="alert alert alert-danger alert-dismissable fade in">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Formulaire en erreur </strong><br>           
-        </div>
-        <?php       
-        }   
-        ?> 
 
         <div class="row">
 
@@ -223,29 +228,30 @@
                 </div>
                 <div class="panel-body">
                       <?php                                
-                                echo '<span class="glyphicon glyphicon-user"></span> : ';
-                                echo ucfirst($data['prenom']) . ' ' . ucfirst($data['nom']) . '<br>';
+                                echo '<span class="glyphicon glyphicon-user"></span> : <strong>';
+                                echo $data['prenom'] . ' ' . $data['nom'] . '</strong><br>';
                                 
-                                echo '<span class="glyphicon glyphicon-envelope"></span> : ';
-                                echo $data['email'] . '<br>';
+                                echo '<span class="glyphicon glyphicon-envelope"></span> : <strong>';
+                                echo $data['email'] . '</strong><br>';
 
-                                echo '<span class="glyphicon glyphicon-phone"></span> : ';                                
-                                echo $data['mobile'] . '<br>'; 
+                                echo '<span class="glyphicon glyphicon-phone"></span> : <strong>';                                
+                                echo $data['mobile'] . '</strong><br>'; 
                                 
                                 echo '<span class="glyphicon glyphicon-calendar"></span> : ';                                                                                                 
-                                echo 'Inscription sur Aboo : ' . date("d/m/Y", strtotime($data['inscription'])) . '<br>';
+                                echo 'Inscription sur Aboo : <strong>' . date("d/m/Y", strtotime($data['inscription'])) . '</strong><br>';
                                 echo '<span class="glyphicon glyphicon-calendar"></span> : ';                                
-                                echo 'Expiration de mon abonnement Aboo : ' . date("d/m/Y", strtotime($data['expiration'])). '<br>';
+                                echo 'Expiration de mon abonnement Aboo : <strong>' . date("d/m/Y", strtotime($data['expiration'])). '</strong><br>';
 
                                 echo '<span class="glyphicon glyphicon-copyright-mark"></span> : ';
-                                echo 'Abonnement Aboo : ';
+                                echo 'Abonnement Aboo : <strong>';
                                 if ($data['essai'] == 1) {
-                                    echo 'License d\'essai<br>';
+                                    echo 'License d\'essai';
                                 } elseif ($data['actif'] == 1) {
-                                    echo 'License en cours de validité<br>';
+                                    echo 'License en cours de validité';
                                 } else {
-                                    echo 'Inconnu, contacter le support Aboo SVP<br>';
-                                }                       
+                                    echo 'Inconnu, contacter le support Aboo SVP';
+                                }
+                                echo '</strong><br>'                       
                       ?>
                 </div>
               </div>
@@ -262,9 +268,9 @@
                 <div class="panel-body">
                       <?php 
                                 echo '<span class="glyphicon glyphicon-cog"></span> : '; 
-                                echo 'Option Aboo Social : '; 
+                                echo 'Option Aboo Social : <strong>'; 
                                 if ($data['gestion_social'] == 0) { echo 'Non'; } else { echo 'Oui'; }
-                                echo '</br>';
+                                echo '</strong></br>';
                       ?>
                 </div>
               </div>         
@@ -284,22 +290,22 @@
                 </div>
                 <div class="panel-body">
                       <?php
-                                echo '<span class="glyphicon glyphicon-flag"></span> : Raison Sociale : ';                                
-                                echo $data['raison_sociale'] . '<br>';
+                                echo '<span class="glyphicon glyphicon-flag"></span> : Raison Sociale : <strong>';                                
+                                echo $data['raison_sociale'] . '</strong><br>';
                                 
-                                echo '<span class="glyphicon glyphicon-tag"></span> : SIRET : ';                       
-                                echo $data['siret'] . '<br>';
+                                echo '<span class="glyphicon glyphicon-tag"></span> : SIRET : <strong>';                       
+                                echo $data['siret'] . '</strong><br>';
                                 
-                                echo '<span class="glyphicon glyphicon-tag"></span> : SIREN : ';                                 
+                                echo '<span class="glyphicon glyphicon-tag"></span> : SIREN : <strong>';                                 
                                 echo !empty($data['siret'])?nSIREN($data['siret']):'';
-                                echo '<br>';
+                                echo '</strong><br>';
                                 
-                                echo '<span class="glyphicon glyphicon-tag"></span> : TVA : ';  
+                                echo '<span class="glyphicon glyphicon-tag"></span> : TVA : <strong>';  
                                 echo !empty($data['siret'])?nTVA(nSIREN($data['siret'])):'';
-                                echo '<br>';
+                                echo '</strong><br>';
                                 
-                                echo '<span class="glyphicon glyphicon-warning-sign"></span> : Régime fiscal : ';                                 
-                                echo NumToRegimeFiscal($data['regime_fiscal']) . '<br>';
+                                echo '<span class="glyphicon glyphicon-warning-sign"></span> : Régime fiscal : <strong>';                                 
+                                echo NumToRegimeFiscal($data['regime_fiscal']) . '</strong><br>';
                                 
                       ?>
                 </div>
@@ -321,10 +327,12 @@
                                 echo '<span class="glyphicon glyphicon-phone-alt"></span> : ';                                    
                                 echo $data['telephone'] . '</br>';
                                 echo '<span class="glyphicon glyphicon-globe"></span> : ';                                 
-                                echo 'Site Internet : ' . $data['site_internet'] . '</br>';                                
-                                echo '<span class="glyphicon glyphicon-map-marker"></span> Adresse professionelle :</br>'; 
+                                echo 'Site Internet : <strong>' . $data['site_internet'] . '</strong></br>';                                
+                                echo '<span class="glyphicon glyphicon-map-marker"></span> Adresse professionelle :</br>';
+                                echo '<div class="well well-sm">'; 
                                 echo $data['adresse1'] . '</br>' . $data['adresse2'] . '</br>';
                                 echo $data['cp'] . '  '. $data['ville'];
+                                echo '</div>';
                       ?>
                 </div>
               </div>
@@ -342,6 +350,33 @@
     <?php require 'footer.php'; ?>
         
     </div> <!-- /container -->
+
+    <?php 
+    if ($affiche_erreur) { // Lancement de Modal pour activer les formulaires en erreur conditionné par PHP
+    ?>  
+        <script>
+            $(document).ready(function(){ // Le DOM est chargé
+            <?php
+            switch ($sPOST['action']) {
+                case 'compte':
+                    echo '$(\'#modalConfigFormCompte\').modal(\'show\'); // Lance la modale';
+                    break;
+                case 'coordonnees':
+                    echo '$(\'#modalConfigFormCoordonnees\').modal(\'show\'); // Lance la modale';                   
+                    break;
+                case 'options':
+                    echo '$(\'#modalConfigFormOptions\').modal(\'show\'); // Lance la modale';                                 
+                    break;
+                case 'entreprise':
+                    echo '$(\'#modalConfigFormEntreprise\').modal(\'show\'); // Lance la modale';
+                    break;                
+            }                 
+            ?>      
+            });
+        </script>
+    <?php                                       
+    } // endif
+    ?>  
         
   </body>
 </html>

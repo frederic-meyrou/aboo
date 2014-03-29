@@ -46,17 +46,17 @@
 		$descriptionError = null;
 		
 		// keep track post values
-		$nomclient = $sPOST['nom'];
-		$prenomclient = $sPOST['prenom'];
+		$nomclient = ucfirst(strtolower($sPOST['nom']));
+		$prenomclient = ucfirst(strtolower($sPOST['prenom']));
 		$email = $sPOST['email'];
-		$telephone = $sPOST['telephone'];
+		$telephone = preg_replace("/[^\d]+/", '', trim($sPOST['telephone']));
 		$mobile = $sPOST['mobile'];
 		$age = $sPOST['age'];
 		$profession = $sPOST['profession'];
 		$adresse1 = $sPOST['adresse1'];
 		$adresse2 = $sPOST['adresse2'];
 		$cp = $sPOST['cp'];
-		$ville = $sPOST['ville'];
+		$ville = ucfirst(strtolower($sPOST['ville']));
 		$description = trim($sPOST['description']);
 		
 		// validate input
@@ -76,7 +76,10 @@
 			$prenomError = 'Veuillez entrer un prénom';
 			$valid = false;
 		}	
-	
+        if(!empty($telephone) && !preg_match('/^[0-9]{10,14}$/', $telephone)) {
+            $telephoneError = 'Le numéro de téléphone fixe n\'est pas valide.';
+            $valid=false;
+        } 	
 		// insert data
 		if ($valid) {
 			$pdo = Database::connect();

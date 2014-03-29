@@ -11,13 +11,19 @@
                                   <div class="form-group <?php echo !empty($societeError)?'has-error':'';?>">
                                     <label for="societe" class="col-sm-3 control-label">Raison Sociale</label>
                                     <div class="col-sm-6">
-                                      <input name="societe" type="text" class="form-control" id="societe" placeholder="Raison Sociale" value="<?php echo !empty($data['raison_sociale'])?$data['raison_sociale']:'';?>">
+                                      <input name="societe" type="text" class="form-control" id="societe" placeholder="Raison Sociale" value="<?php echo (!$affiche_erreur)?!empty($data['raison_sociale'])?$data['raison_sociale']:'':$raison_sociale;?>">
+                                      <?php if (!empty($societeError)): ?>
+                                        <span class="help-inline"><?php echo $societeError;?></span>
+                                      <?php endif; ?>                                        
                                     </div>
                                   </div>                                    
                                   <div class="form-group <?php echo !empty($siretError)?'has-error':'';?>">
                                     <label for="siret" class="col-sm-3 control-label">SIRET</label>
                                     <div class="col-sm-6">
-                                      <input name="siret" type="text" class="form-control" id="siret" placeholder="SIRET" value="<?php echo !empty($data['siret'])?$data['siret']:'';?>">
+                                      <input name="siret" type="text" class="form-control" id="siret" placeholder="SIRET" value="<?php echo (!$affiche_erreur)?!empty($data['siret'])?$data['siret']:'':$siret;?>">
+                                      <?php if (!empty($siretError)): ?>
+                                        <span class="help-inline"><?php echo $siretError;?></span>
+                                      <?php endif; ?>                                        
                                     </div>
                                   </div>  
  

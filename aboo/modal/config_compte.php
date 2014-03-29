@@ -12,25 +12,37 @@
                                   <div class="form-group <?php echo !empty($prenomError)?'has-error':'';?>">
                                     <label for="prenom" class="col-sm-3 control-label">Prénom</label>
                                     <div class="col-sm-6">
-                                      <input name="prenom" type="text" class="form-control" id="prenom" placeholder="Prénom" value="<?php echo !empty($data['prenom'])?$data['prenom']:'';?>">
+                                      <input name="prenom" type="text" class="form-control" id="prenom" placeholder="Prénom" value="<?php echo (!$affiche_erreur)?!empty($data['prenom'])?$data['prenom']:'':$prenom;?>">
+                                      <?php if (!empty($prenomError)): ?>
+                                        <span class="help-inline"><?php echo $prenomError;?></span>
+                                      <?php endif; ?>
                                     </div>
                                   </div>  
                                   <div class="form-group <?php echo !empty($nomError)?'has-error':'';?>">
                                     <label for="nom" class="col-sm-3 control-label">Nom</label>
                                     <div class="col-sm-6">
-                                      <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom" value="<?php echo !empty($data['nom'])?$data['nom']:'';?>">
+                                      <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom" value="<?php echo (!$affiche_erreur)?!empty($data['nom'])?$data['nom']:'':$nom;?>">
+                                      <?php if (!empty($nomError)): ?>
+                                        <span class="help-inline"><?php echo $nomError;?></span>
+                                      <?php endif; ?>                                    
                                     </div>
                                   </div>  
                                   <div class="form-group <?php echo !empty($emailError)?'has-error':'';?>">
                                     <label for="email" class="col-sm-3 control-label">eMail</label>
                                     <div class="col-sm-6">
-                                      <input name="email" type="mail" class="form-control" id="email" placeholder="eMail" value="<?php echo !empty($data['email'])?$data['email']:'';?>" disabled>
+                                      <input name="email" type="mail" class="form-control" id="email" placeholder="eMail" value="<?php echo (!$affiche_erreur)?!empty($data['email'])?$data['email']:'':$email;?>" disabled>
+                                      <?php if (!empty($emailError)): ?>
+                                        <span class="help-inline"><?php echo $emailError;?></span>
+                                      <?php endif; ?>                                    
                                     </div>
                                   </div>                                                                     
                                   <div class="form-group <?php echo !empty($mobileError)?'has-error':'';?>">
                                     <label for="mobile" class="col-sm-3 control-label">Téléphone Mobile</label>
                                     <div class="col-sm-6">
-                                      <input name="mobile" type="tel" class="form-control" id="mobile" placeholder="Mobile" value="<?php echo !empty($data['mobile'])?$data['mobile']:'';?>">
+                                      <input name="mobile" type="tel" class="form-control" id="mobile" placeholder="Mobile" value="<?php echo (!$affiche_erreur)?!empty($data['mobile'])?$data['mobile']:'':$mobile;?>">
+                                      <?php if (!empty($mobileError)): ?>
+                                        <span class="help-inline"><?php echo $mobileError;?></span>
+                                      <?php endif; ?>                                    
                                     </div>
                                   </div>  
                                   <input type="hidden" name="action" value="compte">

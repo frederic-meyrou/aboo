@@ -31,8 +31,8 @@
 	if(!empty($_POST)) { // On a un POST on check le formulaire
 
 		// Récupération des variables du POST
-	    $prenom = $sPOST['prenom'];
-		$nom = $sPOST['nom'];
+	    $prenom = ucfirst(strtolower($sPOST['prenom']));
+		$nom = ucfirst(strtolower($sPOST['nom']));
 	    $email = $sPOST['email'];
 	    $password = $sPOST['password'];
 	    $telephone = $sPOST['telephone'];	
