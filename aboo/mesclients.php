@@ -19,10 +19,10 @@
 
 // Sécurisation POST & GET
 //    foreach ($_GET as $key => $value) {
-//        $sGET[$key]=htmlentities($value, ENT_QUOTES);
+//        $sGET[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 //    }
 //    foreach ($_POST as $key => $value) {
-//        $sPOST[$key]=htmlentities($value, ENT_QUOTES);
+//        $sPOST[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 //    }
         	
 // Récupération des variables de session d'Authent
