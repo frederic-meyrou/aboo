@@ -46,6 +46,7 @@
                   <li<?php echo ($page_courante == "mesclients.php")?' class="active"':'';?>><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
                   <?php if (IsAdmin()) { ?>
                   <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="user.php"><span class="glyphicon glyphicon-tags"></span>  Gestion utilisateurs</a></li>                          
+                  <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="lib\backup.php"><span class="glyphicon glyphicon-cog"></span>  Sauvegarde BDD</a></li>                          
                   <?php } ?>
                   <li class="dropdown">
                     <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->

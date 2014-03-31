@@ -41,7 +41,7 @@
 
 // Lecture du POST Formulaire
     $utilisateur = null;     
-    if (isset($_POST['utilisateur']) ) { // J'ai un POST
+    if (isset($_POST['utilisateur']) ) { // J'ai un POST, je change d'identitée et je redirige sur la home
         $utilisateur = $_POST['utilisateur'];
         $sql = "SELECT * FROM user where id = ?";    
         $req = $pdo->prepare($sql);
