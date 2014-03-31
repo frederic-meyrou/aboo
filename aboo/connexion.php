@@ -40,7 +40,10 @@
 	            'prenom' => $data['prenom'],
 	            'expiration' => $data['expiration'],
 	            'admin' => $data['administrateur']
-	            );        
+	            );
+            // Chargement des options    
+            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
+            // Gestion du profil Admin
 	        if ($_SESSION['authent']['admin']==1) {
 		        // Cas ou l'utilisateur est Admin, redirection vers page admin
 				Database::disconnect();     	

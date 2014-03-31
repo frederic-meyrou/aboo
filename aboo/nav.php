@@ -44,14 +44,14 @@
                     </ul> 
                   </li>
                   <li<?php echo ($page_courante == "mesclients.php")?' class="active"':'';?>><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
-                  <?php if (IsAdmin()) { ?>
-                  <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="user.php"><span class="glyphicon glyphicon-tags"></span>  Gestion utilisateurs</a></li>                          
-                  <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="lib\backup.php"><span class="glyphicon glyphicon-cog"></span>  Sauvegarde BDD</a></li>                          
-                  <?php } ?>
                   <li class="dropdown">
                     <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                      <?php if (IsAdmin()) { ?>
+                      <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="user.php"><span class="glyphicon glyphicon-tags"></span>  Gestion utilisateurs</a></li>                          
+                      <li<?php echo ($page_courante == "backup.php")?' class="active"':'';?>><a href="lib/backup.php"><span class="glyphicon glyphicon-cog"></span>  Sauvegarde BDD</a></li>                          
+                      <?php } ?>
                       <li<?php echo ($page_courante == "exercice.php")?' class="active"':'';?>><a href="exercice.php"><span class="glyphicon glyphicon-calendar"></span> Exercice</a></li>
                       <li<?php echo ($page_courante == "configuration.php")?' class="active"':'';?>><a href="configuration.php"><span class="glyphicon glyphicon-wrench"></span> Configuration</a></li>
                       <li<?php echo ($page_courante == "debug.php")?' class="active"':'';?>><a href="debug.php"><span class="glyphicon glyphicon-eye-open"></span> Debug</a></li>  
