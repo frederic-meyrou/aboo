@@ -89,12 +89,37 @@
                 if(!empty($mobile) && !preg_match('/^[0-9]{10,14}$/', $mobile)) {
                     $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
                     $valid=false;
-                }                         
-                //if(!filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)){
-                //    $emailError = 'Votre Email n\'est pas valide !';
-                //    $validate=false;
-                //}                             
+                }                                                    
                 break;
+            case 'email':
+                $email = trim($sPOST['email']);
+				$token = sha1(uniqid(rand())); // Generation du token
+                if(!filter_var($sPOST['email'], FILTER_VALIDATE_EMAIL)){
+                    $emailError = 'Votre Email n\'est pas valide !';
+                    $valid=false;
+                }
+			    $q = array('email'=>$email);
+			    $sql = "SELECT * from user WHERE email=:email";
+			    $req = $pdo->prepare($sql);
+			    $req->execute($q);		
+			    $count = $req->rowCount($sql);
+				if ($count!=0) { // Le user existe déjà
+			        $emailError = 'Votre adresse eMail existe déjà dans Aboo!';
+					$valid=false;     
+				}								                             
+                break;
+            case 'motdepasse':
+				$password = $sPOST['password'];
+				$password2 = $sPOST['password2'];
+				if ($password != $password2) {
+                    $motdepasseError = 'Votre mot de passe n\'est pas identique!';
+                    $valid=false;					
+				}                
+				if (empty($password) || strlen($password) < 6) {
+                    $motdepasseError = 'Votre mot de passe ne peut être inférieur à 6 caractères';
+                    $valid=false;						
+				}
+                break;									
             case 'coordonnees':
                 $mobile = preg_replace("/[^\d]+/", '', trim($sPOST['mobile']));                
                 $telephone = preg_replace("/[^\d]+/", '', trim($sPOST['telephone']));
@@ -144,6 +169,112 @@
                     $_SESSION['authent']['nom'] = $nom;
                     $_SESSION['authent']['prenom'] = $prenom;
                     break;
+                case 'email':
+                    $sql = "UPDATE user set token=? WHERE id = ?"; // On ne met à jour que le token en BDD pour validation utltérieur par line eMail dans la BAL de l'utilisatateur
+                    $q = array($token, $user_id);
+				    //Envoyer un mail pour la validation du compte
+				    $TO = $email;
+				    $SUBJECT = 'Modification de votre eMail';
+				    
+				   	$EOL="\r\n";
+					$FROM="contact@aboo.fr";
+					$BCC="frederic@meyrou.com";
+					
+					//Création du Header eMail
+					$header= "From: [Aboo] <$FROM>".$EOL;
+					$header.= "Reply-To: <$FROM>".$EOL;
+					$header.= "Bcc: <$BCC>".$EOL;
+					$header.= "Return-path:<$FROM>".$EOL;		
+					$header.= "MIME-Version: 1.0".$EOL;
+					$header.= "Content-Type: text/html; charset=utf-8".$EOL;
+					//$header.= "Content-Transfer-Encoding: quoted-printable".$EOL;
+					$header.= "Subject: {$SUBJECT}".$EOL;
+					$header.= "X-Mailer: PHP/".phpversion().$EOL;
+					$header.= "X-Originating-IP: ".$_SERVER['SERVER_ADDR'];
+			
+				    $body='
+			        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+			        <html xmlns="http://www.w3.org/1999/xhtml">
+			        <head>
+			            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			            <title>[Aboo] Confirmation de la modification de votre adresse eMail principale</title>
+			            <style type="text/css">
+			                body, table, p, h1,h2,h3,h4,h5 {font-family:Verdana, Arial, Helvetica, sans-serif;}
+			                body, table, p {font-size:14px;}
+			                #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
+			                body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+			                .ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
+			                .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} 
+			                #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+			                img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+			                a img {border:none;}
+			                .image_fix {display:block;}
+			                p {margin: 1em 0;}
+			                h1, h2, h3, h4, h5, h6 {color: black !important;}
+			                h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+			                h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+			                    color: red !important; 
+			                }
+			                h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+			                    color: purple !important;
+			                }
+			                table td {border-collapse: collapse;}
+			                table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+			                a {color: orange; text-decoration: none;}
+			        
+			                a:link { color: orange; }
+			                a:visited { color: blue; }
+			                a:hover { color: gray; }
+			
+			            </style>
+			        </head>
+			        <body>
+			            <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
+			            <tr>
+			                <td>
+			                    <h3>Bonjour!</h3>
+			                    <p><em>Nous avons bien reçu votre demande de modification pour l\'adresse de messagerie : '.$email.'</em></p><br>
+			                    <table><tbody>
+			                    <td>Veuillez valider cette denande : </td><td><a target="_blank" href="'. MyBaseURL() . '/modif_email.php?uid='.$user_id.'&token='.$token.'&email='.$TO.'" style="font-family:lucida grande, tahoma, verdana, arial, sans-serif;
+			                    line-height:2em; 
+			                    color:orange; 
+			                    text-decoration:none; 
+			                    font-size:13px; 
+			                    -moz-text-shadow:0px 1px #ffffff; 
+			                    -webkit-text-shadow:0px 1px #ffffff; 
+			                    text-shadow:0px 1px #ffffff; 
+			                    display:block; 
+			                    padding:1px 6px 3px 6px; 
+			                    border-top:1px solid #ffffff; 
+			                    white-space:nowrap; 
+			                    -webkit-border-radius:2px; 
+			                    -moz-border-radius:2px; 
+			                    border-radius:2px;
+			                    background-color: #E9E9E9;
+			                    border: 1px solid #CCCCCC;
+			                    border-radius: 2px;">Validation</a></td></tbody></table>
+			                    <br>
+			                    <em>L\'équipe Aboo vous remerçie.</em>
+			                 </td>
+			            </tr>
+			            </table>
+			        </body>
+			        </html>
+				    '.$EOL;
+					// Envoi eMail
+				    $statut = mail($TO,$SUBJECT,$body,$header);
+					// On affiche un retour à l'utilisateur
+					if ($statut) {
+						$envoi_email=true;
+					} else {
+						$envoi_email=false;	
+					} 				
+                    break;	
+                case 'motdepasse':
+                    $sql = "UPDATE user set password=? WHERE id = ?";
+                    $q = array($password, $user_id);
+					$_SESSION['authent']['password'] = $password;
+                    break;									
                 case 'coordonnees':
                     $sql = "UPDATE user set mobile=?,telephone=?,site_internet=?,adresse1=?,adresse2=?,cp=?,ville=? WHERE id = ?";
                     $q = array($mobile, $telephone, $site_internet, $adresse1, $adresse2, $cp, $ville, $user_id);                        
@@ -156,7 +287,10 @@
                 case 'entreprise':
                     $sql = "UPDATE user set raison_sociale=?,siret=?,regime_fiscal=? WHERE id = ?";
                     $q = array($raison_sociale, $siret, $regime_fiscal, $user_id);  
-                    break;                
+                    break;
+				default:
+		            // On retourne d'ou on vient car le POST est invalide
+		            header("Location: configuration.php");					                
             }            
             $req = $pdo->prepare($sql);
             $req->execute($q);
@@ -213,6 +347,35 @@
         }   
         ?>
 
+	    <?php       
+	    if (isset($envoi_email) && $envoi_email) {  
+	    ?>  
+	    <!-- Alert informant que l'utilisateur est bien créé -->
+	    <div class="alert alert alert-success alert-dismissable fade in">
+	        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	        <strong>
+	        <p>Le compte utilisateur pour "<?php echo $email ; ?>" à bien été créé, il est en attente de validation.</p>
+	        <p>Un eMail vous a été envoyé pour le valider, veuillez surveiller votre messagerie électronique.</p>
+	        </strong>	
+	
+	    </div>
+	    <?php
+		}       
+	    if (isset($envoi_email) && !$envoi_email) {
+	    ?>  
+	    <!-- Alert informant que l'utilisateur créé mais que le message n'est pas parti -->
+	    <div class="alert alert alert-warning alert-dismissable fade in">
+	        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	        <strong>
+	        <p>Le compte utilisateur pour "<?php echo $email ; ?>" à bien été créé, il est en attente de validation.</p>
+	        <p>Cependant un eMail n'a pu vous être envoyé pour le valider, veuillez contacter le support Aboo : <a href="mailto:contact@aboo.fr">contact@aboo.fr</a></p>
+	        </strong>	
+	
+	    </div>
+	    <?php       
+	    }   
+	    ?>  
+
         <div class="row">
 
             <div class="col-sm-5">
@@ -253,6 +416,11 @@
                                 }
                                 echo '</strong><br>'                       
                       ?>
+                  <hr>    
+                  <div class="btn-group btn-group-sm btn-group-justified">
+                        <a href="#" class="btn btn-xs btn-default" onclick="$('#modalConfigFormeMail').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Changer votre eMail</a>                         
+                        <a href="#" class="btn btn-xs btn-default" onclick="$('#modalConfigFormMotdepasse').modal('show'); "><span class="glyphicon glyphicon-edit"></span> Changer votre mot de passe</a>                         
+                  </div>                      
                 </div>
               </div>
 
@@ -342,6 +510,8 @@
 
         <!-- Modal Formulaires -->
         <?php include('modal/config_compte.php'); ?>
+        <?php include('modal/config_motdepasse.php'); ?>
+        <?php include('modal/config_email.php'); ?>                
         <?php include('modal/config_coordonnees.php'); ?>
         <?php include('modal/config_entreprise.php'); ?>                        
         <?php include('modal/config_options.php'); ?>
@@ -361,6 +531,12 @@
                 case 'compte':
                     echo '$(\'#modalConfigFormCompte\').modal(\'show\'); // Lance la modale';
                     break;
+                case 'email':
+                    echo '$(\'#modalConfigFormMail\').modal(\'show\'); // Lance la modale';
+                    break;
+                case 'motdepasse':
+                    echo '$(\'#modalConfigFormMotdepasse\').modal(\'show\'); // Lance la modale';
+                    break;										
                 case 'coordonnees':
                     echo '$(\'#modalConfigFormCoordonnees\').modal(\'show\'); // Lance la modale';                   
                     break;
