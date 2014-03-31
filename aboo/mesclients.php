@@ -188,13 +188,13 @@
 						echo '<td>'. $row['age'] . '</td>';
 					   	echo '<td width=130>';
 				  ?>	
-						<div class="btn-group btn-group-sm">
-							  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-info glyphicon glyphicon-star" role="button"> </a>
-							  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+						<div class="btn-group btn-group-xs">
+							  	<a href="client_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-xs btn-info glyphicon glyphicon-star" role="button"> </a>
+							  	<a href="client_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-xs btn-warning glyphicon glyphicon-edit" role="button"> </a>
                                 <!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
                                 <a href="#" id="<?php echo $row['id']; ?>"
                                    onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#modalDelete').modal('show'); "
-                                   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>									  	
+                                   class="btn btn-default btn-xs btn-danger glyphicon glyphicon-trash" role="button"> </a>									  	
 						</div>
 						
 					   	</td>						

@@ -259,12 +259,12 @@ function ChargeSessionExerciceBDD($data) {
 						echo '<td>'. number_format($row['montant_treso_initial'],2,',','.') . ' €</td>';
 						echo '<td width=90>';
 			?>
-						<div class="btn-group btn-group-sm">
-							  	<a href="exercice_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-sm btn-warning glyphicon glyphicon-edit" role="button"> </a>
+						<div class="btn-group btn-group-xs">
+							  	<a href="exercice_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-xs btn-warning glyphicon glyphicon-edit" role="button"> </a>
 							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
 							  	<a href="#" id="<?php echo $row['id']; ?>"
 							  	   onclick="$('#DeleteInput').val('<?php echo $row['id']; ?>'); $('#AnneeInput').val('<?php echo $row['annee_debut']; ?>'); $('<?php echo ($row['annee_debut']==$exercice_annee) ? '#modalImpossible' : '#modalDelete'; ?>').modal('show'); "
-							  	   class="btn btn-default btn-sm btn-danger glyphicon glyphicon-trash" role="button"> </a>
+							  	   class="btn btn-default btn-xs btn-danger glyphicon glyphicon-trash" role="button"> </a>
 						</div>						                                
 			<?php
 						echo '</td>';
