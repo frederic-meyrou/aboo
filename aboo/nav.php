@@ -46,7 +46,7 @@
                   <li<?php echo ($page_courante == "mesclients.php")?' class="active"':'';?>><a href="mesclients.php"><span class="glyphicon glyphicon-star"></span> Clients</a></li>                           
                   <li class="dropdown">
                     <!-- Affiche le nom de l'utilisateur à droite de la barre de Menu -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="<?php echo (IsAdmin())?'text-danger':''; ?> glyphicon glyphicon-user"></span> <?php echo ucfirst($prenom) . ' ' . ucfirst($nom); ?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <?php if (IsAdmin()) { ?>
                       <li<?php echo ($page_courante == "user.php")?' class="active"':'';?>><a href="user.php"><span class="glyphicon glyphicon-tags"></span>  Gestion utilisateurs</a></li>                          
