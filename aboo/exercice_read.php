@@ -44,6 +44,7 @@
 		$id = $data['id'];
 		$mois = $data['mois_debut'];
 		$treso = $data['montant_treso_initial'];
+		$provision = $data['montant_provision_charges'];		
 	}	  
 ?>
 
@@ -69,7 +70,8 @@
 						
                           <th>Années exercice</th>
                           <th>Mois de démarrage</th>
-                          <th>Montant de trésorerie de départ</th>
+                          <th>Trésorerie</th>
+                          <th>Provisions pour charges</th>                          
                         </tr>
                       </thead>
                       <tbody>
@@ -78,6 +80,7 @@
                                 echo '<td>'. $annee . ' - ' . ($annee + 1) . '</td>';
                                 echo '<td>'. NumToMois($mois) . '</td>';
                                 echo '<td>'. $treso . '</td>';
+                                echo '<td>'. $provision . '</td>';								
                                 echo '</tr>';
                       ?>
                       </tbody>

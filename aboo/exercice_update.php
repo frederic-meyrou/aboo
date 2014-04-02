@@ -49,24 +49,29 @@
         // keep track validation errors
         $mois_debutError = null;
         $montant_treso_initialError = null;
-                        
+        $montant_provision_initialError = null;
+		                        
         // keep track post values
         $id = $sPOST['id']; 
         $annee_debut = $sPOST['annee_debut']; 
         $mois_debut = $sPOST['mois_debut'];
         $montant_treso_initial = $sPOST['montant_treso_initial'];
-        
+        $montant_provision_initial = $sPOST['montant_provision_charges'];
+		        
         // validate input
         $valid = true;
         if (empty($montant_treso_initial)) {
             $montant_treso_initial = 0;
         }
-           
+        if (empty($montant_provision_initial) || $montant_provision_initial < 0) {
+            $montant_provision_initial = 0;
+        }
+		           
         // Creation des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE exercice SET mois_debut=?,montant_treso_initial=? WHERE id = ?";
+            $sql = "UPDATE exercice SET mois_debut=?,montant_treso_initial=?, montant_provision_charges=? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($mois_debut, $montant_treso_initial, $id));
+            $q->execute(array($mois_debut, $montant_treso_initial, $montant_provision_initial, $id));
             Database::disconnect();
             // On modifie la session
             if ($data['annee_debut'] == $exercice_annee) {
@@ -74,7 +79,8 @@
                 'id' => $exercice_id,
                 'annee' => $exercice_annee,
                 'mois' => $data['mois_debut'],
-                'treso' => $data['montant_treso_initial']
+                'treso' => $data['montant_treso_initial'],
+                'provision' => $data['montant_provision_charges']
                 );
             }            
             header("Location: exercice.php");
@@ -89,7 +95,8 @@
         $data = $q->fetch(PDO::FETCH_ASSOC);
 		$annee_debut = $data['annee_debut'];
         $mois_debut = $data['mois_debut'];
-        $montant_treso_initial = $data['montant_treso_initial'];         
+        $montant_treso_initial = $data['montant_treso_initial']; 
+        $montant_provision_initial = $data['montant_provision_charges'];  		        
         Database::disconnect();                
     }
     
@@ -173,6 +180,13 @@
 		                <label class="control-label">Montant de votre trésorerie en début d'exercice</label>
 		                <div class="controls">
 		                    <input name="montant_treso_initial" class="form-control" type="text" value="<?php echo $montant_treso_initial;?>">
+		                </div>
+		            </div>
+
+		            <div class="control-group ">
+		                <label class="control-label">Montant de votre provision pour charges en début d'exercice</label>
+		                <div class="controls">
+		                    <input name="montant_provision_charges" class="form-control" type="text" value="<?php echo $montant_provision_initial;?>">
 		                </div>
 		            </div>
 		            

@@ -38,11 +38,13 @@
 		$annee_debutError = null;
         $mois_debutError = null;
         $montant_treso_initialError = null;
-                		
+        $montant_provision_initialError = null;
+		                		
 		// keep track post values
 		$annee_debut = $sPOST['annee_debut'];
 		$mois_debut = $sPOST['mois_debut'];
         $montant_treso_initial = $sPOST['montant_treso_initial'];
+		$montant_provision_initial = $sPOST['montant_provision_charges'];
         
 		// validate input
 		$valid = true;
@@ -57,6 +59,9 @@
         if (empty($montant_treso_initial)) {
 			$montant_treso_initial = 0;
 		}
+        if (empty($montant_provision_initial) || $montant_provision_initial < 0) {
+			$montant_provision_initial = 0;
+		}
         
         // Verif que l'année n'est pas déjà en base!
             $sql = "SELECT COUNT(*) FROM exercice WHERE user_id=? AND annee_debut=?";
@@ -70,16 +75,17 @@
 	
 		// Creation des données en base et redirection vers appelant
 		if ($valid) {
-			$sql = "INSERT INTO exercice (user_id,mois_debut,montant_treso_initial,annee_debut) values(?, ?, ?, ?)";
+			$sql = "INSERT INTO exercice (user_id,mois_debut,montant_treso_initial,montant_provision_charges,annee_debut) values(?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $mois_debut, $montant_treso_initial, $annee_debut));
+			$q->execute(array($user_id, $mois_debut, $montant_treso_initial, $montant_provision_initial, $annee_debut));
 			Database::disconnect();
             // On modifie la valeure de la session
             $_SESSION['exercice'] = array(
             'id' => $data['id'],
             'annee' => $data['annee_debut'],
             'mois' => $data['mois_debut'],
-            'treso' => $data['montant_treso_initial']
+            'treso' => $data['montant_treso_initial'],
+            'provision' => $data['montant_provision_charges']
             );            
 			header("Location: exercice.php");
 		}       
@@ -176,7 +182,14 @@
 	                    <input name="montant_treso_initial" class="form-control" type="text" value="<?php echo $montant_treso_initial;?>">
 	                </div>
 	            </div>
-	                                                
+
+	            <div class="control-group ">
+	                <label class="control-label">Montant de votre provision pour charges en début d'exercice</label>
+	                <div class="controls">
+	                    <input name="montant_provision_charges" class="form-control" type="text" value="<?php echo $montant_provision_initial;?>">
+	                </div>
+	            </div>
+	            	                                                
 			    <div class="form-actions">
 			      <br>  
 		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Création</button>

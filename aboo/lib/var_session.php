@@ -9,11 +9,13 @@
     $exercice_annee = null;
     $exercice_mois = null;
     $exercice_treso = null;
+    $exercice_provision = null;	
     if(isset($_SESSION['exercice'])) {
         $exercice_id = $_SESSION['exercice']['id'];
         $exercice_annee = $_SESSION['exercice']['annee'];
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
+		$exercice_provision = $_SESSION['exercice']['provision'];
     }
 
 // Récupération des variables de session abodep

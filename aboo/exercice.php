@@ -65,7 +65,8 @@ function ChargeSessionExerciceBDD($data) {
     'id' => $data['id'],
     'annee' => $data['annee_debut'],
     'mois' => $data['mois_debut'],
-    'treso' => $data['montant_treso_initial']
+    'treso' => $data['montant_treso_initial'],
+    'provision' => $data['montant_provision_charges']
     );					
 }
 
@@ -92,7 +93,8 @@ function ChargeSessionExerciceBDD($data) {
 				$exercice_id = $data['id'];
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   			
+    			$exercice_treso = $data['montant_treso_initial'];  
+    			$exercice_provision = $data['montant_provision_charges'];				 			
                 // Mise à jour de la liste du formulaire
                 MajListeAnnee();
            }
@@ -119,7 +121,8 @@ function ChargeSessionExerciceBDD($data) {
 				$exercice_id = $data['id'];				
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   								
+    			$exercice_treso = $data['montant_treso_initial'];  
+    			$exercice_provision = $data['montant_provision_charges'];     			 								
 				$affiche = true;
 				$infos = true;
         } else { // On est ds le cas ou on a une liste de valeure en base
@@ -141,7 +144,8 @@ function ChargeSessionExerciceBDD($data) {
 				$exercice_id = $data['id'];				
     			$exercice_annee = $data['annee_debut'];
     			$exercice_mois = $data['mois_debut'];
-    			$exercice_treso = $data['montant_treso_initial'];   
+    			$exercice_treso = $data['montant_treso_initial'];
+    			$exercice_provision = $data['montant_provision_charges'];   				   
 				$infos = true;					
 			} else {
 				$infos = false;
@@ -227,7 +231,8 @@ function ChargeSessionExerciceBDD($data) {
 					
 					  <th>Années exercice</th>
 					  <th>Mois de démarrage</th>
-					  <th>Montant de trésorerie de départ</th>
+					  <th>Trésorerie</th>
+					  <th>Provision sur charges</th>					  
 					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
 					  
 					</tr>
@@ -242,6 +247,7 @@ function ChargeSessionExerciceBDD($data) {
 						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
 						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
 						echo '<td>'. number_format($row['montant_treso_initial'],2,',','.') . ' €</td>';
+						echo '<td>'. number_format($row['montant_provision_charges'],2,',','.') . ' €</td>';						
 						echo '<td width=90>';
 			?>
 						<div class="btn-group btn-group-xs">

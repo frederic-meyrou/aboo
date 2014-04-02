@@ -192,11 +192,13 @@
                 <tr class="active">
                   <th>Mois</th>
                   <th>CA</th>                  
-                  <th>Encaissements</th>
+                  <th>Recettes</th>
                   <th>Bénéfice</th>
-                  <th>Trésorerie disponible</th>
-                  <th>Charges calculées</th>
-                  <th>Charges réeles</th>
+                  <th>Trésorerie</th>
+                  <th>Charges payées</th>                    
+                  <th>Charges calculées</th> 
+                  <th>Provision calculées</th>                                  
+                  <th>Provision réeles</th>
                   <th>Commentaire</th>                  
                   <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>                  
                 </tr>
@@ -208,18 +210,27 @@
          for ($m = 1; $m <= 12; $m++) {
             echo '<tr>';
             echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['CA'],2,',','.') . ' €</td>';        
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['ENCAISSEMENT'],2,',','.') . ' €</td>';  
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['SOLDE'],2,',','.') . ' €</td>';                              
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['CA'],2,',','.') . ' €</td>';   		     
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['ENCAISSEMENT'],2,',','.') . ' €</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['BENEFICE'],2,',','.') . ' €</td>';  			  
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . ' €</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['CHARGES_PAYEES'],2,',','.') . ' €</td>';  			                              
+			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
+				echo '<td class="danger">';
+			} elseif ($TableauBilanMensuel[$m]['TRESO'] > $TableauBilanMensuel[$m]['CHARGES_CALCULEES']) { // Treso dispo
+				echo '<td class="success">';
+			} else { // Treso indispo
+				echo '<td class="warning">';
+			}
+            echo number_format($TableauBilanMensuel[$m]['CHARGES_CALCULEES'],2,',','.') . ' €</td>';
 			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
 				echo '<td class="danger">';
 			} elseif ($TableauBilanMensuel[$m]['TRESO'] > $TableauBilanMensuel[$m]['PROVISION_CHARGES']) { // Treso dispo
 				echo '<td class="success">';
 			} else { // Treso indispo
 				echo '<td class="warning">';
-			}				
-            echo number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . ' €</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['PROVISION_CHARGES'],2,',','.') . ' €</td>';
+			}
+            echo number_format($TableauBilanMensuel[$m]['PROVISION_CHARGES'],2,',','.') . ' €</td>';			
 			if ($TableauBilanMensuel[$m]['PROVISION_CHARGES']!=$TableauBilanMensuel[$m]['PROVISION_CHARGES_REEL']) { //  modifié
 				echo '<td class="info">';
 			} else { //  non modifié

@@ -64,7 +64,8 @@
 		                'id' => $data['exerciceid_encours'],
 		                'annee' => $data2['annee_debut'],
 		                'mois' => $data2['mois_debut'],
-		                'treso' => $data2['montant_treso_initial']
+		                'treso' => $data2['montant_treso_initial'],
+		                'provision' => $data2['montant_provision_charges']	                
 	                );         
 				}	
 				Database::disconnect();     	
