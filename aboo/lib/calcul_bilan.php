@@ -71,9 +71,15 @@ function CalculBilanMensuelAvecSocial($userid, $exerciceid, $exercicetreso) {
         $CA_{$m}= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0; 
         $DEPENSE_{$m}= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
         $SOLDE_{$m}= $CA_{$m} + $DEPENSE_{$m};
-        $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;       
-        // Calcul des charges (Cas EI Reel ~30%) 
-        // TODO : Calcul Provisoire, faire des cas par statut fiscal
+        $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0; 
+		
+		      
+        // Calcul des charges 
+        //switch ($data['gestion_social'] == 1) {
+        //	
+        //}
+        
+        //(Cas AUTOENTREPRENEUR) 
         if ($SOLDE_{$m} > 0) {
             $PROVISION_CHARGES_{$m}= $SOLDE_{$m} * 0.3;
         } else {

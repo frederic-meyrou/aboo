@@ -48,7 +48,8 @@
                 'admin' => $data['administrateur']
                 );
             // Chargement des options    
-            $_SESSION['options']['gestion_social'] = $data['gestion_social'];   
+            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
+            $_SESSION['options']['regime_fiscal'] = $data['regime_fiscal'];   			   
             // Gestion du profil Admin      
 	        if ($_SESSION['authent']['admin']==1) {
 		        // Cas ou l'utilisateur est Admin, redirection vers page admin

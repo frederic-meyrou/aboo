@@ -13,6 +13,9 @@
         header('Location:../index.php');
     }
 
+// Récupération des variables de session
+	include_once('lib/var_session.php');
+	
 // Mode Debug
 	$debug = false;
 
@@ -22,29 +25,6 @@
     }
     foreach ($_POST as $key => $value) {
         $sPOST[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-    }
-        	
-// Récupération des variables de session d'Authent
-    $user_id = $_SESSION['authent']['id']; 
-    $nom = $_SESSION['authent']['nom'];
-    $prenom = $_SESSION['authent']['prenom'];
-
-// Récupération des variables de session exercice
-    if(isset($_SESSION['exercice'])) {
-        $exercice_id = $_SESSION['exercice']['id'];
-        $exercice_annee = $_SESSION['exercice']['annee'];
-        $exercice_mois = $_SESSION['exercice']['mois'];
-        $exercice_treso = $_SESSION['exercice']['treso'];	
-    } else { // On a pas de session on retourne vers la gestion d'exercice
-    	header("Location: exercice.php");    	
-    }
-
-// Récupération des variables de session abodep
-    $abodep_mois = null;
-    if(!empty($_SESSION['abodep']['mois'])) {
-        $abodep_mois = $_SESSION['abodep']['mois'];
-    } else { // On a pas de session avec le mois on retourne d'ou on vient
-    	header("Location: journal.php");
     }
 	
 // Initialisation de la base

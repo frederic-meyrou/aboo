@@ -14,6 +14,9 @@
         header('Location:../index.php');
     }
 
+// Récupération des variables de session
+	include_once('lib/var_session.php');
+	
 // Récupère l'annee de l'exercice à supprimer en GET
 	if ( !empty($_GET['annee'])) {
 		$annee = $_REQUEST['annee'];
@@ -21,9 +24,6 @@
 		// Redirection vers conf puisque on a rien � afficher
 		header('Location:exercice.php');
 	}
-	
-// Récupération des variables de session d'Authent
-    $user_id = $_SESSION['authent']['id']; 
 	
 // Initialisation de la base
     $pdo = Database::connect();

@@ -14,6 +14,9 @@
         header('Location:../index.php');
     }
 
+// Récupération des variables de session
+	include_once('lib/var_session.php');
+	
 // Mode Debug
 	$debug = false;
     $affiche_erreur=false;  
@@ -26,23 +29,6 @@
         $sPOST[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
         	
-// Récupération des variables de session d'Authent
-    $user_id = $_SESSION['authent']['id']; 
-    $nom = $_SESSION['authent']['nom'];
-    $prenom = $_SESSION['authent']['prenom'];
-
-// Récupération des variables de session exercice
-    $exercice_id = null;
-    $exercice_annee = null;
-    $exercice_mois = null;
-    $exercice_treso = null;
-    if(isset($_SESSION['exercice'])) {
-        $exercice_id = $_SESSION['exercice']['id'];
-        $exercice_annee = $_SESSION['exercice']['annee'];
-        $exercice_mois = $_SESSION['exercice']['mois'];
-        $exercice_treso = $_SESSION['exercice']['treso'];
-    }
-
 // Initialisation de la base
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -309,7 +295,8 @@
                     break;
                 case 'entreprise':
                     $sql = "UPDATE user set raison_sociale=?, gestion_social=?, siret=?,regime_fiscal=? WHERE id = ?";
-                    $q = array($raison_sociale, $option_gestion_social, $siret, $regime_fiscal, $user_id);  
+                    $q = array($raison_sociale, $option_gestion_social, $siret, $regime_fiscal, $user_id);
+					$_SESSION['options']['regime_fiscal'] = $regime_fiscal;
                     break;
 				default:
 		            // On retourne d'ou on vient car le POST est invalide

@@ -13,14 +13,12 @@
         // Non authentifié on repart sur la HP
         header('Location:../index.php');
     }
-	
+
+// Récupération des variables de session
+	include_once('lib/var_session.php');
+		
 // Mode Debug
 	$debug = false;
-
-// Récupération des variables de session d'Authent
-    $user_id = $_SESSION['authent']['id']; 
-    $nom = $_SESSION['authent']['nom'];
-    $prenom = $_SESSION['authent']['prenom'];
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
