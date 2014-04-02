@@ -9,21 +9,25 @@
                               </div><!-- /.modal-header -->
                               <div class="modal-body">
                                         <center>
-                                        <li class="list-group-item">    
+                                        <li class="list-group-item <?php echo !empty($socialError)?'has-error':'';?>">    
                                         <div class="radio">
                                           <label>
                                             <strong>Option Aboo Social : </strong>   
-                                            <input type="radio" name="social" id="socialnon" value="Non" <?php echo ($data['gestion_social'] == 0)?'checked':'';?>>
+                                            <input type="radio" name="social" id="socialnon" value="Non" <?php if (!$affiche_erreur) { echo ($data['gestion_social'] == 0)?'checked':''; } else { echo ($option_gestion_social == 0)?'checked':''; };?>>
                                             Non
                                           </label>
                                         </div>
                                         <div class="radio">
                                           <label>
-                                            <input type="radio" name="social" id="socialoui" value="Oui" <?php echo ($data['gestion_social'] == 1)?'checked':'';?>>
-                                            Oui
+                                            <input type="radio" name="social" id="socialoui" value="Oui" <?php if (!$affiche_erreur) { echo ($data['gestion_social'] == 1)?'checked':''; } else { echo ($option_gestion_social == 1)?'checked':''; };?>>
+                                            Oui 
                                           </label>
                                         </div>
-                                        </li>
+                                        <?php if (!empty($socialError)): ?>
+                                        <br>
+                                        <span class="help-inline text-danger"><?php echo $socialError;?></span>
+                                        <?php endif; ?>                                         
+                                        </li> 
                                         </center>
                                         <input type="hidden" name="action" value="options">
                               </div><!-- /.modal-body -->                                         

@@ -46,7 +46,7 @@
 // Initialisation de la base
     $pdo = Database::connect();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   
+	 
 // POST              
     if ( !empty($_POST) && isset($_POST['action'])) {
         // keep track validation errors
@@ -62,9 +62,17 @@
         $adresse2Error = null;
         $cpError = null;
         $villeError = null;
+		$socialError = null;
         
         // keep track post values
         $action = $sPOST['action'];
+
+		// Lecture des données de la table user pour traitement formulaire
+	    $sql = "SELECT * FROM user WHERE id = :id";
+	    $q = array('id' => $user_id);    
+	    $req = $pdo->prepare($sql);
+	    $req->execute($q);
+	    $data = $req->fetch(PDO::FETCH_ASSOC);			
 
         // Validation sur choix du contexte de formulaire
         $valid = true;               
@@ -121,13 +129,13 @@
 				}
                 break;									
             case 'coordonnees':
-                $mobile = preg_replace("/[^\d]+/", '', trim($sPOST['mobile']));                
-                $telephone = preg_replace("/[^\d]+/", '', trim($sPOST['telephone']));
-                $site_internet = trim($sPOST['internet']);
-                $adresse1 = trim($sPOST['adresse1']);
-                $adresse2 = trim($sPOST['adresse2']);
-                $cp = trim($sPOST['cp']);
-                $ville = ucfirst(strtolower(trim($sPOST['ville'])));
+                $mobile = (!isset($_POST['mobile']))?preg_replace("/[^\d]+/", '', trim($sPOST['mobile'])):null;                
+                $telephone = (!isset($_POST['telephone']))?preg_replace("/[^\d]+/", '', trim($sPOST['telephone'])):null;
+                $site_internet = (!isset($_POST['internet']))?trim($sPOST['internet']):null;
+                $adresse1 = (!isset($_POST['adresse1']))?trim($sPOST['adresse1']):null;
+                $adresse2 = (!isset($_POST['adresse2']))?trim($sPOST['adresse2']):null;
+                $cp = (!isset($_POST['cp']))?trim($sPOST['cp']):null;
+                $ville = (!isset($_POST['ville']))?ucfirst(strtolower(trim($sPOST['ville']))):null;
                 if(!empty($mobile) && !preg_match('/^[0-9]{10,14}$/', $mobile)) {
                     $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
                     $valid=false;
@@ -147,16 +155,31 @@
                 break;
             case 'options':
                 $option_gestion_social = ($sPOST['social'] == 'Oui')?1:0;
+				if ($option_gestion_social && $data['regime_fiscal'] == 0) {
+                    $socialError = 'Il n\'est pas possible d\'activer cette option tant que vous n\'avez pas choisis de statut fiscal pour votre entreprise.';
+                    $valid=false;					
+				}
+				if ($option_gestion_social && $data['regime_fiscal'] == 5) {
+                    $socialError = 'L\'option de gestion des charges sociales pour une association n\'est pas encore disponible sur Aboo.';
+                    $valid=false;					
+				}				
                 break;
             case 'entreprise':
                 $raison_sociale = trim($sPOST['societe']);
                 $siret = trim($sPOST['siret']);
                 $siret = preg_replace("/[^\d]+/", '', $siret);                
                 $regime_fiscal = $sPOST['fiscal'];
+				$option_gestion_social = $data['regime_fiscal'];
                 if (!empty($siret) && !checkLuhn($siret)) { // On vérifie la somme de controle du SIRET
                     $siretError = 'Votre numéro de SIRET est invalide';
                     $valid=false;                   
                 }
+				if ($data['gestion_social'] == 1 && $raison_sociale == 0) { // Option sociale incompatible avec ce regime fiscal
+					$option_gestion_social = 0;
+				}
+				if ($data['gestion_social'] == 1 && $raison_sociale == 5) { // Option sociale incompatible avec ce regime fiscal
+					$option_gestion_social = 0;					
+				}				
                 break;                
         }      
     
@@ -285,8 +308,8 @@
                     $_SESSION['options']['gestion_social'] = $option_gestion_social;                                             
                     break;
                 case 'entreprise':
-                    $sql = "UPDATE user set raison_sociale=?,siret=?,regime_fiscal=? WHERE id = ?";
-                    $q = array($raison_sociale, $siret, $regime_fiscal, $user_id);  
+                    $sql = "UPDATE user set raison_sociale=?, gestion_social=?, siret=?,regime_fiscal=? WHERE id = ?";
+                    $q = array($raison_sociale, $option_gestion_social, $siret, $regime_fiscal, $user_id);  
                     break;
 				default:
 		            // On retourne d'ou on vient car le POST est invalide
