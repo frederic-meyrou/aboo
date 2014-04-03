@@ -93,7 +93,8 @@
 	    // Valeures par défaut
 	    $annee_debut = date('Y');
         $mois_debut = 1;
-        $montant_treso_initial = 0; 
+        $montant_treso_initial = 0;
+        $montant_provision_initial = 0; 
 	}
 	
 ?>
@@ -106,10 +107,12 @@
 <body>
 
     <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
-        
+    
     <div class="container">
-        <h2>Création d'un exercice</h2>
-        <br>
+
+        <div class="page-header">           
+            <h2>Création d'un exercice</h2>
+        </div>
 
         <!-- Affiche les informations de debug -->
         <?php 

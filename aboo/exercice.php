@@ -70,11 +70,11 @@ function ChargeSessionExerciceBDD($data) {
     );					
 }
 
-// Lecture dans la base de l'exercice 
+// Lecture de tous les exercices de l'utilisateur 
     $sql = "SELECT * FROM exercice WHERE user_id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($user_id));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
+    //$data = $q->fetch(PDO::FETCH_ASSOC);
     $count = $q->rowCount($sql);
     if ($count==0) { // Pas d'exercice ds la BDD c'est le premier passage sur le formulaire
         Database::disconnect();
@@ -153,6 +153,16 @@ function ChargeSessionExerciceBDD($data) {
 		    $affiche = true;
 		} 
     }
+
+if ($affiche) {
+    // Lecture dans la base des exercices pour affichage du tableau 
+        $sql = "SELECT * FROM exercice WHERE user_id = ? ORDER by annee_debut";
+        $req = $pdo->prepare($sql);
+        $req->execute(array($user_id));
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
+        Database::disconnect();            
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -225,29 +235,25 @@ function ChargeSessionExerciceBDD($data) {
             <h3>Liste des exercices</h3>
             			
 	        <div class="table-responsive">  
-			<table class="table table-striped table-bordered table-hover success">
+			<table cellpadding="0" cellspacing="0" border="0" class="table  table-bordered table-hover success">
 				<thead>
 					<tr class="active">
-					
 					  <th>Années exercice</th>
 					  <th>Mois de démarrage</th>
 					  <th>Trésorerie</th>
 					  <th>Provision sur charges</th>					  
-					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>
-					  
+					  <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>			  
 					</tr>
 				</thead>
                 
 				<tbody>
 			<?php 
- 			 
-				$sql = "SELECT * FROM exercice WHERE user_id = $user_id ORDER by annee_debut";
-				foreach ($pdo->query($sql) as $row) {
-						echo '<tr>';
+				foreach ($data as $row) {
+						echo '<tr '; echo ($exercice_annee != $row['annee_debut'])?'':'class="active"'; echo '>';
 						echo '<td>'. $row['annee_debut'] . ' - ' . ($row['annee_debut'] + 1) . '</td>';
 						echo '<td>'. NumToMois($row['mois_debut']) . '</td>';
 						echo '<td>'. number_format($row['montant_treso_initial'],2,',','.') . ' €</td>';
-						echo '<td>'. number_format($row['montant_provision_charges'],2,',','.') . ' €</td>';						
+						echo '<td>'. number_format($row['montant_provision_charges'],2,',','.') . ' €</td>';		
 						echo '<td width=90>';
 			?>
 						<div class="btn-group btn-group-xs">
@@ -262,7 +268,6 @@ function ChargeSessionExerciceBDD($data) {
 						echo '</tr>';
 				}
 			}
-			Database::disconnect();
 			?>
                 </tbody>
             </table>

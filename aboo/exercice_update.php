@@ -109,10 +109,12 @@
 <body>
 
     <?php $page_courante = "exercice.php"; require 'nav.php'; ?>
-        
+    
     <div class="container">
-        <h2>Modification d'un exercice</h2>
-        <br>
+
+        <div class="page-header">           
+            <h2>Modification d'un exercice</h2>
+        </div>
         
         <!-- Affiche les informations de debug -->
         <?php 
