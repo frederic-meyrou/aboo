@@ -123,15 +123,15 @@
 			$q4 = $pdo->prepare($sql4);		
 			$q4->execute(array($user_id, $exercice_id, $mois_choisi, $montant, $commentaire));
 		} elseif ($valid && $charges!="Idem") {
-			$sql4 = "UPDATE charges set =?, commentaire=? WHERE user_id=? AND exercice_id=? AND mois=?";
+			$sql4 = "UPDATE charges set charges=?, commentaire=? WHERE user_id=? AND exercice_id=? AND mois=?";
 			$q4 = $pdo->prepare($sql4);		
 			$q4->execute(array($montant, $commentaire, $user_id, $exercice_id, $mois_choisi));
 		}
 		if ($valid) { // Réinitialise la page formulaire
             // Charge le Bilan    
-            $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);						
-            //Database::disconnect();
-			//header("Location: .php");			
+            //$TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);						
+            Database::disconnect();
+			header("Location: charges.php");			
 		}		
     } // If POST Formualire
     
@@ -162,8 +162,8 @@
 	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PROVISION_CHARGES'] / 12,2,',','.'); ?> €</button>                            
 	        </div>
 	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Trésorerie en début d'année :</button>               
-	            <button type="button" class="btn btn-default"><?php echo number_format($exercice_treso,2,',','.'); ?> €</button>             
+	            <button type="button" class="btn btn-info">Provision en début d'année :</button>               
+	            <button type="button" class="btn btn-default"><?php echo number_format($exercice_provision,2,',','.'); ?> €</button>             
 	        </div>	            
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Trésorerie en fin d'année :</button>               
@@ -190,15 +190,15 @@
         <table class="table table-striped table-bordered table-condensed table-hover success">
             <thead>
                 <tr class="active">
-                  <th>Mois</th>
-                  <th>CA</th>                  
+                  <th>Mois</th>              
                   <th>Recettes</th>
                   <th>Bénéfice</th>
                   <th>Trésorerie</th>
-                  <th>Charges payées</th>                    
-                  <th>Charges calculées</th> 
-                  <th>Provision calculées</th>                                  
-                  <th>Provision réeles</th>
+                  <th>Charges<br>payées</th>                    
+                  <th>Charges<br>calculées</th> 
+                  <th>Provision<br>calculées</th>                                  
+                  <th>Provision<br>cumulée</th>                                  
+                  <th>Provision<br>réeles</th>
                   <th>Commentaire</th>                  
                   <th>Action <a href="#" onclick="$('#modalAideActions').modal('show'); "><span class="glyphicon glyphicon-info-sign"></span></a></th>                  
                 </tr>
@@ -209,11 +209,20 @@
          // Calcul des sommes (boucle sur les mois relatifs)
          for ($m = 1; $m <= 12; $m++) {
             echo '<tr>';
-            echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['CA'],2,',','.') . ' €</td>';   		     
+            echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';		     
             echo '<td>'. number_format($TableauBilanMensuel[$m]['ENCAISSEMENT'],2,',','.') . ' €</td>';
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['BENEFICE'],2,',','.') . ' €</td>';  			  
-            echo '<td>'. number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . ' €</td>';
+			if ($TableauBilanMensuel[$m]['BENEFICE'] < 0 ) { // Pb Bénéfice !
+				echo '<td class="danger">';
+			} else { 
+				echo '<td>';
+			}
+            echo number_format($TableauBilanMensuel[$m]['BENEFICE'],2,',','.') . ' €</td>';
+			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
+				echo '<td class="danger">';
+			} else { 
+				echo '<td>';
+			}
+            echo number_format($TableauBilanMensuel[$m]['TRESO'],2,',','.') . ' €</td>';
             echo '<td>'. number_format($TableauBilanMensuel[$m]['CHARGES_PAYEES'],2,',','.') . ' €</td>';  			                              
 			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
 				echo '<td class="danger">';
@@ -223,18 +232,17 @@
 				echo '<td class="warning">';
 			}
             echo number_format($TableauBilanMensuel[$m]['CHARGES_CALCULEES'],2,',','.') . ' €</td>';
-			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['PROVISION_CHARGES'],2,',','.') . ' €</td>';
+			if ($TableauBilanMensuel[$m]['CUMUL_PROVISION_CHARGES'] < 0 ) { // Pb Tréso !
 				echo '<td class="danger">';
-			} elseif ($TableauBilanMensuel[$m]['TRESO'] > $TableauBilanMensuel[$m]['PROVISION_CHARGES']) { // Treso dispo
+			} else { 
 				echo '<td class="success">';
-			} else { // Treso indispo
-				echo '<td class="warning">';
-			}
-            echo number_format($TableauBilanMensuel[$m]['PROVISION_CHARGES'],2,',','.') . ' €</td>';			
+			}			
+			echo number_format($TableauBilanMensuel[$m]['CUMUL_PROVISION_CHARGES'],2,',','.') . ' €</td>';					
 			if ($TableauBilanMensuel[$m]['PROVISION_CHARGES']!=$TableauBilanMensuel[$m]['PROVISION_CHARGES_REEL']) { //  modifié
 				echo '<td class="info">';
 			} else { //  non modifié
-				echo '<td>';
+				echo '<td >';
 			}			                         
             echo ($TableauBilanMensuel[$m]['PROVISION_CHARGES']!=$TableauBilanMensuel[$m]['PROVISION_CHARGES_REEL'])?number_format($TableauBilanMensuel[$m]['PROVISION_CHARGES_REEL'],2,',','.'):'Idem';
 			if ($TableauBilanMensuel[$m]['PROVISION_CHARGES']!=$TableauBilanMensuel[$m]['PROVISION_CHARGES_REEL']) { //  modifié
