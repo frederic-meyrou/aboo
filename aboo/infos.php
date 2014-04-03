@@ -46,7 +46,7 @@
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapse4" class="panel-collapse collapse in">
+		    <div id="collapse4" class="panel-collapse collapse">
 		      <div class="panel-body">
 		        <li> MàJ Schema BDD pour gestion salaire et la double gestion du CA</li>
 		        <li> Ajout de la page de gestion du salaire</li>
@@ -144,19 +144,36 @@
 
 		<!-- Specs de Aboo -->
 		<div class="panel panel-info">
-			  <div class="panel-heading"><h4>Spécifications : </h4></div>
+			  <div class="panel-heading"><h4>Vocabulaire & Spécifications : </h4></div>
 	              <div class="panel-body">
-	                    <li> CA(M) = Recettes(M) : Chiffre d'affaire</li>
-	                    <li> Dépenses(M) = Dépenses</strong>
-	                    <li> Solde Brut (M) = CA (M) - Dépenses (M)</li>
-	                    <li> Ventillation (M) = Recettes de l'exercice ventillées sur le mois courant</li>
-	                    <li> Paiement (M) = Total des echéances des abonements étalés sur le mois courant + Recettes à régler</li>
-	                    <li> Paiement echus (M) = Total des paiements à encaisser sur le mois courant</li>
-	                    <li> Encaissement (M) = Total des paiements encaissés + recettes du mois courant payées</li>
-	                    <li> Salaire (M) = Montant affecté au salaire = [Trésorerie (M-1) + Encaissement (M)] - [Ventilation (M) - Dépenses (M)]</li>
-	                    <li> Trésorerie (M) = Montant de la trésorerie avant salaire = Encaissement (M)  - Dépenses (M)  + Trésorerie (M-1) </li>
-	                    <li> Report Tréso (M) = Montant de la trésorerie de fin de mois = Trésorerie (M) - Salaire (M)</li>
-	                    <li> Report Salaire (M) = Salaire non versé reporté au mois suivant</li>
+	                    <li> CA : Chiffre d'Affaire </li>
+	                    <li> Recettes : Paiements étalés encaissés + Recettes au contant (payées)</li>
+	                    <li> Dépenses : Dépenses / Frais / Taxes du mois courant (hors charges sociales)</li>
+	                    <li> Charges  : Charges sociales payées</li>                    
+	                    <li> Solde Brut : CA - Dépenses - Charges </li>
+	                    <li> Bénéfice : Recettes - Dépenses </li>
+	                    <li> Ventillation : CA des abonnements ventillés sur le mois courant</li>
+	                    <li> Paiement : Echéances des abonnements en paiement étalé sur le mois courant + Recettes à régler</li>
+	                    <li> Paiement echus : Créances de paiement sur le mois courant (non encaissé)</li>
+	                    <li> Trésorerie : Trésorerie disponible avant paiement du salaire</li> 
+	                    <li> Salaire : Salaire calculé automatiquement par Aboo en fonction de la ventilation, des dépenses et de la trésorerie</li>
+	                    <li> Salaire Réel : Salaire réelement versé</li>
+	                    <li> Charges calculées : Charges sociales calculées par Aboo en fonction du statut fiscal de l'entreprise et si l'option "Charges sociales" est activée</li>
+	                    <li> Provisions pour Charges : Charges sociales provisionnées calculées par Aboo en fonction de la trésorerie disponible</li>
+	                    <li> Provisions pour Charges Réelles : Charges sociales réellement provisionnées</li> 
+	                    <li> Report Tréso : Trésorerie disponible après paiement du salaire</li>
+	                    <li> Report Salaire : Salaire non versé reporté au mois suivant</li> 
+						<hr>
+						<li> Trésorerie = Trésorerie(M-1) + Recettes(M) - Dépenses(M) - Charges(M) - ProvisionReelles(M) </li>	                  
+	                    <li> Salaire : Si Ventil(M) > (Trésorerie(M) <br>
+	                    	           Alors : Salaire = Trésorerie(M) - ( Dépenses(M) + Charges(M) )<br>
+	                    	 		   Sinon : Salaire = Ventil(M) - ( Dépenses(M) + Charges(M) )
+	                    </li>
+	                    <li> Report Salaire : Si ( Ventil(M) + Report_Salaire(M-1) ) > Trésorerie(M) <br> 
+	                    	           Alors : Report_Salaire(M) = 0 <br>
+	                    	 		   Sinon : Report_Salaire(M) = Report_Salaire(M-1) + ( Ventil(M) - Trésorerie(M) )
+	                    </li>	                    
+	                    <li> Report Tréso = Trésorerie(M) - Salaire_Reel(M)</li>
 	              </div>
 	          </div>        
 	    </div>       
