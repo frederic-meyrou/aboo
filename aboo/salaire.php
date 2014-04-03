@@ -191,6 +191,8 @@
             <thead>
                 <tr class="active">
                   <th>Mois</th>
+                  <th>Recettes</th>
+                  <th>Bénéfice</th>
                   <th>Trésorerie disponible</th>
                   <th>Salaire calculé</th>
                   <th>Salaire réel</th>
@@ -205,6 +207,13 @@
          for ($m = 1; $m <= 12; $m++) {
             echo '<tr>';
             echo '<td>'. $m . " : " . NumtoMois(MoisAnnee($m, $exercice_mois)) . '</td>';
+            echo '<td>'. number_format($TableauBilanMensuel[$m]['ENCAISSEMENT'],2,',','.') . ' €</td>';
+            if ($TableauBilanMensuel[$m]['BENEFICE'] < 0 ) { // Pb Bénéfice !
+                echo '<td class="danger">';
+            } else { 
+                echo '<td>';
+            }
+            echo number_format($TableauBilanMensuel[$m]['BENEFICE'],2,',','.') . ' €</td>';          
 			if ($TableauBilanMensuel[$m]['TRESO'] < 0 ) { // Pb Tréso !
 				echo '<td class="danger">';
 			} elseif ($TableauBilanMensuel[$m]['TRESO'] > $TableauBilanMensuel[$m]['SALAIRE']) { // Treso dispo

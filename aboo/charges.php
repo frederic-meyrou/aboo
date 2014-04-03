@@ -152,27 +152,45 @@
         </div>
 
         <!-- Affiche les sommmes -->
-        <div>      
+        <div>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info"> Total charges payées </button>                             
+                <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CHARGE'],2,',','.'); ?> €</button>                            
+            </div> 
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info"> Total charges calculées </button>                             
+                <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CHARGES_CALCULEES'],2,',','.'); ?> €</button>                            
+            </div>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-warning"> Charges calculées moyenne </button>               
+                <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['CHARGES_CALCULEES'] / 12,2,',','.'); ?> €</button>             
+            </div>               
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info"> Statut fiscal </button>                             
+                <button type="button" class="btn btn-default"><?php echo NumToRegimeFiscal($regime_fiscal); ?></button>                            
+            </div>
+            
+            <div class="btn-group btn-group-sm pull-right">
+                <button type="button" class="btn btn-sm btn-default" onclick="$('#modalAideCharges').modal('show'); ">Aide <span class="glyphicon glyphicon-info-sign"></span></a></button>             
+            </div>
+            </br></br> 
+                                           
 	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info"> Provision pour charges Annuel :</button>                             
-	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PROVISION_CHARGES'],2,',','.'); ?> €</button>                            
+	            <button type="button" class="btn btn-info"> Provision pour charges Annuel </button>                             
+	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PROVISION_CHARGES_REEL'],2,',','.'); ?> €</button>                            
 	        </div>
 	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-warning"> Provision pour charges Moyen :</button>                             
-	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PROVISION_CHARGES'] / 12,2,',','.'); ?> €</button>                            
+	            <button type="button" class="btn btn-warning"> Provision pour charges Moyen </button>                             
+	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['PROVISION_CHARGES_REEL'] / 12,2,',','.'); ?> €</button>                            
 	        </div>
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Provision en début d'année :</button>               
-	            <button type="button" class="btn btn-default"><?php echo number_format($exercice_provision,2,',','.'); ?> €</button>             
-	        </div>	            
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Trésorerie en fin d'année :</button>               
-	            <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.'); ?> €</button>             
-	        </div>
-	        <div class="btn-group btn-group-sm pull-right">
-            	<button type="button" class="btn btn-sm btn-default" onclick="$('#modalAideCharges').modal('show'); ">Aide <span class="glyphicon glyphicon-info-sign"></span></a></button>             
-			</div>
-	        
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info">Provision en début d'année </button>               
+                <button type="button" class="btn btn-default"><?php echo number_format($exercice_provision,2,',','.'); ?> €</button>             
+            </div>               
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info">Provision en fin d'année </button>               
+                <button type="button" class="btn btn-default"><?php echo number_format($TableauBilanMensuel[12]['CUMUL_PROVISION_CHARGES'],2,',','.'); ?> €</button>             
+            </div>	          
 		</div>
         <br>
 
