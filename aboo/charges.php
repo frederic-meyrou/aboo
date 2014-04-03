@@ -337,10 +337,12 @@
                     <div class="form-group <?php echo !empty($commentaireError)?'has-error':''; ?>">
                         <input name="commentaire" id="commentaire" type="text" class="form-control" value="<?php echo !empty($commentaire)?$commentaire:''; ?>" placeholder="Commentaire">                                                      
                     </div>
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button><br>
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Enregistrer</button>
                     <?php if (!empty($montantError)) { ?>
                         <span class="help-inline text-danger"><?php echo $montantError; ?></span>
-                    <?php } ?>                      
+                    <?php } ?> 
+                    <!-- Affiche le bouton retour -->
+                    <a class="btn btn-primary" href="charges.php"><span class="glyphicon glyphicon-eject"></span> Retour</a><br>                                           
                 </form>
 
             </div> <!-- /Panel-body -->
