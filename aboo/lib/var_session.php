@@ -16,11 +16,14 @@
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
 		$exercice_provision = $_SESSION['exercice']['provision'];
+    } elseif ( basename($_SERVER['PHP_SELF']) != 'exercice_create.php' ) {
+            // Redirection pour creation d'exercice
+            header('Location:exercice_create.php');     	
     }
 
 // Récupération des variables de session abodep
     $abodep_mois = null;
-    if(isset($_SESSION['abodep'])) {
+    if(isset($_SESSION['abodep']['mois'])) {
         $abodep_mois = $_SESSION['abodep']['mois'];
     }
 
@@ -30,4 +33,4 @@
     if(isset($_SESSION['options'])) {
         $option_gestion_social = $_SESSION['options']['gestion_social'];
 		$regime_fiscal = $_SESSION['options']['regime_fiscal'];
-    }	
+	}

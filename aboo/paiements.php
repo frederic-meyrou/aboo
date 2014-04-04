@@ -57,13 +57,13 @@
 		}
 	}		
 	if ($exercice_mois != null && ($mois_choisi == null && $abodep_mois == null)) {
-		// On a pas de POST ni de SESSION mais on a un mois de debut d'exercice
+		echo " On a pas de POST ni de SESSION mais on a un mois de debut d'exercice";
 		$mois_choisi = $exercice_mois;
 	} elseif ($mois_choisi == null && $abodep_mois != null) {
-		// On a dejà une session mais pas de POST
+		echo " On a dejà une session mais pas de POST";
 		$mois_choisi = $abodep_mois;
 	} elseif ($mois_choisi == null) {
-		// On a vraiment rien on prend le mois courant
+		echo " On a vraiment rien on prend le mois courant";
 		$mois_choisi = date('n');
 	}
 	$_SESSION['abodep']['mois'] = $mois_choisi;
