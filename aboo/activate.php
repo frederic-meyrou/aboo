@@ -31,6 +31,7 @@
 	if(!empty($_GET)) {
 		$token = $sGET['token'];
 		$email = $sGET['email'];
+
 		// Recherche ds la BDD
 	    $q = array('email'=>$email,'token'=>$token);
 	    $sql = 'SELECT * FROM user WHERE email = :email AND token = :token';
@@ -42,10 +43,27 @@
 	        // Verfier si l'utilisateur est actif
 	        if ($data['actif']==1) {        	
 	            $affiche_deja_actif = true;
-	        } else { //Sinon on active l'utilisateur        	 
-	            $sql2 = "UPDATE user SET actif = 1, token = NULL WHERE email = :email AND token = :token";
+	        } else { // Sinon on active l'utilisateur
+				// Génération de la date d'expiration
+				if ($data['essai']==1) {
+					$annee = date('Y');
+					$mois = date('m');
+					if ($mois == 12) { // La date d'expiration est le premier jour du second mois après la date du jour
+						$annee_expiration = $annee +1;
+						$mois_expiration = 2;
+					} elseif ($mois == 11) { 
+						$annee_expiration = $annee +1;
+						$mois_expiration = 1;
+					} else {
+						$annee_expiration = $annee;
+						$mois_expiration = $mois + 2;
+					}
+					$date_expiration = $annee_expiration . '-' . $mois_expiration . '-' . '01';
+				}
+			    $q2 = array('expiration'=>$date_expiration,'email'=>$email,'token'=>$token);            	 
+	            $sql2 = "UPDATE user SET actif = 1, token = NULL, expiration = :expiration WHERE email = :email AND token = :token";
 			    $req = $pdo->prepare($sql2);
-	            $req->execute($q);
+	            $req->execute($q2);
 	            $affiche_ok = true;
 	        }
 	    } else { //Utilisateur incconu        

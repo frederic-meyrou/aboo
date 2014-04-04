@@ -7,7 +7,8 @@
 
 	// Dépendances
 	include 'lib/database.php';
-
+	include 'lib/fonctions.php';
+	
 	// Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
         $sGET[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -38,46 +39,53 @@
 	    $count = $q->rowCount($sql);
 
 	    if ($count==1) {
-	        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
-            $_SESSION['authent'] = array(
-                'id' => $data['id'],
-                'email' => $email,
-                'nom' => $data['nom'],
-                'prenom' => $data['prenom'],
-                'expiration' => $data['expiration'],
-                'admin' => $data['administrateur']
-                );
-            // Chargement des options    
-            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
-            $_SESSION['options']['regime_fiscal'] = $data['regime_fiscal'];   			   
-            // Gestion du profil Admin      
-	        if ($_SESSION['authent']['admin']==1) {
-		        // Cas ou l'utilisateur est Admin, redirection vers page admin
-				Database::disconnect();     	
-		        header('Location:user.php');            
-	        } else {
-		        // On charge les infos de session mois en cours si déjà enregistré
-				if ($data['mois_encours'] != null) {
-					$_SESSION['abodep']['mois'] = $data['mois_encours'];
-				}	        	         	
-		        // On charge les infos exercice de session si déjà enregistré
-				if ($data['exerciceid_encours'] != null) {
-			        $sql2 = "SELECT * FROM exercice where id = ?";
-			        $q = $pdo->prepare($sql2);
-			        $q->execute(array($data['exerciceid_encours']));
-			        $data2 = $q->fetch(PDO::FETCH_ASSOC);
-					$_SESSION['exercice'] = array(
-		                'id' => $data['exerciceid_encours'],
-		                'annee' => $data2['annee_debut'],
-		                'mois' => $data2['mois_debut'],
-		                'treso' => $data2['montant_treso_initial'],
-		                'provision' => $data2['montant_provision_charges']	
-	                );         
-				}	
-				Database::disconnect();     	
-		        // Redirection vers la home sécurisé            
-		        header('Location:home.php');
-	        }
+			// Vérification de l'expiration du compte
+			$datejour = date('Y-m-d');
+			$datefin = $data['expiration'];
+			if ( $data['administrateur'] == 0 && (strtotime($datefin) - strtotime($datejour)) < 0 ) {
+	        	$error_expiration = "Ce compte est expiré depuis le " . DateFr($datefin) . ".  <br>Veuillez comtacter le support Aboo : contact@aboo.fr en cas de problème.";				
+			} else { // Compte non expiré ou Administrateur		    	
+		        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
+	            $_SESSION['authent'] = array(
+	                'id' => $data['id'],
+	                'email' => $email,
+	                'nom' => $data['nom'],
+	                'prenom' => $data['prenom'],
+	                'expiration' => $data['expiration'],
+	                'admin' => $data['administrateur']
+	                );
+	            // Chargement des options    
+	            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
+	            $_SESSION['options']['regime_fiscal'] = $data['regime_fiscal'];   			   
+	            // Gestion du profil Admin      
+		        if ($_SESSION['authent']['admin']==1) {
+			        // Cas ou l'utilisateur est Admin, redirection vers page admin
+					Database::disconnect();     	
+			        header('Location:user.php');            
+		        } else {
+			        // On charge les infos de session mois en cours si déjà enregistré
+					if ($data['mois_encours'] != null) {
+						$_SESSION['abodep']['mois'] = $data['mois_encours'];
+					}	        	         	
+			        // On charge les infos exercice de session si déjà enregistré
+					if ($data['exerciceid_encours'] != null) {
+				        $sql2 = "SELECT * FROM exercice where id = ?";
+				        $q = $pdo->prepare($sql2);
+				        $q->execute(array($data['exerciceid_encours']));
+				        $data2 = $q->fetch(PDO::FETCH_ASSOC);
+						$_SESSION['exercice'] = array(
+			                'id' => $data['exerciceid_encours'],
+			                'annee' => $data2['annee_debut'],
+			                'mois' => $data2['mois_debut'],
+			                'treso' => $data2['montant_treso_initial'],
+			                'provision' => $data2['montant_provision_charges']	
+		                );         
+					}	
+					Database::disconnect();     	
+			        // Redirection vers la home sécurisé            
+			        header('Location:home.php');
+		        }
+			}
 	    } else { // Rien en base
 	        //Utilisateur inconnu
 	        $errorEmail = "Compte $email inconnu ou mot de passe invalide!";
@@ -144,7 +152,7 @@
         <?php       
         }   
         ?>  
-        	
+       	
 		<!-- Modal Login-->
 		<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
@@ -171,6 +179,20 @@
 			           	<span class="glyphicon glyphicon-user"></span> <a href="inscription.php"> Vous souhaitez créer un compte ?</a><br/>
 					    <span class="glyphicon glyphicon-lock"></span> <a href="oubli.php"> Vous avez oublié votre mot de passe ?</a>
 					</h5>
+				    <!-- Affiche les informations d'expiration -->
+				    <?php 
+					if (isset($error_expiration)) {
+					?>
+					<div class="span10 offset1">
+				    <div class="alert alert-danger alert-dismissable fade in">
+				        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				        <strong>Impossible de se connecter !</strong><br>
+				        <?php echo $error_expiration ?>
+				    </div>
+				   </div>
+				    <?php       
+				    }   
+				    ?> 					
 			      </div><!-- /.modal-body -->					    				  
 				  <div class="modal-footer">
 				  	<div class="form-actions pull-right">
