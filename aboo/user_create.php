@@ -30,7 +30,9 @@
 	
 // Valeures par défaut :
 	$administrateur=0;
-	$utilisateur=1;	
+	$actif=1;
+	$essai=0;
+	$inscription=date('Y-m-d');
 
 // Traitement du formulaire :        	
 	if ( !empty($sPOST)) {
@@ -46,69 +48,74 @@
 		$montantError = null;
 		
 		// keep track post values
-		$password = $sPOST['password'];
-		$nom = $sPOST['nom'];
-		$prenom = $sPOST['prenom'];
-		$email = $sPOST['email'];
-		$telephone = $sPOST['telephone'];
-		$inscription = $sPOST['inscription'];
-		$expiration = $sPOST['expiration'];
-		$montant = $sPOST['montant'];
+		$password = trim($sPOST['password']);
+        $usernom = ucfirst(mb_strtolower($sPOST['nom'], 'UTF-8'));   
+        $userprenom = ucfirst(trim(mb_strtolower($sPOST['prenom'], 'UTF-8')));		
+		$email = trim($sPOST['email']);
+		$telephone = trim($sPOST['telephone']);
+		$inscription = trim($sPOST['inscription']);
+		$expiration = trim($sPOST['expiration']);
+		$montant = trim($sPOST['montant']);
 		
 		// Statut utilisateur Radio
-		empty($sPOST['utilisateur']) ? $utilisateur=0 : $utilisateur=1;
-		empty($sPOST['administrateur']) ? $administrateur=0 : $administrateur=1;
-
+		$administrateur=$sPOST['administrateur'];
+		$actif=$sPOST['actif'];
+		$essai=$sPOST['essai'];
+		
 		// validate input
 		$valid = true;
         if (empty($email)) {
-            $emailError = 'Veuillez entrer votre adresse Email';
+            $emailError = 'Veuillez entrer une adresse Email';
             $valid = false;
         } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
             $emailError = 'Veuillez entrer une adresse eMail valide';
             $valid = false;
         }
-		if (empty($password)) {
-			$passwordError = 'Veuillez entrer un mot de passe';
-			$valid = false;
+		if (empty($password) || strlen($password) < 6) {
+            $passwordError = 'Votre mot de passe ne peut être inférieur à 6 caractères';
+            $valid=false;						
 		}
-		if (empty($nom)) {
+		if (empty($usernom)) {
 			$nomError = 'Veuillez entrer un nom';
 			$valid = false;
 		}
-		if (empty($prenom)) {
+		if (empty($userprenom)) {
 			$prenomError = 'Veuillez entrer un prénom';
 			$valid = false;
 		}
+        if(!empty($telephone) && !preg_match('/^[0-9]{10,14}$/', $telephone)) {
+            $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
+            $valid=false;
+        } 
 		if (empty($telephone)) {
 			$telephoneError = 'Veuillez entrer un numéro de téléphone';
 			$valid = false;
 		}
 		if (empty($inscription)) {
-			$inscriptionError = 'Veuillez entrer une date AA-MM-JJ';
-			$valid = false;
+			$inscription = date('Y-m-d');
 		} elseif ( !IsDate($inscription)) {
-			$inscription = 'AA-MM-JJ';
+			$inscriptionError = 'Format date : AA-MM-JJ';
 			$valid = false;
 		}
 		if (empty($expiration)) {
-			$expiration = NULL;
+			$expirationError = 'Date obligatoire';
+			$valid = false;
 		} elseif ( !IsDate($expiration)) {
-			$expiration = 'AA-MM-JJ';
+			$expirationError = 'Format date : AA-MM-JJ';
 			$valid = false;
 		}
 		if (empty($montant)) {
 			$montant = 0;
 		}
-		$montant = number_format($montant,2,',','.');
+		//$montant = number_format($montant,2,',','.');
 				
 		// insert data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "INSERT INTO user (prenom,nom,email,telephone,password,inscription,montant,expiration,administrateur) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO user (prenom,nom,email,telephone,password,inscription,montant,expiration,administrateur,actif,essai) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($prenom, $nom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur));
+			$q->execute(array($userprenom, $usernom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $actif, $essai));
 			Database::disconnect();
 			header("Location: user.php");
 		}
@@ -128,10 +135,8 @@
     <div class="container">
 
        <div class="page-header">   
-            <h2>Gestion des comptes utilisateur</h2>          
-        </div>
-        
-		<h3>Création d'un utilisateur</h3>
+            <h2>Gestion des comptes utilisateur : Création d'un compte</h2>          
+       </div>
 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -157,11 +162,33 @@
  			 <div class="col-md-5 col-md-offset-1">    	 
  			 			<!-- Formulaire -->    
  			 			<form class="form-horizontal" action="user_create.php" method="post">
-						
+ 			 				
+							<?php function Affiche_Petit_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+							<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+							    <label class="col-sm-4 control-label"><?php echo "$champplaceholder" ?></label>
+							    <div class="col-sm-4">
+							      	<input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+							      	<?php if (!empty($champError)): ?>
+							      		<span class="help-inline"><?php echo $champError;?></span>
+							      	<?php endif; ?>
+							    </div>
+							</div>
+							<?php } ?>	
 							<?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
-							<div class="control-group <?php echo !empty($champError)?'has-error':'';?>">
-							    <label class="control-label"><?php echo "$champplaceholder" ?></label>
-							    <div class="controls">
+							<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+							    <label class="col-sm-4 control-label"><?php echo "$champplaceholder" ?></label>
+							    <div class="col-sm-6">
+							      	<input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
+							      	<?php if (!empty($champError)): ?>
+							      		<span class="help-inline"><?php echo $champError;?></span>
+							      	<?php endif; ?>
+							    </div>
+							</div>
+							<?php } ?>													
+							<?php function Affiche_Grand_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
+							<div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
+							    <label class="col-sm-4 control-label"><?php echo "$champplaceholder" ?></label>
+							    <div class="col-sm-8">
 							      	<input name="<?php echo "$champinputname" ?>" class="form-control" type="<?php echo "$type" ?>" value="<?php echo !empty($champ)?$champ:'';?>">
 							      	<?php if (!empty($champError)): ?>
 							      		<span class="help-inline"><?php echo $champError;?></span>
@@ -169,31 +196,63 @@
 							    </div>
 							</div>
 							<?php } ?>
-							
-	                        <?php Affiche_Champ($email, $emailError, 'email','eMail', 'email' ); ?>
+							<li class="list-group-item">
+	                        <?php Affiche_Grand_Champ($email, $emailError, 'email','eMail', 'email' ); ?>
 						    <?php Affiche_Champ($password, $passwordError, 'password','Mot de passe', 'password' ); ?>
-						    <?php Affiche_Champ($nom, $nomError, 'nom','Nom', 'text' ); ?>
-						    <?php Affiche_Champ($prenom, $prenomError, 'prenom','Prénom', 'text' ); ?>
-						    <?php Affiche_Champ($telephone, $telephoneError, 'telephone','Téléphone', 'tel' ); ?>
+						    <?php Affiche_Champ($usernom, $nomError, 'nom','Nom', 'text' ); ?>
+						    <?php Affiche_Champ($userprenom, $prenomError, 'prenom','Prénom', 'text' ); ?>
+						    <?php Affiche_Petit_Champ($telephone, $telephoneError, 'telephone','Téléphone', 'tel' ); ?>
 						    <?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 						    <?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
-						    <?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-
-	                        <div class="radio">
+						    <?php Affiche_Petit_Champ($montant, $montantError, 'montant','Montant license Aboo', 'text' ); ?>
+						    </li>
+							<center>
+							<li class="list-group-item">
+		                    <div class="radio-inline">
 							  <label>
-							    <input type="radio" name="administrateur" id="utilisateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
+							    <input type="radio" name="administrateur" id="administrateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
 							    Utilisateur
 							  </label>
 							</div>
-							<div class="radio">
+							<div class="radio-inline">
 							  <label>
 							    <input type="radio" name="administrateur" id="administrateur" value="1" <?php echo ($administrateur==1)?'checked':''; ?>>
 							    Administrateur
 							  </label>
 							</div>	                								 
-							  
+							</li>
+							<li class="list-group-item">
+							<div class="radio-inline">
+							  <label>
+							    <input type="radio" name="essai" id="essai" value="0" <?php echo ($essai==0)?'checked':''; ?>>
+							    License
+							  </label>
+							</div>									
+		                    <div class="radio-inline">
+							  <label>
+							    <input type="radio" name="essai" id="essai" value="1" <?php echo ($essai==1)?'checked':''; ?>>
+							    Essai
+							  </label>
+							</div>
+							</li>
+							<li class="list-group-item ">
+		                    <div class="radio-inline">
+							  <label>
+							    <input type="radio" name="actif" id="actif" value="1" <?php echo ($actif==1)?'checked':''; ?>>
+							    Compte Actif
+							  </label>
+							</div>
+							<div class="radio-inline">
+							  <label>
+							    <input type="radio" name="actif" id="actif" value="0" <?php echo ($actif==0)?'checked':''; ?>>
+							    Compte Inactif
+							  </label>
+							</div>	
+							</li>
+						    </center>
+						    <br>
+						    							  
 						    <div class="form-actions">
-						      <br>
 							  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Créer</button>
 							  <a class="btn btn-primary" href="user.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
 						    </div>

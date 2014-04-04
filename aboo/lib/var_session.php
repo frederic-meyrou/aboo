@@ -16,7 +16,7 @@
         $exercice_mois = $_SESSION['exercice']['mois'];
         $exercice_treso = $_SESSION['exercice']['treso'];
 		$exercice_provision = $_SESSION['exercice']['provision'];
-    } elseif ( basename($_SERVER['PHP_SELF']) != 'exercice_create.php' ) {
+    } elseif ( basename($_SERVER['PHP_SELF']) != 'exercice_create.php' && basename($_SERVER['PHP_SELF']) != 'debug.php') {
             // Redirection pour creation d'exercice
             header('Location:exercice_create.php');     	
     }

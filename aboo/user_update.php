@@ -52,69 +52,74 @@
 		$montantError = null;
         		
 		// keep track post values
-		$password = $sPOST['password'];
-		$nom = $sPOST['nom'];
-		$prenom = $sPOST['prenom'];
-		$email = $sPOST['email'];
-		$telephone = $sPOST['telephone'];
-		$inscription = $sPOST['inscription'];
-		$expiration = $sPOST['expiration'];
-		$montant = $sPOST['montant'];
+		$password = trim($sPOST['password']);
+        $usernom = ucfirst(mb_strtolower($sPOST['nom'], 'UTF-8'));   
+        $userprenom = ucfirst(trim(mb_strtolower($sPOST['prenom'], 'UTF-8')));		
+		$email = trim($sPOST['email']);
+		$telephone = trim($sPOST['telephone']);
+		$inscription = trim($sPOST['inscription']);
+		$expiration = trim($sPOST['expiration']);
+		$montant = trim($sPOST['montant']);
 
 		// Statut utilisateur Radio
-		empty($sPOST['utilisateur']) ? $utilisateur=0 : $utilisateur=1;
-		empty($sPOST['administrateur']) ? $administrateur=0 : $administrateur=1;
+		$administrateur=$sPOST['administrateur'];
+		$actif=$sPOST['actif'];
+		$essai=$sPOST['essai'];
 		
 		// validate input
 		$valid = true;
         if (empty($email)) {
-            $emailError = 'Veuillez entrer votre adresse Email';
+            $emailError = 'Veuillez entrer une adresse Email';
             $valid = false;
         } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
             $emailError = 'Veuillez entrer une adresse eMail valide';
             $valid = false;
         }
-		if (empty($password)) {
-			$passwordError = 'Veuillez entrer un mot de passe';
-			$valid = false;
+		if (empty($password) || strlen($password) < 6) {
+            $passwordError = 'Votre mot de passe ne peut être inférieur à 6 caractères';
+            $valid=false;						
 		}
-		if (empty($nom)) {
+		if (empty($usernom)) {
 			$nomError = 'Veuillez entrer un nom';
 			$valid = false;
 		}
-		if (empty($prenom)) {
+		if (empty($userprenom)) {
 			$prenomError = 'Veuillez entrer un prénom';
 			$valid = false;
 		}
+        if(!empty($telephone) && !preg_match('/^[0-9]{10,14}$/', $telephone)) {
+            $telephoneError = 'Le numéro de téléphone mobile n\'est pas valide.';
+            $valid=false;
+        } 
 		if (empty($telephone)) {
 			$telephoneError = 'Veuillez entrer un numéro de téléphone';
 			$valid = false;
 		}
 		if (empty($inscription)) {
-			$inscriptionError = 'Veuillez entrer une date AA-MM-JJ';
-			$valid = false;
+			$inscription = date('Y-m-d');
 		} elseif ( !IsDate($inscription)) {
-			$inscription = 'AA-MM-JJ';
+			$inscriptionError = 'Format date : AA-MM-JJ';
 			$valid = false;
 		}
 		if (empty($expiration)) {
-			$expiration = NULL;
+			$expirationError = 'Date obligatoire';
+			$valid = false;
 		} elseif ( !IsDate($expiration)) {
-			$expiration = 'AA-MM-JJ';
+			$expirationError = 'Format date : AA-MM-JJ';
 			$valid = false;
 		}
 		if (empty($montant)) {
 			$montant = 0;
 		}
-		$montant = number_format($montant,2,',','.');	
+		//$montant = number_format($montant,2,',','.');	
 		
 		// update data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE user set prenom=?,nom=?,email=?,telephone=?,password=?,inscription=?,montant=?,expiration=?,administrateur=? WHERE id = ?";
+			$sql = "UPDATE user set prenom=?,nom=?,email=?,telephone=?,password=?,inscription=?,montant=?,expiration=?,administrateur=?, actif=?, essai=? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($prenom, $nom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $id));
+			$q->execute(array($prenom, $nom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $actif, $essai, $id));
 			Database::disconnect();
 			header("Location: user.php");
 		}
@@ -134,8 +139,8 @@
 		$expiration = $data['expiration'];
         $montant = $data['montant'];        
         $administrateur = $data['administrateur'];
-		// Valeure pour Radio
-		$administrateur == 1 ? $utilisateur=0 : $utilisateur=1;        
+        $actif = $data['actif'];
+        $essai = $data['essai'];       
 		
 		Database::disconnect();
 	}
@@ -153,10 +158,8 @@
     <div class="container">   
 
        <div class="page-header">   
-            <h2>Gestion des comptes utilisateur</h2>          
+            <h2>Gestion des comptes utilisateur : Mise à jour du compte</h2>          
         </div>
-            	
-		<h3>Mise à jour utilisateur</h3>
         
         <!-- Affiche les informations de debug -->
         <?php 
@@ -192,6 +195,7 @@
 					</div>
 					<?php } ?>
 					
+					<li class="list-group-item">
 	                <?php Affiche_Champ($email, $emailError, 'email','eMail', 'mail' ); ?>
 					<?php Affiche_Champ($password, $passwordError, 'password','Mot de passe', 'password' ); ?>
 					<?php Affiche_Champ($nom, $nomError, 'nom','Nom', 'text' ); ?>
@@ -200,19 +204,51 @@
 					<?php Affiche_Champ($inscription, $inscriptionError, 'inscription','Inscription', 'date' ); ?>
 					<?php Affiche_Champ($expiration, $expirationError, 'expiration','Expiration', 'date' ); ?>
 					<?php Affiche_Champ($montant, $montantError, 'montant','Montant', 'text' ); ?>
-					
-                    <div class="radio">
+					</li>
+					<center>
+					<li class="list-group-item">
+                    <div class="radio-inline">
 					  <label>
-					    <input type="radio" name="administrateur" id="utilisateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
+					    <input type="radio" name="administrateur" id="administrateur" value="0" <?php echo ($administrateur==0)?'checked':''; ?>>
 					    Utilisateur
 					  </label>
 					</div>
-					<div class="radio">
+					<div class="radio-inline">
 					  <label>
 					    <input type="radio" name="administrateur" id="administrateur" value="1" <?php echo ($administrateur==1)?'checked':''; ?>>
 					    Administrateur
 					  </label>
+					</div>	                								 
+					</li>
+					<li class="list-group-item">
+					<div class="radio-inline">
+					  <label>
+					    <input type="radio" name="essai" id="essai" value="0" <?php echo ($essai==0)?'checked':''; ?>>
+					    License
+					  </label>
+					</div>									
+                    <div class="radio-inline">
+					  <label>
+					    <input type="radio" name="essai" id="essai" value="1" <?php echo ($essai==1)?'checked':''; ?>>
+					    Essai
+					  </label>
 					</div>
+					</li>
+					<li class="list-group-item ">
+                    <div class="radio-inline">
+					  <label>
+					    <input type="radio" name="actif" id="actif" value="1" <?php echo ($actif==1)?'checked':''; ?>>
+					    Compte Actif
+					  </label>
+					</div>
+					<div class="radio-inline">
+					  <label>
+					    <input type="radio" name="actif" id="actif" value="0" <?php echo ($actif==0)?'checked':''; ?>>
+					    Compte Inactif
+					  </label>
+					</div>	
+					</li>
+				    </center>
 	                					
 				    <div class="form-actions">
 				      <br>  

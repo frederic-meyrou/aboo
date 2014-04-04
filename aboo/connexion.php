@@ -32,31 +32,29 @@
 	    $count = $q->rowCount($sql);
 
 	    if ($count==1) {
-			// Vérification de l'expiration du compte
-			$datejour = date('Y-m-d');
-			$datefin = $data['expiration'];
-			if ( $data['administrateur'] == 0 && (strtotime($datefin) - strtotime($datejour)) < 0 ) {
-	        	$error_expiration = "Ce compte est expiré depuis le " . DateFr($datefin) . ".  <br>Veuillez comtacter le support Aboo : contact@aboo.fr en cas de problème.";				
-			} else { // Compte non expiré ou Administrateur	
-		        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
-		        $_SESSION['authent'] = array(
-		            'id' => $data['id'],
-		            'email' => $email,
-		            'password' => $password,
-		            'nom' => $data['nom'],
-		            'prenom' => $data['prenom'],
-		            'expiration' => $data['expiration'],
-		            'admin' => $data['administrateur']
-		            );
-	            // Chargement des options    
-	            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
-				$_SESSION['options']['regime_fiscal'] = $data['regime_fiscal']; 
-	            // Gestion du profil Admin
-		        if ($_SESSION['authent']['admin']==1) {
-			        // Cas ou l'utilisateur est Admin, redirection vers page admin
-					Database::disconnect();     	
-			        header('Location:user.php');            
-		        } else {
+	        // Verfier si l'utilisateur est actif
+	        if ($data['actif']==0) {
+	        	$error_inactif = "Ce compte n'est pas activé.<br>Veuillez comtacter le support Aboo : contact@aboo.fr en cas de problème.";    	       
+			} else {		    		    	
+				// Vérification de l'expiration du compte
+				$datejour = date('Y-m-d');
+				$datefin = $data['expiration'];
+				if ( $data['administrateur'] == 0 && (strtotime($datefin) - strtotime($datejour)) < 0 ) {
+		        	$error_expiration = "Ce compte est expiré depuis le " . DateFr($datefin) . ".  <br>Veuillez comtacter le support Aboo : contact@aboo.fr en cas de problème.";				
+				} else { // Compte non expiré ou Administrateur	
+			        // On a bien l'utilisateur dans la base, on charge ses infos dans la session      
+			        $_SESSION['authent'] = array(
+			            'id' => $data['id'],
+			            'email' => $email,
+			            'password' => $password,
+			            'nom' => $data['nom'],
+			            'prenom' => $data['prenom'],
+			            'expiration' => $data['expiration'],
+			            'admin' => $data['administrateur']
+			            );
+		            // Chargement des options    
+		            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
+					$_SESSION['options']['regime_fiscal'] = $data['regime_fiscal']; 
 			        // On charge les infos de session mois en cours si déjà enregistré
 					if ($data['mois_encours'] != null) {
 						$_SESSION['abodep']['mois'] = $data['mois_encours'];
@@ -75,10 +73,16 @@
 			                'provision' => $data2['montant_provision_charges']	                
 		                );         
 					}	
-					Database::disconnect();     	
-			        // Redirection vers la home sécurisé            
-			        header('Location:home.php');
-		        }
+					Database::disconnect();
+		            // Gestion du profil Admin
+			        if ($_SESSION['authent']['admin']==1) {
+				        // Cas ou l'utilisateur est Admin, redirection vers page admin
+						header('Location:user.php');
+					} else {  					     	
+				        // Redirection vers la home sécurisé            
+				        header('Location:home.php');
+			        }
+				}
 			}
 	    } else {
 	        //Utilisateur inconnu
@@ -130,7 +134,20 @@
       </div><!-- /.navbar-collapse -->
     </nav>    
 
-    <!-- Affiche les informations d'expiration -->
+    <!-- Affiche les Erreurs -->
+    <?php 
+	if (isset($error_inactif)) {
+	?>
+	<div class="span10 offset1">
+    <div class="alert alert-danger alert-dismissable fade in">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Impossible de se connecter !</strong><br>
+        <?php echo $error_inactif ?>
+    </div>
+   </div>
+    <?php       
+    }   
+    ?>     
     <?php 
 	if (isset($error_expiration)) {
 	?>
@@ -143,8 +160,8 @@
    </div>
     <?php       
     }   
-    ?>     
-    
+    ?>    
+        
 	<!-- Affiche le formulaire de login --> 
 	  <form class="form-signin" action="connexion.php" method="post">
 	    <h3 class="form-signin-heading">Connectez-vous :</h3>

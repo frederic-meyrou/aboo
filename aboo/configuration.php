@@ -65,8 +65,8 @@
         switch ($sPOST['action']) {
             case 'compte':
                 $mobile = preg_replace("/[^\d]+/", '', trim($sPOST['mobile'])); 
-                $nom = ucfirst(strtolower(trim($sPOST['nom'])));   
-                $prenom = ucfirst(strtolower(trim($sPOST['prenom'])));
+                $nom = ucfirst(mb_strtolower($sPOST['nom'], 'UTF-8'));   
+                $prenom = ucfirst(trim(mb_strtolower($sPOST['prenom'], 'UTF-8')));
                 //$email = $sPOST['email'];
                 if(empty($sPOST['nom'])){
                     $nomError = 'Veuillez renseigner votre nom';
