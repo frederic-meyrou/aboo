@@ -73,6 +73,15 @@
 	        $req->execute(array($id));
 	
 	        // 	Suppression des paiements (par trigger)	
+
+	        // Suppression salaires et charges
+	        $sql5 = "DELETE FROM salaire WHERE exercice_id = ?";
+	        $req = $pdo->prepare($sql5);
+	        $req->execute(array($id));
+	
+	        $sql6 = "DELETE FROM charges WHERE exercice_id = ?";
+	        $req = $pdo->prepare($sql6);
+	        $req->execute(array($id));	        	        
 		}
 	} 
 
