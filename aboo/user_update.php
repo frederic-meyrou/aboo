@@ -119,7 +119,7 @@
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "UPDATE user set prenom=?,nom=?,email=?,telephone=?,password=?,inscription=?,montant=?,expiration=?,administrateur=?, actif=?, essai=? WHERE id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($prenom, $nom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $actif, $essai, $id));
+			$q->execute(array($userprenom, $usernom, $email, $telephone, $password, $inscription, $montant, $expiration, $administrateur, $actif, $essai, $id));
 			Database::disconnect();
 			header("Location: user.php");
 		}

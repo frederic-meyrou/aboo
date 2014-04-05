@@ -44,11 +44,39 @@
         $sql = "SELECT * FROM user where id = ?";    
         $req = $pdo->prepare($sql);
         $req->execute(array($utilisateur));
-        $data = $req->fetch(PDO::FETCH_ASSOC);    
-        $_SESSION['authent']['id']=$utilisateur;
-        $_SESSION['authent']['nom']=$data['nom'];
-        $_SESSION['authent']['prenom']=$data['prenom'];
-		//TODO à compléter 
+        $data = $req->fetch(PDO::FETCH_ASSOC);  
+        $_SESSION['authent'] = array(
+            'id' => $utilisateur,
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'expiration' => $data['expiration'],
+            'admin' => $data['administrateur']
+            );          
+            // Chargement des options    
+            $_SESSION['options']['gestion_social'] = $data['gestion_social'];
+            $_SESSION['options']['regime_fiscal'] = $data['regime_fiscal']; 
+            // On charge les infos de session mois en cours si déjà enregistré
+            if ($data['mois_encours'] != null) {
+                $_SESSION['abodep']['mois'] = $data['mois_encours'];
+            }                           
+            // On charge les infos exercice de session si déjà enregistré
+            if ($data['exerciceid_encours'] != null) {
+                $sql2 = "SELECT * FROM exercice where id = ?";
+                $q = $pdo->prepare($sql2);
+                $q->execute(array($data['exerciceid_encours']));
+                $data2 = $q->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['exercice'] = array(
+                    'id' => $data['exerciceid_encours'],
+                    'annee' => $data2['annee_debut'],
+                    'mois' => $data2['mois_debut'],
+                    'treso' => $data2['montant_treso_initial'],
+                    'provision' => $data2['montant_provision_charges']                  
+                );         
+            }   
+        Database::disconnect();     
+        // Redirection vers la home sécurisé                
         header('Location:home.php');		
     }    
     
