@@ -1,5 +1,193 @@
 <?php
 
+
+function CalculBilanAnnuelFiscal($userid, $exerciceannee) {
+    //CA
+    //DEPENSE
+    //BENEFICE
+    //ACHAT
+    //VENTE
+    //BENEFICE_REVENTE
+    //CHARGE
+    //LOCATION
+    //IMPOT
+    //NON_DECLARE
+    //DECLARE
+    
+// Initialisation de la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+
+// Requette pour calcul de la somme Annuelle            
+    $sql1 = "(SELECT SUM(montant) FROM recette,exercice WHERE
+            (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois > (13 - exercice.mois_debut) )
+            AND recette.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois >= 1
+            AND recette.mois <= (13 - exercice.mois_debut)))
+            UNION
+            (SELECT SUM(montant) FROM depense,exercice WHERE
+            (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois > (13 - exercice.mois_debut) )
+            AND depense.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois >= 1
+            AND depense.mois <= (13 - exercice.mois_debut)))";
+
+// Requette pour calcul de la somme Annuelle des achats/ventes           
+    $sql2 = "SELECT SUM(montant) FROM recette,exercice WHERE
+            recette.type = 2
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois > (13 - exercice.mois_debut) )
+            AND recette.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois >= 1
+            AND recette.mois <= (13 - exercice.mois_debut))";  
+            
+    $sql3 = "SELECT SUM(montant) FROM depense,exercice WHERE
+            depense.type = 2            
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois > (13 - exercice.mois_debut) )
+            AND depense.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois >= 1
+            AND depense.mois <= (13 - exercice.mois_debut))";      
+
+// Requette pour calcul de la somme Annuelle des location           
+    $sql4 = "SELECT SUM(montant) FROM recette,exercice WHERE
+            recette.type = 3
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois > (13 - exercice.mois_debut) )
+            AND recette.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois >= 1
+            AND recette.mois <= (13 - exercice.mois_debut))";  
+
+// Requette pour calcul de la somme Annuelle des charges            
+    $sql5 = "SELECT SUM(montant) FROM depense,exercice WHERE
+            depense.type = 3            
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois > (13 - exercice.mois_debut) )
+            AND depense.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois >= 1
+            AND depense.mois <= (13 - exercice.mois_debut))"; 
+
+// Requette pour calcul de la somme Annuelle des impots             
+    $sql6 = "SELECT SUM(montant) FROM depense,exercice WHERE
+            depense.type = 4            
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois > (13 - exercice.mois_debut) )
+            AND depense.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND depense.exercice_id = exercice.id
+            AND depense.user_id = exercice.user_id
+            AND depense.mois >= 1
+            AND depense.mois <= (13 - exercice.mois_debut))";   
+
+// Requette pour calcul CA non-declaré           
+    $sql7 = "SELECT SUM(montant) FROM recette,exercice WHERE
+            recette.declaration = 0
+            AND (exercice.annee_debut = :annee 
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois > (13 - exercice.mois_debut) )
+            AND recette.mois <= 12 
+            OR (exercice.annee_debut = (:annee - 1)
+            AND exercice.user_id = :userid
+            AND recette.exercice_id = exercice.id
+            AND recette.user_id = exercice.user_id
+            AND recette.mois >= 1
+            AND recette.mois <= (13 - exercice.mois_debut))";                                     
+             
+// Association des variables                            
+    $q = array('userid' => $userid, 'annee' => $exerciceannee);                    
+    
+// Envoi des requettes    
+    $req = $pdo->prepare($sql1);  $req->execute($q);  $data1 = $req->fetchAll(PDO::FETCH_ASSOC);
+    $count = $req->rowCount($sql1);
+    $req2 = $pdo->prepare($sql2); $req2->execute($q); $data2 = $req2->fetch(PDO::FETCH_ASSOC);    
+    $req3 = $pdo->prepare($sql3); $req3->execute($q); $data3 = $req3->fetch(PDO::FETCH_ASSOC);
+    $req4 = $pdo->prepare($sql4); $req4->execute($q); $data4 = $req4->fetch(PDO::FETCH_ASSOC);            
+    $req5 = $pdo->prepare($sql5); $req5->execute($q); $data5 = $req5->fetch(PDO::FETCH_ASSOC);            
+    $req6 = $pdo->prepare($sql6); $req6->execute($q); $data6 = $req6->fetch(PDO::FETCH_ASSOC);    
+    $req7 = $pdo->prepare($sql7); $req7->execute($q); $data7 = $req7->fetch(PDO::FETCH_ASSOC);  
+    
+    if ($count==0) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
+        return null;         
+    } else {
+            // Calcul des sommes Annuelle
+            $CA= !empty($data1[0]["SUM(montant)"]) ? $data1[0]["SUM(montant)"] : 0;  
+            $DEPENSE= !empty($data1[1]["SUM(montant)"]) ? $data1[1]["SUM(montant)"] : 0;
+            $ACHAT= !empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0;  
+            $VENTE= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
+            $LOCATION= !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
+            $CHARGE= !empty($data5["SUM(montant)"]) ? $data5["SUM(montant)"] : 0;
+            $IMPOT= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;
+            $NON_DECLARE= !empty($data7["SUM(montant)"]) ? $data7["SUM(montant)"] : 0;            
+    }
+          
+    // Génération du Tableau :
+    $TableauBilan = array (
+        'CA' => $CA,                                                                   
+        'DEPENSE' => ($DEPENSE - $CHARGE), // On enlève les charges sociales aux dépenses.
+        'BENEFICE' => ($CA - ( $DEPENSE - $CHARGE)),
+        'ACHAT' => $ACHAT,
+        'VENTE' => $VENTE,
+        'BENEFICE_REVENTE' => ($VENTE - $ACHAT),
+        'LOCATION' => $LOCATION,         
+        'CHARGE' => $CHARGE,
+        'IMPOT' => $IMPOT,
+        'NON_DECLARE' => $NON_DECLARE,
+        'DECLARE' => ($CA - $NON_DECLARE)
+    ); 
+
+    Database::disconnect();    
+    return $TableauBilan;
+}
+
 function CalculBilanMensuelAvecSocial($userid, $exerciceid, $exercicetreso, $exerciceprovision) {   
     //TableauBilan = array[1..12][assoc]
     //CA -> chiffre d'affaire total du mois
@@ -490,7 +678,8 @@ function CalculBilanAnnuelAvecSocial($userid, $exerciceid, $BilanMensuel) {
         $SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];
         $CHARGES_CALCULEES = $CHARGES_CALCULEES + $BilanMensuel[$m]['CHARGES_CALCULEES'];   
         $PROVISION_CHARGES = $PROVISION_CHARGES + $BilanMensuel[$m]['PROVISION_CHARGES'];
-        $PROVISION_CHARGES_REEL = $PROVISION_CHARGES_REEL + $BilanMensuel[$m]['PROVISION_CHARGES_REEL'];		      
+        $PROVISION_CHARGES_REEL = $PROVISION_CHARGES_REEL + $BilanMensuel[$m]['PROVISION_CHARGES_REEL'];
+        $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];		      
     }
     
     // On garde que les derniers reports
@@ -634,7 +823,8 @@ function CalculBilanAnnuelSansSocial($userid, $exerciceid, $BilanMensuel) {
         $ENCAISSEMENT = $ENCAISSEMENT + $BilanMensuel[$m]['ENCAISSEMENT'];
 		$BENEFICE = $BENEFICE + $BilanMensuel[$m]['BENEFICE'];
         $SALAIRE = $SALAIRE + $BilanMensuel[$m]['SALAIRE'];
-        $SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];         
+        $SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];    
+        $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];                  
     }
     
     // On garde que les derniers reports
