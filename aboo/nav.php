@@ -28,6 +28,7 @@
               <div class="collapse navbar-collapse" id="TOP">
                 <ul class="nav navbar-nav">
                   <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
+                  <li<?php echo ($page_courante == "journal_fiscal.php")?' class="active"':'';?>><a href="journal_fiscal.php"><span class="glyphicon glyphicon-th-list"></span> Fiscal</a></li>
                   <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
                   <?php if ($_SESSION['options']['gestion_social']) { ?>    
                   <li<?php echo ($page_courante == "charges.php")?' class="active"':'';?>><a href="charges.php"><span class="glyphicon glyphicon-bookmark"></span> Social</a></li>
