@@ -196,15 +196,24 @@
 		            <div class="form-actions">
 		              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-check"></span> Mise à jour</button>
 		              <a class="btn btn-primary" href="exercice.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+                      <div class="btn-group pull-right">
+                         <button type="button" class="btn btn-default" onclick="$('#modalAideFormModifExercice').modal('show'); ">Aide <span class="glyphicon glyphicon-info-sign"></span></a></button>             
+                      </div>		              
 		            </div>
 		        </form>
 
 	   		 </div> <!-- /col -->    			
 	    </div> <!-- /row -->
-	    <br>    
-    </div> <!-- /container -->
+	    
+        <?php 
+            // Insère l'aide en ligne
+            $IDModale = "modalAideFormModifExercice";
+            include('lib/aide.php');                           
+        ?>
 
     <?php require 'footer.php'; ?>
+                    
+    </div> <!-- /container -->
         
   </body>
 </html>

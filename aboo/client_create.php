@@ -173,7 +173,7 @@
 						    <div class="form-actions">
 						      <br>
 							  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Créer</button>
-							  <a class="btn btn-primary" href="mesclients.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+							  <a class="btn btn-primary" href="mesclients.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>							  
 						    </div>
 						</form>
 	   		 </div> <!-- /col -->    

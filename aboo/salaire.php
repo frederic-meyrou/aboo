@@ -127,9 +127,7 @@
 			$q4 = $pdo->prepare($sql4);		
 			$q4->execute(array($montant, $commentaire, $user_id, $exercice_id, $mois_choisi));
 		}
-		if ($valid) { // Réinitialise la page formulaire
-            // Charge le Bilan    
-            //$TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);						
+		if ($valid) { // Réinitialise la page formulaire				
             Database::disconnect();
 			header("Location: salaire.php");			
 		}		

@@ -47,7 +47,7 @@ function MajListeAnnee() {
 	global $liste_annee;
 	global $pdo;
 	
-   	$sql = "SELECT annee_debut FROM exercice WHERE user_id = $user_id";
+   	$sql = "SELECT annee_debut FROM exercice WHERE user_id = $user_id ORDER BY annee_debut";
     $n = 0;
     foreach ($pdo->query($sql) as $row) {
     	if (date("Y") == $row['annee_debut']) {
@@ -279,10 +279,9 @@ if ($affiche) {
             
             <!-- Modal Impossible -->              
             <?php include('modal/exercice_impossible.php'); ?>   
-    
-    </div> <!-- /container -->
 
-    <?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>    
+    </div> <!-- /container -->
         
   </body>
 </html>

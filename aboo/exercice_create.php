@@ -26,14 +26,14 @@
     foreach ($_POST as $key => $value) {
         $sPOST[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
+
+// Init base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
  
 // Lecture et validation du POST
 	if ( !empty($sPOST)) {
-
-        // Init base
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	    
+    
 		// keep track validation errors
 		$annee_debutError = null;
         $mois_debutError = null;
@@ -62,6 +62,10 @@
         if (empty($montant_provision_initial) || $montant_provision_initial < 0) {
 			$montant_provision_initial = 0;
 		}
+        //if ( $montant_provision_initial > $montant_treso_initial ) {
+        //    $valid = false;
+        //    $montant_provision_initialError = 'Les provisions pour charges ne peuvent être plus importantes que votre trésorerie';            
+        //}        
         
         // Verif que l'année n'est pas déjà en base!
             $sql = "SELECT COUNT(*) FROM exercice WHERE user_id=? AND annee_debut=?";
@@ -89,12 +93,29 @@
             );         
 			header("Location: exercice.php");
 		}       
-	} else {
+	} else { // On a pas de POST on rempli le formulaire par défaut
 	    // Valeures par défaut
 	    $annee_debut = date('Y');
         $mois_debut = 1;
         $montant_treso_initial = 0;
         $montant_provision_initial = 0; 
+        
+        // Check si il existe $exercice_annee + 1 en base, sinon propose les valeure par défaut
+        $sql = "SELECT * FROM exercice WHERE user_id=? AND annee_debut=?";
+        $q = $pdo->prepare($sql);         
+        $q->execute(array($user_id, $exercice_annee + 1));
+        $count = $q->rowCount($sql); 
+        Database::disconnect();                    
+        if ($count==0) { // C'est bon l'exercice suivant est dispo
+            include_once('lib/calcul_bilan.php');
+            // Charge le Bilan    
+            $TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);
+            $TableauBilanAnnuel = CalculBilanAnnuel($user_id, $exercice_id, $TableauBilanMensuel);
+            $annee_debut = $exercice_annee +1;
+            $mois_debut = $exercice_mois;
+            $montant_provision_initial = number_format($TableauBilanMensuel[12]['CUMUL_PROVISION_CHARGES'],2,',','.');
+            $montant_treso_initial = number_format($TableauBilanAnnuel['REPORT_TRESO'],2,',','.') + number_format($TableauBilanMensuel[12]['CUMUL_PROVISION_CHARGES'],2,',','.');                 
+        }
 	}
 	
 ?>
@@ -186,26 +207,38 @@
 	                </div>
 	            </div>
 
-	            <div class="control-group ">
+	            <div class="control-group <?php echo !empty($montant_provision_initialError)?'has-error':'';?>">
 	                <label class="control-label">Montant de votre provision pour charges en début d'exercice</label>
 	                <div class="controls">
 	                    <input name="montant_provision_charges" class="form-control" type="text" value="<?php echo $montant_provision_initial;?>">
 	                </div>
+	                <?php if (!empty($montant_provision_initialError)): ?>
+                       <span class="help-inline"><?php echo $montant_provision_initialError;?></span>
+                    <?php endif; ?>
 	            </div>
 	            	                                                
 			    <div class="form-actions">
 			      <br>  
 		              <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Création</button>
 		              <a class="btn btn-primary" href="exercice.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>
+                      <div class="btn-group pull-right">
+                         <button type="button" class="btn btn-default" onclick="$('#modalAideFormExercice').modal('show'); ">Aide <span class="glyphicon glyphicon-info-sign"></span></a></button>             
+                      </div>		              
 				</div>
 			    </form>
 			    
 	   		 </div> <!-- /col -->    			
 	    </div> <!-- /row -->   
-				
-    </div> <!-- /container -->
+
+        <?php 
+            // Insère l'aide en ligne
+            $IDModale = "modalAideFormExercice";
+            include('lib/aide.php');                           
+        ?>
 
     <?php require 'footer.php'; ?>
+    				
+    </div> <!-- /container -->
         
   </body>
 </html>

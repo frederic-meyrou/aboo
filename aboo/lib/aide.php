@@ -215,7 +215,37 @@ switch ($IDModale) {
             <p>Le montant du salaire doit être POSITIF en Euros et centimes d'Euros, par exemple : 1500.50</p>
             <p>Le commentaire vous permet de garder une trace de la raison qui à motivé la modification de votre salaire.</p>            
         <?php
-        break;          
+        break;
+    case "modalAideFormExercice":
+        ?>
+            <h4><strong>La saisie de l'Exercice : </strong></h4>
+            <p>Cet écran vous permet de créer un nouvel exercice d'Activité.</p> 
+            <blockquote>Un exercice est une période d'une Année qui correspond au cycle de votre activité professionelle.</blockquote>
+            <p>Par exemple, si vous gérez des abonnements annuels qui démarrent en Septembre et terminent en Juin, cela signifie que votre exercice démarre en Septembre.</p>
+            <p>Il est possible que votre exercice d'Activité ne soit pas corrélé à votre exercice fiscal, Aboo gère ce cas et vous donnera alors le bilan de votre exercice fiscal sur une année civile.</p>           
+            <br>
+            <p>L'Année de départ est l'année du permier mois de votre exercice.</p>
+            <p>Vous devez renseigner le montant de votre trésorerie en début d'exercice en Euros et centimes d'Euros, par exemple : 2550.50</p>
+            <p>Vous devez renseigner le montant de votre provision pour charges sociales en début d'exercice en Euros et centimes d'Euros, par exemple : 1050.50</p>
+            <p>Si vous ne connaissez pas ces sommes il sera possible de les renseigner ultérieurement.</p>
+            <p>NB : Pour la provision pour charges sociales, il s'agit d'une somme qui est inclu dans votre trésorerie, elle ne peut donc être plus importante que votre trésorerie.</p>            
+        <?php
+        break; 
+    case "modalAideFormModifExercice":
+        ?>
+            <h4><strong>La modification de l'Exercice : </strong></h4>
+            <p>Cet écran vous permet de modifier un exercice d'Activité.</p> 
+            <blockquote>Un exercice est une période d'une Année qui correspond au cycle de votre activité professionelle.</blockquote>
+            <p>Par exemple, si vous gérez des abonnements annuels qui démarrent en Septembre et terminent en Juin, cela signifie que votre exercice démarre en Septembre.</p>
+            <p>Il est possible que votre exercice d'Activité ne soit pas corrélé à votre exercice fiscal, Aboo gère ce cas et vous donnera alors le bilan de votre exercice fiscal sur une année civile.</p>           
+            <br>
+            <p>Il n'est pas possible de changer l'année d'un exercice.</p>
+            <p>Il est fortement déconseillé de changer le mois de démarrage d'un exercice si vous avez déjà saisi des recettes et/ou des dépenses.</p>            
+            <p>Vous pouvez modifer le montant de votre trésorerie en début d'exercice en Euros et centimes d'Euros, par exemple : 2550.50</p>
+            <p>Vous pouvez modifer le montant de votre provision pour charges sociales en début d'exercice en Euros et centimes d'Euros, par exemple : 1050.50</p>
+            <p>NB : Pour la provision pour charges sociales, il s'agit d'une somme qui est inclu dans votre trésorerie, elle ne peut donc être plus importante que votre trésorerie.</p>            
+        <?php
+        break;                            
     default:
         echo "<center> Erreur : Il n'y a pas d'aide! </center>";        
 }
