@@ -139,9 +139,9 @@
               <?php AffichePanel(12); ?>
             </div><!-- /.col-sm-4 -->
         </div>             
-    </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
+    </div> <!-- /container -->
         
   </body>
 </html>

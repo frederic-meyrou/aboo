@@ -67,10 +67,8 @@
         }   
         ?> 
 
-             
+    <?php require 'footer.php'; ?>                 
     </div> <!-- /container -->
     
-    <?php require 'footer.php'; ?>    
-
   </body>
 </html>

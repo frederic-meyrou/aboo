@@ -196,10 +196,9 @@
           </div> <!-- /table-responsive -->	        
 		  </div>
 		</div> <!-- /panel -->
-  			    
-    </div> <!-- /container -->
     
-    <?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>  			    
+    </div> <!-- /container -->
 
 	<script>  
 		/* Table initialisation */

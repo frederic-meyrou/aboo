@@ -104,10 +104,8 @@
     <div class="container">
 
         <div class="page-header">           
-            <h2>Gestion de mes clients</h2>       
+            <h2>Gestion de mes clients : Création d'un client</h2>       
         </div>
-        
-		<h3>Création d'un client</h3>
 
         <!-- Affiche les informations de debug -->
         <?php 
@@ -178,9 +176,9 @@
 						</form>
 	   		 </div> <!-- /col -->    
 		</div> <!-- /row -->
-    </div> <!-- /container -->
-
+		
     <?php require 'footer.php'; ?>
+    </div> <!-- /container -->
         
   </body>
 </html>

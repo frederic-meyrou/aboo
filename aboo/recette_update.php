@@ -128,7 +128,7 @@
         
     <div class="container">
          <div class="page-header">   
-            <h2>Recettes & Abonnements</h2>
+            <h2>Recettes & Abonnements : Modification d'une recette</h2>
         </div>
                
         <!-- Affiche les informations de debug -->
@@ -150,11 +150,12 @@
         ?>  
                 
 		<div class="row">
- 			 <div class="col-md-5 col-md-offset-1">
-                <h3>Modification d'une recette <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
-                
+ 			 <div class="col-md-4 col-md-offset-2">
+           
 		        <!-- Formulaire -->  
 	            <form class="form-horizontal" action="recette_update.php" method="post">
+	            	
+	            	<button type="button" class="btn btn-info">Mois courant : <?php echo NumToMois($abodep_mois); ?></button>
 	            	
 	            	<div class="form-group">
 		                <label class="control-label">Type</label><br>
@@ -199,10 +200,9 @@
 	            </form>
 	   		 </div> <!-- /col -->    			
 	    </div> <!-- /row -->   			
-    
-    </div> <!-- /container -->
 
-    <?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>    
+    </div> <!-- /container -->
         
   </body>
 </html>

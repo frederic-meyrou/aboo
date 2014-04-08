@@ -99,7 +99,7 @@
     <div class="container">
 
         <div class="page-header">           
-            <h2>Dépenses & Charges</h2>
+            <h2>Dépenses & Charges : Modification d'une dépense</h2>
         </div>
                 
         <!-- Affiche les informations de debug -->
@@ -121,10 +121,12 @@
         ?>  
                 
 		<div class="row">
- 			 <div class="col-md-5 col-md-offset-1">
-                <h3>Modification d'une dépense <button type="button" class="btn btn-info"><?php echo NumToMois($abodep_mois); ?></button></h3>
+ 			 <div class="col-md-4 col-md-offset-2">
+
 		        <!-- Formulaire -->  
 	            <form class="form-horizontal" action="depense_update.php" method="post">
+	                
+	                <button type="button" class="btn btn-info">Mois courant : <?php echo NumToMois($abodep_mois); ?></button>
       		            	            
 		            <?php function Affiche_Champ(&$champ, &$champError, $champinputname, $champplaceholder, $type) { ?>
 		            <div class="form-group <?php echo !empty($champError)?'has-error':'';?>">
@@ -166,9 +168,9 @@
 	   		 </div> <!-- /col -->    			
 	    </div> <!-- /row -->     			
     
+    <?php require 'footer.php'; ?>    
     </div> <!-- /container -->
-    
-    <?php require 'footer.php'; ?>
+
         
   </body>
 </html>

@@ -183,9 +183,8 @@
 	
 	  </form>
 
-    </div> <!-- /container -->
-    
-    <?php require 'footer.php'; ?>    
+    <?php require 'footer.php'; ?>  
+    </div> <!-- /container --> 
 
 </body>
 </html>

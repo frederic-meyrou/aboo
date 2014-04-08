@@ -232,10 +232,9 @@
                         
         <!-- Modal delete-->                
         <?php include('modal/admin_delete.php'); ?>      
-	
+
+    <?php require 'footer.php'; ?>    	
 	</div> <!-- /container -->
-    
-    <?php require 'footer.php'; ?>    
     
     <script>  
         /* Table initialisation */

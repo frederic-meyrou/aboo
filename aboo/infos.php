@@ -175,14 +175,11 @@
 	                    </li>	                    
 	                    <li> Report Tréso = Trésorerie(M) - Salaire_Reel(M)</li>
 	              </div>
-	          </div>        
-	    </div>       
-        <br>   
+	    </div>            
 
-             
+    <?php require 'footer.php'; ?>     
+                
     </div> <!-- /container -->
     
-    <?php require 'footer.php'; ?>    
-
   </body>
 </html>

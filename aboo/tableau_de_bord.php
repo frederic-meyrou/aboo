@@ -243,9 +243,9 @@ function ChargeSessionExerciceBDD($data) {
               <td width="18" bgcolor="#97BBCD">&nbsp;</td><td>&nbsp;Tréso</td>              
             </tr>
         </table>  
-    </div> <!-- /container -->
-    
+        
     <?php require 'footer.php'; ?>
+    </div> <!-- /container -->
 
     <!-- Description et donnees des charts -->
     <script>

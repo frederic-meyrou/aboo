@@ -113,7 +113,9 @@
 <?php require 'head.php'; ?>
 
 <body>
-    
+
+    <div class="container">
+            
     <!-- Affiche la navigation -->
     <nav class="navbar navbar-inverse" role="navigation">   
        <div class="container">             
@@ -136,9 +138,7 @@
           </div><!-- /.navbar-collapse -->
       </div>          
     </nav>    
-    
-    <div class="container">
-
+  
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {
@@ -222,9 +222,9 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 
-    </div> <!-- /container -->
 
     <?php require 'footer.php'; ?>
+    </div> <!-- /container -->
     
     <script>
 	    $(document).ready(function(){ // Le DOM est chargé

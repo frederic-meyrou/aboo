@@ -253,10 +253,10 @@
     			<?php 	
     			} // if
     			?>   			
-    
+
+    <?php require 'footer.php'; ?>    
     </div> <!-- /container -->
 
-    <?php require 'footer.php'; ?>
 
     <script>  
         /* Table initialisation */

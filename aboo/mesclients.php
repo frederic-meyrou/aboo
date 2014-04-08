@@ -197,10 +197,9 @@
 
         <!-- Modal eMail -->             
         <?php include('modal/mesclients_email.php'); ?>             
-            
-    </div> <!-- /container -->
 
-    <?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>            
+    </div> <!-- /container -->
 
     <script>  
         /* Table initialisation */
