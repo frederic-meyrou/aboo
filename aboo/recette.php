@@ -275,8 +275,8 @@
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
-            <!-- Affiche le bouton retour -->
-            <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>                              
+            <!-- Affiche le bouton des dépenses -->
+            <a class="btn btn-primary" href="depense.php"><span class="glyphicon glyphicon-minus-sign"></span> Dépenses</a>                              
         </form>
         <br>
         

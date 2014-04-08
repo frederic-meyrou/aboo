@@ -103,13 +103,8 @@
         
     <div class="container">
         <div class="page-header">          
-            <h2>Journal Fiscal des Recettes & Dépenses</h2>
+            <h2>Journal sur l'année fiscale des Recettes & Dépenses</h2>
         </div>
-        
-        <!-- Affiche le bouton retour -->
-        <a class="btn btn-primary" href="home.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>   
-
-        <br><br>        
         
         <!-- Affiche les informations de debug -->
         <?php 

@@ -27,8 +27,16 @@
               <!-- Liens -->
               <div class="collapse navbar-collapse" id="TOP">
                 <ul class="nav navbar-nav">
-                  <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Recettes & Dépenses</a></li>
-                  <li<?php echo ($page_courante == "journal_fiscal.php")?' class="active"':'';?>><a href="journal_fiscal.php"><span class="glyphicon glyphicon-th-list"></span> Fiscal</a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> Journal<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+	                  <li<?php echo ($page_courante == "recette.php")?' class="active"':'';?>><a href="recette.php"><span class="glyphicon glyphicon-plus-sign"></span> Recettes & Abonnements</a></li>
+	                  <li<?php echo ($page_courante == "depense.php")?' class="active"':'';?>><a href="depense.php"><span class="glyphicon glyphicon-minus-sign"></span> Dépenses & Charges</a></li>
+	                  <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Journal Mensuel</a></li>
+	                  <li<?php echo ($page_courante == "journal_annuel.php")?' class="active"':'';?>><a href="journal_annuel.php"><span class="glyphicon glyphicon-th-list"></span> Journal Annuel</a></li>
+	                  <li<?php echo ($page_courante == "journal_fiscal.php")?' class="active"':'';?>><a href="journal_fiscal.php"><span class="glyphicon glyphicon-th-list"></span> Journal Annuel Fiscal</a></li>
+                    </ul> 
+                  </li>
                   <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
                   <?php if ($_SESSION['options']['gestion_social']) { ?>    
                   <li<?php echo ($page_courante == "charges.php")?' class="active"':'';?>><a href="charges.php"><span class="glyphicon glyphicon-bookmark"></span> Social</a></li>
@@ -37,7 +45,7 @@
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span> Bilan<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                          <li<?php echo ($page_courante == "tableau_de_bord.php")?' class="active"':'';?>><a href="tableau_de_bord.php"><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a></li>
+                          <li<?php echo ($page_courante == "tableau_de_bord.php")?' class="active"':'';?>><a href="tableau_de_bord.php"><span class="glyphicon glyphicon-dashboard"></span> Statistiques</a></li>
                           <li<?php echo ($page_courante == "bilan_mensuel.php")?' class="active"':'';?>><a href="bilan_mensuel.php"><span class="glyphicon glyphicon-th"></span> Bilan mensuel</a></li>
                           <li<?php echo ($page_courante == "bilan_annuel.php")?' class="active"':'';?>><a href="bilan_annuel.php"><span class="glyphicon glyphicon-calendar"></span> Bilan annuel</a></li>
                           <li<?php echo ($page_courante == "bilan_analyse.php")?' class="active"':'';?>><a href="bilan_analyse.php"><span class="glyphicon glyphicon-cog"></span> Analyse</a></li>
