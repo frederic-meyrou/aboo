@@ -108,7 +108,7 @@
         
     <div class="container">
         <div class="page-header">          
-            <h2>Journal des Recettes & Dépenses</h2>
+            <h2>Journal Mensuel des Recettes & Dépenses</h2>
         </div>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->
@@ -124,8 +124,8 @@
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
             <div class="btn-group">
-                <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-                <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
+                <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Recettes</a>
+                <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-minus-sign"></span> Dépenses</a>
             </div>
                 <a href="journal_annuel.php" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Journal Annuel</a>            
         </form>

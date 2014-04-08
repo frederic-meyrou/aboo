@@ -80,19 +80,9 @@
         
     <div class="container">
         <div class="page-header">          
-            <h2>Journal des Recettes & Dépenses</h2>
+            <h2>Journal Annuel des Recettes & Dépenses</h2>
         </div>
-        
-        <!-- Affiche les boutons de créations -->      
-        <div class="btn-group">
-            <a href="recette.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Recettes</a>
-            <a href="depense.php" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Dépenses</a>
-        </div>
-        <!-- Affiche le bouton retour -->
-        <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>   
-
-        <br><br>        
-        
+                   
         <!-- Affiche les informations de debug -->
         <?php 
  		if ($debug) {

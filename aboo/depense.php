@@ -147,8 +147,8 @@
             ?>    
             </select>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Changer de mois</button>
-            <!-- Affiche le bouton retour -->
-            <a class="btn btn-primary" href="journal.php"><span class="glyphicon glyphicon-eject"></span> Retour</a>            
+            <!-- Affiche le bouton des recettes  -->
+            <a class="btn btn-primary" href="recette.php"><span class="glyphicon glyphicon-plus-sign"></span> Recettes</a>            
         </form>
         <br>
                                  
