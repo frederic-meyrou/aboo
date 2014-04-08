@@ -45,7 +45,7 @@
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span> Bilan<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                          <li<?php echo ($page_courante == "tableau_de_bord.php")?' class="active"':'';?>><a href="tableau_de_bord.php"><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a></li>
+                          <li<?php echo ($page_courante == "tableau_de_bord.php")?' class="active"':'';?>><a href="tableau_de_bord.php"><span class="glyphicon glyphicon-dashboard"></span> Statistiques</a></li>
                           <li<?php echo ($page_courante == "bilan_mensuel.php")?' class="active"':'';?>><a href="bilan_mensuel.php"><span class="glyphicon glyphicon-th"></span> Bilan mensuel</a></li>
                           <li<?php echo ($page_courante == "bilan_annuel.php")?' class="active"':'';?>><a href="bilan_annuel.php"><span class="glyphicon glyphicon-calendar"></span> Bilan annuel</a></li>
                           <li<?php echo ($page_courante == "bilan_analyse.php")?' class="active"':'';?>><a href="bilan_analyse.php"><span class="glyphicon glyphicon-cog"></span> Analyse</a></li>
