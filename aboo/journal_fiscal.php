@@ -79,7 +79,6 @@
 	        $affiche = true;
     }
 	Database::disconnect();
-	$infos = true;
 
 // Charge le Bilan    
     //$TableauBilanMensuel = CalculBilanMensuel($user_id, $exercice_id, $exercice_treso);    
@@ -157,7 +156,7 @@
 		  <div class="panel-heading">
 	        <h3 class="panel-title">Journal Année fiscale : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee "; ?> : <span class="badge "><?php echo $count; ?></span></button>
 			<div class="btn-group btn-group-sm pull-right">
-	            <a href="csv/export_journal_annuel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+	            <a href="csv/export_journal_fiscal_annuel.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
 	            <a href="journal_annuel_pdf.php" target="_blank" class="btn btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
 	        </div>	        
 	        </h3>

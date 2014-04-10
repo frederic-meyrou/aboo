@@ -206,7 +206,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">Liste des ventes au clients : <span class="badge "><?php echo $count5; ?></span>
             <div class="btn-group btn-group-xs pull-right">
-                <a href="csv/export_ventes_client.php" target="_blank" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                <a href="csv/export_ventes_client.php?id=<?php echo $id; ?>" target="_blank" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
                 <a href="#" target="_blank" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>                            
             </div>          
             </h3>
