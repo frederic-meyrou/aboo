@@ -21,7 +21,7 @@
 	            <span class="icon-bar"></span>
 	          </button>
 	          <!-- Marque -->
-	          <a class="navbar-brand" href="aboo.php">Aboo</a>
+	          <a class="navbar-brand" href="../index.php">Aboo</a>
 	      </div>     
 	      <!-- Liens -->
 	      <div class="collapse navbar-collapse" id="TOP">
@@ -40,7 +40,6 @@
         </div>
         
     <!--<p class="test"> Aboo </p>-->    
-
        
     <?php require 'footer.php'; ?>   
     </div> <!-- /container -->

@@ -124,7 +124,7 @@
                 <span class="icon-bar"></span>
               </button>
               <!-- Marque -->
-              <a class="navbar-brand" href="http://www.aboo.fr">Aboo</a>
+              <a class="navbar-brand" href="../index.php">Aboo</a>
           </div>
        </div>                   
       <!-- Liens -->
