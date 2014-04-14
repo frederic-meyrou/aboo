@@ -42,6 +42,13 @@
     $req = $pdo->prepare($sql);
     $req->execute($q);
  	Database::disconnect();
+
+    $affiche_expire=false;    
+    $datejour = date_create(date('Y-m-d'));
+    $datefin = date_create($_SESSION['authent']['expiration']);
+    if ( $datefin < $datejour ) {
+        $affiche_expire=true;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +66,10 @@
         </div>     
 
 		<div class="row">
-			
+
+        <?php 
+        if ($affiche_expire) {
+        ?>			
 		<div class="col-md-8 col-md-offset-1">
 	        <div class="alert alert alert-danger alert-dismissable fade in">
 	            <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>-->
@@ -72,7 +82,25 @@
 	
 	        </div>
        </div>
-              
+        <?php       
+        } else {   
+        ?> 
+        <div class="col-md-8 col-md-offset-1">
+            <div class="alert alert alert-info alert-dismissable fade in">
+                <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>-->
+    
+                <h3><p>Pour renouveller votre abonnement Aboo, <br>veuillez cliquer sur le lien Paypal suivant.</p></h3>
+                <blockquote>
+                  <p>Le montant est de 48€ annuel.</p>
+                  <p> Vous pouvez régler par CB ou compte PayPal.</p>
+                  <p>En cas de problème veuillez contacter le support Aboo : contact@aboo.fr</p>          
+                </blockquote>
+    
+            </div>
+       </div>   
+        <?php       
+        }   
+        ?>                         
 			<!--<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="5H3HV5JR8R6AA">

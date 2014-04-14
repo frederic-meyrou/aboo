@@ -48,28 +48,28 @@ function ChargeSessionExerciceBDD($data) {
 	$affiche_Ok = false;
 	$affiche_premiere_visite = false;
 
+// Lecture des informations user
+    $sql = "SELECT * FROM user WHERE id = ?";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($user_id));
+    $data = $q->fetch(PDO::FETCH_ASSOC);
+
 // Initialisation des information des session
     if ($exercice_id == null) { // On a pas de session exercice  
 
         // Recherche en base des exercices de l'utilisateur 
-        $sql = "SELECT * FROM exercice WHERE user_id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($user_id));
-        //$data = $q->fetch(PDO::FETCH_ASSOC);
-        $count = $q->rowCount($sql);
+        $sql2 = "SELECT * FROM exercice WHERE user_id = ?";
+        $q2 = $pdo->prepare($sql2);
+        $q2->execute(array($user_id));
+        $count = $q2->rowCount($sql2);
         
         if ($count==0) { // Pas d'exercice ds la BDD, c'est la première visite.
-            Database::disconnect();
+            //Database::disconnect();
 			$affiche_premiere_visite = true;
             // Redirection pour creation d'exercice
             //header('Location:exercice_create.php');                
-        }  else {  
-    
+        }  else {      
 	        // On cherche si on a l'exercice en cours d'utilisation dans la table user 
-	        $sql = "SELECT * FROM user WHERE id = ?";
-	        $q = $pdo->prepare($sql);
-	        $q->execute(array($user_id));
-	        $data = $q->fetch(PDO::FETCH_ASSOC);
 	        $exercice_id = $data['exerciceid_encours'];        
 	
 	        if ($exercice_id==NULL) { // Pas d'exercice en cours, il faut en choisir un
@@ -77,22 +77,34 @@ function ChargeSessionExerciceBDD($data) {
 	            // Redirection pour creation d'exercice
 	            header('Location:exercice.php');                
 	        } else { // C'est bon on a un exercice en cours
-	            $sql = "SELECT * FROM exercice WHERE user_id = ? AND id = ?";
-	            $q = $pdo->prepare($sql);
-	            $q->execute(array($user_id, $exercice_id));
-	            $data = $q->fetch(PDO::FETCH_ASSOC);
-	            ChargeSessionExerciceBDD($data);
-	            $exercice_id = $data['id'];
-	            $exercice_annee = $data['annee_debut'];
-	            $exercice_mois = $data['mois_debut'];
-	            $exercice_treso = $data['montant_treso_initial'];
-    			$exercice_provision = $data['montant_provision_charges'];		            
-				$affiche_Ok = true;                    
+	            $sql2 = "SELECT * FROM exercice WHERE user_id = ? AND id = ?";
+	            $q2 = $pdo->prepare($sql2);
+	            $q2->execute(array($user_id, $exercice_id));
+	            $data2 = $q2->fetch(PDO::FETCH_ASSOC);
+	            ChargeSessionExerciceBDD($data2);
+	            $exercice_id = $data2['id'];
+	            $exercice_annee = $data2['annee_debut'];
+	            $exercice_mois = $data2['mois_debut'];
+	            $exercice_treso = $data2['montant_treso_initial'];
+    			$exercice_provision = $data2['montant_provision_charges'];		            
+				$affiche_Ok = true;           
 	        }    
 		}
     } else { // On a une session d'exercice active
 		$affiche_Ok = true; 
     }             		
+
+    // Vérification de l'expiration du compte
+    $affiche_expire=false;    
+    $datejour = date_create(date('Y-m-d'));
+    $datefin = date_create($data['expiration']);
+    $interval = date_diff($datejour, $datefin); 
+    if ( $data['administrateur'] == 0 && $interval->days < 30 ) {
+        $affiche_expire=true;
+    }
+    
+    // Fermeture BDD    
+    Database::disconnect();    
 ?>
 
 <!DOCTYPE html>
@@ -139,6 +151,25 @@ function ChargeSessionExerciceBDD($data) {
 	    <?php       
         }   
         ?> 
+
+        <!-- Affiche les informations d'expiration -->            
+        <?php 
+        if ($affiche_expire) {
+        ?>
+
+        <div class="page-header">          
+            <h2>Expiration prochaine de votre compte Aboo</h2>
+        </div>
+        
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h4>Votre license arrive à expiration le <strong><?php echo date("d/m/Y", strtotime($_SESSION['authent']['expiration'])); ?></strong>.</h4>
+            <a href="paypal.php" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> Renouvellement de mon abonnement</a>            
+          </div>
+        </div> 
+        <?php       
+        }   
+        ?>  
 
 		<!-- Affiche les informations de principales -->      		
 		<?php 
