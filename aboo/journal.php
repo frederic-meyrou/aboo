@@ -108,7 +108,7 @@
         
     <div class="container">
         <div class="page-header">          
-            <h2>Journal Mensuel des Recettes & Dépenses</h2>
+            <h2>Journal d'Activité mensuel</h2>
         </div>
         
         <!-- Affiche le dropdown formulaire mois avec selection automatique du mois en cours de la session -->

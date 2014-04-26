@@ -44,7 +44,7 @@
         
     <div class="container">
         <div class="page-header">           
-            <h2>Journal Annuel des paiements étalés</h2>
+            <h2>Journal Fiscal (Recettes / Dépenses)</h2>
         </div>
                 
         <!-- Affiche les informations de debug -->
@@ -65,19 +65,14 @@
         <?php       
         }   
         ?>  
-
-        <!-- Affiche les sommmes -->        
-		<p>
-		    <a href="paiements.php" class="btn btn-primary"><span class="glyphicon glyphicon-eject"></span> Retour</a>						
-		</p>   
                 
 		<!-- Affiche la table en base -->
         <div class="panel panel-default">
           <div class="panel-heading">
             <p>         
-            <h3 class="panel-title">Journal annuel : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee - " . ($exercice_annee +1); ?></button>
+            <h3 class="panel-title">Journal fiscal : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee"; ?></button>
                 <div class="btn-group pull-right">                
-                    <a href="csv/export_liste_paiements.php" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                    <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
                     <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
                 </div>              
             </h3>
@@ -88,9 +83,8 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-bordered table-hover success">
 				<thead>
 					<tr class="active">
-					  <th>Mois</th>
-					  <th>Echéance</th>
-					  <th>Encaissé</th>						  						  
+                      <th>Date</th>					    
+					  <th>Mois</th>	  						  
 					  <th>Type</th>
 					  <th>Montant</th>					  					  					  
 					  <th>Périodicitée</th>					  
@@ -99,32 +93,53 @@
 				</thead>
                 <tbody>	
 			<?php 
-			$total = 0;
-			$total_apayer = 0;
+			$total_recettes = 0;
+			$total_depenses = 0;
 			
  			for ($num_mois = 1; $num_mois <= 12; $num_mois++) {
  				
-				// Jointure dans la base recette/paiement (join sur user_id et exercice_id) 
-			    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
-			    		A.id = P.recette_id AND 
-			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
-			    		P.mois_$num_mois <> 0
-			    		ORDER by P.paye_$num_mois,A.date_creation
-			    		";
-			
-				// Requette pour calcul de la somme Totale			
-			    $sql2 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
-			    		A.id = P.recette_id AND 
-			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
-			    		P.mois_$num_mois <> 0
-			    		";
-			
-				// Requette pour calcul de la somme restant à mettre en recouvrement			
-			    $sql3 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
+				// Jointure dans la base recette/paiement (join sur user_id et exercice_id) trie sur les encaissements
+				// Union avec les recettes payees
+                // Union avec les dépenses
+                // trie sur la date de création
+				$sql = "(SELECT P.date_creation,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
 			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0 AND
-			    		P.paye_$num_mois = 0
+			    		P.paye_$num_mois = 1
+                        ORDER BY P.date_creation)
+                        UNION
+                        (SELECT date_creation,montant,commentaire,type,periodicitee,0,paye FROM recette WHERE
+                        user_id = :userid AND exercice_id = :exerciceid AND
+                        mois = $num_mois AND
+                        paye = 1
+                        ORDER BY date_creation)
+                        UNION
+                        (SELECT date_creation, montant * -1, commentaire, type, periodicitee, 0, 1 FROM depense WHERE
+                         user_id = :userid AND exercice_id = :exerciceid AND
+                         mois = $num_mois
+                         ORDER BY date_creation) 
+			    		";
+			
+				// Requette pour calcul de la somme des encaissements			
+			    $sql2 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
+			    		A.id = P.recette_id AND 
+			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
+			    		P.mois_$num_mois <> 0 AND 
+			    		P.paye_$num_mois = 1
+			    		";
+
+                // Requette pour calcul de la somme des recettes payees
+                $sql3 = "SELECT SUM(montant) FROM recette WHERE
+                        user_id = :userid AND exercice_id = :exerciceid AND
+                        mois = $num_mois AND
+                        paye = 1
+                        ";
+			
+				// Requette pour calcul des dépenses			
+			    $sql4 = "SELECT SUM(montant) FROM depense WHERE
+			    		user_id = :userid AND exercice_id = :exerciceid AND
+			    		mois = $num_mois
 			    		";			
 							
 			    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id); 				
@@ -141,41 +156,40 @@
 			   	$req = $pdo->prepare($sql3);
 				$req->execute($q);
 				$data3 = $req->fetch(PDO::FETCH_ASSOC);	
+
+                $req = $pdo->prepare($sql4);
+                $req->execute($q);
+                $data4 = $req->fetch(PDO::FETCH_ASSOC); 
 				
 	    		// Calcul des sommes 
-		        $total_mois_{$num_mois} = !empty($data2["SUM(P.mois_$num_mois)"]) ? $data2["SUM(P.mois_$num_mois)"] : 0;
-		        $total_apayer_{$num_mois} = !empty($data3["SUM(P.mois_$num_mois)"]) ? $data3["SUM(P.mois_$num_mois)"] : 0;
+		        $total_recettes_mois_{$num_mois} = !empty($data2["SUM(P.mois_$num_mois)"]) ? $data2["SUM(P.mois_$num_mois)"] : 0;
+		        $total_recettes_mois_{$num_mois} = $total_recettes_mois_{$num_mois} + (!empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0);
+		        $total_depenses_{$num_mois} = !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
 
 				if ($count != 0) { // Il y a un résultat ds la base	 				
-					?>		                
-
-						<?php
-							$i=1;	 
-							foreach ($data as $row) { // Ecriture d'une ligne
-								echo '<tr>';
-								echo '<td>' . NumToMois(MoisAnnee($num_mois,$exercice_mois)) . '</td>';
-								echo '<td>' . number_format($row["mois_$num_mois"],2,',','.') . ' €</td>';
-								if ($row["paye_$num_mois"] == 1 ) { //Encaissé
-									echo '<td class="success">';
-									echo 'Oui';
-								} else { // Non encaissé
-									echo '<td class="danger">';
-									echo 'non';
-								}
-								echo '</td>';
-								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
-								echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
-								echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
-								echo '<td>' . $row['commentaire'] . '</td>';
-								echo '</tr>';
-								$i++;
-							}
-						?>						 
-
-			<?php
+					foreach ($data as $row) {
+						echo '<tr>';
+                        echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';								
+						echo '<td>' . NumToMois(MoisAnnee($num_mois,$exercice_mois)) . '</td>';
+						//if ($row["paye_$num_mois"] == 1 ) { //Encaissé
+						//	echo '<td class="success">';
+						//} else { // Non encaissé
+						//	echo '<td class="danger">';
+						//}
+						//echo '</td>';
+						echo '<td>';
+						echo ($row['montant']<0)?NumToTypeDepense($row['type']):NumToTypeRecette($row['type']);
+                        echo '</td>';
+						echo '<td>';
+						echo ($row["mois_$num_mois"] == 0 )?number_format($row['montant'],2,',','.'):number_format($row["mois_$num_mois"],2,',','.');
+						echo ' €</td>';
+						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
+						echo '<td>' . $row['commentaire'] . '</td>';
+						echo '</tr>';
+					}
 				} // if
-					$total = $total + $total_mois_{$num_mois};
-				 	$total_apayer = $total_apayer + $total_apayer_{$num_mois};
+					$total_recettes = $total_recettes + $total_recettes_mois_{$num_mois};
+				 	$total_depenses = $total_depenses + $total_depenses_{$num_mois};
 			} // for
 			Database::disconnect();
 			?>	                        
@@ -185,8 +199,8 @@
             
 	        <!-- Affiche les sommmes -->        
 			<p>
-				<button type="button" class="btn btn-info">Total paiements à échéances : <?php echo $total; ?> €</button>
-				<button type="button" class="btn btn-info">Total paiements à recouvrer : <?php echo $total_apayer; ?> €</button>							
+				<button type="button" class="btn btn-info">Total Recettes : <?php echo $total_recettes; ?> €</button>
+				<button type="button" class="btn btn-info">Total Dépenses : <?php echo $total_depenses; ?> €</button>							
 			</p>   
 
           </div>
@@ -201,7 +215,7 @@
         $(document).ready(function() {
             $('.datatable').dataTable({
                 "sPaginationType": "bs_full",
-                 "aaSorting": [ [0, null] ]
+                 "aaSorting": [ [1, null] ]
             });
             $('.datatable').each(function(){
                 var datatable = $(this);

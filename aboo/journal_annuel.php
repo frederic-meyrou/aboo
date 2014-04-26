@@ -80,7 +80,7 @@
         
     <div class="container">
         <div class="page-header">          
-            <h2>Journal Annuel des Recettes & Dépenses</h2>
+            <h2>Journal d'activité Annuel</h2>
         </div>
                    
         <!-- Affiche les informations de debug -->
@@ -119,15 +119,11 @@
 	        <div class="btn-group btn-group-sm">
 	            <button type="button" class="btn btn-info">Solde brut :</button>
 	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['SOLDE']; ?> €</button>
-	        </div>    
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Salaire Moyen :</button>                             
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['SALAIRE'] / 12; ?> €</button>                            
-	        </div>    
-	        <div class="btn-group btn-group-sm">
-	            <button type="button" class="btn btn-info">Trésorerie :</button>               
-	            <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['REPORT_TRESO']; ?> €</button>             
 	        </div>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info">Bénéfice :</button>
+                <button type="button" class="btn btn-default"><?php echo $TableauBilanAnnuel['BENEFICE']; ?> €</button>
+            </div>  	            
 		</div>
         <br>
                 
