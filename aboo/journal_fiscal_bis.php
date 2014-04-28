@@ -102,11 +102,58 @@
 				// Union avec les recettes payees
                 // Union avec les dépenses
                 // trie sur la date de création
-				$sql = "(SELECT P.date_creation,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
+
+                $sql = "(SELECT paiement.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,paiement.mois_$num_mois,paiement.paye_$num_mois 
+                         FROM paiement,recette,exercice 
+                         WHERE
+                            exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                            AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                            AND recette.id = paiement.recette_id
+                            AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                             
+                            AND :mois > (13 - exercice.mois_debut)
+                            OR
+                            exercice.annee_debut = :annee AND exercice.user_id = :userid
+                            AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                            AND :mois <= (13 - exercice.mois_debut)
+                            AND recette.id = paiement.recette_id
+                            AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1
+                         ORDER BY paiement.date_creation)
+                        UNION
+                        (SELECT recette.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,0,recette.paye 
+                        FROM recette,exercice 
+                        WHERE
+                           exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                           AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                           AND recette.mois = :mois
+                           AND recette.mois > (13 - exercice.mois_debut) 
+                           AND recette.paye = 1
+                           OR
+                           exercice.annee_debut = :annee AND exercice.user_id = :userid
+                           AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                           AND recette.mois = :mois                                                     
+                           AND recette.mois <= (13 - exercice.mois_debut)
+                           AND recette.paye = 1                           
+                        ORDER BY date_creation)
+                        UNION
+                        (SELECT depense.date_creation, depense.montant * -1, depense.commentaire, depense.type, depense.periodicitee, 0, 1 
+                        FROM depense,exercice  
+                        WHERE
+                           exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                           AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+                           AND depense.mois = :mois
+                           AND depense.mois > (13 - exercice.mois_debut) 
+                           OR
+                           exercice.annee_debut = :annee AND exercice.user_id = :userid
+                           AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+                           AND depense.mois = :mois                                                     
+                           AND depense.mois <= (13 - exercice.mois_debut)
+                        ORDER BY date_creation)                         
+                        ";
+              
+                $sql5 = "(SELECT P.date_creation,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A, exercice E WHERE
 			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
-			    		P.mois_$num_mois <> 0 AND
-			    		P.paye_$num_mois = 1
+			    		P.mois_$num_mois <> 0 AND P.paye_$num_mois = 1
                         ORDER BY P.date_creation)
                         UNION
                         (SELECT date_creation,montant,commentaire,type,periodicitee,0,paye FROM recette WHERE
@@ -142,10 +189,11 @@
 			    		mois = $num_mois
 			    		";			
 							
-			    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id); 				
+			    $q = array('userid' => $user_id, 'exerciceid' => $exercice_id);
+			    $qbis = array('userid' => $user_id, 'annee' => $exercice_annee, 'mois' => $num_mois); 				
 
 			    $req = $pdo->prepare($sql);
-			    $req->execute($q);
+			    $req->execute($qbis);
 			    $data = $req->fetchAll(PDO::FETCH_ASSOC);
 			    $count = $req->rowCount($sql);
 				
@@ -171,16 +219,14 @@
 						echo '<tr>';
                         echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';								
 						echo '<td>' . NumToMois(MoisAnnee($num_mois,$exercice_mois)) . '</td>';
-						//if ($row["paye_$num_mois"] == 1 ) { //Encaissé
-						//	echo '<td class="success">';
-						//} else { // Non encaissé
-						//	echo '<td class="danger">';
-						//}
-						//echo '</td>';
 						echo '<td>';
 						echo ($row['montant']<0)?NumToTypeDepense($row['type']):NumToTypeRecette($row['type']);
                         echo '</td>';
-						echo '<td>';
+                        if ($row['montant'] < 0 ) { // Dépense
+                            echo '<td class="danger">';
+                        } else { // Recette
+                            echo '<td class="success">';
+                        }                       
 						echo ($row["mois_$num_mois"] == 0 )?number_format($row['montant'],2,',','.'):number_format($row["mois_$num_mois"],2,',','.');
 						echo ' €</td>';
 						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	

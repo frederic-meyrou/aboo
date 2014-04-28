@@ -35,33 +35,33 @@
     
 // Lecture dans la base des recettes de l'année en fiscal de début d'exercice
     $sql = "(SELECT recette.date_creation, type, montant, commentaire, periodicitee, mois FROM recette,exercice WHERE
-            (exercice.annee_debut = :annee 
+            exercice.annee_debut = (:annee - 1) 
             AND exercice.user_id = :userid
             AND recette.exercice_id = exercice.id
             AND recette.user_id = exercice.user_id
-            AND recette.mois > (13 - exercice.mois_debut) )
+            AND recette.mois > (13 - exercice.mois_debut)
             AND recette.mois <= 12 
-            OR (exercice.annee_debut = (:annee - 1)
+            OR exercice.annee_debut = :annee
             AND exercice.user_id = :userid
             AND recette.exercice_id = exercice.id
             AND recette.user_id = exercice.user_id
             AND recette.mois >= 1
-            AND recette.mois <= (13 - exercice.mois_debut) ) 
+            AND recette.mois <= (13 - exercice.mois_debut)
             ORDER BY recette.date_creation )
             UNION
             (SELECT depense.date_creation, type, montant * -1, commentaire, periodicitee, mois FROM depense,exercice WHERE
-            (exercice.annee_debut = :annee 
+            exercice.annee_debut = (:annee - 1)  
             AND exercice.user_id = :userid
             AND depense.exercice_id = exercice.id
             AND depense.user_id = exercice.user_id
-            AND depense.mois > (13 - exercice.mois_debut) )
+            AND depense.mois > (13 - exercice.mois_debut)
             AND depense.mois <= 12 
-            OR (exercice.annee_debut = (:annee - 1)
+            OR exercice.annee_debut = :annee
             AND exercice.user_id = :userid
             AND depense.exercice_id = exercice.id
             AND depense.user_id = exercice.user_id
             AND depense.mois >= 1
-            AND depense.mois <= (13 - exercice.mois_debut) )
+            AND depense.mois <= (13 - exercice.mois_debut)
             ORDER BY depense.date_creation )
             ";
          

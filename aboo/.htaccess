@@ -4,7 +4,7 @@ AddDefaultCharset utf-8
 # On renomme les extention de fichier .php en .htm
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule ^(.*)\.htm$ $1.php [nc]
+RewriteRule ^(.*)\.html$ $1.php [nc]
 </IfModule>
 
 # On enlève l'affichage des fichiers et répertoires
