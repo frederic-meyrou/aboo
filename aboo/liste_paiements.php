@@ -200,8 +200,14 @@
         /* Table initialisation */
         $(document).ready(function() {
             $('.datatable').dataTable({
-                "sPaginationType": "bs_full",
-                 "aaSorting": [ [0, null] ]
+                "iDisplayLength": 10,
+                "aoColumnDefs": [
+                    { "sType": "enum", "aTargets": [ 0 ] },
+                    { "asSorting": [ "asc", "desc" ], "aTargets": [ 0 ] },                                         
+                    { "sType": "numeric-comma", "aTargets": [ 1 ] },                    
+                    { "sType": "numeric-comma", "aTargets": [ 4 ] },                    
+                    { "bSortable": false, "aTargets": [ 6 ] }                        
+                    ]
             });
             $('.datatable').each(function(){
                 var datatable = $(this);

@@ -228,7 +228,14 @@
 	<script>  
 		/* Table initialisation */
 		$(document).ready(function() {
-			$('.datatable').dataTable();
+			$('.datatable').dataTable({
+                "iDisplayLength": 10,
+                "aoColumnDefs": [
+                    { "sType": "date-euro", "aTargets": [ 0 ] },
+                    { "sType": "numeric-comma", "aTargets": [ 2 ] },                    
+                    { "bSortable": false, "aTargets": [ 3 ] }                        
+                    ]
+            });
 		    $('.datatable').each(function(){
 				var datatable = $(this);
 				// SEARCH - Add the placeholder for Search and Turn this into in-line form control

@@ -490,7 +490,12 @@
         /* Table initialisation */
         $(document).ready(function(){
             $('.datatable').dataTable({
-                "sPaginationType": "bs_full"
+                "iDisplayLength": 5,
+                "aoColumnDefs": [                                      
+                    { "sType": "numeric-comma", "aTargets": [ 1 ] },                    
+                    { "bSortable": false, "aTargets": [ 4 ] },
+                    { "bSortable": false, "aTargets": [ 5 ] }                        
+                    ]
             });
             $('.datatable').each(function(){
                 var datatable = $(this);

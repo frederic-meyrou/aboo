@@ -205,7 +205,11 @@
         /* Table initialisation */
         $(document).ready(function() {
             $('.datatable').dataTable({
-                "sPaginationType": "bs_full"
+                "iDisplayLength": 10,
+                "aoColumnDefs": [                 
+                    { "bSortable": false, "aTargets": [ 0 ] },
+                    { "bSortable": false, "aTargets": [ 7 ] }                                               
+                    ]
             });
             $('.datatable').each(function(){
                 var datatable = $(this);

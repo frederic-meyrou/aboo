@@ -262,7 +262,13 @@
         /* Table initialisation */
         $(document).ready(function() {
             $('.datatable').dataTable({
-                "sPaginationType": "bs_full"
+                "iDisplayLength": 10,
+                "aoColumnDefs": [
+                    { "sType": "numeric-comma", "aTargets": [ 1 ] },                    
+                    { "sType": "numeric-comma", "aTargets": [ 3 ] },                    
+                    { "bSortable": false, "aTargets": [ 0 ] },
+                    { "bSortable": false, "aTargets": [ 5 ] }                                               
+                    ]
             });
             $('.datatable').each(function(){
                 var datatable = $(this);

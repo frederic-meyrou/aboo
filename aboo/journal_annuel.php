@@ -178,7 +178,17 @@
 	<script>  
 		/* Table initialisation */
 		$(document).ready(function() {
-			$('.datatable').dataTable();
+			$('.datatable').dataTable({
+                "iDisplayLength": 10,
+                "aoColumnDefs": [
+                    { "sType": "date-euro", "aTargets": [ 0 ] },
+                    { "sType": "enum", "aTargets": [ 1 ] },
+                    { "asSorting": [ "asc", "desc" ], "aTargets": [ 1 ] },                                         
+                    { "aDataSort": [ 1, 0 ], "aTargets": [ 0 ] },
+                    { "sType": "numeric-comma", "aTargets": [ 3 ] },                    
+                    { "bSortable": false, "aTargets": [ 4 ] }                        
+                    ]
+            });
 		    $('.datatable').each(function(){
 				var datatable = $(this);
 				// SEARCH - Add the placeholder for Search and Turn this into in-line form control
