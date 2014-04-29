@@ -1,4 +1,4 @@
-/* Plug-In pour trier les Dates Fr au format : JJ/MM/YYYY HH:MM */    
+/* Plug-In "date-euro" pour trier les Dates Fr au format : JJ/MM/YYYY HH:MM */    
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     "date-euro-pre": function ( a ) {
         if ($.trim(a) != '') {
@@ -21,11 +21,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         return b - a;
     }
 } );
-/* Plug-In pour trier les nombres au format Français en enlevant le séparateur de millier et les devises */
+/* Plug-In "numeric-comma" pour trier les nombres au format Français en enlevant le séparateur de millier et la devise */
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     "numeric-comma-pre": function ( a ) {
-        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\.]/g, "" );
-        var x = (a == "-") ? 0 : a.replace( /,/, "." );
+        var x1 = a.replace( /\./, "" );
+        var x2 = x1.replace( / €/, "" );             
+        var x = x2.replace( /,/, "." );
         return parseFloat( x );
     },
  
@@ -37,7 +38,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         return ((a < b) ? 1 : ((a > b) ? -1 : 0));
     }
 } );
-/* Plug-In pour trier les Mois */
+/* Plug-In "enum" pour trier les Mois */
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     "enum-pre": function ( a ) {
         // Add / alter the switch statement below to match your enum list
