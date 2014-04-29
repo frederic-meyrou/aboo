@@ -88,6 +88,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-bordered table-hover success">
 				<thead>
 					<tr class="active">
+                      <th>Date de création</th> 					    
 					  <th>Mois</th>
 					  <th>Echéance</th>
 					  <th>Encaissé</th>						  						  
@@ -105,11 +106,11 @@
  			for ($num_mois = 1; $num_mois <= 12; $num_mois++) {
  				
 				// Jointure dans la base recette/paiement (join sur user_id et exercice_id) 
-			    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
+			    $sql = "SELECT P.date_creation,P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A WHERE
 			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0
-			    		ORDER by P.paye_$num_mois,A.date_creation
+			    		ORDER by P.paye_$num_mois,P.date_creation
 			    		";
 			
 				// Requette pour calcul de la somme Totale			
@@ -153,6 +154,7 @@
 							$i=1;	 
 							foreach ($data as $row) { // Ecriture d'une ligne
 								echo '<tr>';
+								echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
 								echo '<td>' . NumToMois(MoisAnnee($num_mois,$exercice_mois)) . '</td>';
 								echo '<td>' . number_format($row["mois_$num_mois"],2,',','.') . ' €</td>';
 								if ($row["paye_$num_mois"] == 1 ) { //Encaissé
@@ -202,11 +204,13 @@
             $('.datatable').dataTable({
                 "iDisplayLength": 10,
                 "aoColumnDefs": [
-                    { "sType": "enum", "aTargets": [ 0 ] },
-                    { "asSorting": [ "asc", "desc" ], "aTargets": [ 0 ] },                                         
-                    { "sType": "numeric-comma", "aTargets": [ 1 ] },                    
-                    { "sType": "numeric-comma", "aTargets": [ 4 ] },                    
-                    { "bSortable": false, "aTargets": [ 6 ] }                        
+                    { "sType": "date-euro", "aTargets": [ 0 ] },
+                    { "sType": "enum", "aTargets": [ 1 ] },
+                    { "asSorting": [ "asc", "desc" ], "aTargets": [ 1 ] },                                         
+                    { "aDataSort": [ 1, 0 ], "aTargets": [ 0 ] },                                                                            
+                    { "sType": "numeric-comma", "aTargets": [ 2 ] },                    
+                    { "sType": "numeric-comma", "aTargets": [ 5 ] },                    
+                    { "bSortable": false, "aTargets": [ 7 ] }                        
                     ]
             });
             $('.datatable').each(function(){

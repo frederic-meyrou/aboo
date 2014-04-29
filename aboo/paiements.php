@@ -77,11 +77,11 @@
 	
 
 // Jointure dans la base recette/paiement (join sur user_id et exercice_id) 
-    $sql = "SELECT P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$mois_choisi_relatif,P.paye_$mois_choisi_relatif FROM paiement P, recette A WHERE
+    $sql = "SELECT P.date_creation,P.id,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$mois_choisi_relatif,P.paye_$mois_choisi_relatif FROM paiement P, recette A WHERE
     		A.id = P.recette_id AND 
     		A.user_id = :userid AND A.exercice_id = :exerciceid AND
     		P.mois_$mois_choisi_relatif <> 0
-    		ORDER by P.paye_$mois_choisi_relatif,A.date_creation
+    		ORDER by P.paye_$mois_choisi_relatif,P.date_creation
     		";
 
 // Requette pour calcul de la somme Totale			
@@ -204,6 +204,7 @@
 						<thead>
 							<tr class="active">
 							  <th><span class="glyphicon glyphicon-ok-sign"></span></th>
+                              <th>Date de création</th> 							  
 							  <th>Echéance</th>						  
 							  <th>Type</th>
 							  <th>Montant</th>					  					  					  
@@ -223,6 +224,7 @@
 								  	</label>
 								</td>					
 						<?php 	
+								echo '<td>' . date("d/m/Y H:i", strtotime($row['date_creation'])) . '</td>';
 								echo '<td>' . number_format($row["mois_$mois_choisi_relatif"],2,',','.') . ' €</td>';
 								echo '<td>' . NumToTypeRecette($row['type']) . '</td>';
 								echo '<td>' . number_format($row['montant'],2,',','.') . ' €</td>';
@@ -264,10 +266,11 @@
             $('.datatable').dataTable({
                 "iDisplayLength": 10,
                 "aoColumnDefs": [
-                    { "sType": "numeric-comma", "aTargets": [ 1 ] },                    
-                    { "sType": "numeric-comma", "aTargets": [ 3 ] },                    
+                    { "sType": "date-euro", "aTargets": [ 1 ] },
+                    { "sType": "numeric-comma", "aTargets": [ 2 ] },                    
+                    { "sType": "numeric-comma", "aTargets": [ 4 ] },                    
                     { "bSortable": false, "aTargets": [ 0 ] },
-                    { "bSortable": false, "aTargets": [ 5 ] }                                               
+                    { "bSortable": false, "aTargets": [ 6 ] }                                               
                     ]
             });
             $('.datatable').each(function(){
