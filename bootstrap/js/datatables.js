@@ -1,3 +1,72 @@
+/* Plug-In pour trier les Dates Fr au format : JJ/MM/YYYY HH:MM */    
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "date-euro-pre": function ( a ) {
+        if ($.trim(a) != '') {
+            var frDatea = $.trim(a).split(' ');
+            var frTimea = frDatea[1].split(':');
+            var frDatea2 = frDatea[0].split('/');
+            var x = (frDatea2[2] + frDatea2[1] + frDatea2[0] + frTimea[0] + frTimea[1]) * 1;
+        } else {
+            var x = 10000000000000; // = l'an 1000 ...
+        }
+         
+        return x;
+    },
+ 
+    "date-euro-asc": function ( a, b ) {
+        return a - b;
+    },
+ 
+    "date-euro-desc": function ( a, b ) {
+        return b - a;
+    }
+} );
+/* Plug-In pour trier les nombres au format Français en enlevant le séparateur de millier et les devises */
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "numeric-comma-pre": function ( a ) {
+        a = (a === "-" || a === "") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+        var x = (a == "-") ? 0 : a.replace( /,/, "." );
+        return parseFloat( x );
+    },
+ 
+    "numeric-comma-asc": function ( a, b ) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+ 
+    "numeric-comma-desc": function ( a, b ) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+} );
+/* Plug-In pour trier les Mois */
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "enum-pre": function ( a ) {
+        // Add / alter the switch statement below to match your enum list
+        switch( a ) {
+            case "Janvier":   return 1;
+            case "Février":   return 2;
+            case "Mars":      return 3;
+            case "Avril":     return 4;
+            case "Mai":       return 5;
+            case "Juin":      return 6;
+            case "Juillet":   return 7;
+            case "Août":      return 8;
+            case "Septembre": return 9;
+            case "Octobre":   return 10;
+            case "Novembre":   return 11;
+            case "Décembre":   return 12;                                                            
+            default:       return 0;
+        }
+    },
+ 
+    "enum-asc": function ( a, b ) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+ 
+    "enum-desc": function ( a, b ) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+} );
+
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
 	"sDom": "<'row'<'col-sm-12'<'pull-right'f><'pull-left'l>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",

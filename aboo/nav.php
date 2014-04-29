@@ -35,7 +35,6 @@
 	                  <li<?php echo ($page_courante == "journal.php")?' class="active"':'';?>><a href="journal.php"><span class="glyphicon glyphicon-th-list"></span> Journal d'Activité Mensuel</a></li>
 	                  <li<?php echo ($page_courante == "journal_annuel.php")?' class="active"':'';?>><a href="journal_annuel.php"><span class="glyphicon glyphicon-th-list"></span> Journal d'Activité Annuel</a></li>
 	                  <li<?php echo ($page_courante == "journal_fiscal.php")?' class="active"':'';?>><a href="journal_fiscal.php"><span class="glyphicon glyphicon-th-list"></span> Journal Fiscal</a></li>
-                      <li<?php echo ($page_courante == "journal_fiscal_bis.php")?' class="active"':'';?>><a href="journal_fiscal_bis.php"><span class="glyphicon glyphicon-th-list"></span> Journal Fiscal BIS</a></li>
                     </ul> 
                   </li>
                   <li<?php echo ($page_courante == "salaire.php")?' class="active"':'';?>><a href="salaire.php"><span class="glyphicon glyphicon-euro"></span> Salaire</a></li>
