@@ -21,52 +21,52 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
         // Le tout avec un test sur les années d'exercice décallé
         // trie sur la date de création
 
-        $sql = "(SELECT paiement.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,paiement.mois_$num_mois,paiement.paye_$num_mois 
+        $sql = "(SELECT paiement.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,paiement.mois_$num_mois,paiement.paye_$num_mois,exercice.mois_debut 
                  FROM paiement,recette,exercice 
                  WHERE
                     exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
                     AND recette.exercice_id = exercice.id AND recette.user_id = :userid
                     AND recette.id = paiement.recette_id
-                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                             
                     AND :mois > (13 - exercice.mois_debut)
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                    
                     OR
                     exercice.annee_debut = :annee AND exercice.user_id = :userid
                     AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND recette.id = paiement.recette_id                    
                     AND :mois <= (13 - exercice.mois_debut)
-                    AND recette.id = paiement.recette_id
-                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                    
                  ORDER BY paiement.date_creation)
                 UNION
-                (SELECT recette.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,0,recette.paye 
+                (SELECT recette.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,0,recette.paye,exercice.mois_debut 
                 FROM recette,exercice 
                 WHERE
                    exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
                    AND recette.mois = :mois
-                   AND recette.mois > (13 - exercice.mois_debut) 
                    AND recette.paye = 1
+                   AND recette.mois > (13 - exercice.mois_debut)  
                    OR
                    exercice.annee_debut = :annee AND exercice.user_id = :userid
-                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid
-                   AND recette.mois = :mois                                                     
+                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid                                                    
+                   AND recette.mois = :mois
+                   AND recette.paye = 1
                    AND recette.mois <= (13 - exercice.mois_debut)
-                   AND recette.paye = 1                           
                 ORDER BY date_creation)
                 UNION
-                (SELECT depense.date_creation, depense.montant * -1, depense.commentaire, depense.type, depense.periodicitee, 0, 1 
+                (SELECT depense.date_creation,depense.montant * -1,depense.commentaire,depense.type,depense.periodicitee,0,1,exercice.mois_debut 
                 FROM depense,exercice  
                 WHERE
                    exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
                    AND depense.exercice_id = exercice.id AND depense.user_id = :userid
                    AND depense.mois = :mois
-                   AND depense.mois > (13 - exercice.mois_debut)
-                   AND depense.type <> 3 
+                   AND depense.type <> 3
+                   AND depense.mois > (13 - exercice.mois_debut)  
                    OR
                    exercice.annee_debut = :annee AND exercice.user_id = :userid
-                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid
-                   AND depense.mois = :mois                                                     
-                   AND depense.mois <= (13 - exercice.mois_debut)
+                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid                                                   
+                   AND depense.mois = :mois
                    AND depense.type <> 3
+                   AND depense.mois <= (13 - exercice.mois_debut)
                 ORDER BY date_creation)                         
                 ";
 	
@@ -106,13 +106,12 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
 			    // Génération du Tableau :
 			    $tableau[] = array (
 			        'DATE' => date("d/m/Y H:i", strtotime($row['date_creation'])),                                                                   
-			        'MOIS' => NumToMois(MoisAnnee($num_mois,$exercice_mois)),
+			        'MOIS' => NumToMois(MoisAnnee($num_mois,$row['mois_debut'])),
 			        'TYPE' => ($row['montant']<0)?NumToTypeDepense($row['type']):NumToTypeRecette($row['type']),
 			        'MONTANT' => ($row["mois_$num_mois"] == 0 )?number_format($row['montant'],2,',','.'):number_format($row["mois_$num_mois"],2,',','.'),
 			        'PERIODICITE' => ($row['montant']<0)?'Ponctuel':NumToPeriodicitee($row['periodicitee']),
 			        'COMMENTAIRE' => $row['commentaire']
 			    );
-				var_dump($tableau);
 			} // foreach
 		} // if
 				
@@ -150,7 +149,7 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
                AND depense.exercice_id = exercice.id AND depense.user_id = :userid
                AND depense.mois <= (13 - exercice.mois_debut)            
                AND depense.type <> 3 
-            ";                      
+            ";                                             
 
     // Envoi des requettes        
     $q = array('userid' => $userid, 'annee' => $exerciceannee); 	
@@ -163,12 +162,12 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
 				    
     // Calcul des sommes
     $total_recettes = $total_recettes + (!empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0);
-    $total_depenses = !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
+    $total_depenses = !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;  
                 		
     Database::disconnect();
     
     // Retour d'un tableau associatif
-    $Tableauresultat = array ( 
+    $Tableauresultat = array (
             'TABLEAU' => $tableau,                                                                   
             'COUNT' => $total_count,                                                                   
             'RECETTES' => $total_recettes,                                                               
