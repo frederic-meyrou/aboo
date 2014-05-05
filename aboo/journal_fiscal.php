@@ -32,13 +32,6 @@
 // Charge le Tableau    
     $TableauFiscalAnnuel = CalculTableauFiscalAnnuel($user_id, $exercice_annee);          
     
-    if ($TableauFiscalAnnuel==false) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
-        $affiche = false;         
-    } else {
-            // On affiche le tableau
-            $affiche = true;
-    }
-	
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +70,7 @@
             <p>         
             <h3 class="panel-title">Journal fiscal : <button type="button" class="btn btn-sm btn-info"><?php echo "$exercice_annee"; ?></button>
                 <div class="btn-group pull-right">                
-                    <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
+                    <a href="csv/export_journal_fiscal_annuel.php" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Export Excel</a>
                     <a href="#" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-briefcase"></span> Export PDF</a>
                 </div>              
             </h3>
@@ -124,7 +117,7 @@
                 <button type="button" class="btn btn-default">Nombre d'opérations : <?php echo $TableauFiscalAnnuel["COUNT"]; ?></button>			    
 				<button type="button" class="btn btn-info">Total Recettes : <?php echo $TableauFiscalAnnuel["RECETTES"]; ?> €</button>
 				<button type="button" class="btn btn-info">Total Dépenses (hors charges) : <?php echo $TableauFiscalAnnuel["DEPENSES"]; ?> €</button>							
-                <button type="button" class="btn btn-<?php echo ($TableauFiscalAnnuel["RECETTES"] < $TableauFiscalAnnuel["DEPENSES"])?'warning"> Déficit : ':'success"> Bénéfice : ' . ( $TableauFiscalAnnuel["RECETTES"] - $TableauFiscalAnnuel["DEPENSES"] ); ?> €</button>   
+                <button type="button" class="btn btn-<?php echo ($TableauFiscalAnnuel["BENEFICE"] < 0)?'warning"> Déficit : ':'success"> Bénéfice : '; echo $TableauFiscalAnnuel["BENEFICE"]; ?> €</button>   
 			</p>   
 
           </div>

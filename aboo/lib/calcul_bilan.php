@@ -170,8 +170,9 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
     $Tableauresultat = array (
             'TABLEAU' => $tableau,                                                                   
             'COUNT' => $total_count,                                                                   
-            'RECETTES' => $total_recettes,                                                               
-            'DEPENSES' => $total_depenses
+            'RECETTES' => number_format($total_recettes,2,',','.'),                                                               
+            'DEPENSES' => number_format($total_depenses,2,',','.'),
+            'BENEFICE' => number_format($total_recettes - $total_depenses,2,',','.')
         );   
     return $Tableauresultat;
 }

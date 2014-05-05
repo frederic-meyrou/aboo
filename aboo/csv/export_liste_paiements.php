@@ -52,7 +52,7 @@ fputcsv($handle, $colonnes, ';', '"'); // Ajout des colonnes
 
 		// Génération des lignes CSV
 		foreach ($data as $row) { // Ajout des lignes, lecture BDD
-				$ligne= array(NumToMois(MoisAnnee($num_mois,$exercice_mois)), number_format($row["mois_$num_mois"],2,',','.'), ($row["paye_$num_mois"] == 1 )?'Oui':'Non' , NumToTypeRecette($row['type']), number_format($row['montant'],2,',',''), NumToPeriodicitee($row['periodicitee']), $row['commentaire']);
+				$ligne= array(NumToMois(MoisAnnee($num_mois,$exercice_mois)), number_format($row["mois_$num_mois"],2,',',''), ($row["paye_$num_mois"] == 1 )?'Oui':'Non' , NumToTypeRecette($row['type']), number_format($row['montant'],2,',',''), NumToPeriodicitee($row['periodicitee']), $row['commentaire']);
 				fputcsv($handle, $ligne, ';', '"' );
 		}
 

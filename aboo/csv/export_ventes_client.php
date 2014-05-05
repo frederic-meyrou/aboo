@@ -65,7 +65,7 @@ $colonnes= array('Date','Type','Montant','Périodicitée','Commentaire');
 fputcsv($handle, $colonnes, ';', '"'); // Ajout des colonnes
 
 foreach ($data as $row) { // Ajout des lignes, lecture BDD
-		$ligne= array(date("d/m/Y H:i", strtotime($row['date_creation'])), NumToTypeRecette($row['type']), number_format($row['montant'],2,',','.') , NumToPeriodicitee($row['periodicitee']), $row['commentaire']);
+		$ligne= array(date("d/m/Y H:i", strtotime($row['date_creation'])), NumToTypeRecette($row['type']), number_format($row['montant'],2,',','') , NumToPeriodicitee($row['periodicitee']), $row['commentaire']);
 		fputcsv($handle, $ligne, ';', '"' );
 }
 
