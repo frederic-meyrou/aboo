@@ -5,6 +5,7 @@
 // Dépendances
 	require_once('lib/fonctions.php');
     include_once('lib/database.php');
+    include_once('lib/calcul_bilan.php');
 	
 // Vérification de l'Authent
     session_start();
@@ -18,7 +19,7 @@
 	include_once('lib/var_session.php');
 	
 // Mode Debug
-	$debug = false;
+	$debug = true;
 
 // Sécurisation POST & GET
     foreach ($_GET as $key => $value) {
@@ -28,10 +29,19 @@
         $sPOST[$key]=htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 
+// Charge le Tableau    
+    $TableauFiscalAnnuel = CalculTableauFiscalAnnuel($user_id, $exercice_id);          
+    
+    if ($TableauFiscalAnnuel==false) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
+        $affiche = false;         
+    } else {
+            // On affiche le tableau
+            $affiche = true;
+    }
+
 // Initialisation de la base
     $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  	
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +50,7 @@
 
 <body>
 
-    <?php $page_courante = "paiements.php"; require 'nav.php'; ?>
+    <?php $page_courante = "journal_fiscal.php"; require 'nav.php'; ?>
         
     <div class="container">
         <div class="page-header">           
@@ -56,10 +66,8 @@
             <strong>Informations de Debug : </strong><br>
             SESSION:<br>
             <pre><?php var_dump($_SESSION); ?></pre>
-            POST:<br>
-            <pre><?php var_dump($_POST); ?></pre>
-            GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>
+            TableauFiscalAnnuel:<br>
+            <pre><?php var_dump($TableauFiscalAnnuel); ?></pre>
         </div>
         <br>
         <?php       
@@ -154,7 +162,7 @@
                         ORDER BY date_creation)                         
                         ";
                 // Ne sert plus : année d'activité
-                $sql5 = "(SELECT P.date_creation,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A, exercice E WHERE
+                $sqlbis = "(SELECT P.date_creation,A.montant,A.commentaire,A.type,A.periodicitee,P.mois_$num_mois,P.paye_$num_mois FROM paiement P, recette A, exercice E WHERE
 			    		A.id = P.recette_id AND 
 			    		A.user_id = :userid AND A.exercice_id = :exerciceid AND
 			    		P.mois_$num_mois <> 0 AND P.paye_$num_mois = 1
@@ -190,7 +198,7 @@
                             AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1		    		
                         ";
                 // Ne sert plus : année d'activité     
-                $sql6 = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
+                $sql2bis = "SELECT SUM(P.mois_$num_mois) FROM paiement P, recette A WHERE
                         A.id = P.recette_id AND 
                         A.user_id = :userid AND A.exercice_id = :exerciceid AND
                         P.mois_$num_mois <> 0 AND 
@@ -214,7 +222,7 @@
                            AND recette.paye = 1                  
                         ";			
                 // Ne sert plus : année d'activité                
-                $sql7 = "SELECT SUM(montant) FROM recette WHERE
+                $sql3bis = "SELECT SUM(montant) FROM recette WHERE
                         user_id = :userid AND exercice_id = :exerciceid AND
                         mois = $num_mois AND
                         paye = 1
@@ -236,7 +244,7 @@
                            AND depense.type <> 3 
                         ";                      
                 // Ne sert plus : année d'activité                         
-                $sql8 = "SELECT SUM(montant) FROM depense WHERE
+                $sql4bis = "SELECT SUM(montant) FROM depense WHERE
                         user_id = :userid AND exercice_id = :exerciceid AND
                         depense.type <> 3 AND
                         mois = $num_mois
@@ -281,10 +289,12 @@
                         }                       
 						echo ($row["mois_$num_mois"] == 0 )?number_format($row['montant'],2,',','.'):number_format($row["mois_$num_mois"],2,',','.');
 						echo ' €</td>';
-						echo '<td>' . NumToPeriodicitee($row['periodicitee']) . '</td>';	
+						echo '<td>';
+						echo ($row['montant']<0)?'Ponctuel':NumToPeriodicitee($row['periodicitee']);
+						echo '</td>';	
 						echo '<td>' . $row['commentaire'] . '</td>';
 						echo '</tr>';
-					}
+					} // foreach
 				} // if
 					$total_recettes = $total_recettes + $total_recettes_mois_{$num_mois};
 				 	$total_depenses = $total_depenses + $total_depenses_{$num_mois};
@@ -301,7 +311,7 @@
                 <button type="button" class="btn btn-default">Nombre d'opérations : <?php echo $total_count; ?></button>			    
 				<button type="button" class="btn btn-info">Total Recettes : <?php echo $total_recettes; ?> €</button>
 				<button type="button" class="btn btn-info">Total Dépenses (hors charges) : <?php echo $total_depenses; ?> €</button>							
-                <button type="button" class="btn btn-<?php echo ($total_recettes < $total_depenses)?'danger':'success'; ?>">Bénéfice : <?php echo ( $total_recettes - $total_depenses ); ?> €</button>   
+                <button type="button" class="btn btn-<?php echo ($total_recettes < $total_depenses)?'warning"> Déficit : ':'success"> Bénéfice : ' . ( $total_recettes - $total_depenses ); ?> €</button>   
 			</p>   
 
           </div>
@@ -311,7 +321,6 @@
     </div> <!-- /container -->
 
     <script>
-      
         /* Table initialisation */
         $(document).ready(function() {
             $('.datatable').dataTable({

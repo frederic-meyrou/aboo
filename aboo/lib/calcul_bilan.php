@@ -1,5 +1,181 @@
 <?php
 
+function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
+
+// Initialisation de la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Initilisation des compteurs		
+	$total_recettes = 0;
+	$total_depenses = 0;
+    $total_count = 0;
+	$tableau = array();
+
+// Boucle sur 12 mois	
+	for ($num_mois = 1; $num_mois <= 12; $num_mois++) {
+		
+		// Jointure dans la base recette/paiement (join sur user_id et exercice_id) trie sur les encaissements
+		// Union avec les recettes payees
+        // Union avec les dépenses sans charges sociales type 3
+        // Le tout avec un test sur les années d'exercice décallé
+        // trie sur la date de création
+
+        $sql = "(SELECT paiement.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,paiement.mois_$num_mois,paiement.paye_$num_mois 
+                 FROM paiement,recette,exercice 
+                 WHERE
+                    exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND recette.id = paiement.recette_id
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                             
+                    AND :mois > (13 - exercice.mois_debut)
+                    OR
+                    exercice.annee_debut = :annee AND exercice.user_id = :userid
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND :mois <= (13 - exercice.mois_debut)
+                    AND recette.id = paiement.recette_id
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1
+                 ORDER BY paiement.date_creation)
+                UNION
+                (SELECT recette.date_creation,recette.montant,recette.commentaire,recette.type,recette.periodicitee,0,recette.paye 
+                FROM recette,exercice 
+                WHERE
+                   exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                   AND recette.mois = :mois
+                   AND recette.mois > (13 - exercice.mois_debut) 
+                   AND recette.paye = 1
+                   OR
+                   exercice.annee_debut = :annee AND exercice.user_id = :userid
+                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                   AND recette.mois = :mois                                                     
+                   AND recette.mois <= (13 - exercice.mois_debut)
+                   AND recette.paye = 1                           
+                ORDER BY date_creation)
+                UNION
+                (SELECT depense.date_creation, depense.montant * -1, depense.commentaire, depense.type, depense.periodicitee, 0, 1 
+                FROM depense,exercice  
+                WHERE
+                   exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+                   AND depense.mois = :mois
+                   AND depense.mois > (13 - exercice.mois_debut)
+                   AND depense.type <> 3 
+                   OR
+                   exercice.annee_debut = :annee AND exercice.user_id = :userid
+                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+                   AND depense.mois = :mois                                                     
+                   AND depense.mois <= (13 - exercice.mois_debut)
+                   AND depense.type <> 3
+                ORDER BY date_creation)                         
+                ";
+	
+		// Requette pour calcul de la somme des encaissements			
+        $sql2 = "SELECT SUM(paiement.mois_$num_mois) 
+                 FROM paiement,recette,exercice
+                 WHERE
+                    exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND recette.id = paiement.recette_id
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1                             
+                    AND :mois > (13 - exercice.mois_debut)
+                    OR
+                    exercice.annee_debut = :annee AND exercice.user_id = :userid
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND :mois <= (13 - exercice.mois_debut)
+                    AND recette.id = paiement.recette_id
+                    AND paiement.mois_$num_mois <> 0 AND paiement.paye_$num_mois = 1		    		
+                ";
+                                          							
+        $q = array('userid' => $userid, 'annee' => $exerciceannee, 'mois' => $num_mois);
+        
+	    $req = $pdo->prepare($sql);
+	    $req->execute($q);
+	    $data = $req->fetchAll(PDO::FETCH_ASSOC);
+	    $count = $req->rowCount($sql);
+        	    		
+	   	$req = $pdo->prepare($sql2);
+		$req->execute($q);
+		$data2 = $req->fetch(PDO::FETCH_ASSOC);
+				
+		// Calcul des sommes 
+        $total_recettes_mois_{$num_mois} = !empty($data2["SUM(paiement.mois_$num_mois)"]) ? $data2["SUM(paiement.mois_$num_mois)"] : 0;
+        
+		if ($count != 0) { // Il y a un résultat ds la base	 
+			foreach ($data as $row) {				
+			    // Génération du Tableau :
+			    $tableau[] = array (
+			        'DATE' => date("d/m/Y H:i", strtotime($row['date_creation'])),                                                                   
+			        'MOIS' => NumToMois(MoisAnnee($num_mois,$exercice_mois)),
+			        'TYPE' => ($row['montant']<0)?NumToTypeDepense($row['type']):NumToTypeRecette($row['type']),
+			        'MONTANT' => ($row["mois_$num_mois"] == 0 )?number_format($row['montant'],2,',','.'):number_format($row["mois_$num_mois"],2,',','.'),
+			        'PERIODICITE' => ($row['montant']<0)?'Ponctuel':NumToPeriodicitee($row['periodicitee']),
+			        'COMMENTAIRE' => $row['commentaire']
+			    );
+				var_dump($tableau);
+			} // foreach
+		} // if
+				
+		// Calcul des sommes 
+		$total_recettes = $total_recettes + $total_recettes_mois_{$num_mois};
+        $total_count = $total_count + $count;
+        
+	} // for
+	
+    // Requette pour calcul de la somme des recettes payees
+    $sql3 = "SELECT SUM(montant) 
+             FROM recette,exercice
+             WHERE
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+               AND recette.mois > (13 - exercice.mois_debut) 
+               AND recette.paye = 1
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+               AND recette.mois <= (13 - exercice.mois_debut)
+               AND recette.paye = 1                  
+            ";			
+
+	// Requette pour calcul des dépenses		
+    $sql4 = "SELECT SUM(montant) 
+             FROM depense,exercice
+             WHERE
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+               AND depense.mois > (13 - exercice.mois_debut) 
+               AND depense.type <> 3 
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+               AND depense.mois <= (13 - exercice.mois_debut)            
+               AND depense.type <> 3 
+            ";                      
+
+    // Envoi des requettes        
+    $q = array('userid' => $userid, 'annee' => $exerciceannee); 	
+   	$req = $pdo->prepare($sql3);
+	$req->execute($q);
+	$data3 = $req->fetch(PDO::FETCH_ASSOC);	
+    $req = $pdo->prepare($sql4);
+    $req->execute($q);
+    $data4 = $req->fetch(PDO::FETCH_ASSOC); 
+				    
+    // Calcul des sommes
+    $total_recettes = $total_recettes + (!empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0);
+    $total_depenses = !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
+                		
+    Database::disconnect();
+    
+    // Retour d'un tableau associatif
+    $Tableauresultat = array ( 
+            'TABLEAU' => $tableau,                                                                   
+            'COUNT' => $total_count,                                                                   
+            'RECETTES' => $total_recettes,                                                               
+            'DEPENSES' => $total_depenses
+        );   
+    return $Tableauresultat;
+}
 
 function CalculBilanAnnuelFiscal($userid, $exerciceannee) {
     //CA
