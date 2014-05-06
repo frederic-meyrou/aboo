@@ -188,12 +188,12 @@ function CalculTableauFiscalAnnuel($userid, $exerciceannee) {
 function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetreso) {   
     //TableauBilan = array[1..12][assoc]
     //CA -> chiffre d'affaire total du mois
+    //RECETTE -> recette totale du mois
     //DEPENSE -> dépenses et charges courantes hors charges sociales
-    //SOLDE -> Différence CA - DEPENSE
     //VENTIL -> Ventillation du CA abonnements sur le mois courant
     //PAIEMENT -> Total des paiement émis
     //ECHUS -> Total des créances de paiments
-    //ENCAISSEMENT -> Total des encaissements (Recettes)
+    //ENCAISSEMENT -> Total des encaissements
     //BENEFICE -> Différence ENCAISSEMENT - DEPENSE
     //TRESO -> TRESO avant prise de salaire
     //SALAIRE -> Salaire calculé par Aboo
@@ -209,22 +209,8 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
 // Requettes   
-
-    // Requette pour calcul de la somme mensuelle du CA     
-    $sql = "SELECT SUM(montant) FROM recette,exercice 
-             WHERE
-             mois = :mois
-             AND 
-               (exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
-               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
-               AND recette.mois > (13 - exercice.mois_debut) 
-               OR
-               exercice.annee_debut = :annee AND exercice.user_id = :userid
-               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
-               AND recette.mois <= (13 - exercice.mois_debut)
-               )";  
      
-    // Requette pour calcul de la somme mensuelle des recettes     
+    // Requette pour calcul de la somme mensuelle du CA     
     $sql1 = "SELECT SUM(montant) FROM recette,exercice 
              WHERE
              mois = :mois
@@ -232,12 +218,10 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
                (exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
                AND recette.exercice_id = exercice.id AND recette.user_id = :userid
                AND recette.mois > (13 - exercice.mois_debut) 
-               AND recette.paye = 1
                OR
                exercice.annee_debut = :annee AND exercice.user_id = :userid
                AND recette.exercice_id = exercice.id AND recette.user_id = :userid
                AND recette.mois <= (13 - exercice.mois_debut)
-               AND recette.paye = 1
                )";  
               
     // Requette pour calcul de la somme mensuelle des depenses sauf charges sociales 
@@ -318,6 +302,21 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
                AND recette.mois <= (13 - exercice.mois_debut)
                AND recette.paye = 1 AND declaration = 0
                )";
+
+// Requette commentaire salaire                              
+        $sql7 ="SELECT salaire,commentaire 
+                FROM salaire,exercice 
+                WHERE
+                    exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                    AND salaire.exercice_id = exercice.id AND salaire.user_id = :userid     
+                    AND salaire.mois = :mois
+                    AND salaire.mois > (13 - exercice.mois_debut)
+                    OR
+                    exercice.annee_debut = :annee AND exercice.user_id = :userid
+                    AND salaire.exercice_id = exercice.id AND salaire.user_id = :userid
+                    AND salaire.mois = :mois
+                    AND salaire.mois <= (13 - exercice.mois_debut)                              
+                ";                     
                         
 // Association des variables                            
     $q2 = array('userid' => $userid, 'annee' => $exerciceannee);     
@@ -329,27 +328,22 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
     for ($m = 1; $m <= 12; $m++) {
         // Association des variables 
         $q = array('userid' => $userid, 'annee' => $exerciceannee, 'mois' => $m);      
-        // Envoi des requettes
-        $req = $pdo->prepare($sql);         $req->execute($q);     $data = $req->fetch(PDO::FETCH_ASSOC);          
+        // Envoi des requettes      
         $req1 = $pdo->prepare($sql1);       $req1->execute($q);    $data1 = $req1->fetch(PDO::FETCH_ASSOC);              
         $req1bis = $pdo->prepare($sql1bis); $req1bis->execute($q); $data1bis = $req1bis->fetch(PDO::FETCH_ASSOC);
         $req1ter = $pdo->prepare($sql1ter); $req1ter->execute($q); $data1ter = $req1ter->fetch(PDO::FETCH_ASSOC);  
         $req3 = $pdo->prepare($sql3);       $req3->execute($q);    $data3 = $req3->fetch(PDO::FETCH_ASSOC);
         $req6 = $pdo->prepare($sql6);       $req6->execute($q);    $data6 = $req6->fetch(PDO::FETCH_ASSOC);   
                                      
-        // Calcul CA, Recettes, Depenses, Charges payées, Solde Brut et CA Non déclaré    
-        $CA_{$m}= !empty($data["SUM(montant)"]) ? $data["SUM(montant)"] : 0;
-        $RECETTE_{$m}= !empty($data1["SUM(montant)"]) ? $data1["SUM(montant)"] : 0;
+        // Calcul CA, Recettes, Depenses, Charges payées, et Recette Non déclaré    
+        $CA_{$m}= !empty($data1["SUM(montant)"]) ? $data1["SUM(montant)"] : 0;
+        $RECETTE_{$m}= !empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0;
         $DEPENSE_{$m}= !empty($data1bis["SUM(montant)"]) ? $data1bis["SUM(montant)"] : 0;
         $CHARGES_PAYEES_{$m}= !empty($data1ter["SUM(montant)"]) ? $data1ter["SUM(montant)"] : 0;        
-        $SOLDE_{$m}= $CA_{$m} - $DEPENSE_{$m} - $CHARGES_PAYEES_{$m};
         $NON_DECLARE_{$m}= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;  
         
         // Calcul des sommes ventillées (grille annuelle)
         $VENTIL_{$m}= !empty($data2["SUM(mois_$m)"]) ? $data2["SUM(mois_$m)"] : 0;
-        
-        // Calcul des encaissements
-        //$ENCAISSEMENT_{$m}= !empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0;
         
         // Calcul des paiements :
         // Requette pour calcul de la somme des paiements mensuelle          
@@ -384,38 +378,48 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
                     AND recette.id = paiement.recette_id
                     AND paiement.mois_$m <> 0 AND paiement.paye_$m = 0                    
                 "; 
-        $sql7 ="SELECT salaire,commentaire 
-                FROM salaire,exercice 
-                WHERE
+                                         
+        // Requette pour calcul de la somme des paiements mensuelle non déclaré         
+        $sql8 = "SELECT SUM(paiement.mois_$m) 
+                 FROM paiement,recette,exercice
+                 WHERE
                     exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
-                    AND salaire.exercice_id = exercice.id AND salaire.user_id = :userid     
-                    AND salaire.mois = :mois
-                    AND salaire.mois > (13 - exercice.mois_debut)
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND recette.id = paiement.recette_id
+                    AND recette.declaration = 0
+                    AND paiement.mois_$m <> 0                             
+                    AND :mois > (13 - exercice.mois_debut)
                     OR
                     exercice.annee_debut = :annee AND exercice.user_id = :userid
-                    AND salaire.exercice_id = exercice.id AND salaire.user_id = :userid
-                    AND salaire.mois = :mois
-                    AND salaire.mois <= (13 - exercice.mois_debut)                              
-                ";                                          
-
+                    AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                    AND recette.id = paiement.recette_id
+                    AND recette.declaration = 0
+                    AND paiement.mois_$m <> 0               
+                    AND :mois <= (13 - exercice.mois_debut)          
+                 "; 
+                
+                
         // Envoi des requettes 
-        $req4 = $pdo->prepare($sql4); $req4->execute($q2); $data4 = $req4->fetch(PDO::FETCH_ASSOC);
-        $req5 = $pdo->prepare($sql5); $req5->execute($q2); $data5 = $req5->fetch(PDO::FETCH_ASSOC);
+        $req4 = $pdo->prepare($sql4); $req4->execute($q); $data4 = $req4->fetch(PDO::FETCH_ASSOC);
+        $req5 = $pdo->prepare($sql5); $req5->execute($q); $data5 = $req5->fetch(PDO::FETCH_ASSOC);
         $req7 = $pdo->prepare($sql7); $req7->execute($q);  $data7 = $req7->fetch(PDO::FETCH_ASSOC);   
-                                                         
+        $req8 = $pdo->prepare($sql8); $req8->execute($q);  $data8 = $req8->fetch(PDO::FETCH_ASSOC);   
+                                                                 
         // Calcul des sommes 
         $PAIEMENT_{$m}= !empty($data4["SUM(paiement.mois_$m)"]) ? $data4["SUM(paiement.mois_$m)"] : 0;
         $ECHUS_{$m}= !empty($data5["SUM(paiement.mois_$m)"]) ? $data5["SUM(paiement.mois_$m)"] : 0; 
-        $RECETTE_{$m}= $RECETTE_{$m} + ( $PAIEMENT_{$m} - $ECHUS_{$m} );
-
+        $ENCAISSEMENT_{$m}= ( $PAIEMENT_{$m} - $ECHUS_{$m} );
+        // Calcul total recettes
+        $RECETTE_{$m}= $RECETTE_{$m} + $ENCAISSEMENT_{$m};
+        $NON_DECLARE_{$m}= $NON_DECLARE_{$m} + !empty($data8["SUM(paiement.mois_$m)"]) ? $data8["SUM(paiement.mois_$m)"] : 0;
         // Calcul bénéfice
-        $BENEFICE_{$m}= $RECETTE_{$m} - $DEPENSE_{$m};     
+        $BENEFICE_{$m}= $RECETTE_{$m} - $DEPENSE_{$m};  
                 
         // Mois relatif précédent
         $mois_relatif_prec = $m - 1;
         
-        if ($m == 1) { // Premier mois, cas particulier : on utilise la treso de début d'exercice
-            $TRESO_{$m} = $exercicetreso + $RECETTE_{$m} - $DEPENSE_{$m} - $CHARGES_PAYEES_{$m};
+        if ($m == 1) { // Premier mois, cas particulier 
+            $TRESO_{$m} =  $RECETTE_{$m} - $DEPENSE_{$m} - $CHARGES_PAYEES_{$m}; // + $exercicetreso
             $SALAIRE_{$m} = ($VENTIL_{$m} > $TRESO_{$m}) ? ($TRESO_{$m} - $DEPENSE_{$m} - $CHARGES_PAYEES_{$m}) : ( $VENTIL_{$m} - $DEPENSE_{$m} - $CHARGES_PAYEES_{$m});
             if ( ($TRESO_{$m} > 0 ) && ($VENTIL_{$m} > $TRESO_{$m}) ) { // Si on a de la treso ET que la ventilation est supérieur à la treso
                $REPORT_SALAIRE_{$m}= $VENTIL_{$m} - $TRESO_{$m};
@@ -441,11 +445,11 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
         $TableauBilan[$m] = array (
             'CA' => $CA_{$m},                                                                   
             'DEPENSE' => $DEPENSE_{$m},                                                                   
-            'SOLDE' => $SOLDE_{$m},                                                               
+            'RECETTE' => $RECETTE_{$m},                                                               
             'VENTIL' => $VENTIL_{$m},                                                                   
             'PAIEMENT' => $PAIEMENT_{$m},                                                                   
             'ECHUS' => $ECHUS_{$m},                                                             
-            'ENCAISSEMENT' => $RECETTE_{$m},  
+            'ENCAISSEMENT' => $ENCAISSEMENT_{$m},  
             'BENEFICE' => $BENEFICE_{$m},                                                                                    
             'TRESO' => $TRESO_{$m},
             'SALAIRE' => $SALAIRE_{$m},        
@@ -454,6 +458,7 @@ function CalculBilanMensuelFiscalSansSocial($userid, $exerciceannee, $exercicetr
             'REPORT_SALAIRE' => $REPORT_SALAIRE_{$m},                                                                               
             'REPORT_TRESO' => $REPORT_TRESO_{$m},
             'NON_DECLARE' => $NON_DECLARE_{$m},
+            'DECLARE' => ( $RECETTE_{$m} - $NON_DECLARE_{$m} ),
             'CHARGES_PAYEES' => $CHARGES_PAYEES_{$m}            
         ); 
    } // End for       
@@ -831,6 +836,240 @@ function CalculBilanMensuelSansSocial($userid, $exerciceid, $exercicetreso) {
 // Bilan Annuel
 //========================================================================================================================================
 
+function CalculBilanAnnuelFiscalSansSocial($userid, $exerciceannee, $BilanMensuel) {
+    //TableauBilan = array[assoc]
+    //CA (Total CA sur la période)
+    //RECETTE (Total recettes dont paiements encaissés)
+    //DEPENSE (Hors charges sociales)
+    //BENEFICE (RECETTE - DEPENSE)
+    //DISPO (BENEFICE - CHARGES)
+    //VENTIL (Total ventilation salaire sur la période)
+    //PAIEMENT (différés)
+    //ECHUS (paiements non encaissés)
+    //ENCAISSEMENT (paiements encaissés)
+    //TRESO
+    //SALAIRE
+    //SALAIRE_REEL
+    //REPORT_SALAIRE
+    //REPORT_TRESO
+    //ACHAT
+    //VENTE
+    //BENEFICE_REVENTE
+    //CHARGE (sociales payées)
+    //LOCATION (revenu de sous-location)
+    //IMPOT
+    //NON_DECLARE (RECETTE non déclarees)
+    //DECLARE (RECETTE à déclarer au fisc)
+    
+// Initialisation de la base
+    $pdo = Database::connect();
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+
+// Requette pour calcul de la somme Annuelle CA + Recette + DEPENSES           
+    $sql1 = "SELECT SUM(montant) 
+            FROM recette,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+               AND recette.mois > (13 - exercice.mois_debut)  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid                                                    
+               AND recette.mois <= (13 - exercice.mois_debut)          
+            ";
+    $sql1bis = "SELECT SUM(montant) 
+                FROM recette,exercice  
+                WHERE         
+                   exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+                   AND recette.paye = 1
+                   AND recette.mois > (13 - exercice.mois_debut)  
+                   OR
+                   exercice.annee_debut = :annee AND exercice.user_id = :userid
+                   AND recette.exercice_id = exercice.id AND recette.user_id = :userid                                                    
+                   AND recette.paye = 1
+                   AND recette.mois <= (13 - exercice.mois_debut)          
+            ";
+
+    $sql1ter = "SELECT SUM(montant)
+                FROM depense,exercice  
+                WHERE         
+                   exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+                   AND depense.type <> 3
+                   AND depense.mois > (13 - exercice.mois_debut)  
+                   OR
+                   exercice.annee_debut = :annee AND exercice.user_id = :userid
+                   AND depense.exercice_id = exercice.id AND depense.user_id = :userid                                                   
+                   AND depense.type <> 3
+                   AND depense.mois <= (13 - exercice.mois_debut)            
+            ";
+
+// Requette pour calcul de la somme Annuelle des achats/ventes           
+    $sql2 = "SELECT SUM(montant)
+            FROM recette,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+               AND recette.mois > (13 - exercice.mois_debut)
+               AND recette.type = 2  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid                                                    
+               AND recette.mois <= (13 - exercice.mois_debut)
+               AND recette.type = 2
+            ";  
+            
+    $sql3 = "SELECT SUM(montant) 
+            FROM depense,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+               AND depense.type = 2
+               AND depense.mois > (13 - exercice.mois_debut)  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid                                                   
+               AND depense.type = 2
+               AND depense.mois <= (13 - exercice.mois_debut)   
+            ";      
+
+// Requette pour calcul de la somme Annuelle des location           
+    $sql4 = "SELECT SUM(montant) 
+            FROM recette,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid
+               AND recette.mois > (13 - exercice.mois_debut)
+               AND recette.type = 3  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND recette.exercice_id = exercice.id AND recette.user_id = :userid                                                    
+               AND recette.mois <= (13 - exercice.mois_debut)
+               AND recette.type = 3
+            ";  
+
+// Requette pour calcul de la somme Annuelle des charges            
+    $sql5 = "SELECT SUM(montant)
+            FROM depense,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+               AND depense.type = 3
+               AND depense.mois > (13 - exercice.mois_debut)  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid                                                   
+               AND depense.type = 3
+               AND depense.mois <= (13 - exercice.mois_debut)       
+            ";  
+
+// Requette pour calcul de la somme Annuelle des impots             
+    $sql6 = "SELECT SUM(montant) 
+            FROM depense,exercice  
+            WHERE         
+               exercice.annee_debut = (:annee - 1) AND exercice.user_id = :userid  
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid
+               AND depense.type = 4
+               AND depense.mois > (13 - exercice.mois_debut)  
+               OR
+               exercice.annee_debut = :annee AND exercice.user_id = :userid
+               AND depense.exercice_id = exercice.id AND depense.user_id = :userid                                                   
+               AND depense.type = 4
+               AND depense.mois <= (13 - exercice.mois_debut)       
+            "; 
+
+// Association des variables                            
+    $q = array('userid' => $userid, 'annee' => $exerciceannee);                    
+    
+// Envoi des requettes    
+    $req1 = $pdo->prepare($sql1);        $req1->execute($q);     $data1 = $req1->fetch(PDO::FETCH_ASSOC);
+    $req1bis = $pdo->prepare($sql1bis);  $req1bis->execute($q);  $data1bis = $req1bis->fetch(PDO::FETCH_ASSOC);
+    $req1ter = $pdo->prepare($sql1ter);  $req1ter->execute($q);  $data1ter = $req1ter->fetch(PDO::FETCH_ASSOC);
+    $count = $req1->rowCount($sql1) + $req1ter->rowCount($sql1ter);
+    $req2 = $pdo->prepare($sql2); $req2->execute($q); $data2 = $req2->fetch(PDO::FETCH_ASSOC);    
+    $req3 = $pdo->prepare($sql3); $req3->execute($q); $data3 = $req3->fetch(PDO::FETCH_ASSOC);
+    $req4 = $pdo->prepare($sql4); $req4->execute($q); $data4 = $req4->fetch(PDO::FETCH_ASSOC);            
+    $req5 = $pdo->prepare($sql5); $req5->execute($q); $data5 = $req5->fetch(PDO::FETCH_ASSOC);            
+    $req6 = $pdo->prepare($sql6); $req6->execute($q); $data6 = $req6->fetch(PDO::FETCH_ASSOC);    
+
+    if ($count==0) { // Il n'y a rien en base sur l'année (pas de dépenses et pas de recettes)
+        return null;         
+    } else {
+            // Calcul des sommes Annuelle
+            $CA= !empty($data1["SUM(montant)"]) ? $data1["SUM(montant)"] : 0; 
+            $RECETTE= !empty($data1bis["SUM(montant)"]) ? $data1bis["SUM(montant)"] : 0;             
+            $DEPENSE= !empty($data1ter["SUM(montant)"]) ? $data1ter["SUM(montant)"] : 0;
+            $ACHAT= !empty($data3["SUM(montant)"]) ? $data3["SUM(montant)"] : 0;  
+            $VENTE= !empty($data2["SUM(montant)"]) ? $data2["SUM(montant)"] : 0;
+            $LOCATION= !empty($data4["SUM(montant)"]) ? $data4["SUM(montant)"] : 0;
+            $CHARGE= !empty($data5["SUM(montant)"]) ? $data5["SUM(montant)"] : 0;
+            $IMPOT= !empty($data6["SUM(montant)"]) ? $data6["SUM(montant)"] : 0;
+    }
+   
+    $VENTIL = 0;
+    $PAIEMENT = 0;
+    $ECHUS = 0;
+    $ENCAISSEMENT = 0;
+    $BENEFICE = 0;
+    $TRESO = 0;
+    $SALAIRE = 0;
+    $NON_DECLARE = 0;
+    $SALAIRE_REEL = 0;
+        
+    // Calcul des sommes (boucle sur les mois relatifs)
+    for ($m = 1; $m <= 12; $m++) {
+        $VENTIL = $VENTIL + $BilanMensuel[$m]['VENTIL'];
+        $PAIEMENT = $PAIEMENT + $BilanMensuel[$m]['PAIEMENT'];        
+        $ECHUS = $ECHUS + $BilanMensuel[$m]['ECHUS'];
+        $ENCAISSEMENT = $ENCAISSEMENT + $BilanMensuel[$m]['ENCAISSEMENT'];
+        $BENEFICE = $BENEFICE + $BilanMensuel[$m]['BENEFICE'];
+        $SALAIRE = $SALAIRE + $BilanMensuel[$m]['SALAIRE'];
+        $SALAIRE_REEL = $SALAIRE_REEL + $BilanMensuel[$m]['SALAIRE_REEL'];    
+        $NON_DECLARE = $NON_DECLARE + $BilanMensuel[$m]['NON_DECLARE'];                  
+    }
+    
+    // On garde que les derniers reports
+    $TRESO = $BilanMensuel[12]['TRESO'];
+    $REPORT_SALAIRE = $BilanMensuel[12]['REPORT_SALAIRE'];
+    $REPORT_TRESO = $BilanMensuel[12]['REPORT_TRESO'];
+    
+    // Calcul total Recette (Paiements encaissés + Recettes payées)
+    $RECETTE= $RECETTE + $ENCAISSEMENT;
+        
+    // Génération du Tableau :
+    $TableauBilan = array (
+        'CA' => $CA,
+        'RECETTE' => $RECETTE,                                                                   
+        'DEPENSE' => $DEPENSE,
+        'BENEFICE' => $BENEFICE,                                                                 
+        'DISPO' => ($BENEFICE - $CHARGE),                                                            
+        'VENTIL' => $VENTIL,                                                                 
+        'PAIEMENT' => $PAIEMENT,                                                                   
+        'ECHUS' => $ECHUS,                                                             
+        'ENCAISSEMENT' => $ENCAISSEMENT,                                                                   
+        'TRESO' => $TRESO,     
+        'SALAIRE' => $SALAIRE,        
+        'SALAIRE_REEL' => $SALAIRE_REEL,
+        'REPORT_SALAIRE' => $REPORT_SALAIRE,                                                                   
+        'REPORT_TRESO' => $REPORT_TRESO,
+        'ACHAT' => $ACHAT,
+        'VENTE' => $VENTE,
+        'BENEFICE_REVENTE' => ($VENTE - $ACHAT),
+        'LOCATION' => $LOCATION,         
+        'CHARGE' => $CHARGE,
+        'IMPOT' => $IMPOT,
+        'NON_DECLARE' => $NON_DECLARE,
+        'DECLARE' => ($RECETTE - $NON_DECLARE),
+        'CHARGES_CALCULEES' => 0,
+        'PROVISION_CHARGES' => 0,
+        'PROVISION_CHARGES_REEL' => 0
+    ); 
+
+    Database::disconnect();    
+    return $TableauBilan;
+}
+
 function CalculBilanAnnuelAvecSocial($userid, $exerciceid, $BilanMensuel) {
     //TableauBilan = array[assoc]
     //CA
@@ -1119,7 +1358,10 @@ function CalculBilanAnnuelSansSocial($userid, $exerciceid, $BilanMensuel) {
         'CHARGE' => $CHARGE,
         'IMPOT' => $IMPOT,
         'NON_DECLARE' => $NON_DECLARE,
-        'DECLARE' => ($CA - $NON_DECLARE)
+        'DECLARE' => ($CA - $NON_DECLARE),
+        'CHARGES_CALCULEES' => 0,
+        'PROVISION_CHARGES' => 0,
+        'PROVISION_CHARGES_REEL' => 0
     ); 
 
     Database::disconnect();    
