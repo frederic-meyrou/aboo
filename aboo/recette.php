@@ -86,6 +86,7 @@
 	$enregistre_paiement = false;
 	$affiche_paiement_etale = false;
     $black = false;
+	$etale = 0;
 		
 	if (isset($_POST['montant']) ) { // J'ai un POST
         $type = $sPOST['type'];        
@@ -96,6 +97,7 @@
 		$client_id = isset($_POST['client']) ? $sPOST['client'] : null;
 		$verif_paiement_etale = isset($_POST['etale']) ? true : false;
 		$black = isset($_POST['black']) ? true : false;
+		$etale = isset($_POST['etale']) ? 1 : 0;
 		
 		// Validation du formulaire
 		$valid = true;
@@ -161,8 +163,9 @@
 			if ($total == $montant) {
 				$valid = true;
 				$enregistre_paiement = true;
+				$etale = 1;
 			} else {
-				$paiement_mois_Error = "Le total de vos paiements étalés est différent du montant de l'recette!";
+				$paiement_mois_Error = "Le total de vos paiements étalés est différent du montant de la recette!";
 				$valid = false;
 			}			
 		}
@@ -176,9 +179,9 @@
 		// insert data
 		if ($valid) {
 		    // Enregistre la recette
-			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,paye,declaration,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO recette (user_id,exercice_id,client_id,type,montant,etale,paye,declaration,mois,periodicitee,commentaire,mois_1,mois_2,mois_3,mois_4,mois_5,mois_6,mois_7,mois_8,mois_9,mois_10,mois_11,mois_12) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $paye, $declaration, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
+			$q->execute(array($user_id, $exercice_id, $client_id, $type, $montant, $etale, $paye, $declaration, $mois_choisi_relatif, $periodicitee, $commentaire, $ventillation[1], $ventillation[2], $ventillation[3], $ventillation[4], $ventillation[5], $ventillation[6], $ventillation[7], $ventillation[8], $ventillation[9], $ventillation[10], $ventillation[11], $ventillation[12]));
 			$recette_id = $pdo->lastInsertId();
             // Enregistre une recette avec paiement différé dans la table paiement (mois courant)
 			if ($paiement == 1 && $recette_id != 0) {
@@ -293,7 +296,9 @@
             POST:<br>
             <pre><?php var_dump($_POST); ?></pre>
             GET:<br>
-            <pre><?php var_dump($_GET); ?></pre>           
+            <pre><?php var_dump($_GET); ?></pre> 
+            DATA:<br>
+            <pre><?php var_dump($data); ?></pre>                        
         </div>
         </div>
         <?php       
@@ -375,6 +380,10 @@
 					   	echo '<td width=90>';
 				?>		
 						<div class="btn-group btn-group-xs">
+								<!-- Le bonton detail est uniquement actif si la recette est de type paiement etalé -->
+								<?php if ($row['etale'] == 1) { ?>
+							  	<a href="recette_details.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-xs btn-info glyphicon glyphicon-star" role="button"> </a>
+							  	<?php } ?>							
 							  	<a href="recette_update.php?id=<?php echo $row['id']; ?>" class="btn btn-default btn-xs btn-warning glyphicon glyphicon-edit" role="button"> </a>
 							  	<!-- Le bonton Delete active la modal et modifie le champ value à la volée pour passer l'ID a supprimer en POST -->
 							  	<a href="#" id="<?php echo $row['id']; ?>"

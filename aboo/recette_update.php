@@ -52,7 +52,7 @@
         // keep track post values
         $id = $sPOST['id']; 
         //$type = $sPOST['type'];        
-        $montant = $sPOST['montant'];
+        $montant = (isset($sPOST['montant'])) ? $sPOST['montant'] : null;
         $periodicitee = $sPOST['periodicitee'];
 		$commentaire = $sPOST['commentaire'];
 		$paiement = isset($_POST['paiement']) ? $sPOST['paiement'] : 0;
@@ -60,20 +60,20 @@
 				
 		// validate input
 		$valid = true;
-		
-		if (empty($montant) || $montant < 0 || $montant == null) {
-			$montantError= "Veuillez entrer un montant positif ou nul.";
-			$valid = false;
-		}
-
-		// Verification de la periodicitee		
-		
-           
+		           
         // Modif des données en base et redirection vers appelant
         if ($valid) {
-            $sql = "UPDATE recette SET montant=?,commentaire=?, client_id=? WHERE id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($montant, $commentaire, $client_id, $id));
+
+			if (empty($montant) || $montant < 0 || $montant == null) {
+	            $sql = "UPDATE recette SET commentaire=?, client_id=? WHERE id = ?";
+	            $q = $pdo->prepare($sql);
+	            $q->execute(array($commentaire, $client_id, $id));
+			} else {
+	            $sql = "UPDATE recette SET montant=?,commentaire=?, client_id=? WHERE id = ?";
+	            $q = $pdo->prepare($sql);
+	            $q->execute(array($montant, $commentaire, $client_id, $id));				
+			}       	
+
             Database::disconnect();        
             header("Location: recette.php");
         }       
@@ -91,6 +91,7 @@
 		$type = $data['type'];
 		$periodicitee = $data['periodicitee'];
 		$client_id = $data['client_id'];
+		$etale = $data['etale'];
 		
 		// Lecture dans la base des clients (sur user_id) 
     	$sql3 = "SELECT id,prenom,nom FROM client WHERE
@@ -176,7 +177,11 @@
 		       		
 		       		<input type="hidden" name="id" value="<?php echo $id; ?>">
 		       		
-		       		<?php Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' ); ?>
+		       		<?php if ($etale == 0) { 
+		       			Affiche_Champ($montant, $montantError, 'montant','Montant €', 'text' );
+					} 
+					?>
+		       		
 					<div class="form-group">
 						<label class="control-label">Client</label>
 		                    <select name="client" id="client" class="form-control">
