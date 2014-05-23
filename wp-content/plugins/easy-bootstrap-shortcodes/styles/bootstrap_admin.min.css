@@ -194,7 +194,7 @@
 .oscitas-easy-bootstrap-shortcode #icon_bg_preview {
     text-align:  center;
     font-size: 40px;
-    line-height: 90px;
+    line-height: 100px;
 }
 
 .oscitas-easy-bootstrap-shortcode #osc_show_icon_servicebox {
@@ -244,7 +244,18 @@
     background: none repeat scroll 0 0 #C2C2C2!important;
 }
 
-
+.oscitas-easy-bootstrap-shortcode .oscitas-icon ul {
+    overflow: auto;
+}
+.oscitas-easy-bootstrap-shortcode .oscitas-icon ul li {
+    font-size: 16px;
+}
+.oscitas-easy-bootstrap-shortcode .oscitas-icon h4 {
+    display: block;
+    clear: both;
+    font-size: 18px;
+    margin: 10px 0 0 10px;
+}
 
 #oscitas-form-slider  .image_preview {
     float: right;
@@ -275,4 +286,10 @@
     min-width: 90px;
     text-align: center;
     width: auto;
+}
+.osc-dialog .ui-dialog-titlebar {
+    background: none repeat scroll 0 0 #292424 !important;
+}
+.osc-dialog{
+    z-index: 10000 !important;
 }

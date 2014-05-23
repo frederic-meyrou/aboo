@@ -8,21 +8,35 @@
  /* general resets */
 .metaslider {
     position: relative;
-}
-.metaslider.nav-hidden .flexslider {
-    margin-bottom: 0;
-}
-.metaslider.nav-hidden.add-margin .flexslider {
-    margin-bottom: 40px;
+    z-index: 0;
 }
 
 .metaslider .caption {
     padding: 5px 10px;
+    word-wrap: break-word;
+}
+
+.metaslider .caption-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: black;
+    color: white;
+    opacity: 0.7;
+    margin: 0;
+    display: block;
+    width: 100%;
+    line-height: 1.4em;
 }
 
 .metaslider img {
     height: auto;
     padding: 0;
+    margin: 0;
+}
+
+.metaslider a {
+    outline: none;
 }
 
 .metaslider .theme-default .nivoSlider {
@@ -39,59 +53,52 @@
     margin: 0 !important;
 }
 
-.metaslider .caption-wrap {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: black;
-    color: white;
-    line-height: 30px;
-    opacity: 0.7;
-    margin: 0;
-    display: block;
-    width: 100%;
-}
-
 .metaslider .caption-wrap .caption img {
     width: auto;
 }
 
 /** quick resets **/
+.article .metaslider ul,
 .article .metaslider ol,
+.article .metaslider li,
+.article .metaslider img,
+.art-article .metaslider ul,
+.art-article .metaslider ol,
+.art-article .metaslider li,
 .art-article .metaslider img,
 #widgets .metaslider ul,
 #widgets .metaslider ol,
+#widgets .metaslider li,
+#widgets .metaslider img,
+.entry .metaslider ul,
+.entry .metaslider ol,
+.entry .metaslider li,
+.entry .metaslider img,
 #content .metaslider ul,
 #content .metaslider ol,
 #content .metaslider li,
-.entry .metaslider ul,
-.entry .metaslider ol,
+#content .metaslider img,
 .entry-content .metaslider ul,
 .entry-content .metaslider ol,
-.entry-content .metaslider img
+.entry-content .metaslider li,
+.entry-content .metaslider img,
 .metaslider .flexslider ul,
 .metaslider .flexslider .slides li,
 .metaslider .flexslider .slides ul,
 .metaslider .flexslider .slides ol,
 .metaslider .flexslider .flex-direction-nav,
 .metaslider .flexslider .flex-direction-nav li,
-.entry-content .metaslider .flexslider ol.flex-control-nav
- {
+*[class*='-article'] .metaslider img {
     border: 0;
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-left: 0;
     margin: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
     list-style-type: none;
     list-style: none;
     padding: 0;
     line-height: normal;
+    max-width: none;
+    max-height: none;
 }
+
 .metaslider .slides img {
 	width: 100%;
 	display: block;

@@ -19,4 +19,3 @@ function osc_theme_image($params, $content = 'Label') {
 }
 
 add_shortcode('image', 'osc_theme_image');
-

@@ -75,4 +75,3 @@ function osc_theme_dropdown_items($params, $content = null) {
 }
 
 add_shortcode('dropdownitem', 'osc_theme_dropdown_items');
-?>

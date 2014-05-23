@@ -1333,7 +1333,7 @@ INSERT INTO wp_options VALUES("481","_site_transient_poptags_40cd750bba9870f18aa
 INSERT INTO wp_options VALUES("485","qpp_curr","a:2:{s:4:\"aboo\";s:3:\"EUR\";s:0:\"\";s:0:\"\";}","yes");
 INSERT INTO wp_options VALUES("486","qpp_setup","a:4:{s:11:\"alternative\";s:5:\"aboo,\";s:5:\"email\";s:19:\"frederic@meyrou.com\";s:7:\"current\";s:4:\"aboo\";s:9:\"dashboard\";N;}","yes");
 INSERT INTO wp_options VALUES("487","qpp_optionsaboo","a:15:{s:5:\"title\";s:24:\"Paiement Aboo par Paypal\";s:5:\"blurb\";s:0:\"\";s:14:\"inputreference\";s:23:\"Abonnement Aboo 12 mois\";s:11:\"inputamount\";s:7:\"Montant\";s:18:\"shortcodereference\";s:15:\"Paiement pour :\";s:12:\"use_quantity\";s:0:\"\";s:13:\"quantitylabel\";s:0:\"\";s:15:\"shortcodeamount\";s:9:\"Montant :\";s:16:\"shortcode_labels\";s:0:\"\";s:13:\"submitcaption\";s:5:\"Payer\";s:10:\"cancelurl,\";s:0:\"\";s:9:\"thanksurl\";s:0:\"\";s:6:\"target\";s:0:\"\";s:10:\"paypal-url\";s:0:\"\";s:15:\"paypal-location\";s:10:\"imagebelow\";}","yes");
-INSERT INTO wp_options VALUES("488","qpp_styleaboo","a:19:{s:4:\"font\";s:6:\"plugin\";s:11:\"font-family\";s:17:\"arial, sans-serif\";s:9:\"font-size\";s:5:\"1.2em\";s:11:\"font-colour\";s:7:\"#465069\";s:12:\"input-border\";s:17:\"1px solid #415063\";s:14:\"input-required\";s:0:\"\";s:6:\"border\";s:5:\"plain\";s:5:\"width\";s:3:\"280\";s:9:\"widthtype\";s:5:\"pixel\";s:10:\"background\";s:5:\"white\";s:13:\"backgroundhex\";s:4:\"#FFF\";s:7:\"corners\";s:5:\"round\";s:6:\"custom\";s:17:\"#qpp-style {
+INSERT INTO wp_options VALUES("488","qpp_styleaboo","a:19:{s:4:\"font\";s:6:\"plugin\";s:11:\"font-family\";s:17:\"arial, sans-serif\";s:9:\"font-size\";s:5:\"1.2em\";s:11:\"font-colour\";s:7:\"#465069\";s:12:\"input-border\";s:17:\"1px solid #415063\";s:14:\"input-required\";s:0:\"\";s:6:\"border\";s:5:\"plain\";s:5:\"width\";s:3:\"280\";s:9:\"widthtype\";s:5:\"pixel\";s:10:\"background\";s:5:\"white\";s:13:\"backgroundhex\";s:4:\"#FFF\";s:7:\"corners\";s:5:\"round\";s:6:\"custom\";s:17:\"#qpp-style {
 }\";s:10:\"use_custom\";s:0:\"\";s:8:\"usetheme\";s:0:\"\";s:6:\"styles\";s:0:\"\";s:13:\"submit-colour\";s:4:\"#FFF\";s:17:\"submit-background\";s:7:\"#343838\";s:13:\"submit-button\";s:0:\"\";}","yes");
 INSERT INTO wp_options VALUES("489","qpp_send","a:4:{s:7:\"waiting\";s:20:\"Veuillez attendre...\";s:9:\"cancelurl\";s:0:\"\";s:9:\"thanksurl\";s:0:\"\";s:6:\"target\";s:7:\"current\";}","yes");
 INSERT INTO wp_options VALUES("490","qpp_erroraboo","a:2:{s:10:\"errortitle\";s:23:\"Erreur de traitement...\";s:10:\"errorblurb\";s:41:\"Veuiller vérifier le détail du paiement\";}","yes");
@@ -1623,36 +1623,36 @@ DROP TABLE IF EXISTS wp_posts;CREATE TABLE `wp_posts` (
   KEY `post_parent` (`post_parent`),
   KEY `post_author` (`post_author`)
 ) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
-INSERT INTO wp_posts VALUES("1","1","2013-12-14 14:35:17","2013-12-14 14:35:17","Bienvenue dans le Blog.
-Bientôt ici des informations sur l\'actualité de Aboo!
-&nbsp;
-&nbsp;
+INSERT INTO wp_posts VALUES("1","1","2013-12-14 14:35:17","2013-12-14 14:35:17","Bienvenue dans le Blog.
+Bientôt ici des informations sur l\'actualité de Aboo!
+&nbsp;
+&nbsp;
 &nbsp;","Bienvenue!","","publish","open","open","","bienvenue","","","2013-12-16 14:27:12","2013-12-16 13:27:12","","0","http://localhost/gestabo/wordpress/?p=1","0","post","","0");
-INSERT INTO wp_posts VALUES("2","1","2013-12-14 14:35:17","2013-12-14 14:35:17","<p style=\"text-align: center;\">[notification type=\"alert-danger\" close=\"true\" ]</p>
+INSERT INTO wp_posts VALUES("2","1","2013-12-14 14:35:17","2013-12-14 14:35:17","<p style=\"text-align: center;\">[notification type=\"alert-danger\" close=\"true\" ]</p>
 <h1 style=\"text-align: center;\"><span style=\"font-family: verdana, geneva; font-size: xx-large;\"><strong>Ouverture du site le 1er Mars 2014!</strong></span></h1>
 <p style=\"text-align: center;\">[/notification]</p>","Accueil","","publish","closed","closed","","accueil","","","2013-12-19 13:06:45","2013-12-19 12:06:45","","0","http://localhost/gestabo/wordpress/?page_id=2","0","page","","0");
 INSERT INTO wp_posts VALUES("4","1","2013-12-14 17:59:45","2013-12-14 16:59:45","<p>Votre nom (obligatoire)<br />
-    [text* your-name] </p>
+    [text* your-name] </p>
 <p>Votre email (obligatoire)<br />
-    [email* your-email] </p>
+    [email* your-email] </p>
 <p>Sujet<br />
-    [text your-subject] </p>
+    [text your-subject] </p>
 <p>Votre message<br />
-    [textarea your-message] </p>
+    [textarea your-message] </p>
 <p>[submit \"Envoyer\"]</p>
 [your-subject]
 [your-name] <[your-email]>
 De : [your-name] <[your-email]>
-Sujet : [your-subject]
+Sujet : [your-subject]
 Corps du message :
-[your-message]
+[your-message]
 --
 Cet email a été envoyé via le formulaire de contact de Aboo (http://localhost/gestabo/wordpress)
 frederic@meyrou.com
 [your-subject]
 [your-name] <[your-email]>
 Corps du message :
-[your-message]
+[your-message]
 --
 Cet email a été envoyé via le formulaire de contact de Aboo (http://localhost/gestabo/wordpress)
 [your-email]
@@ -1682,12 +1682,12 @@ INSERT INTO wp_posts VALUES("7","1","2013-12-14 18:46:22","2013-12-14 17:46:22",
 [button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
 &nbsp;
 &nbsp;","Article!","","inherit","open","open","","1-autosave-v1","","","2013-12-14 18:46:22","2013-12-14 17:46:22","","1","http://localhost/gestabo/wordpress/1-autosave-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("8","1","2013-12-14 18:45:21","2013-12-14 17:45:21","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+INSERT INTO wp_posts VALUES("8","1","2013-12-14 18:45:21","2013-12-14 17:45:21","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
 [notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]","Article!","","inherit","open","open","","1-revision-v1","","","2013-12-14 18:45:21","2013-12-14 17:45:21","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("9","1","2013-12-14 18:48:17","2013-12-14 17:48:17","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
-[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
-[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
-&nbsp;
+INSERT INTO wp_posts VALUES("9","1","2013-12-14 18:48:17","2013-12-14 17:48:17","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
+[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
+&nbsp;
 [row]
 [column lg=\"12\" md=\"12\" sm=\"12\" xs=\"12\" ]
 text
@@ -1704,15 +1704,15 @@ text
 [/row]","Article!","","inherit","open","open","","1-revision-v1","","","2013-12-14 18:48:17","2013-12-14 17:48:17","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("10","1","2013-12-19 13:02:29","2013-12-19 12:02:29","&nbsp;
 <h1><span style=\"font-size: xx-large; font-family: tahoma, arial, helvetica, sans-serif;\"><strong><span style=\"color: #800080;\"><em>Ouverture du site le 1er Mars 2014!</em></span></strong></span></h1>","Accueil","","inherit","open","open","","2-autosave-v1","","","2013-12-19 13:02:29","2013-12-19 12:02:29","","2","http://localhost/gestabo/wordpress/2-autosave-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("11","1","2013-12-14 19:03:07","2013-12-14 18:03:07","Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.
-Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("11","1","2013-12-14 19:03:07","2013-12-14 18:03:07","Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.
+Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","open","open","","2-revision-v1","","","2013-12-14 19:03:07","2013-12-14 18:03:07","","2","http://localhost/gestabo/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("12","1","2013-12-14 19:03:33","2013-12-14 18:03:33","<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>
-Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("12","1","2013-12-14 19:03:33","2013-12-14 18:03:33","<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>
+Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","open","open","","2-revision-v1","","","2013-12-14 19:03:33","2013-12-14 18:03:33","","2","http://localhost/gestabo/2-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("13","1","2013-12-14 19:05:24","2013-12-14 18:05:24","","Connexion","","publish","open","open","","connexion","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/?p=13","6","nav_menu_item","","0");
 INSERT INTO wp_posts VALUES("15","1","2013-12-14 19:09:21","2013-12-14 18:09:21","","homepage","","trash","open","open","","homepage","","","2013-12-14 23:53:42","2013-12-14 22:53:42","","0","http://localhost/gestabo/wordpress/?page_id=15","0","page","","0");
@@ -1721,21 +1721,21 @@ INSERT INTO wp_posts VALUES("17","1","2013-12-14 23:53:22","2013-12-14 22:53:22"
 INSERT INTO wp_posts VALUES("18","1","2013-12-14 23:53:22","2013-12-14 22:53:22","","News","","inherit","open","open","","17-revision-v1","","","2013-12-14 23:53:22","2013-12-14 22:53:22","","17","http://localhost/gestabo/wordpress/17-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("19","1","2013-12-14 23:54:03","2013-12-14 22:54:03"," ","","","publish","open","open","","19","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/wordpress/?p=19","4","nav_menu_item","","0");
 INSERT INTO wp_posts VALUES("20","1","2013-12-14 23:55:15","2013-12-14 22:55:15","","Connexion","","publish","open","open","","connexion-2","","","2013-12-14 23:55:32","2013-12-14 22:55:32","","0","http://localhost/gestabo/wordpress/?p=20","1","nav_menu_item","","0");
-INSERT INTO wp_posts VALUES("21","1","2013-12-15 00:00:23","2013-12-14 23:00:23","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>
-Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("21","1","2013-12-15 00:00:23","2013-12-14 23:00:23","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>
+Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","open","open","","2-revision-v1","","","2013-12-15 00:00:23","2013-12-14 23:00:23","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("22","1","2013-12-15 00:01:45","2013-12-14 23:01:45","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("22","1","2013-12-15 00:01:45","2013-12-14 23:01:45","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","open","open","","2-revision-v1","","","2013-12-15 00:01:45","2013-12-14 23:01:45","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("23","1","2013-12-15 00:16:15","2013-12-14 23:16:15","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
-[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
-[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
-[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
+INSERT INTO wp_posts VALUES("23","1","2013-12-15 00:16:15","2013-12-14 23:16:15","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
+[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
+[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
 [row]
 [column lg=\"12\" md=\"12\" sm=\"12\" xs=\"12\" ]
 text
@@ -1751,94 +1751,94 @@ text
 [/column]
 [/row]","Article!","","inherit","open","open","","1-revision-v1","","","2013-12-15 00:16:15","2013-12-14 23:16:15","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("24","1","2013-12-15 01:06:23","2013-12-15 00:06:23","","abonnements_anim","","inherit","closed","open","","abonnements_anim","","","2013-12-15 01:06:23","2013-12-15 00:06:23","","2","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim.jpg","0","attachment","image/jpeg","0");
-INSERT INTO wp_posts VALUES("25","1","2013-12-15 01:07:07","2013-12-15 00:07:07","<img class=\"size-medium wp-image-24 alignleft\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("25","1","2013-12-15 01:07:07","2013-12-15 00:07:07","<img class=\"size-medium wp-image-24 alignleft\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:07:07","2013-12-15 00:07:07","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("26","1","2013-12-15 01:07:53","2013-12-15 00:07:53","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-&nbsp;
-<img class=\"size-medium wp-image-24 alignleft\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
-<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("26","1","2013-12-15 01:07:53","2013-12-15 00:07:53","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+&nbsp;
+<img class=\"size-medium wp-image-24 alignleft\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
+<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:07:53","2013-12-15 00:07:53","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("27","1","2013-12-15 01:08:34","2013-12-15 00:08:34","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-<img class=\"size-medium wp-image-24 alignleft\" style=\"border: 0px; margin: 10px;\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
-<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
-Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
-\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
+INSERT INTO wp_posts VALUES("27","1","2013-12-15 01:08:34","2013-12-15 00:08:34","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+<img class=\"size-medium wp-image-24 alignleft\" style=\"border: 0px; margin: 10px;\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
+<span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
+Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".
 &nbsp;","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:08:34","2013-12-15 00:08:34","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("28","1","2013-12-15 01:09:28","2013-12-15 00:09:28","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+INSERT INTO wp_posts VALUES("28","1","2013-12-15 01:09:28","2013-12-15 00:09:28","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
 <img class=\"size-medium wp-image-24 alignleft\" style=\"border: 0px; margin: 10px;\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
 <p style=\"text-align: left;\"><span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>
 <p style=\"text-align: left;\">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
 <p style=\"text-align: left;\">\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".</p>
  [well type=\"well-sm\"]<br class=\"osc\" />test<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:09:28","2013-12-15 00:09:28","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("29","1","2013-12-15 01:10:00","2013-12-15 00:10:00","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+INSERT INTO wp_posts VALUES("29","1","2013-12-15 01:10:00","2013-12-15 00:10:00","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
 <img class=\"size-medium wp-image-24 alignleft\" style=\"border: 0px; margin: 10px;\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
 <p style=\"text-align: left;\"><span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>
 <p style=\"text-align: left;\">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
 <p style=\"text-align: left;\"></p>
  [well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:10:00","2013-12-15 00:10:00","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("31","1","2013-12-15 01:13:47","2013-12-15 00:13:47","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-rounded\"]
+INSERT INTO wp_posts VALUES("31","1","2013-12-15 01:13:47","2013-12-15 00:13:47","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-rounded\"]
 <img class=\"size-medium wp-image-24 alignleft\" style=\"border: 0px; margin-top: 0px; margin-bottom: 0px;\" alt=\"abonnements_anim\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" width=\"300\" height=\"138\" />
 <p style=\"text-align: left;\"><span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span></p>
 <p style=\"text-align: left;\">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
  [well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:13:47","2013-12-15 00:13:47","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("32","1","2013-12-15 01:14:18","2013-12-15 00:14:18","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+INSERT INTO wp_posts VALUES("32","1","2013-12-15 01:14:18","2013-12-15 00:14:18","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
 [image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-rounded\"] <span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements.</span>
 <p style=\"text-align: left;\">Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
  [well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:14:18","2013-12-15 00:14:18","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("33","1","2013-12-15 01:15:52","2013-12-15 00:15:52","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
-[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-circle\"] <span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
+INSERT INTO wp_posts VALUES("33","1","2013-12-15 01:15:52","2013-12-15 00:15:52","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
+[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-circle\"] <span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?
 [well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:15:52","2013-12-15 00:15:52","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("34","1","2013-12-15 01:16:33","2013-12-15 00:16:33","[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]
 <p style=\"text-align: center;\">[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-circle\"]</p>
 <p style=\"text-align: center;\"><span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
 [well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-15 01:16:33","2013-12-15 00:16:33","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("35","1","2013-12-15 01:20:17","2013-12-15 00:20:17","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
-[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
-[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
-[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
+INSERT INTO wp_posts VALUES("35","1","2013-12-15 01:20:17","2013-12-15 00:20:17","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+[notification type=\"alert-info\" close=\"true\" ]Title: Lorem ipsum dolor sit amet...[/notification]
+[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
+[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
 &nbsp;","Article!","","inherit","closed","open","","1-revision-v1","","","2013-12-15 01:20:17","2013-12-15 00:20:17","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("36","1","2013-12-15 01:20:26","2013-12-15 00:20:26","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
-[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
-[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
+INSERT INTO wp_posts VALUES("36","1","2013-12-15 01:20:26","2013-12-15 00:20:26","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+[button style=\"btn-primary btn-lg\" icon=\"glyphicon-warning-sign\" align=\"left\" type=\"button\" title=\"Button\"]
+[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"right\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]
 &nbsp;","Article!","","inherit","closed","open","","1-revision-v1","","","2013-12-15 01:20:26","2013-12-15 00:20:26","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("37","1","2013-12-15 01:21:18","2013-12-15 00:21:18","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
-&nbsp;
-&nbsp;
+INSERT INTO wp_posts VALUES("37","1","2013-12-15 01:21:18","2013-12-15 00:21:18","Bienvenue dans WordPress. Ceci est votre premier article. Modifiez-le ou supprimez-le, puis lancez-vous !
+&nbsp;
+&nbsp;
 &nbsp;","Article!","","inherit","closed","open","","1-revision-v1","","","2013-12-15 01:21:18","2013-12-15 00:21:18","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("38","1","2013-12-16 10:29:39","2013-12-16 09:29:39","Bienvenue dans le Blog.
-Bientôt ici des informations sur l\'actualité de Aboo!
-&nbsp;
-&nbsp;
+INSERT INTO wp_posts VALUES("38","1","2013-12-16 10:29:39","2013-12-16 09:29:39","Bienvenue dans le Blog.
+Bientôt ici des informations sur l\'actualité de Aboo!
+&nbsp;
+&nbsp;
 &nbsp;","Article!","","inherit","closed","open","","1-revision-v1","","","2013-12-16 10:29:39","2013-12-16 09:29:39","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("39","1","2013-12-16 10:30:08","2013-12-16 09:30:08","Bienvenue dans le Blog.
-Bientôt ici des informations sur l\'actualité de Aboo!
-&nbsp;
-&nbsp;
+INSERT INTO wp_posts VALUES("39","1","2013-12-16 10:30:08","2013-12-16 09:30:08","Bienvenue dans le Blog.
+Bientôt ici des informations sur l\'actualité de Aboo!
+&nbsp;
+&nbsp;
 &nbsp;","Bienvenue!","","inherit","closed","open","","1-revision-v1","","","2013-12-16 10:30:08","2013-12-16 09:30:08","","1","http://localhost/gestabo/wordpress/1-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("40","1","2013-12-16 10:53:58","2013-12-16 09:53:58","<p style=\"text-align: center;\">[notification type=\"alert-info\" close=\"false\" ]<strong>Bienvenue sur \"Aboo\" la seule offre en ligne qui va faciliter votre quotidien de professionnel.</strong>[/notification]</p>
 <p style=\"text-align: center;\">[image src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/abonnements_anim-300x138.jpg\" shape=\"img-circle\"]</p>
 <p style=\"text-align: center;\"><span style=\"line-height: 1.5em;\">Que vous soyez professeur de Yoga, de Pilate, de Danse, enseignant de musique, professionnel du bien-être, vous devez gérer des revenus périodiques basé sur des abonnements. </span>Vos clients de s’inscrivent pas tous en même temps, sur des périodes distinctes, des tarifs différents, vous devez gérer aussi l\'étalement des paiements... avec tous ces paramètres comment calculer vos revenus mois par mois, quel salaire pouvez-vous vous servir?</p>
 <p style=\"text-align: center;\">[well type=\"well-sm\"]<br class=\"osc\" />\"Aboo\" va vous permettre de répondre à cette question existentielle : \"combien est-ce que je gagne à la fin du mois?!\".<br class=\"osc\" />[/well]</p>","Accueil","","inherit","closed","open","","2-revision-v1","","","2013-12-16 10:53:58","2013-12-16 09:53:58","","2","http://localhost/gestabo/wordpress/2-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("41","1","2013-12-16 11:35:34","2013-12-16 10:35:34","<img class=\"alignleft  wp-image-52\" alt=\"tarifs\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg\" /><span style=\"font-family: verdana, geneva; font-size: x-large;\">L\'accès à <strong><span style=\"color: #008000;\"><em>Aboo</em> </span></strong>est <strong>gratuit</strong> à l\'essai les deux premiers mois!</span>
-<span style=\"font-family: verdana, geneva; font-size: large;\"><em>(Lors de votre demande de compte utilisateur, une licence temporaire gratuite vous sera accordée pour essayer le site.)</em></span>
-&nbsp;
-&nbsp;
-<span style=\"font-family: verdana, geneva; font-size: large;\">Le tarif d\'Aboo est unique et forfaitaire : <span style=\"color: #ff6600;\"><strong>25€ TTC</strong></span>/Exercice (12 mois).</span>
+INSERT INTO wp_posts VALUES("41","1","2013-12-16 11:35:34","2013-12-16 10:35:34","<img class=\"alignleft  wp-image-52\" alt=\"tarifs\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg\" /><span style=\"font-family: verdana, geneva; font-size: x-large;\">L\'accès à <strong><span style=\"color: #008000;\"><em>Aboo</em> </span></strong>est <strong>gratuit</strong> à l\'essai les deux premiers mois!</span>
+<span style=\"font-family: verdana, geneva; font-size: large;\"><em>(Lors de votre demande de compte utilisateur, une licence temporaire gratuite vous sera accordée pour essayer le site.)</em></span>
+&nbsp;
+&nbsp;
+<span style=\"font-family: verdana, geneva; font-size: large;\">Le tarif d\'Aboo est unique et forfaitaire : <span style=\"color: #ff6600;\"><strong>25€ TTC</strong></span>/Exercice (12 mois).</span>
 <span style=\"font-family: verdana, geneva; font-size: large;\">Le paiement peut se faire en ligne par paiement <span style=\"color: #ff6600;\">Paypal</span> ou par envoi de chèque.</span>","Tarifs","","publish","closed","closed","","tarifs","","","2013-12-19 12:59:10","2013-12-19 11:59:10","","0","http://localhost/gestabo/wordpress/?page_id=41","0","page","","0");
-INSERT INTO wp_posts VALUES("42","1","2013-12-16 11:25:58","2013-12-16 10:25:58","&nbsp;
-<span style=\"color: #ff6600;\"><strong><em><a href=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/zen21.gif\"><img class=\"alignleft  wp-image-46\" alt=\"zen21\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/zen21-150x150.gif\" /></a>Frédéric MEYROU</em></strong></span>
-<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
+INSERT INTO wp_posts VALUES("42","1","2013-12-16 11:25:58","2013-12-16 10:25:58","&nbsp;
+<span style=\"color: #ff6600;\"><strong><em><a href=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/zen21.gif\"><img class=\"alignleft  wp-image-46\" alt=\"zen21\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/zen21-150x150.gif\" /></a>Frédéric MEYROU</em></strong></span>
+<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
 &nbsp;","Contactez-nous","","publish","closed","closed","","contactez-nous","","","2013-12-17 23:48:24","2013-12-17 22:48:24","","0","http://localhost/gestabo/wordpress/?page_id=42","0","page","","0");
 INSERT INTO wp_posts VALUES("43","1","2013-12-16 11:22:44","2013-12-16 10:22:44","","budget","","inherit","closed","open","","budget","","","2013-12-16 11:22:44","2013-12-16 10:22:44","","42","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget.jpg","0","attachment","image/jpeg","0");
 INSERT INTO wp_posts VALUES("44","1","2013-12-16 11:22:49","2013-12-16 10:22:49","stones in balanced pile","equilible","","inherit","closed","open","","44","","","2013-12-16 11:22:49","2013-12-16 10:22:49","","42","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/Cailloux.jpg","0","attachment","image/jpeg","0");
@@ -1847,15 +1847,15 @@ INSERT INTO wp_posts VALUES("46","1","2013-12-16 11:22:52","2013-12-16 10:22:52"
 INSERT INTO wp_posts VALUES("47","1","2013-12-16 11:22:55","2013-12-16 10:22:55","","help","","inherit","closed","open","","help","","","2013-12-16 11:22:55","2013-12-16 10:22:55","","42","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/help.png","0","attachment","image/png","0");
 INSERT INTO wp_posts VALUES("49","1","2013-12-16 11:22:59","2013-12-16 10:22:59","","budget 2","","inherit","closed","open","","budget-2","","","2013-12-16 11:22:59","2013-12-16 10:22:59","","42","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-2.jpg","0","attachment","image/jpeg","0");
 INSERT INTO wp_posts VALUES("50","1","2013-12-16 11:25:58","2013-12-16 10:25:58","","Contactez-nous","","publish","closed","open","","50","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/wordpress/50/","5","nav_menu_item","","0");
-INSERT INTO wp_posts VALUES("51","1","2013-12-16 11:25:58","2013-12-16 10:25:58","<a href=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi.gif\"><img class=\"alignleft size-thumbnail wp-image-48\" alt=\"contactez-moi\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi-150x150.gif\" width=\"150\" height=\"150\" /></a>
-&nbsp;
-<span style=\"color: #ff6600;\"><strong><em>Frédéric MEYROU</em></strong></span>
-<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
+INSERT INTO wp_posts VALUES("51","1","2013-12-16 11:25:58","2013-12-16 10:25:58","<a href=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi.gif\"><img class=\"alignleft size-thumbnail wp-image-48\" alt=\"contactez-moi\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/contactez-moi-150x150.gif\" width=\"150\" height=\"150\" /></a>
+&nbsp;
+<span style=\"color: #ff6600;\"><strong><em>Frédéric MEYROU</em></strong></span>
+<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
 &nbsp;","Contactez-moi","","inherit","closed","open","","42-revision-v1","","","2013-12-16 11:25:58","2013-12-16 10:25:58","","42","http://localhost/gestabo/wordpress/42-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("52","1","2013-12-16 11:35:17","2013-12-16 10:35:17","","tarifs","","inherit","closed","open","","tarifs-2","","","2013-12-16 11:35:17","2013-12-16 10:35:17","","41","http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/tarifs.jpg","0","attachment","image/jpeg","0");
 INSERT INTO wp_posts VALUES("53","1","2013-12-16 11:35:34","2013-12-16 10:35:34"," ","","","publish","closed","open","","53","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/wordpress/53/","3","nav_menu_item","","0");
@@ -1868,8 +1868,8 @@ INSERT INTO wp_posts VALUES("55","1","2013-12-16 11:37:29","2013-12-16 10:37:29"
 <p style=\"text-align: left;\"><span style=\"font-size: large; font-family: verdana, geneva;\"><img class=\"size-medium wp-image-49 alignleft\" style=\"border: 0px;\" alt=\"budget 2\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/budget-2-300x173.jpg\" width=\"300\" height=\"173\" />Ce calcul est un vrai casse tête chinois et si vous le faite mal, cela peu vous faire faire de grave erreur de gestion de trésorerie...</span></p>
 <p style=\"text-align: left;\"><span style=\"font-size: large; font-family: verdana, geneva;\"><strong><em> <span style=\"color: #008000;\">Aboo</span></em></strong><span style=\"color: #008000;\"> </span>va vous permettre de répondre à cette question existentielle : \"<span style=\"color: #ff6600;\"><strong>combien est-ce que je gagne à la fin du mois?!</strong></span>\"</span></p>
 <p style=\"text-align: left;\"><span style=\"font-family: verdana, geneva; font-size: large;\">D\'autre part <strong>Aboo</strong> va aussi vous aider à gérer votre fichier de clients pour les relances (paiements / abonnements / campagnes...).</span></p>
-&nbsp;
-<span style=\"font-size: 16px;\"> </span>
+&nbsp;
+<span style=\"font-size: 16px;\"> </span>
 <span style=\"text-decoration: underline;\"><span style=\"font-family: verdana, geneva;\"><strong><em style=\"font-size: 16px;\"><img class=\"alignright size-medium wp-image-43\" style=\"border: 0px;\" alt=\"budget\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/budget-300x199.jpg\" width=\"300\" height=\"199\" />Les fonctionnalités principales sont les suivantes :</em><span style=\"font-size: 16px;\"> </span></strong></span></span>
 <ul>
 	<li><span style=\"font-family: verdana, geneva; font-size: medium; color: #ff6600;\">Journal des dépenses / recettes</span></li>
@@ -1884,7 +1884,7 @@ INSERT INTO wp_posts VALUES("55","1","2013-12-16 11:37:29","2013-12-16 10:37:29"
 <ul>
 	<li><strong style=\"font-family: sans-serif; font-size: medium; font-style: normal; font-variant: normal; line-height: normal;\"><span style=\"font-size: large;\"><span style=\"font-family: verdana, geneva;\">Gestion du fichier client :</span></span></strong></li>
 </ul>
-<span style=\"font-size: large;\"><em><span style=\"font-family: verdana, geneva;\"><img class=\" wp-image-101 alignleft\" style=\"border: 0px; margin-left: 15px; margin-right: 15px;\" alt=\"crm-contacts-rolodex\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/crm-contacts-rolodex-270x300.jpg\" width=\"216\" height=\"240\" /></span></em></span>
+<span style=\"font-size: large;\"><em><span style=\"font-family: verdana, geneva;\"><img class=\" wp-image-101 alignleft\" style=\"border: 0px; margin-left: 15px; margin-right: 15px;\" alt=\"crm-contacts-rolodex\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/crm-contacts-rolodex-270x300.jpg\" width=\"216\" height=\"240\" /></span></em></span>
 <span style=\"font-family: verdana, geneva; font-size: medium;\">- Suivi du listing client</span>
 <span style=\"font-family: verdana, geneva; font-size: medium;\">- Relance par eMail des abonnements expirés</span>
 <span style=\"font-family: verdana, geneva; font-size: medium;\">- Relance par eMail des paiements</span>
@@ -1892,14 +1892,14 @@ INSERT INTO wp_posts VALUES("55","1","2013-12-16 11:37:29","2013-12-16 10:37:29"
 INSERT INTO wp_posts VALUES("56","1","2013-12-16 11:37:29","2013-12-16 10:37:29"," ","","","publish","closed","open","","56","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/wordpress/56/","1","nav_menu_item","","0");
 INSERT INTO wp_posts VALUES("57","1","2013-12-16 11:37:29","2013-12-16 10:37:29","Aboo est un service en ligne ....<a href=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget.jpg\"><img class=\"alignleft size-thumbnail wp-image-43\" alt=\"budget\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-150x150.jpg\" width=\"150\" height=\"150\" /></a>","Que fait Aboo?","","inherit","closed","open","","55-revision-v1","","","2013-12-16 11:37:29","2013-12-16 10:37:29","","55","http://localhost/gestabo/wordpress/55-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("58","1","2013-12-16 11:37:49","2013-12-16 10:37:49","Aboo est un service en ligne ....<img class=\"alignleft size-thumbnail wp-image-43\" style=\"margin: 10px; border: 0px;\" alt=\"budget\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/budget-150x150.jpg\" width=\"150\" height=\"150\" />","Que fait Aboo?","","inherit","closed","open","","55-revision-v1","","","2013-12-16 11:37:49","2013-12-16 10:37:49","","55","http://localhost/gestabo/wordpress/55-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("65","1","2013-12-16 12:00:53","2013-12-16 11:00:53","&nbsp;
-<span style=\"color: #ff6600;\"><strong><em><img class=\"alignleft size-thumbnail wp-image-64\" alt=\"ContactUs\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/ContactUs-150x150.jpg\" width=\"150\" height=\"150\" />Frédéric MEYROU</em></strong></span>
-<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
+INSERT INTO wp_posts VALUES("65","1","2013-12-16 12:00:53","2013-12-16 11:00:53","&nbsp;
+<span style=\"color: #ff6600;\"><strong><em><img class=\"alignleft size-thumbnail wp-image-64\" alt=\"ContactUs\" src=\"http://localhost/gestabo/wordpress/wp-content/uploads/2013/12/ContactUs-150x150.jpg\" width=\"150\" height=\"150\" />Frédéric MEYROU</em></strong></span>
+<strong>Tel : <span style=\"color: #008000;\">06.7226.8111</span></strong>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[contact-form-7 id=\"4\" title=\"Contactez-moi\"]
 &nbsp;","Contactez-moi","","inherit","closed","open","","42-revision-v1","","","2013-12-16 12:00:53","2013-12-16 11:00:53","","42","http://localhost/gestabo/wordpress/42-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("66","1","2013-12-16 12:05:33","2013-12-16 11:05:33","[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"left\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]","Connexion","","trash","closed","open","","connexion","","","2013-12-16 13:59:47","2013-12-16 12:59:47","","0","http://localhost/gestabo/wordpress/?page_id=66","0","page","","0");
 INSERT INTO wp_posts VALUES("68","1","2013-12-16 12:05:33","2013-12-16 11:05:33","[button style=\"btn-success btn-lg\" icon=\"glyphicon-lock\" align=\"left\" type=\"link\" target=\"true\" title=\"Connexion\" link=\"http://localhost/gestabo/connexion.php\"]","Connexion","","inherit","closed","open","","66-revision-v1","","","2013-12-16 12:05:33","2013-12-16 11:05:33","","66","http://localhost/gestabo/wordpress/66-revision-v1/","0","revision","","0");
@@ -2154,7 +2154,7 @@ img {
 	-webkit-box-shadow: 1px 1px 12px #555;
 	-webkit-border-radius: 5px;
 }","safecss","Tonic","inherit","closed","open","","72-revision-v1","","","2013-12-17 01:00:44","2013-12-17 00:00:44","","72","http://localhost/gestabo/72-revision-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("82","1","2013-12-17 21:33:01","2013-12-17 20:33:01","&nbsp;
+INSERT INTO wp_posts VALUES("82","1","2013-12-17 21:33:01","2013-12-17 20:33:01","&nbsp;
 <a style=\"font-size: 16px;\" href=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux.jpg\"><img class=\"alignleft size-thumbnail wp-image-44\" alt=\"equilible\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux-150x150.jpg\" width=\"150\" height=\"150\" /><span style=\"font-family: verdana, geneva; font-size: large;\"><em><span style=\"color: #000000;\">Aboo est un système de gestion particulièrement adapté pour les petites structures utilisant les régimes suivants :</span></em></span></a>
 <p style=\"padding-left: 90px;\"><span style=\"font-family: verdana, geneva; font-size: large;\"><span style=\"color: #ff6600;\">Auto-Entrepreneur</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> et </span><span style=\"color: #ff6600;\">Entreprise Individuelle</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> (Micro BNC) en </span><span style=\"color: #ff6600;\">franchise de TVA</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\">.</span></span></p>
 <p style=\"padding-left: 90px;\"><span style=\"font-family: verdana, geneva; font-size: large;\"><span style=\"color: #ff6600;\">Association loi 1901</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> en franchise de TVA.</span></span></p>
@@ -2174,7 +2174,7 @@ INSERT INTO wp_posts VALUES("89","1","2013-12-17 23:46:59","2013-12-17 22:46:59"
 	<li><span style=\"font-family: verdana, geneva;\"><span style=\"color: #ff6600;\">Association loi 1901</span> en franchise de TVA.</span></li>
 </ul>
 <span style=\"font-family: verdana, geneva;\">Toutes ces structures juridiques et fiscales n\'ont pas obligation de faire une comptabilité classique avec un bilan annuel. Par conséquent Aboo apportera une réponse simple et efficace pour l\'entrepreneur soucieux de piloter ses finances au mieux et répondra aux obligations légales.
-</span>
+</span>
 &nbsp;","Pour qui?","","inherit","closed","open","","82-revision-v1","","","2013-12-17 23:46:59","2013-12-17 22:46:59","","82","http://localhost/gestabo/82-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("90","1","2013-12-17 23:48:02","2013-12-17 22:48:02"," ","","","publish","closed","open","","90","","","2013-12-17 23:48:02","2013-12-17 22:48:02","","0","http://localhost/gestabo/?p=90","2","nav_menu_item","","0");
 INSERT INTO wp_posts VALUES("91","1","2013-12-18 00:02:15","2013-12-17 23:02:15","","Points-interrogation","","inherit","closed","open","","points-interrogation","","","2013-12-18 00:02:15","2013-12-17 23:02:15","","0","http://localhost/gestabo/wp-content/uploads/2013/12/Points-interrogation.jpg","0","attachment","image/jpeg","0");
@@ -2185,15 +2185,15 @@ INSERT INTO wp_posts VALUES("93","1","2013-12-18 00:05:52","2013-12-17 23:05:52"
 	<li><span style=\"font-family: verdana, geneva;\"><span style=\"color: #ff6600;\">Association loi 1901</span> en franchise de TVA.</span></li>
 </ul>
 <span style=\"font-family: verdana, geneva;\">Toutes ces structures juridiques et fiscales n\'ont pas obligation de faire une comptabilité classique avec un bilan annuel. Par conséquent Aboo apportera une réponse simple et efficace pour l\'entrepreneur soucieux de piloter ses finances au mieux et répondra aux obligations légales.
-</span>
+</span>
 &nbsp;","Pour qui?","","inherit","closed","open","","82-revision-v1","","","2013-12-18 00:05:52","2013-12-17 23:05:52","","82","http://localhost/gestabo/82-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("94","1","2013-12-18 00:13:25","2013-12-17 23:13:25","","k15748982","","inherit","closed","open","","k15748982","","","2013-12-18 00:13:25","2013-12-17 23:13:25","","0","http://localhost/gestabo/wp-content/uploads/2013/12/k15748982.jpg","0","attachment","image/jpeg","0");
-INSERT INTO wp_posts VALUES("95","1","2013-12-18 00:58:44","2013-12-17 23:58:44","<a style=\"font-size: 16px;\" href=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux.jpg\"><img class=\"alignleft size-thumbnail wp-image-44\" alt=\"equilible\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux-150x150.jpg\" width=\"150\" height=\"150\" /><span style=\"font-family: verdana, geneva;\"><em><span style=\"color: #000000;\">Aboo est un système de gestion particulièrement adapté pour les petites structures utilisant les régimes suivants :</span></em></span></a>
+INSERT INTO wp_posts VALUES("95","1","2013-12-18 00:58:44","2013-12-17 23:58:44","<a style=\"font-size: 16px;\" href=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux.jpg\"><img class=\"alignleft size-thumbnail wp-image-44\" alt=\"equilible\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux-150x150.jpg\" width=\"150\" height=\"150\" /><span style=\"font-family: verdana, geneva;\"><em><span style=\"color: #000000;\">Aboo est un système de gestion particulièrement adapté pour les petites structures utilisant les régimes suivants :</span></em></span></a>
 <cite class=\"fr\"><span style=\"color: #ff6600;\">Auto-Entrepreneur</span><span style=\"font-size: 16px; font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> et </span><span style=\"color: #ff6600;\">Entreprise Individuelle</span><span style=\"font-size: 16px; font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> (Micro BNC) en </span><span style=\"color: #ff6600;\">franchise de TVA</span><span style=\"font-size: 16px; font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\">.</span>
-</cite>
-<cite class=\"fr\"><span style=\"color: #ff6600;\">Association loi 1901</span><span style=\"font-size: 16px; font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> en franchise de TVA.</span></cite>
+</cite>
+<cite class=\"fr\"><span style=\"color: #ff6600;\">Association loi 1901</span><span style=\"font-size: 16px; font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> en franchise de TVA.</span></cite>
 <span style=\"font-family: verdana, geneva;\">Toutes ces structures juridiques et fiscales n\'ont pas obligation de faire une comptabilité classique avec un bilan annuel. Par conséquent Aboo apportera une réponse simple et efficace pour l\'entrepreneur soucieux de piloter ses finances au mieux et répondra aux obligations légales.
-</span>
+</span>
 &nbsp;","Pour qui?","","inherit","closed","open","","82-revision-v1","","","2013-12-18 00:58:44","2013-12-17 23:58:44","","82","http://localhost/gestabo/82-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("96","1","2013-12-18 01:02:09","2013-12-18 00:02:09","<a style=\"font-size: 16px;\" href=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux.jpg\"><img class=\"alignleft size-thumbnail wp-image-44\" alt=\"equilible\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux-150x150.jpg\" width=\"150\" height=\"150\" /><span style=\"font-family: verdana, geneva; font-size: large;\"><em><span style=\"color: #000000;\">Aboo est un système de gestion particulièrement adapté pour les petites structures utilisant les régimes suivants :</span></em></span></a>
 <p style=\"padding-left: 90px;\"><span style=\"font-family: verdana, geneva; font-size: large;\"><span style=\"color: #ff6600;\">Auto-Entrepreneur</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> et </span><span style=\"color: #ff6600;\">Entreprise Individuelle</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> (Micro BNC) en </span><span style=\"color: #ff6600;\">franchise de TVA</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\">.</span></span></p>
@@ -2234,7 +2234,7 @@ INSERT INTO wp_posts VALUES("100","1","2013-12-19 12:47:44","2013-12-19 11:47:44
 	<li><span style=\"font-family: verdana, geneva; font-size: large;\">Campagne d\'information </span></li>
 </ul>","Que fait Aboo?","","inherit","closed","open","","55-autosave-v1","","","2013-12-19 12:47:44","2013-12-19 11:47:44","","55","http://localhost/gestabo/55-autosave-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("101","1","2013-12-19 12:45:25","2013-12-19 11:45:25","","crm-contacts-rolodex","","inherit","closed","open","","crm-contacts-rolodex","","","2013-12-19 12:45:25","2013-12-19 11:45:25","","55","http://localhost/gestabo/wp-content/uploads/2013/12/crm-contacts-rolodex.jpg","0","attachment","image/jpeg","0");
-INSERT INTO wp_posts VALUES("102","1","2013-12-19 12:50:33","2013-12-19 11:50:33","&nbsp;
+INSERT INTO wp_posts VALUES("102","1","2013-12-19 12:50:33","2013-12-19 11:50:33","&nbsp;
 <a style=\"font-size: 16px;\" href=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux.jpg\"><img class=\"alignleft size-thumbnail wp-image-44\" alt=\"equilible\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/Cailloux-150x150.jpg\" width=\"150\" height=\"150\" /><span style=\"font-family: verdana, geneva; font-size: large;\"><em><span style=\"color: #000000;\">Aboo est un système de gestion particulièrement adapté pour les petites structures utilisant les régimes suivants :</span></em></span></a>
 <p style=\"padding-left: 90px;\"><span style=\"font-family: verdana, geneva; font-size: large;\"><span style=\"color: #ff6600;\">Auto-Entrepreneur</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> et </span><span style=\"color: #ff6600;\">Entreprise Individuelle</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> (Micro BNC) en </span><span style=\"color: #ff6600;\">franchise de TVA</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\">.</span></span></p>
 <p style=\"padding-left: 90px;\"><span style=\"font-family: verdana, geneva; font-size: large;\"><span style=\"color: #ff6600;\">Association loi 1901</span><span style=\"font-variant: inherit; font-weight: inherit; line-height: inherit; text-align: right;\"> en franchise de TVA.</span></span></p>
@@ -2246,11 +2246,11 @@ INSERT INTO wp_posts VALUES("103","1","2013-12-19 12:58:57","2013-12-19 11:58:57
 &nbsp;
 <span style=\"font-family: verdana, geneva; font-size: large;\">Le tarif d\'Aboo est unique et forfaitaire : <span style=\"color: #ff6600;\"><strong>25€ TTC</strong></span>/Exercice (12 mois).</span>
 <span style=\"font-family: verdana, geneva; font-size: large;\">Le paiement peut se faire en ligne par paiement Paypal ou par envoi de chèque.</span>","Tarifs","","inherit","closed","open","","41-autosave-v1","","","2013-12-19 12:58:57","2013-12-19 11:58:57","","41","http://localhost/gestabo/41-autosave-v1/","0","revision","","0");
-INSERT INTO wp_posts VALUES("104","1","2013-12-19 12:59:10","2013-12-19 11:59:10","<img class=\"alignleft  wp-image-52\" alt=\"tarifs\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg\" /><span style=\"font-family: verdana, geneva; font-size: x-large;\">L\'accès à <strong><span style=\"color: #008000;\"><em>Aboo</em> </span></strong>est <strong>gratuit</strong> à l\'essai les deux premiers mois!</span>
-<span style=\"font-family: verdana, geneva; font-size: large;\"><em>(Lors de votre demande de compte utilisateur, une licence temporaire gratuite vous sera accordée pour essayer le site.)</em></span>
-&nbsp;
-&nbsp;
-<span style=\"font-family: verdana, geneva; font-size: large;\">Le tarif d\'Aboo est unique et forfaitaire : <span style=\"color: #ff6600;\"><strong>25€ TTC</strong></span>/Exercice (12 mois).</span>
+INSERT INTO wp_posts VALUES("104","1","2013-12-19 12:59:10","2013-12-19 11:59:10","<img class=\"alignleft  wp-image-52\" alt=\"tarifs\" src=\"http://localhost/gestabo/wp-content/uploads/2013/12/tarifs-150x150.jpg\" /><span style=\"font-family: verdana, geneva; font-size: x-large;\">L\'accès à <strong><span style=\"color: #008000;\"><em>Aboo</em> </span></strong>est <strong>gratuit</strong> à l\'essai les deux premiers mois!</span>
+<span style=\"font-family: verdana, geneva; font-size: large;\"><em>(Lors de votre demande de compte utilisateur, une licence temporaire gratuite vous sera accordée pour essayer le site.)</em></span>
+&nbsp;
+&nbsp;
+<span style=\"font-family: verdana, geneva; font-size: large;\">Le tarif d\'Aboo est unique et forfaitaire : <span style=\"color: #ff6600;\"><strong>25€ TTC</strong></span>/Exercice (12 mois).</span>
 <span style=\"font-family: verdana, geneva; font-size: large;\">Le paiement peut se faire en ligne par paiement <span style=\"color: #ff6600;\">Paypal</span> ou par envoi de chèque.</span>","Tarifs","","inherit","closed","open","","41-revision-v1","","","2013-12-19 12:59:10","2013-12-19 11:59:10","","41","http://localhost/gestabo/41-revision-v1/","0","revision","","0");
 INSERT INTO wp_posts VALUES("105","1","2013-12-19 13:23:13","2013-12-19 12:23:13","&nbsp;
 <p style=\"text-align: center;\">[qpp form=\"aboo\" amount=\"25\"]</p>","Paiement","","publish","closed","closed","","paiement","","","2013-12-19 13:24:55","2013-12-19 12:24:55","","0","http://localhost/gestabo/?page_id=105","0","page","","0");

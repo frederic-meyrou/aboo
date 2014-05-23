@@ -23,7 +23,7 @@ function slider_render(ele,val,mini,max){
                 jQuery('#icon_bg_preview').css({
                     'height':ui.value+'px',
                     'width':ui.value+'px',
-                    'line-height':parseInt(ui.value)-8+'px'
+                    'line-height':parseInt(ui.value)+'px'
                 });
             } else if(ele=='icon'){
                 jQuery('#icon_bg_preview').css({
@@ -51,7 +51,7 @@ function create_oscitas_servicebox(pluginObj){
                         <tr class="show_boxtype_icon">\
                         <th><label for="oscitas-heading-icon">Select Icon:</label></th>\
 				<td><div id="click_icon_list_servicebox" class="oscitas-icon-div"><span id="osc_show_icon_servicebox"></span><span class="show-drop"></span></div><input type="hidden" id="oscitas-servicebox-icon" value=""><input type="hidden" id="oscitas-servicebox-icontype" value="">\
-                    <div id="osc_show_iconlist_servicebox" class="oscitas-icon" style="display:none;"><ul name="oscitas-heading-icon_servicebox" class="oscitas-heading-icon_servicebox">'+ebsicons+'</ul></div>\
+                    <div id="osc_show_iconlist_servicebox" class="oscitas-icon" style="display:none;">'+font_awesome_include('oscitas-heading-icon_servicebox')+'</div>\
 				</td>\
 			</tr>\
             <tr>\
@@ -239,7 +239,7 @@ function create_oscitas_servicebox(pluginObj){
                 'readmore_fgcolor':''
             }
         }
-        options= ['icon','icon_size','iconbg_size','iconbg_radius','margin_bottom','margin_top','iconbgcolor','iconcolor','headingtype','heading','class'];
+        options= ['icon','icontype','icon_size','iconbg_size','iconbg_radius','margin_bottom','margin_top','iconbgcolor','iconcolor','headingtype','heading','class'];
 
         var shortcodeattr='';
         jQuery(options).each(function(ind,val){

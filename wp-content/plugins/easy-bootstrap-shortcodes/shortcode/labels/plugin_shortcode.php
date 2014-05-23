@@ -17,4 +17,3 @@ function osc_theme_labels($params, $content = 'Label') {
 }
 
 add_shortcode('label', 'osc_theme_labels');
-

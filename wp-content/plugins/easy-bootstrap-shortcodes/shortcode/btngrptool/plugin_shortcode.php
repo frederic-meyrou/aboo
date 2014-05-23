@@ -15,4 +15,3 @@ function osc_theme_btngrptoolbar($params, $content = null) {
 
 add_shortcode('btngrptoolbar', 'osc_theme_btngrptoolbar');
 
-?>

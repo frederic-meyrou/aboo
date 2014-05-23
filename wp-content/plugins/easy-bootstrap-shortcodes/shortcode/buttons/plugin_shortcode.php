@@ -22,9 +22,9 @@ function osc_theme_button($params, $content = null) {
             $iconcolor='style="color:'.$iconcolor.';"';
         }
         if($align=='right'){
-            $value=$title.' <i class="glyphicon '.$icon.'" '.$iconcolor.'></i>';
+            $value=$title.' <i class="'.$icon.'" '.$iconcolor.'></i>';
         } else{
-            $value='<i class="glyphicon '.$icon.'" '.$iconcolor.'></i> '.$title;
+            $value='<i class="'.$icon.'" '.$iconcolor.'></i> '.$title;
         }
     }else{
         $value=$title;
@@ -39,4 +39,3 @@ function osc_theme_button($params, $content = null) {
 }
 
 add_shortcode('button', 'osc_theme_button');
-

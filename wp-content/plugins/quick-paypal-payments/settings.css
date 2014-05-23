@@ -18,8 +18,3 @@
 #qpp_sort li.button_active { background-color: white;}
 #qpp_sort li.button_inactive { background-color: #E0E0E0;}
 #qpp_sort li div {overflow:hidden;}
-
-#qpp-widget table {margin-bottom: 10px;}
-#qpp-widget td {border-top: 1px solid #005F6B;padding: 5px 10px 5px 0;max-width: 400px;vertical-align:top;}
-#qpp-widget td b {color: #005F6B;}
-#qpp-widget th {padding: 5px 10px 5px 0;max-width: 400px;text-align: left;color: #005F6B;}

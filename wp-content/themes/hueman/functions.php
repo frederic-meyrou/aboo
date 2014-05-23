@@ -523,10 +523,13 @@ if ( ! function_exists( 'alx_wp_title' ) ) {
 		if ( is_feed() || class_exists('All_in_One_SEO_Pack') || class_exists('HeadSpace_Plugin') || class_exists('Platinum_SEO_Pack') || class_exists('wpSEO') || defined('WPSEO_VERSION') )
 			return $title;
 		if ( is_front_page() ) { 
-			$title = bloginfo('name'); echo ' - '; bloginfo('description'); 
+			$title = get_bloginfo('name').' - '.get_bloginfo('description');
+		}
+		if ( is_front_page() && get_bloginfo('description') == '' ) { 
+			$title = get_bloginfo('name');
 		}
 		if ( !is_front_page() ) { 
-			$title.= ''.' - '.''.get_bloginfo('name'); 
+			$title .= ' - '.get_bloginfo('name');
 		}
 		return $title;
 	}
@@ -818,3 +821,11 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wr
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 add_action('woocommerce_before_main_content', 'alx_wc_wrapper_start', 10);
 add_action('woocommerce_after_main_content', 'alx_wc_wrapper_end', 10);
+
+
+/*  WP-PageNavi support - @devinsays (via GitHub)
+/* ------------------------------------ */
+function alx_deregister_styles() {
+	wp_deregister_style( 'wp-pagenavi' );
+}
+add_action( 'wp_print_styles', 'alx_deregister_styles', 100 );

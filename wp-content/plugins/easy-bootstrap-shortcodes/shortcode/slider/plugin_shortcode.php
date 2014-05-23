@@ -12,6 +12,9 @@ function osc_theme_sliders($params, $content = null) {
     if (!count($_oscitas_slider)) {
         $_oscitas_slider = array('current_id'=>0);
     }
+    if(!session_id()){
+        @session_start();
+    }
     if(!isset($_SESSION['ebs_slider_css'])){
         $_SESSION['ebs_slider_css']=array();
     }

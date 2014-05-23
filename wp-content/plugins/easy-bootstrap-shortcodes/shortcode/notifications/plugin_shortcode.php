@@ -24,5 +24,3 @@ add_shortcode('notification', 'osc_theme_notification');
 
 
 
-
-

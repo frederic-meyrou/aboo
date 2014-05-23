@@ -21,5 +21,3 @@ function osc_theme_btngrp($params, $content = null) {
 }
 
 add_shortcode('buttongroup', 'osc_theme_btngrp');
-
-?>

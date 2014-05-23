@@ -12,7 +12,7 @@ function osc_theme_iconhead($params, $content = null) {
         $color='style="color:'.$color.';"';
     }
     if ($style != '') {
-        $style = ' <span class="glyphicon ' . $style . '" '.$color.'></span> ';
+        $style = ' <span class=" ' . $style . '" '.$color.'></span> ';
     }
 
     $out = '<' . $type . ' class="' . $class .EBS_CONTAINER_CLASS. '" >' . $style . do_shortcode($content) . '</' . $type . '>';
@@ -21,4 +21,3 @@ function osc_theme_iconhead($params, $content = null) {
 }
 
 add_shortcode('iconheading', 'osc_theme_iconhead');
-

@@ -3,18 +3,27 @@ Contributors: valendesigns
 Donate link: http://bit.ly/NuXI3T
 Tags: options, theme options, meta boxes
 Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 2.3.0
+Tested up to: 3.9.1
+Stable tag: 2.4.0
 License: GPLv3
 
 Theme Options UI Builder for WordPress. A simple way to create & save Theme Options and Meta Boxes for free or premium themes.
 
 == Description ==
 
-OptionTree attempts to bridge the gap between WordPress developers, designers and end-users by creating fully responsive option panels and meta boxes with an ease unlike any other plugin. Packed full of advanced features with tons of hooks, and filters to adjust every aspect of the UX. Build your theme options with a drag & drop interface locally and export a fully functioning `theme-options.php` file for production use that's i18n translation ready with you own custom text domain. And, in just a few simple lines of code, all your themes can have separate settings arrays saved to the database with unique IDs. Not only that, but OptionTree takes full advantage of the new color schemes introduced in WordPress 3.8 and looks and feels built-in.
+OptionTree attempts to bridge the gap between WordPress developers, designers and end-users by creating fully responsive option panels and meta boxes with an ease unlike any other plugin. Packed full of advanced features with tons of hooks and filters to adjust every aspect of the user experience. You can build your theme options with a drag & drop interface locally and export a fully functioning `theme-options.php` file for production use that's i18n translation ready with you own custom text domain. And, in just a few simple lines of code, all your themes can have separate settings arrays saved to the database with unique IDs. Not only that, but OptionTree takes full advantage of the new color schemes introduced in WordPress 3.8, it looks and feels built-in.
+
+#### Theme Integration
+If you're like me, you want to know how everything works. Download and activate the [OptionTree Theme](https://github.com/valendesigns/option-tree-theme) and see first hand how to integrate OptionTree into your own project. I'll walk you through installing OptionTree and you'll get a chance to see all the various options and filters first hand and in the wild.
+
+#### Contributing
+To contribute or report bugs, please go to the [OptionTree Github](https://github.com/valendesigns/option-tree) repository.
+
+#### Sponsorship
+OptionTree is a project partly sponsored by <a href="http://themeforest.net/?ref=valendesigns">ThemeForest</a>, the largest WordPress theme marketplace on the web.
 
 #### Option Types
-This is a complete list of all the available option types that come shipped with OptionTree. If you don't see the one you need, just know that adding your own custom option type is a breeze.
+This is a complete list of all the available option types that come shipped with OptionTree.
 
 * Background
 * Category Checkbox
@@ -40,6 +49,7 @@ This is a complete list of all the available option types that come shipped with
 * Select
 * Sidebar Select
 * Slider
+* Social Links
 * Tab
 * Tag Checkbox
 * Tag Select
@@ -53,15 +63,6 @@ This is a complete list of all the available option types that come shipped with
 * Typography
 * Upload
 
-#### Learn More
-If you're like me, you want to know how everything works. Download and activate the [OptionTree Theme](https://github.com/valendesigns/option-tree-theme) and see first hand how to integrate OptionTree into your own project. I'll walk you through installing OptionTree and you'll get a chance to see all the various options and filters first hand and in the wild.
-
-#### Contributing
-To contribute or report bugs, please go to the [OptionTree Github](https://github.com/valendesigns/option-tree) repository.
-
-#### Sponsorship
-OptionTree is a project partly sponsored by <a href="http://themeforest.net/?ref=valendesigns">ThemeForest</a>, the largest WordPress theme marketplace on the web.
-
 == Installation ==
 
 **Plugin Mode**
@@ -74,6 +75,7 @@ OptionTree is a project partly sponsored by <a href="http://themeforest.net/?ref
 
 1. Download the latest version of OptionTree and unarchive the `.zip` directory.
 1. Put the `option-tree` directory in the root of your theme. For example, the server path would be `/wp-content/themes/theme-name/option-tree/`.
+1. You must deactivate and/or delete the plugin version of OptionTree.
 1. Add the following code to the beginning of your `functions.php`.
 
 `/**
@@ -105,6 +107,50 @@ There sure is, and I'm glad you asked. Download and activate the [OptionTree The
 3. Documentation
 
 == Changelog ==
+
+= 2.4.0 =
+* Added filter 'ot_post_formats' which loads meta boxes specifically for post formats.
+* Added the Social Links option type.
+* Fixed OptionTree being conflicted due to having both the plugin and theme version activated. Contributors via github @valendesigns and @bitcommit.
+* Added an admin notice when the UI Builder is being overridden by custom theme options.
+* Allow the Upload option type to be stored as an attachment ID by adding `ot-upload-attachment-id` to the elements `class` attribute. Contributors via github @valendesigns and @krisarsov.
+* Fixed an issue with the CSS option type not showing the Ace editor in a metabox that is broken into tabbed content.
+* Fixed missing option type translation strings. Contributors via github @RistoNiinemets.
+* Replaced mysql functions with the wpdb equivalent. Contributors via github @joshlevinson.
+* Fixed search order of the `contains` condition string. Contributors via github @designst.
+* Added meta box field wrapper class if a custom field class is defined in the settings. Contributors via github @designst.
+* Added filter 'ot_type_select_choices' to dynamically change select choices. Contributors via github @maimairel and @valendesigns.
+* Fixed a bug that added an unnecessary directory separator to the `load_theme_textdomain()` `$path` variable. Contributors via github @PatrickDelancy and @valendesigns.
+* Fixed the state of metabox radio buttons after a Drag & Drop event. Contributors via github @themovation and @valendesigns.
+* Fixed conditions not working correctly within list items.
+* Fixed the min-height issue when using tabs in metaboxes.
+* Added filter `ot_recognized_font_sizes` to dynamically change the font sizes by field ID.
+* Added filter `ot_recognized_letter_spacing` to dynamically change the letter spacing by field ID.
+* Added filter `ot_recognized_line_heights` to dynamically change the line heights by field ID.
+* Fixed a style issue where list item labels in metaboxes were not displaying correctly.
+* Fixed an issue where the WooCommerce plugin would alter the style of metabox tabs on product pages.
+
+= 2.3.4 =
+* Hotfix - Fixed an issue where condition number values were being treated like strings and not returning a correct boolean response.
+
+= 2.3.3 =
+* Hotfix - Fixed subfolder compatibility with versions of Windows that use backslashes instead of forward slashes. Contributors via github @primozcigler and @valendesigns.
+* Hotfix - Fixed missing text domain in demo files. Contributors via github @jetonr.
+* Hotfix - Added filter `ot_migrate_settings_id` to migrate themes that used `option_tree_settings` and now use a custom settings ID.
+* Hotfix - Added filter `ot_migrate_options_id` to migrate themes that used `option_tree` and now use a custom options ID.
+* Hotfix - Added filter `ot_migrate_layouts_id` to migrate themes that used `option_tree_layouts` and now use a custom layouts ID.
+
+= 2.3.2 =
+* Hotfix - Fixed an issue with the `ot_create_media_post` function creating multiple `option-tree` posts.
+* Hotfix - Change the icon used by the layout management option type to differentiate it from the edit button.
+* Hotfix - Suppress PHP warning in the Background option type "Invalid argument supplied for foreach()". Contributors via github @tomkwok.
+* Hotfix - Added filter `ot_type_date_picker_date_format` to change the date format of the Date Picker option type.
+* Hotfix - Added filter `ot_type_date_time_picker_date_format` to change the date format of the Date Time Picker option type.
+
+= 2.3.1 =
+* Hotfix - Fixed a bug with the Gallery option type that would show attachments in the media window when none had been added yet.
+* Hotfix - Added the option to save the Gallery as a shortcode by adding `ot-gallery-shortcode` to the elements `class` attribute.
+* Hotfix - Fixed conditions not being effective in List Items directly after clicking "Add New". Contributors via github @bitcommit.
 
 = 2.3.0 =
 * Added the Tab option type.

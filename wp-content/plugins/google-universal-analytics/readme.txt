@@ -1,17 +1,17 @@
 === Google Universal Analytics ===
 Contributors: audriusd
 Donate link: http://onlineads.lt/
-Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, google universal analytics, classic, custom
+Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, google universal analytics, classic, custom, woocommerce, ecommerce
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 2.1
+Tested up to: 3.9.1
+Stable tag: 2.3.1
 License: GPLv2 or later
 
-Adds the latest Google Universal Analytics JavaScript tracking code to your WordPress website. Event tracking is now available.
+Adds the latest Google Universal Analytics JavaScript tracking code to your WordPress website. Now supports WooCommerce!
 
 == Description ==
 
-Adding Google Analytics code to your website has never been easier. Simply copy and paste your tracking code and that's it. 
+Adding Google Analytics code to your website has never been easier. Simply copy and paste your tracking code or property ID and that's it. 
 
 Why Google Universal Analytics is better than the usual Google Analytics? 
 
@@ -23,6 +23,8 @@ Why Google Universal Analytics is better than the usual Google Analytics?
 * ...and more.
 
 For more information visit: [Google Analytics](http://www.google.com/analytics) or [OnlineAds.lt](http://onlineads.lt).
+
+Since March 26th (2014), Google Universal Analytics plugin for WordPress tracks WWF file downloads. Every WWF file download will be tracked as an event. Save as WWF, save a Tree!
 
 == Installation ==
 
@@ -60,6 +62,27 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 
 == Changelog ==
 
+= 2.3.1 =
+* Now it is possible to set domain manually.
+
+= 2.3.0.2 =
+* Bug fixed: Save settings issue
+* Bug fixed: WooCommerce issue
+
+= 2.3 =
+* WooCommerce e-commerce tracking added (beta).
+
+= 2.2 =
+* Display Advertising feature added.
+* IP Anonymization option is now available.
+
+= 2.1.2 =
+* jQuery bug fix.
+
+= 2.1.1 =
+* Added support for additional download extensions - JAR, PUB, MIDI, TAR, PSD, PDN and others (for event tracking).
+* Google Universal Analytics plugin now tracks WWF file downloads. Save as WWF, save a Tree!
+
 = 2.1 =
 * Fixed issues affecting some of the websites using this plugin.
 * Ability to disable tracking for certain roles added.
@@ -86,6 +109,21 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.3.1 =
+* New feature: set domain manually
+
+= 2.3.0.2 =
+* Bugs fixed: Save settings issue and WooCommerce tracking
+
+= 2.2 =
+* Display Advertising and IP Anonymization options added. 
+
+= 2.1.2 =
+* Bug fix.
+
+= 2.1.1 =
+* Added support for additional download extensions (including jar, wwf, pub, pot, tar, pez and others). 
 
 = 2.1 =
 * Bug fixes and new features like role based tracking and custom Analytics option. 

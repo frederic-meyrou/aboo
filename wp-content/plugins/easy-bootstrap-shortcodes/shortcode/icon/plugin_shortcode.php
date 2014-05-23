@@ -17,9 +17,8 @@ function osc_theme_icon($params, $content = null) {
     if($fontsize!=''){
         $fontsize=' font-size:'.$fontsize.'px;';
     }
-    $out = '<i class="glyphicon ' . $type . ' ' . $class . '" style="'.$color.$fontsize.'"></i>';
+    $out = '<i class=" ' . $type . ' ' . $class . '" style="'.$color.$fontsize.'"></i>';
     return $out;
 }
 
 add_shortcode('icon', 'osc_theme_icon');
-

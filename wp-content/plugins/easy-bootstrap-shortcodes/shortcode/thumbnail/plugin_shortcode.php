@@ -31,4 +31,3 @@ function osc_theme_oscitasthumbnail($params, $content = 'Label') {
 }
 
 add_shortcode('thumbnail', 'osc_theme_oscitasthumbnail');
-

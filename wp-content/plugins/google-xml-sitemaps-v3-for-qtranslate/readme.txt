@@ -1,16 +1,16 @@
 === Google XML Sitemaps v3 for qTranslate ===
 Contributors: arnee, NeoEGM, DSmidgy
 Donate link: http://www.arnebrachhold.de/redir/sitemap-paypal
-Tags: seo, google, sitemaps, google sitemaps, yahoo, msn, ask, live, xml sitemap, xml, qtranslate
+Tags: seo, google, sitemaps, google sitemaps, yahoo, msn, live, xml sitemap, xml, qtranslate
 Requires at least: 2.1
-Tested up to: 3.8
-Stable tag: 3.3.1
+Tested up to: 3.9
+Stable tag: 3.4.1
 
 This plugin will generate a special XML sitemap which will help search engines to better index your blog. With qTranslate support.
 
 == Description ==
 
-This plugin will generate a special XML sitemap which will help search engines like Google, Bing, Yahoo and Ask.com to better index your blog. With such a sitemap, it's much easier for the crawlers to see the complete structure of your site and retrieve it more efficiently. The plugin supports all kinds of WordPress generated pages as well as custom URLs. Additionally it notifies all major search engines every time you create a post about the new content.
+This plugin will generate a special XML sitemap which will help search engines like Google, Bing and Yahoo to better index your blog. With such a sitemap, it's much easier for the crawlers to see the complete structure of your site and retrieve it more efficiently. The plugin supports all kinds of WordPress generated pages as well as custom URLs. Additionally it notifies all major search engines every time you create a post about the new content.
 
 This fork is compatible with qTranslate multilingual plugin. It can translate more types of URLs (categories, tags, etc.) than NeoEGM's plugin. More on http://blog.slo-host.com/2011/06/qtranslate-support-for-google-xml-sitemaps-plugin/
 

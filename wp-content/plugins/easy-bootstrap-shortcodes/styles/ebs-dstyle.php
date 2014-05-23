@@ -36,8 +36,12 @@ $css_ebs=<<<EOF
 }
 
 .iconcircle{ background-color: #FFFFFF; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; -ms-border-radius: 50%;
-    -o-border-radius: 50%; height: 100px;   width: 100px; }
+    -o-border-radius: 50%; height: 100px;  line-height: 90px;   width: 100px; }
 EOF;
 echo $css_ebs;
-echo $_SESSION['ebs_servicebox_css'];
+if(isset($_SESSION['ebs_servicebox_css']) && is_array($_SESSION['ebs_servicebox_css']) && count($_SESSION['ebs_servicebox_css'])>0){
+    foreach($_SESSION['ebs_servicebox_css'] as $sbox){
+        echo $_SESSION[$sbox];
+    }
+}
 ?>

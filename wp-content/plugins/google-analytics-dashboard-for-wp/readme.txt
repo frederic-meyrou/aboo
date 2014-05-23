@@ -3,8 +3,8 @@ Contributors: deconf
 Donate link: http://deconf.com/donate/
 Tags: google,analytics,google analytics,dashboard,analytics dashboard,google analytics dashboard,google analytics widget,tracking,realtime,wpmu,multisite
 Requires at least: 2.8
-Tested up to: 3.8.1
-Stable tag: 4.2.12
+Tested up to: 3.9
+Stable tag: 4.2.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,8 @@ Using this plugin, your analytics data is collected in a fast and secure manner 
 - option to display Visitors by Country on Geo Map
 - local websites and business have an option to display cities, instead of countries, on a regional map
 - option to display Traffic Overview in Pie Charts
-- access level settings for Backend statistics and analytics reports
-- access level settings for Frontend analytics data and reports
+- user access level settings for Backend statistics and analytics reports
+- user access level settings for Frontend analytics data and reports
 - option to display Google Analytics statistics on frontend, at the end of each article
 - frontend widget with website's analytics stats and analytics data anonymization feature
 - has multilingual support, a POT file is available for translations. If you have a complete translation, send me the translation file or upload it to our forum and will be included in next release.
@@ -41,6 +41,7 @@ Using this plugin, your analytics data is collected in a fast and secure manner 
 - automatically generates the tracking code; the user can also define a custom code
 - IP address anonymization feature
 - enhanced link attribution feature
+- remarketing, demographics and interests tracking
 - track events feature: track downloads, emails and outbound links (supported for both tracking methods: classic tracking and universal tracking)
 - exclude traffic based on user level access
  
@@ -93,13 +94,70 @@ This plugin it's released under the GPLv2, you can use it free of charge on your
 
 == Changelog ==
 
+= 28.04.2014 - v4.2.19 =
+- added Portuguese translation
+- frontend widget CSS fix
+- added remarketing, demographics and interests tracking support
+- universal analytics is now the default tracking method
+- CSS fix for dashboard widgets
+
+= 04.04.2014 - v4.2.18 =
+- translations bugfix
+- menu display tweaks
+- removed debugging log file
+- permissions fix for WPMU
+- URI fix for frontend filters (top pages and top searches)
+- exclude frontend stats in preview mode
+- updated download filters
+- by default administrators are not excluded from tracking
+- bugfix for refresh_profiles() method 
+
+= 01.04.2014 - v4.2.17 =
+- fixed on/off toggle bug for frontend settings
+
+= 30.03.2014 - v4.2.16 =
+- properly nonce verification
+
+= 28.03.2014 - v4.2.15 =
+- force token reset procedure when failing to authenticate
+- deleting refresh token transient on uninstall
+- trying to catch all possible exceptions in gapi
+- no token reset on network connection errors
+- fixed screen options bug
+- added capability to select each role for access levels and exclude tracking
+- added links to top pages table
+- added links to top referrers table
+- added option to display Chart&Totals/Chart/Totals to frontend widget
+- retrieving realtime analytics with wp ajax
+- switching to default jquery-ui-tooltip wordpress library
+- fixed settings link not displayed in plugins page
+
+= 23.03.2014 - v4.2.14 =
+- bugfix for error reporting
+- custom API credential are now saved before starting the authorization procedure
+- hiding additional info in log data
+
+= 23.03.2014 - v4.2.13 =
+- bugfix for I18n
+- implemented a basic debugging log
+- CURL required error messages
+- option to hide all other properties/views from Select Domain list
+- added periodical _transient_timeout cleanup
+- fixed bug in property refresh method
+- disable hide option when none or a single property is available
+- better handling errors when a user authorizes without actually having a Google Analytics account
+- fixed bug in token revoke method
+- fixed bug in token refresh method
+- additional validations on frontend features
+
+
 = 10.03.2014 - v4.2.12 =
 - refreshing charts when the time interval changes
 - saving last selection
 - minimizing requests by using same query serial for frontend and backend queries
 - fixed bug in dashboard's switch options for non-admins
 - fixed Notice: Undefined index: ga_dash_frontend_stats for new installs
-- no more queries if there is no token 
+- no more queries if there is no token
  
 = 09.03.2014 - v4.2.11 =
 - added support for enhanced link attribution

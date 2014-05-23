@@ -5,6 +5,7 @@
 .qpp-style.aboo input[type=text]{border: 1px solid #415063;font-family: arial, sans-serif; font-size: 1.2em; color: #465069;;font-size: inherit;}
 .qpp-style.aboo div {background:#FFF;}
 .qpp-style.aboo #submit, .qpp-style.aboo #submit:hover{float:left;width:100%;color:#FFF;background:#343838;border:1px solid #415063;font-family: arial, sans-serif;font-size: inherit;}
+.qpp-style.aboo #couponsubmit, .qpp-style.aboo #couponsubmit:hover{float:left;width:100%;color:#FFF;background:#1f8416;border:1px solid #415063;font-family: arial, sans-serif;font-size: inherit;}
 .qpp-style.default {width:280px;}
 .qpp-style.default #1px solid #415063 {border:1px solid #415063;}
 .qpp-style.default input[type=text], .qpp-style.default textarea, .qpp-style.default select, .qpp-style.default #submit {border-radius:0;}
@@ -12,3 +13,4 @@
 .qpp-style.default input[type=text]{border: 1px solid #415063;font-family: arial, sans-serif; font-size: 1em; color: #465069;;font-size: inherit;}
 .qpp-style.default div {background:#FFF;}
 .qpp-style.default #submit, .qpp-style.default #submit:hover{float:left;width:100%;color:#FFF;background:#343838;border:1px solid #415063;font-family: arial, sans-serif;font-size: inherit;}
+.qpp-style.default #couponsubmit, .qpp-style.default #couponsubmit:hover{float:left;width:100%;color:#FFF;background:#1f8416;border:1px solid #415063;font-family: arial, sans-serif;font-size: inherit;}

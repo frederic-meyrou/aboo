@@ -5,7 +5,7 @@
  * ********************************************************* */
 $_ebsp_servicebox=array();
 
-$_SESSION['ebs_servicebox_css']='';
+$_SESSION['ebs_servicebox_css']=array();
 function osc_theme_servicebox($params, $content = null) {
     global $_ebsp_servicebox;
     extract(shortcode_atts(array(
@@ -63,7 +63,7 @@ function osc_theme_servicebox($params, $content = null) {
 	background-color:'.$readmore_bgcolor.';
 	}';
     }
-    $lineheight=intval($iconbg_size);
+    $lineheight=intval($iconbg_size)-10;
     $style.='
 	#osc_servicebox_'.$id.' .iconcircle{
 
@@ -84,10 +84,10 @@ function osc_theme_servicebox($params, $content = null) {
         -o-border-radius: '.$iconbg_radius.'%;
     ;
 	}';
-    $_SESSION['ebs_servicebox_css'].=$style;
+    $_SESSION['ebs_servicebox_css'][]= 'ebs_servicebox_css_id_'.$id;
+    $_SESSION['ebs_servicebox_css_id_'.$id]=$style;
     wp_enqueue_style('ebs-dstyle',EBS_PLUGIN_URL.'styles/ebs-dstyle.php');
     return $out;
 }
 
 add_shortcode('servicebox', 'osc_theme_servicebox');
-

@@ -44,6 +44,14 @@
             </p>
         </div>
         <div class="ebs_details">
+
+            <label class="ebs_setting_label">Font Awesome Icons</label>
+            <p><input type="checkbox" name="fa_icon" id="fa_icon" value="1" <?php echo ($fa_icon == 1) ? 'checked=checked' : '' ?>>
+                <label for="fa_icon" >Include Font Awesome Icons</label>
+
+            </p>
+        </div>
+        <div class="ebs_details">
             <label class="ebs_setting_label">Custom CSS Editor</label>
             <p>
               <textarea  name="ebs_custom_css" id="ebs_custom_css"><?php echo trim($ebs_custom_css) ?></textarea>

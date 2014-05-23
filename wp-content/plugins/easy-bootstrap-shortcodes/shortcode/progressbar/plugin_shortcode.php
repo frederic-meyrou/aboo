@@ -23,4 +23,3 @@ function osc_theme_progressbar($params, $content = null) {
 }
 
 add_shortcode('progressbar', 'osc_theme_progressbar');
-

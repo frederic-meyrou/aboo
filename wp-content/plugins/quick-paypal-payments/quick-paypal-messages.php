@@ -22,8 +22,8 @@ function qpp_messages_admin_tabs($current = 'default') {
 	}
 function qpp_show_messages($id) {
 	if ($id == 'default') $id='';
-	$qpp_setup = qpp_get_stored_setup();
-	$qpp = qpp_get_stored_options($id);
+	$qpp_setup = qpp_get_stored_setup(); 
+    $qpp = qpp_get_stored_options($id);
 	qpp_generate_csv();
 	if (isset($_POST['qpp_reset_message'.$id])) delete_option('qpp_messages'.$id);
 	if( isset( $_POST['Submit'])) {
@@ -46,31 +46,7 @@ function qpp_show_messages($id) {
 	<input style="margin:0; padding:0; border:none;" type="radio" name="messageorder" value="newest" ' . $newest . ' /> newest first
 	&nbsp;&nbsp;<input type="submit" name="Submit" class="button-secondary" value="Update options" />
 	</form></p>';
-	$options = qpp_get_stored_options ($id);
-	$message = get_option('qpp_messages'.$id);
-	if(!is_array($message)) $message = array();
-	$title = $id; if ($id == '') $title = 'Default';
-	$dashboard .= '<div class="wrap"><div id="qpp-widget">';
-	$dashboard .= '<table cellspacing="0"><tr>';
-	$dashboard .= '<th>Date Sent</th><th>'.$options['inputreference'].'</th><th>'.$options['quantitylabel'].'</th><th>'.$options['inputamount'].'</th></tr>';
-	if ($messageoptions['messageorder'] == 'newest') {
-	foreach(array_reverse( $message ) as $value) {
-		if ($count < $showthismany ) {
-			if ($value['date']) $report = 'messages';
-			$content .= '<tr><td>'.strip_tags($value['field0']).'</td><td>'.strip_tags($value['field1']).'</td><td>'.strip_tags($value['field2']).'</td><td>'.strip_tags($value['field3']).'</td></tr>';
-			$count = $count+1;	}
-			}
-		}
-	else {
-	foreach($message as $value) {
-		if ($count < $showthismany ) {
-			if ($value['date']) $report = 'messages';
-			$content .= '<tr><td>'.strip_tags($value['field0']).'</td><td>'.strip_tags($value['field1']).'</td><td>'.strip_tags($value['field2']).'</td><td>'.strip_tags($value['field3']).'</td></tr>';
-			$count = $count+1;	}
-			}
-		}	
-	if ($report) $dashboard .= $content.'</table>';
-	else $dashboard .= '</table><p>No messages found</p>';
-	$dashboard .='<form method="post" id="download_form" action=""><input type="hidden" name="formname" value = "'.$id.'" /><input type="submit" name="download_qpp_csv" class="button-primary" value="Export to CSV" /> <input type="submit" name="qpp_reset_message'.$id.'" class="button-primary" value="Delete Messages" onclick="return window.confirm( \'Are you sure you want to delete the messages for '.$title.'?\' );"/></form></div></div>';		
+    $dashboard .= qpp_messagetable($id);
+    $dashboard .='<form method="post" id="download_form" action=""><input type="hidden" name="formname" value = "'.$id.'" /><input type="submit" name="download_qpp_csv" class="button-primary" value="Export to CSV" /> <input type="submit" name="qpp_reset_message'.$id.'" class="button-primary" value="Delete Messages" onclick="return window.confirm( \'Are you sure you want to delete the messages for '.$title.'?\' );"/></form></div></div>';		
 	echo $dashboard;
 	}

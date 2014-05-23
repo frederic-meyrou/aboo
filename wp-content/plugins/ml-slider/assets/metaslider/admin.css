@@ -31,17 +31,6 @@
     box-shadow: inherit;
 }
 
-.resize_overlay {
-    position: absolute;
-    width: inherit;
-    background: transparent url(resizing.gif) no-repeat;
-    width: 16px;
-    height: 11px;
-    top: 3px;
-    left: 3px;
-    z-index: 9999;
-}
-
 .media-frame-menu .media-menu > a.disabled {
     display: block;
     position: relative;
@@ -171,8 +160,16 @@
     display: none
 }
 
-.metaslider .probutton,
-.metaslider .probutton:hover {
+.metaslider_pro {
+    margin-top: 50px;
+}
+.metaslider_pro p {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.metaslider_pro .probutton,
+.metaslider_pro .probutton:hover {
     width: 36%;
     margin: 20px 32% 10px 32%;
     float: left;
@@ -201,21 +198,21 @@
     line-height: 2em;
 }
 
-.metaslider .super {
+.metaslider_pro .super {
     text-transform: uppercase;
     font-size: 0.7em;
     vertical-align: top;
     line-height: 2em;
 }
 
-.metaslider .subtext {
+.metaslider_pro .subtext {
     float: left;
     width: 100%;
     text-align: center;
     font-style: italic;
 }
 
-.metaslider .logo {
+.metaslider_pro .logo {
     text-transform: uppercase
 }
 
@@ -629,7 +626,16 @@ input[type=radio]:checked + label {
 }
 
 .metaslider .right .postbox table {
-    border: 0
+    border: 0;
+    width: 100%;
+}
+
+.metaslider .right .postbox table textarea {
+    width: 100%;
+    height: 100px;
+    font-family: monospace;
+    background: #272822;
+    color: #a6e22e;
 }
 
 .metaslider .right .postbox h3 {
@@ -689,7 +695,7 @@ input[type=radio]:checked + label {
 
 .metaslider .nav-tab-active {
     background: transparent;
-	padding: 9px 13px 8px;
+	padding: 6px 6px 5px;
 	border-bottom: 1px solid #f1f1f1;
 	margin-top: auto;
 	position: relative;
@@ -697,13 +703,22 @@ input[type=radio]:checked + label {
 }
 
 .metaslider .nav-tab-active input {
-    padding: 0 13px 0 0;
+    min-width: 100px;
+    padding: 3px 13px 3px 5px;
     margin: 0;
     border: 0;
     width: 100px;
     font-size: 13px;
-    background: transparent url(edit.png) no-repeat center right;
+    background: transparent;
     box-shadow: none;
+}
+
+.metaslider .nav-tab-active input:hover,
+.metaslider .nav-tab-active input:focus {
+      -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  box-shadow: inset 2px 2px 2px 0px #dddddd;
+    background: white url(edit.png) no-repeat 98% center;
 }
 
 .metaslider .warning {
@@ -737,13 +752,7 @@ textarea:-ms-input-placeholder {
     font-size: 11px
 }
 
-.metaslider .slide.image .tabs-content {
-    overflow: hidden
-}
-
 .metaslider .left .tabs-content {
-    height: 118px;
-    overflow-x: scroll;
     clear: both;
 }
 
@@ -752,7 +761,11 @@ textarea:-ms-input-placeholder {
     clear: both;
     width: 100%;
     vertical-align: middle;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+}
+
+.metaslider .tabs-content .row.last {
+    margin-bottom: 0;
 }
 
 .metaslider .tabs-content .row label {

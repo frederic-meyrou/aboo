@@ -78,7 +78,7 @@ span.gadash-bigtext{
 	text-align:center;	
 }
 
-.postbox{
+#dashboard-widgets-wrap .postbox{
 	margin-right:10px;
 }
 
@@ -94,6 +94,10 @@ table.options{
 td.title, td.info{
 	width:130px;
 	padding-left:20px;
+}
+
+td.debugging {
+	width:150px;
 }
 
 td.info{
@@ -188,3 +192,14 @@ pre.gadash{
 	margin-left:10px;
 }
 
+.show_hide, .log_data {
+    display:none;
+}
+
+pre.log_data{
+	white-space: pre-wrap;
+} 
+
+td.roles{
+	padding-bottom:15px;
+}

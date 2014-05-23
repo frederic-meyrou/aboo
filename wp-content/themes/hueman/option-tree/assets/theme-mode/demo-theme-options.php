@@ -15,7 +15,7 @@ function custom_theme_options() {
   /**
    * Get a copy of the saved settings array. 
    */
-  $saved_settings = get_option( 'option_tree_settings', array() );
+  $saved_settings = get_option( ot_settings_id(), array() );
   
   /**
    * Custom settings array that will eventually be 
@@ -57,7 +57,7 @@ function custom_theme_options() {
       array(
         'id'          => 'demo_category_checkbox',
         'label'       => __( 'Category Checkbox', 'theme-text-domain' ),
-        'desc'        => __( 'The Category Checkbox option type displays a list of category IDs. It allows the user to check multiple category IDs and will return that value as an array for use in a custom function or loop.' ),
+        'desc'        => __( 'The Category Checkbox option type displays a list of category IDs. It allows the user to check multiple category IDs and will return that value as an array for use in a custom function or loop.', 'theme-text-domain' ),
         'std'         => '',
         'type'        => 'category-checkbox',
         'section'     => 'option_types',
@@ -215,6 +215,21 @@ function custom_theme_options() {
         'taxonomy'    => '',
         'min_max_step'=> '',
         'class'       => '',
+        'condition'   => '',
+        'operator'    => 'and'
+      ),
+      array(
+        'id'          => 'demo_gallery_shortcode',
+        'label'       => __( 'Gallery Shortcode', 'theme-text-domain' ),
+        'desc'        => sprintf( __( 'The Gallery option type can also be saved as a shortcode by adding %s to the class attribute. Using the Gallery option type in this manner will result in a better user experience as you\'re able to save the link, column, and order settings.', 'theme-text-domain' ), '<code>ot-gallery-shortcode</code>' ),
+        'std'         => '',
+        'type'        => 'gallery',
+        'section'     => 'option_types',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step'=> '',
+        'class'       => 'ot-gallery-shortcode',
         'condition'   => '',
         'operator'    => 'and'
       ),
@@ -484,6 +499,21 @@ function custom_theme_options() {
         'operator'    => 'and'
       ),
       array(
+        'id'          => 'demo_social_links',
+        'label'       => __( 'Social Links', 'theme-text-domain' ),
+        'desc'        => '<p>' . sprintf( __( 'The Social Links option type utilizes a drag & drop interface to create a list of social links. There are a few filters that make extending this option type easy. You can set the %s filter to %s and turn off loading default values. Use the %s filter to change the default values that are loaded. To filter the settings array use the %s filter.', 'theme-text-domain' ), '<code>ot_type_social_links_load_defaults</code>', '<code>false</code>', '<code>ot_type_social_links_defaults</code>', '<code>ot_social_links_settings</code>' ) . '</p>',
+        'std'         => '',
+        'type'        => 'sidebar-select',
+        'section'     => 'option_types',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step'=> '',
+        'class'       => '',
+        'condition'   => '',
+        'operator'    => 'and'
+      ),
+      array(
         'id'          => 'demo_taxonomy_checkbox',
         'label'       => __( 'Taxonomy Checkbox', 'theme-text-domain' ),
         'desc'        => __( 'The Taxonomy Checkbox option type displays a list of taxonomy IDs. It allows the user to check multiple taxonomy IDs and will return that value as an array for use in a custom function or loop.', 'theme-text-domain' ),
@@ -617,16 +647,31 @@ function custom_theme_options() {
         'class'       => '',
         'condition'   => '',
         'operator'    => 'and'
+      ),
+      array(
+        'id'          => 'demo_upload_attachment_id',
+        'label'       => __( 'Upload Attachment ID', 'theme-text-domain' ),
+        'desc'        => sprintf( __( 'The Upload option type can also be saved as an attachment ID by adding %s to the class attribute.', 'theme-text-domain' ), '<code>ot-upload-attachment-id</code>' ),
+        'std'         => '',
+        'type'        => 'upload',
+        'section'     => 'option_types',
+        'rows'        => '',
+        'post_type'   => '',
+        'taxonomy'    => '',
+        'min_max_step'=> '',
+        'class'       => 'ot-upload-attachment-id',
+        'condition'   => '',
+        'operator'    => 'and'
       )
     )
   );
   
   /* allow settings to be filtered before saving */
-  $custom_settings = apply_filters( 'option_tree_settings_args', $custom_settings );
+  $custom_settings = apply_filters( ot_settings_id() . '_args', $custom_settings );
   
   /* settings are not the same update the DB */
   if ( $saved_settings !== $custom_settings ) {
-    update_option( 'option_tree_settings', $custom_settings ); 
+    update_option( ot_settings_id(), $custom_settings ); 
   }
   
 }

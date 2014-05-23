@@ -37,7 +37,139 @@ $elements = array(
     'slider'
 
 );
+function ebs_groups($grps=array()){
+    $grps=array('basic'=>array(
+        'name'=>'Basic Elements',
+        'icon'=>'elements.png'
+    ),'interactive'=>array('name'=>'Interactive', 'icon'=>'interaction.png'),'content'=>array('name'=>'Content', 'icon'=>'content.png'),
+        'miscellaneous'=>array('name'=>'Miscellaneous', 'icon'=>'misc.png'),'columns'=>array('name'=>'Columns', 'icon'=>'column.png')
+    );
+    return $grps;
+}
+function ebs_shortcodes($shortcodes=array()){
+    $shortcodes=array(
+        'buttons'=>array('group'=>'basic',
+            'name'=>'Button',
+            'width'=>800,
+            'height'=>''
+        ),
+        'btngrp'=>array('group'=>'basic',
+            'name'=>'Button Group',
+            'width'=>1200,
+            'height'=>''
+        ),
+        'btngrptool'=>array('group'=>'basic',
+            'name'=>'Button Group Toolbar',
+            'width'=>'',
+            'height'=>''
+        ),
+        'notifications'=>array('group'=>'basic',
+            'name'=>'Notifications',
+            'width'=>'',
+            'height'=>''
+        ),
+        'tooltip'=>array('group'=>'basic',
+            'name'=>'Tooltip',
+            'width'=>'',
+            'height'=>''
+        ),
+        'oscpopover'=>array('group'=>'basic',
+            'name'=>'Popover',
+            'width'=>'',
+            'height'=>''
+        ),
+        'dropdown'=>array('group'=>'basic',
+            'name'=>'Button Dropdown',
+            'width'=>'',
+            'height'=>''
+        ),
+        'progressbar'=>array('group'=>'basic',
+            'name'=>'Progress Bar',
+            'width'=>800,
+            'height'=>''
+        ),
+        'toggles'=>array('group'=>'interactive',
+            'name'=>'Accordion',
+            'width'=>980,
+            'height'=>''
+        ),
 
+        'tabs'=>array('group'=>'interactive',
+            'name'=>'Tabs',
+            'width'=>1170,
+            'height'=>''
+        ),
+        'tables'=>array('group'=>'interactive',
+            'name'=>'Tables',
+            'width'=>'',
+            'height'=>''
+        ),
+        'panel'=>array('group'=>'interactive',
+            'name'=>'Panel',
+            'width'=>'',
+            'height'=>''
+        ),
+        'slider'=>array('group'=>'interactive',
+            'name'=>'Slider',
+            'width'=>1100,
+            'height'=>''
+        ),
+        'lists'=>array('group'=>'content',
+            'name'=>'List',
+            'width'=>800,
+            'height'=>''
+        ),
+        'iconhead'=>array('group'=>'content',
+            'name'=>'Icon Heading',
+            'width'=>800,
+            'height'=>''
+        ),
+        'labels'=>array('group'=>'content',
+            'name'=>'Label',
+            'width'=>'',
+            'height'=>''
+        ),
+        'well'=>array('group'=>'content',
+            'name'=>'Well',
+            'width'=>'',
+            'height'=>''
+        ),
+        'deslist'=>array('group'=>'content',
+            'name'=>'Description List',
+            'width'=>'',
+            'height'=>''
+        ),
+        'servicebox'=>array('group'=>'content',
+            'name'=>'Servicebox',
+            'width'=>800,
+            'height'=>''
+        ),
+        'thumbnail'=>array('group'=>'miscellaneous',
+            'name'=>'Responsive Image',
+            'width'=>800,
+            'height'=>''
+        ),
+        'icon'=>array('group'=>'miscellaneous',
+            'name'=>'Icon',
+            'width'=>800,
+            'height'=>''
+        ),
+        'image'=>array('group'=>'miscellaneous',
+            'name'=>'Image Effects',
+            'width'=>800,
+            'height'=>''
+        ),
+        'wpcolumns'=>array('group'=>'columns',
+            'name'=>'Columns',
+            'width'=>1094,
+            'height'=>''
+        )
+
+    );
+
+
+    return $shortcodes;
+}
 foreach ($elements as $element) {
     include( $element . '/plugin_shortcode.php');
 }
@@ -75,8 +207,12 @@ function osc_add_ebs_plugin($plugin_array) {
     foreach ($elements as $element) {
         $plugin_array['oscitas' . $element] = plugins_url('', __FILE__) . '/' . $element . '/' . $element . '_plugin.js';
     }
-    $plugin_array['oscitas_main_dropdown']=EBS_PLUGIN_URL.'js/oscitas_main_dropdown.js';
+    $version=floatval(get_bloginfo('version'));
+    if($version<3.9){
+        $plugin_array['oscitas_main_dropdown']=EBS_PLUGIN_URL.'js/oscitas_main_dropdown.js';
+    } else{
+        $plugin_array['oscitas_main_dropdown']=EBS_PLUGIN_URL.'js/oscitas_dropdown_3_9.js';
+    }
     return $plugin_array;
-    return $plugin_array;
-}
 
+}

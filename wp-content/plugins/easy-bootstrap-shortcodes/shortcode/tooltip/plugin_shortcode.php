@@ -44,4 +44,3 @@ function osc_theme_tooltip($params, $content = 'Tooltip') {
 }
 
 add_shortcode('tooltip', 'osc_theme_tooltip');
-

@@ -3,7 +3,7 @@
 Plugin Name: Disable Comments
 Plugin URI: http://wordpress.org/extend/plugins/disable-comments/
 Description: Allows administrators to globally disable comments on their site. Comments can be disabled according to post type.
-Version: 1.0.3
+Version: 1.1
 Author: Samir Shah
 Author URI: http://rayofsolaris.net/
 License: GPL2
@@ -130,19 +130,23 @@ class Disable_Comments {
 		}
 		// Filters for front end only
 		else {
-			if( $this->options['remove_everywhere'] ) {
-				// Kill the comments template. This will deal with themes that don't check comment stati properly!
-				add_filter( 'comments_template', array( $this, 'dummy_comments_template' ), 20 );
-				// Remove comment-trply script for themes that include it indiscriminately
-				wp_deregister_script( 'comment-reply' );
-			}
+			add_action( 'template_redirect', array( $this, 'check_comment_template' ) );
+		}
+	}
+
+	function check_comment_template() {
+		if( is_singular() && ( $this->options['remove_everywhere'] || in_array( get_post_type(), $this->options['disabled_post_types'] ) ) ) {
+			// Kill the comments template. This will deal with themes that don't check comment stati properly!
+			add_filter( 'comments_template', array( $this, 'dummy_comments_template' ), 20 );
+			// Remove comment-reply script for themes that include it indiscriminately
+			wp_deregister_script( 'comment-reply' );
 		}
 	}
 
 	function dummy_comments_template() {
 		return dirname( __FILE__ ) . '/comments-template.php';
 	}
-	
+
 	function filter_wp_headers( $headers ) {
 		unset( $headers['X-Pingback'] );
 		return $headers;
@@ -305,6 +309,7 @@ jQuery(document).ready(function($){
 		$persistent_allowed = $this->persistent_mode_allowed();
 		
 		if ( isset( $_POST['submit'] ) ) {
+			check_admin_referer( 'disable-comments-admin' );
 			$this->options['remove_everywhere'] = ( $_POST['mode'] == 'remove_everywhere' );
 			
 			if( $this->options['remove_everywhere'] )
@@ -359,12 +364,10 @@ jQuery(document).ready(function($){
 			if( $this->networkactive )
 				echo '<p class="indent">' . sprintf( __( '%s: Entering persistent mode on large multi-site networks requires a large number of database queries and can take a while. Use with caution!', 'disable-comments'), '<strong style="color: #900">' . __('Warning', 'disable-comments') . '</strong>' ) . '</p>';
 		}
-		else {
-			printf( __( 'Persistent mode has been manually disabled. See the <a href="%s" target="_blank">FAQ</a> for more information.', 'disable-comments' ), 'http://wordpress.org/extend/plugins/disable-comments/faq/' );
-		}
 		?>
 		</li>
 	</ul>
+	<?php wp_nonce_field( 'disable-comments-admin' ); ?>
 	<p class="submit"><input class="button-primary" type="submit" name="submit" value="<?php _e( 'Save Changes') ?>"></p>
 	</form>
 	</div>
